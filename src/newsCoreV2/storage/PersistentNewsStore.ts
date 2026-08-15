@@ -193,21 +193,44 @@ export class PersistentNewsStore {
       this.persistWriteAttemptsCount++;
       const timestamp = new Date().toISOString();
 
-      if (!force && previousCount > 0 && candidateCount < previousCount) {
+      // Identity Integrity Check: Ensure no historical IDs are lost
+      const existingIds = new Set<string>();
+      if (fs.existsSync(this.filePath)) {
+        try {
+          const raw = fs.readFileSync(this.filePath, "utf-8");
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            for (const art of parsed) {
+              if (art.id) existingIds.add(art.id);
+            }
+          }
+        } catch (e) {}
+      }
+      
+      const candidateIds = new Set(this.articles.map(a => a.id).filter(id => !!id));
+      const missingIds: string[] = [];
+      for (const id of existingIds) {
+        if (!candidateIds.has(id)) {
+          missingIds.push(id);
+        }
+      }
+
+      if (!force && previousCount > 0 && (candidateCount < previousCount || missingIds.length > 0)) {
         const difference = candidateCount - previousCount;
         const rejInfo = {
           previousCount,
           candidateCount,
           difference,
+          missingIdsCount: missingIds.length,
           processId: process.pid,
           syncId: this.lastSyncId || "none",
-          reason: "DATASET_SHRINK",
+          reason: candidateCount < previousCount ? "DATASET_SHRINK" : "IDENTITY_REPLACEMENT",
           timestamp
         };
         this.lastPersistenceGuardRejection = rejInfo;
         this.persistGuardRejectionsCount++;
 
-        console.warn(`[PERSISTENCE_GUARD] WRITE_REJECTED previousCount=${previousCount} candidateCount=${candidateCount} difference=${difference} processId=${process.pid} syncId=${this.lastSyncId || "none"} reason=DATASET_SHRINK`);
+        console.warn(`[PERSISTENCE_GUARD] WRITE_REJECTED previousCount=${previousCount} candidateCount=${candidateCount} difference=${difference} missingIdsCount=${missingIds.length} processId=${process.pid} syncId=${this.lastSyncId || "none"} reason=${candidateCount < previousCount ? "DATASET_SHRINK" : "IDENTITY_REPLACEMENT"}`);
         return;
       }
 

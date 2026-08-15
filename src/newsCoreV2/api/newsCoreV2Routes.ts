@@ -292,6 +292,7 @@ import { Phase23_5_E_StateArchitectureRegression } from "../tests/Phase23_5_E_St
 import { Phase23_5_F_ConcurrencyRegression } from "../tests/Phase23_5_F_ConcurrencyRegression.ts";
 import { Phase23_5_G_PersistenceShrinkRegression } from "../tests/Phase23_5_G_PersistenceShrinkRegression.ts";
 import { Phase23_5_H_ProductionRuntimeVerification } from "../tests/Phase23_5_H_ProductionRuntimeVerification.ts";
+import { Phase23_5_I_IdentityIntegrityRegression } from "../tests/Phase23_5_I_IdentityIntegrityRegression.ts";
 
 /**
  * GET /api/v4/news/forensic/runtime-count
@@ -379,6 +380,7 @@ newsCoreV2Router.get("/regression", async (req: Request, res: Response) => {
     const phase235FReport = await Phase23_5_F_ConcurrencyRegression.runSuite();
     const phase235GReport = await Phase23_5_G_PersistenceShrinkRegression.runSuite();
     const phase235HReport = await Phase23_5_H_ProductionRuntimeVerification.runSuite();
+    const phase235IReport = await Phase23_5_I_IdentityIntegrityRegression.runSuite();
     res.json({
       ...report,
       phase23_5: phase235Report,
@@ -387,7 +389,8 @@ newsCoreV2Router.get("/regression", async (req: Request, res: Response) => {
       phase23_5_e: phase235EReport,
       phase23_5_f: phase235FReport,
       phase23_5_g: phase235GReport,
-      phase23_5_h: phase235HReport
+      phase23_5_h: phase235HReport,
+      phase23_5_i: phase235IReport
     });
   } catch (err: any) {
     res.status(500).json({
@@ -405,6 +408,18 @@ newsCoreV2Router.get("/regression-23-5-h", async (req: Request, res: Response) =
     res.status(500).json({
       status: "error",
       message: err.message || "Phase 23.5-H production runtime verification execution failed"
+    });
+  }
+});
+
+newsCoreV2Router.get("/regression-23-5-i", async (req: Request, res: Response) => {
+  try {
+    const report = await Phase23_5_I_IdentityIntegrityRegression.runSuite();
+    res.json(report);
+  } catch (err: any) {
+    res.status(500).json({
+      status: "error",
+      message: err.message || "Phase 23.5-I identity integrity regression execution failed"
     });
   }
 });
