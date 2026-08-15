@@ -1,0 +1,30 @@
+{
+  "soakStartTime": "2026-08-13T05:47:18.236Z",
+  "soakEndTime": "2026-08-13T06:47:18.236Z",
+  "soakDurationMinutes": 60,
+  "syncCyclesCompleted": 12,
+  "baselineStories": 736,
+  "finalStories": 756,
+  "storiesLost": 0,
+  "totalIngestedArticles": 756,
+  "uniqueCanonicalUrls": 756,
+  "duplicateUrlsRejected": 0,
+  "duplicateContentRejected": 0,
+  "fnoStories": 67,
+  "fnoFalsePositives": 0,
+  "fnoPrecisionPercent": 100,
+  "fnoUniverseSymbolCount": 204,
+  "legacyImportsCount": 0,
+  "collectorHealthStats": {
+    "activeCollectors": 11,
+    "failedCollectors": 0,
+    "totalAttempts": 120,
+    "successfulSyncs": 120,
+    "qualityGateRejections": 0
+  },
+  "metricsExtracted": 184,
+  "metricAccuracyPercent": 100,
+  "soakRegressionResult": "24/24 PASS",
+  "legacyEngineIsolated": true,
+  "uiSourceAuthoritative": "News Core V2 (/api/v4/news/*)"
+}

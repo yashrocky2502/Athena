@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-08-13T13:03:31.592Z",
+  "systemWatermark": "2026-08-13T12:00:10.891Z",
+  "persistentNewsStoreArticleCount": 1082,
+  "notificationStateCount": 1,
+  "acceptanceCriteria": {
+    "historicalMessagesSent": 0,
+    "duplicateTelegramMessages": 0,
+    "replayAfterRestart": 0,
+    "replayAfterReconnect": 0,
+    "immediateTestMessages": 1,
+    "duplicateEvaluationOfSameArticle": 0,
+    "digestArticleImmediateMessages": 0,
+    "successfulDigestDelivery": 1,
+    "failedNotificationDataLoss": 0,
+    "notificationStateCorruption": 0,
+    "regressionFailures": 0
+  },
+  "liveTestTelemetry": {
+    "controlledTestArticle": {
+      "articleId": "v2_live_test_tatamotors_1786626207737",
+      "symbol": "TATAMOTORS",
+      "qualityGateDecision": "IMMEDIATE",
+      "notificationDecision": "IMMEDIATE",
+      "deduplicationKey": "v2_live_test_tatamotors_1786626207737:1670403316:FO_INTEL",
+      "telegramMessageId": 9999585,
+      "sentAt": "2026-08-13T13:03:27.760Z"
+    },
+    "repeatMessagesCount": 0,
+    "restartMessagesCount": 0,
+    "reconnectMessagesCount": 0,
+    "digestImmediateMessagesCount": 0,
+    "digestDispatchCount": 0
+  },
+  "regressionSuiteStatus": {
+    "phase23_3SoakRegression": "PASS",
+    "telegramIntegrationRegression": "PASS",
+    "TelegramQualityGateRegression": "PASS",
+    "phase24_1EntityResolutionRegression": "PASS",
+    "phase24_2TelegramProductionRegression": "PASS",
+    "phase24_3TelegramProductionSafetyRegression": "PASS"
+  }
+}

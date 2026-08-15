@@ -1,0 +1,136 @@
+{
+  "timestamp": "2026-08-13T13:55:07.865Z",
+  "verdict": "ATHENA NEWS SUMMARY ENGINE VERIFIED",
+  "metrics": {
+    "totalTests": 25,
+    "passed": 25,
+    "failed": 0
+  },
+  "results": [
+    {
+      "id": 1,
+      "name": "PAT +15% -> UP",
+      "passed": true
+    },
+    {
+      "id": 2,
+      "name": "PAT -15% -> DOWN",
+      "passed": true
+    },
+    {
+      "id": 3,
+      "name": "Revenue +20% -> UP",
+      "passed": true
+    },
+    {
+      "id": 4,
+      "name": "EBITDA -10% -> DOWN",
+      "passed": true
+    },
+    {
+      "id": 5,
+      "name": "EPS +12% -> UP",
+      "passed": true
+    },
+    {
+      "id": 6,
+      "name": "Negative PAT / loss",
+      "passed": true
+    },
+    {
+      "id": 7,
+      "name": "Revenue unchanged",
+      "passed": true
+    },
+    {
+      "id": 8,
+      "name": "PAT percentage-point wording",
+      "passed": true
+    },
+    {
+      "id": 9,
+      "name": "Currency normalization",
+      "passed": true
+    },
+    {
+      "id": 10,
+      "name": "Crore/Million conversion",
+      "passed": true
+    },
+    {
+      "id": 11,
+      "name": "Contradictory AI summary detection",
+      "passed": true
+    },
+    {
+      "id": 12,
+      "name": "Unsupported number detection",
+      "passed": true
+    },
+    {
+      "id": 13,
+      "name": "Unsupported market-impact detection",
+      "passed": true
+    },
+    {
+      "id": 14,
+      "name": "Unsupported options guidance detection",
+      "passed": true
+    },
+    {
+      "id": 15,
+      "name": "Company/entity mismatch",
+      "passed": true
+    },
+    {
+      "id": 16,
+      "name": "Sparse article",
+      "passed": true
+    },
+    {
+      "id": 17,
+      "name": "AI failure fallback",
+      "passed": true
+    },
+    {
+      "id": 18,
+      "name": "Empty summary fallback",
+      "passed": true
+    },
+    {
+      "id": 19,
+      "name": "Source sentence traceability",
+      "passed": true
+    },
+    {
+      "id": 20,
+      "name": "UI/API summary parity",
+      "passed": true
+    },
+    {
+      "id": 21,
+      "name": "Telegram summary parity",
+      "passed": true
+    },
+    {
+      "id": 22,
+      "name": "Restart persistence",
+      "passed": true
+    },
+    {
+      "id": 23,
+      "name": "Existing 922+ articles can be summarized without crashing",
+      "passed": true
+    },
+    {
+      "id": 24,
+      "name": "Summary generation must never alter F&O eligibility",
+      "passed": true
+    },
+    {
+      "id": 25,
+      "name": "Summary generation must never create Telegram notifications by itself",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-08-13T14:18:58.936Z",
+  "stats": {
+    "totalArticles": 1105,
+    "missedStoriesFixed": 8,
+    "parityErrorsResolved": 65
+  },
+  "fixedSample": [
+    {
+      "headline": "HAL shares rally 45% since April. Is the stock still attractive after Q1 earnings?",
+      "reason": "Headline alias \"HAL\" matched HAL. Tier 2 Catalyst Match: \"earnings\" (Routine commentary \"target price\" bypassed due to primary catalyst)"
+    },
+    {
+      "headline": "Top Gainers & Losers on 13 August: Apar Industries, Hindalco, Ather Energy, Force Motors, CUB among top losers",
+      "reason": "Headline alias \"HINDALCO\" matched HINDALCO. Tier 2 Catalyst Match: \"pat\" (Routine commentary \"top gainers\" bypassed due to primary catalyst)"
+    },
+    {
+      "headline": "UBS upgrades MCX to Buy with Rs 3,800 target price: Can it boost the stock?",
+      "reason": "Headline alias \"MCX\" matched MCX. Tier 2 Catalyst Match: \"earnings\" (Routine commentary \"target price\" bypassed due to primary catalyst)"
+    },
+    {
+      "headline": "Tata Motors up 6% after Q1 beat; analysts see demand, margin upside",
+      "reason": "Headline alias \"Tata Motors\" matched TATAMOTORS. Tier 2 Catalyst Match: \"q1 results\" (Routine commentary \"target price\" bypassed due to primary catalyst)"
+    },
+    {
+      "headline": "Astral shares rally 10% following Q1 results; Citi sees target price at Rs 1,900, Nuvama upgrades stock to 'Buy'",
+      "reason": "Headline alias \"ASTRAL\" matched ASTRAL. Tier 2 Catalyst Match: \"profit\" (Routine commentary \"target price\" bypassed due to primary catalyst)"
+    },
+    {
+      "headline": "HAL shares gain 2% after Q1 earnings beat estimates. Nomura, other brokerages hike target price",
+      "reason": "Headline alias \"HAL\" matched HAL. Tier 2 Catalyst Match: \"earnings\" (Routine commentary \"target price\" bypassed due to primary catalyst)"
+    },
+    {
+      "headline": "Stocks to watch: Tata Motors PV, Jio Financial, Lenskart among shares in focus today; check list here - livemint.com",
+      "reason": "Headline alias \"Jio Financial\" matched JIOFIN. Tier 2 Catalyst Match: \"pat\" (Routine commentary \"stocks to watch\" bypassed due to primary catalyst)"
+    },
+    {
+      "headline": "Stocks to Watch: BSE, Dabur and 11 Other Top Stocks Announce Q4 Results Today - Trade Brains",
+      "reason": "Headline alias \"DABUR\" matched DABUR. Tier 2 Catalyst Match: \"q4 results\" (Routine commentary \"stocks to watch\" bypassed due to primary catalyst)"
+    }
+  ]
+}

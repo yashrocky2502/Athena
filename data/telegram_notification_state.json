@@ -1,0 +1,73 @@
+[
+  {
+    "articleId": "p24_2_test_dup",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "SENT",
+    "sentAt": "2026-08-13T13:17:09.222Z",
+    "telegramMessageId": 8888407,
+    "deduplicationKey": "p24_2_test_dup:1670403316:FO_INTEL",
+    "attemptCount": 1
+  },
+  {
+    "articleId": "v2_1c07a7a40f29d79a",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_1c07a7a40f29d79a:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_d10d4e0ccb6e7ca1",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_d10d4e0ccb6e7ca1:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_3179bfb3c2338ea5",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_3179bfb3c2338ea5:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_f2c011553372795b",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-08-13T14:19:37.097Z",
+    "telegramMessageId": 9999003,
+    "deduplicationKey": "v2_f2c011553372795b:1670403316:FO_INTEL",
+    "attemptCount": 1
+  },
+  {
+    "articleId": "v2_fresh_1786631026837",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-08-13T14:23:46.957Z",
+    "telegramMessageId": 9999285,
+    "deduplicationKey": "v2_fresh_1786631026837:1670403316:FO_INTEL",
+    "attemptCount": 1
+  },
+  {
+    "articleId": "v2_fresh_1786631218274",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-08-13T14:26:58.395Z",
+    "telegramMessageId": 9999685,
+    "deduplicationKey": "v2_fresh_1786631218274:1670403316:FO_INTEL",
+    "attemptCount": 1
+  }
+]

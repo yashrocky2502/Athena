@@ -1,0 +1,376 @@
+{
+  "timestamp": "2026-08-12T06:11:24.609Z",
+  "totalFnoStoriesAudited": 15,
+  "reconciledCount": 13,
+  "stories": [
+    {
+      "storyId": "V3_STORY_001",
+      "headline": "PI Industries slumps 5% after Q1 PAT drops 39% YoY",
+      "symbol": "PIIND",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol PIIND",
+        "Derivatives evidence: Call/put writing activity",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Company name PI Industries matched in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_002",
+      "headline": "Siemens Q1 net profit declines 18% to Rs 343 crore",
+      "symbol": "SIEMENS",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol SIEMENS",
+        "Derivatives evidence: Call/put writing activity",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Symbol SIEMENS matched as whole word in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_003",
+      "headline": "Tata Motors Q1 PAT surges 74% to Rs 5,564 crore, beats estimates",
+      "symbol": "TATAMOTORS",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol TATAMOTORS",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Company name Tata Motors matched in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_004",
+      "headline": "Infosys expands AI partnership with top European bank",
+      "symbol": "INFY",
+      "directAuditDecision": "EXCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol INFY",
+        "Filtered out due to negative signals: lack of derivative impact"
+      ],
+      "mappedArticleFields": {
+        "isFO": false,
+        "isFnO": false,
+        "fnoDecision": "EXCLUDE",
+        "fnoRelevance": false,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": false,
+        "foReason": "Company name Infosys matched in headline; Filtered out due to negative signals: lack of derivative impact"
+      },
+      "classifierInFNOGroup": false,
+      "newsPageFilterPasses": false,
+      "reconciliationStatus": "FAILED"
+    },
+    {
+      "storyId": "V3_STORY_005",
+      "headline": "Reliance Industries Q1 net profit slips 5% to Rs 15,138 crore",
+      "symbol": "RELIANCE",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol RELIANCE",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Symbol RELIANCE matched as whole word in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_006",
+      "headline": "ICICI Bank Q1 net profit rises 14% to Rs 11,059 crore",
+      "symbol": "ICICIBANK",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol ICICIBANK",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Company name ICICI Bank matched in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_007",
+      "headline": "State Bank of India Q1 net profit dips 1% YoY to Rs 17,035 crore",
+      "symbol": "SBIN",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol SBIN",
+        "Derivatives evidence: Call/put writing activity",
+        "Derivatives evidence: Strike price activity",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Company name State Bank of India matched in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_008",
+      "headline": "Bharti Airtel Q1 profit surges 2.5x to Rs 4,160 crore",
+      "symbol": "BHARTIARTL",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol BHARTIARTL",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Company name Bharti Airtel matched in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_009",
+      "headline": "Axis Bank Q1 profit grows 4% YoY, asset quality remains stable",
+      "symbol": "AXISBANK",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol AXISBANK",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Company name Axis Bank matched in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_010",
+      "headline": "Maruti Suzuki Q1 profit jumps 47% to Rs 3,650 crore on strong sales",
+      "symbol": "MARUTI",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol MARUTI",
+        "Derivatives evidence: Implied Volatility (IV) metrics",
+        "Derivatives evidence: Explicit options contracts",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Symbol MARUTI matched as whole word in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_011",
+      "headline": "Larsen & Toubro wins major order worth up to Rs 10,000 crore",
+      "symbol": "LT",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol LT",
+        "Material event: Major Order Win or Loss"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Company name Larsen & Toubro matched in headline; Material event: Major Order Win or Loss"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_012",
+      "headline": "HDFC Bank Q1 PAT increases 2% QoQ to Rs 16,175 crore",
+      "symbol": "HDFCBANK",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol HDFCBANK",
+        "Derivatives evidence: Call/put writing activity",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Company name HDFC Bank matched in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_013",
+      "headline": "Bajaj Finance Q1 net profit grows 14% YoY to Rs 3,912 crore",
+      "symbol": "BAJFINANCE",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol BAJFINANCE",
+        "Material event: Earnings/Quarterly Results"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Company name Bajaj Finance matched in headline; Material event: Earnings/Quarterly Results"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_014",
+      "headline": "Wipro Q1 net profit up 5% QoQ, gives steady revenue guidance",
+      "symbol": "WIPRO",
+      "directAuditDecision": "INCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol WIPRO",
+        "Derivatives evidence: Put-Call Ratio (PCR)",
+        "Material event: Earnings/Quarterly Results",
+        "Material event: Major Guidance Change"
+      ],
+      "mappedArticleFields": {
+        "isFO": true,
+        "isFnO": true,
+        "fnoDecision": "INCLUDE",
+        "fnoRelevance": true,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": true,
+        "foReason": "Symbol WIPRO matched as whole word in headline; Material event: Earnings/Quarterly Results; Material event: Major Guidance Change"
+      },
+      "classifierInFNOGroup": true,
+      "newsPageFilterPasses": true,
+      "reconciliationStatus": "RECONCILED_SUCCESS"
+    },
+    {
+      "storyId": "V3_STORY_015",
+      "headline": "Sun Pharma receives USFDA approval for new specialty drug",
+      "symbol": "SUNPHARMA",
+      "directAuditDecision": "EXCLUDE",
+      "directAuditReasons": [
+        "Explicitly tagged with canonical F&O symbol SUNPHARMA",
+        "Filtered out due to negative signals: lack of derivative impact"
+      ],
+      "mappedArticleFields": {
+        "isFO": false,
+        "isFnO": false,
+        "fnoDecision": "EXCLUDE",
+        "fnoRelevance": false,
+        "cleanBodyPresent": true
+      },
+      "canonicalClassification": {
+        "isFO": false,
+        "foReason": "Company alias 'sun pharma' matched in headline; Filtered out due to negative signals: lack of derivative impact"
+      },
+      "classifierInFNOGroup": false,
+      "newsPageFilterPasses": false,
+      "reconciliationStatus": "FAILED"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "startTimestamp": "2026-08-11T05:30:19.210Z",
+  "endTimestamp": "2026-08-11T05:33:01.840Z",
+  "durationSeconds": 163,
+  "startingArticleCount": 99,
+  "endingArticleCount": 106,
+  "newArticlesCollected": 7,
+  "articlesRejected": 0,
+  "articlesLost": 0,
+  "duplicateIdsCount": 0,
+  "uniqueCanonicalUrlsCount": 41,
+  "publisherDistribution": {
+    "Economic Times": 60,
+    "Reuters": 41,
+    "Moneycontrol": 5
+  },
+  "collectionMethodDistribution": {
+    "DIRECT": 65,
+    "GOOGLE_RSS_FALLBACK": 41
+  },
+  "categoryDistribution": {
+    "RESULT_REACTION": 7,
+    "CRYPTO": 19,
+    "QUARTERLY_RESULTS": 3,
+    "IPO": 7,
+    "GENERAL_MARKET": 64,
+    "DOMESTIC_MARKETS": 6
+  },
+  "collectorHealth": {
+    "totalCollectors": 13,
+    "runningCollectors": 13,
+    "failedCollectors": 0,
+    "collectors": [
+      "ECONOMIC_TIMES",
+      "REUTERS",
+      "MONEYCONTROL",
+      "LIVEMINT",
+      "BUSINESS_STANDARD",
+      "CNBC_TV18",
+      "NSE",
+      "BSE",
+      "SEBI",
+      "RBI",
+      "PIB",
+      "INVESTOR_RELATIONS",
+      "GOOGLE_NEWS_RSS"
+    ]
+  },
+  "directVsGoogleRssRatio": {
+    "directPercent": 63,
+    "googleRssPercent": 37
+  },
+  "normalizationFailures": 0,
+  "qualityGateFailures": 0,
+  "aiFailures": 0,
+  "aiIsolationStatus": "PASS",
+  "sseStatus": "HEALTHY",
+  "sseReconnectIdempotent": true,
+  "telegramDeliveryResults": {
+    "totalSent": 54,
+    "mismatches": 0,
+    "syncPercentage": 100
+  },
+  "storageApiParity": "PASS",
+  "apiFrontendParity": "PASS",
+  "restartRecoveryResult": "PASS",
+  "buildLintResult": "PASS",
+  "overallStatus": "🟢 HEALTHY — PRODUCTION SOAK VERIFIED"
+}

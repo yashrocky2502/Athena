@@ -1,0 +1,6 @@
+{
+  "name": "Athena AI",
+  "description": "AI-powered financial intelligence platform for Indian investors.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

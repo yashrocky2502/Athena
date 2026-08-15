@@ -1,0 +1,1080 @@
+[
+  {
+    "id": "E2E_FO_1785676288643_gtfs",
+    "article": {
+      "id": "E2E_FO_1785676288643_gtfs",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion; Net Profit Rises 18% YoY",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:11:28.643Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O",
+        "Corporate"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676288643_gtfs",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion; Net Profit Rises 18% YoY",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "Corporate",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676288643_gtfs",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion; Net Profit Rises 18% YoY",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676288643_gtfs",
+    "queuedAt": "2026-08-02T13:11:28.644Z",
+    "nextRetryAt": 1785676288644,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:11:28.645Z"
+  },
+  {
+    "id": "E2E_FO_1785676351116_gzip",
+    "article": {
+      "id": "E2E_FO_1785676351116_gzip",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion [Ref E2E_FO_1785676351116_gzip]; Net Profit Rises 18% YoY",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:12:31.116Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O",
+        "Corporate"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676351116_gzip",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion [Ref E2E_FO_1785676351116_gzip]; Net Profit Rises 18% YoY",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "Corporate",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676351116_gzip",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion [Ref E2E_FO_1785676351116_gzip]; Net Profit Rises 18% YoY",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676351116_gzip",
+    "queuedAt": "2026-08-02T13:12:31.117Z",
+    "nextRetryAt": 1785676351117,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:12:31.118Z"
+  },
+  {
+    "id": "test_alert_1785676357005_ebmal",
+    "eventId": "RELIANCE_TEST_test_alert_1785676357005_ebmal",
+    "article": {
+      "id": "test_alert_1785676357005_ebmal",
+      "title": "Test Alert",
+      "source": "Athena Terminal"
+    },
+    "params": {
+      "articleId": "test_alert_1785676357005_ebmal",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Test Alert",
+      "headline": "Athena Manual Test Alert",
+      "source": "Athena System Verification",
+      "priorityLevel": "CRITICAL",
+      "isFO": true,
+      "verifiedPublishers": [
+        "Athena System Verification"
+      ],
+      "customText": "Test Message"
+    },
+    "retryCount": 0,
+    "queuedAt": "2026-08-02T13:12:37.005Z",
+    "nextRetryAt": 1785676357005,
+    "sentAt": "2026-08-02T13:12:38.079Z",
+    "finalStatus": "FAILED"
+  },
+  {
+    "id": "test_alert_1785676357005_ebmal",
+    "eventId": "RELIANCE_TEST_test_alert_1785676357005_ebmal",
+    "article": {
+      "id": "test_alert_1785676357005_ebmal",
+      "title": "Test Alert",
+      "source": "Athena Terminal"
+    },
+    "params": {
+      "articleId": "test_alert_1785676357005_ebmal",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Test Alert",
+      "headline": "Athena Manual Test Alert",
+      "source": "Athena System Verification",
+      "priorityLevel": "CRITICAL",
+      "isFO": true,
+      "verifiedPublishers": [
+        "Athena System Verification"
+      ],
+      "customText": "Test Message"
+    },
+    "retryCount": 0,
+    "queuedAt": "2026-08-02T13:12:37.005Z",
+    "nextRetryAt": 1785676357005,
+    "sentAt": "2026-08-02T13:12:38.079Z",
+    "finalStatus": "FAILED"
+  },
+  {
+    "id": "E2E_FO_1785676452514_imql",
+    "article": {
+      "id": "E2E_FO_1785676452514_imql",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion [Ref E2E_FO_1785676452514_imql]; Net Profit Rises 18% YoY",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:14:12.514Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O",
+        "Corporate"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676452514_imql",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion [Ref E2E_FO_1785676452514_imql]; Net Profit Rises 18% YoY",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "Corporate",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676452514_imql",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion [Ref E2E_FO_1785676452514_imql]; Net Profit Rises 18% YoY",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676452514_imql",
+    "queuedAt": "2026-08-02T13:14:12.514Z",
+    "nextRetryAt": 1785676452514,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:14:13.483Z"
+  },
+  {
+    "id": "E2E_FO_1785676452514_imql",
+    "article": {
+      "id": "E2E_FO_1785676452514_imql",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion [Ref E2E_FO_1785676452514_imql]; Net Profit Rises 18% YoY",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:14:12.514Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O",
+        "Corporate"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676452514_imql",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion [Ref E2E_FO_1785676452514_imql]; Net Profit Rises 18% YoY",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "Corporate",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676452514_imql",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion [Ref E2E_FO_1785676452514_imql]; Net Profit Rises 18% YoY",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676452514_imql",
+    "queuedAt": "2026-08-02T13:14:12.514Z",
+    "nextRetryAt": 1785676452514,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:14:13.483Z"
+  },
+  {
+    "id": "E2E_FO_1785676504934_g35n",
+    "article": {
+      "id": "E2E_FO_1785676504934_g35n",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676504934_g35n",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:15:04.934Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676504934_g35n",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676504934_g35n",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676504934_g35n",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676504934_g35n",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676504934_g35n",
+    "queuedAt": "2026-08-02T13:15:04.934Z",
+    "nextRetryAt": 1785676504935,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:15:05.666Z"
+  },
+  {
+    "id": "E2E_FO_1785676504934_g35n",
+    "article": {
+      "id": "E2E_FO_1785676504934_g35n",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676504934_g35n",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:15:04.934Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676504934_g35n",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676504934_g35n",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676504934_g35n",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676504934_g35n",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676504934_g35n",
+    "queuedAt": "2026-08-02T13:15:04.934Z",
+    "nextRetryAt": 1785676504935,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:15:05.666Z"
+  },
+  {
+    "id": "E2E_FO_1785676541699_bq6x",
+    "article": {
+      "id": "E2E_FO_1785676541699_bq6x",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676541699_bq6x",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:15:41.699Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676541699_bq6x",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676541699_bq6x",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676541699_bq6x",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676541699_bq6x",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676541699_bq6x",
+    "queuedAt": "2026-08-02T13:15:41.699Z",
+    "nextRetryAt": 1785676541699,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:15:43.119Z"
+  },
+  {
+    "id": "E2E_FO_1785676541699_bq6x",
+    "article": {
+      "id": "E2E_FO_1785676541699_bq6x",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676541699_bq6x",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:15:41.699Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676541699_bq6x",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676541699_bq6x",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676541699_bq6x",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676541699_bq6x",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676541699_bq6x",
+    "queuedAt": "2026-08-02T13:15:41.699Z",
+    "nextRetryAt": 1785676541699,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:15:43.119Z"
+  },
+  {
+    "id": "E2E_FO_1785676548533_bjy4",
+    "article": {
+      "id": "E2E_FO_1785676548533_bjy4",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676548533_bjy4",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:15:48.533Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676548533_bjy4",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676548533_bjy4",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676548533_bjy4",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676548533_bjy4",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676548533_bjy4",
+    "queuedAt": "2026-08-02T13:15:48.533Z",
+    "nextRetryAt": 1785676548534,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:15:49.858Z"
+  },
+  {
+    "id": "E2E_FO_1785676548533_bjy4",
+    "article": {
+      "id": "E2E_FO_1785676548533_bjy4",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676548533_bjy4",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:15:48.533Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676548533_bjy4",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676548533_bjy4",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676548533_bjy4",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676548533_bjy4",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676548533_bjy4",
+    "queuedAt": "2026-08-02T13:15:48.533Z",
+    "nextRetryAt": 1785676548534,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:15:49.858Z"
+  },
+  {
+    "id": "E2E_FO_1785676691841_8tw1",
+    "article": {
+      "id": "E2E_FO_1785676691841_8tw1",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676691841_8tw1",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:18:11.841Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676691841_8tw1",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676691841_8tw1",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676691841_8tw1",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676691841_8tw1",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676691841_8tw1",
+    "queuedAt": "2026-08-02T13:18:11.842Z",
+    "nextRetryAt": 1785676691842,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:18:12.622Z"
+  },
+  {
+    "id": "E2E_FO_1785676691841_8tw1",
+    "article": {
+      "id": "E2E_FO_1785676691841_8tw1",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676691841_8tw1",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:18:11.841Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676691841_8tw1",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676691841_8tw1",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676691841_8tw1",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676691841_8tw1",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676691841_8tw1",
+    "queuedAt": "2026-08-02T13:18:11.842Z",
+    "nextRetryAt": 1785676691842,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:18:12.622Z"
+  },
+  {
+    "id": "E2E_FO_1785676696531_a8on",
+    "article": {
+      "id": "E2E_FO_1785676696531_a8on",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676696531_a8on",
+      "description": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up.",
+      "publisher": "NSE India",
+      "publishedAt": "2026-08-02T13:18:16.531Z",
+      "category": "Exchange Filing",
+      "categories": [
+        "F&O"
+      ],
+      "country": "India",
+      "language": "en",
+      "url": "https://www.nseindia.com/corporate-announcements/E2E_FO_1785676696531_a8on",
+      "source": "NSE India",
+      "sourceType": "RSS",
+      "isExchange": true,
+      "isExchangeDocument": true,
+      "feedName": "NSE Corporate Disclosures",
+      "companyName": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "exchange": "NSE",
+      "isin": "INE002A01018",
+      "sector": "Oil Gas & Consumable Fuels",
+      "industry": "Integrated Oil & Gas / Petrochemicals",
+      "isFO": true,
+      "foReason": "Passed: Resolved to Indian F&O stock 'Reliance Industries Limited' (RELIANCE) on NSE.",
+      "priorityScore": 95,
+      "priorityLevel": "HIGH",
+      "isBreaking": false,
+      "verifiedPublishers": [
+        "NSE India"
+      ],
+      "telegramEligible": true,
+      "relatedCompanies": [
+        "Reliance Industries Limited"
+      ],
+      "relatedTickers": [
+        "RELIANCE"
+      ],
+      "entityConfidence": 98,
+      "title": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676696531_a8on",
+      "tags": [
+        "Exchange Filing",
+        "F&O",
+        "NSE India",
+        "NSE Corporate Disclosures",
+        "Reliance Industries Limited",
+        "RELIANCE",
+        "Oil Gas & Consumable Fuels",
+        "Integrated Oil & Gas / Petrochemicals"
+      ],
+      "sentiment": "NEUTRAL",
+      "isExchangeFiling": true,
+      "documentType": "Corporate Filing",
+      "summary": "Reliance Industries announced quarterly financial results for F&O universe. Derivatives open interest surges with call option build up."
+    },
+    "params": {
+      "articleId": "E2E_FO_1785676696531_a8on",
+      "company": "Reliance Industries Limited",
+      "symbol": "RELIANCE",
+      "category": "Exchange Filing",
+      "headline": "RELIANCE INDUSTRIES LTD: Board Approves F&O Expansion Announcement Ref E2E_FO_1785676696531_a8on",
+      "source": "NSE India",
+      "priorityLevel": "HIGH",
+      "isFO": true,
+      "verifiedPublishers": [
+        "NSE India"
+      ]
+    },
+    "retryCount": 0,
+    "eventId": "RELIANCE_Exchange_Filing_E2E_FO_1785676696531_a8on",
+    "queuedAt": "2026-08-02T13:18:16.531Z",
+    "nextRetryAt": 1785676696531,
+    "finalStatus": "FAILED",
+    "sentAt": "2026-08-02T13:18:16.781Z"
+  }
+]

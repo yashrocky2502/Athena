@@ -1,0 +1,303 @@
+{
+  "timestamp": "2026-08-11T05:30:19.210Z",
+  "totalArticles": 99,
+  "persistentStorageCount": 99,
+  "hotCacheCount": 99,
+  "apiCount": 99,
+  "uniqueArticleIdsCount": 99,
+  "uniqueCanonicalUrlsCount": 41,
+  "uniqueClusterIdsCount": 99,
+  "articlesByPublisher": {
+    "Economic Times": 59,
+    "Reuters": 37,
+    "Moneycontrol": 3
+  },
+  "articlesByCollectionMethod": {
+    "DIRECT": 62,
+    "GOOGLE_RSS_FALLBACK": 37
+  },
+  "categoryCounts": {
+    "RESULT_REACTION": 6,
+    "CRYPTO": 19,
+    "QUARTERLY_RESULTS": 3,
+    "IPO": 7,
+    "GENERAL_MARKET": 60,
+    "DOMESTIC_MARKETS": 4
+  },
+  "activeCollectors": [
+    "ECONOMIC_TIMES",
+    "REUTERS",
+    "MONEYCONTROL",
+    "LIVEMINT",
+    "BUSINESS_STANDARD",
+    "CNBC_TV18",
+    "NSE",
+    "BSE",
+    "SEBI",
+    "RBI",
+    "PIB",
+    "INVESTOR_RELATIONS",
+    "GOOGLE_NEWS_RSS"
+  ],
+  "failedCollectors": [],
+  "collectorFreshness": "2026-08-11T05:06:49.000Z",
+  "normalizationFailures": 0,
+  "qualityGateFailures": 0,
+  "duplicateCount": 0,
+  "aiProviderAvailability": {
+    "grok": "AVAILABLE_INDEPENDENT",
+    "gemini": "AVAILABLE_INDEPENDENT",
+    "isolated": true
+  },
+  "sseStatus": "HEALTHY",
+  "frontend": {
+    "allTabCount": 99,
+    "categoryCounts": {
+      "RESULT_REACTION": 6,
+      "CRYPTO": 19,
+      "QUARTERLY_RESULTS": 3,
+      "IPO": 7,
+      "GENERAL_MARKET": 60,
+      "DOMESTIC_MARKETS": 4
+    },
+    "visiblePublisherDistribution": {
+      "Economic Times": 59,
+      "Reuters": 37,
+      "Moneycontrol": 3
+    }
+  },
+  "health": {
+    "status": "success",
+    "activeEngineVersion": "v3",
+    "healthPct": 100,
+    "healthReport": {
+      "timestamp": "2026-08-11T05:30:19.199Z",
+      "totalCollectors": 13,
+      "runningCount": 13,
+      "pausedCount": 0,
+      "failedCount": 0,
+      "offlineCount": 0,
+      "overallHealthPct": 100,
+      "collectors": {
+        "ECONOMIC_TIMES": {
+          "collectorId": "ECONOMIC_TIMES",
+          "name": "Economic Times",
+          "state": "RUNNING",
+          "lastFetchAt": "2026-08-11T05:25:23.268Z",
+          "totalArticlesFetched": 15,
+          "totalFetchAttempts": 1,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 384,
+          "healthPercentage": 100
+        },
+        "REUTERS": {
+          "collectorId": "REUTERS",
+          "name": "Reuters",
+          "state": "RUNNING",
+          "lastFetchAt": "2026-08-11T05:27:51.003Z",
+          "totalArticlesFetched": 15,
+          "totalFetchAttempts": 1,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 699,
+          "healthPercentage": 100
+        },
+        "MONEYCONTROL": {
+          "collectorId": "MONEYCONTROL",
+          "name": "Moneycontrol",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "LIVEMINT": {
+          "collectorId": "LIVEMINT",
+          "name": "LiveMint",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "BUSINESS_STANDARD": {
+          "collectorId": "BUSINESS_STANDARD",
+          "name": "Business Standard",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "CNBC_TV18": {
+          "collectorId": "CNBC_TV18",
+          "name": "CNBC TV18",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "NSE": {
+          "collectorId": "NSE",
+          "name": "NSE India",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "BSE": {
+          "collectorId": "BSE",
+          "name": "BSE India",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "SEBI": {
+          "collectorId": "SEBI",
+          "name": "SEBI",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "RBI": {
+          "collectorId": "RBI",
+          "name": "RBI",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "PIB": {
+          "collectorId": "PIB",
+          "name": "PIB",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "INVESTOR_RELATIONS": {
+          "collectorId": "INVESTOR_RELATIONS",
+          "name": "Investor Relations",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        },
+        "GOOGLE_NEWS_RSS": {
+          "collectorId": "GOOGLE_NEWS_RSS",
+          "name": "Google News RSS Aggregator",
+          "state": "RUNNING",
+          "totalArticlesFetched": 0,
+          "totalFetchAttempts": 0,
+          "consecutiveFailures": 0,
+          "circuitBreakerOpen": false,
+          "avgLatencyMs": 0,
+          "healthPercentage": 100
+        }
+      }
+    },
+    "telemetry": {
+      "timestamp": "2026-08-11T05:30:19.199Z",
+      "system": {
+        "cpuUsagePercent": 0,
+        "memoryUsageMB": {
+          "rss": 539,
+          "heapTotal": 293,
+          "heapUsed": 278,
+          "external": 51
+        },
+        "uptimeSeconds": 303
+      },
+      "pipeline": {
+        "queueLength": 0,
+        "articlesReceivedTotal": 27,
+        "articlesNormalizedTotal": 26,
+        "storiesPublishedTotal": 52,
+        "qualityGateRejectionsTotal": 0,
+        "errorCountTotal": 0,
+        "retryCountTotal": 0,
+        "avgProcessingTimeMs": 0,
+        "publishRatePerMin": 10
+      },
+      "collectors": {
+        "ECONOMIC_TIMES": {
+          "collectorId": "ECONOMIC_TIMES",
+          "isHealthy": true,
+          "lastPollAt": "2026-08-11T05:25:23.268Z",
+          "totalArticlesCollected": 15,
+          "consecutiveFailures": 0,
+          "avgLatencyMs": 384,
+          "healthPercentage": 100,
+          "circuitBreakerOpen": false
+        },
+        "REUTERS": {
+          "collectorId": "REUTERS",
+          "isHealthy": true,
+          "lastPollAt": "2026-08-11T05:27:51.003Z",
+          "totalArticlesCollected": 15,
+          "consecutiveFailures": 0,
+          "avgLatencyMs": 699,
+          "healthPercentage": 100,
+          "circuitBreakerOpen": false
+        }
+      }
+    }
+  },
+  "metrics": {
+    "status": "success",
+    "totalArticles": 99,
+    "publisherDistribution": {
+      "Economic Times": 59,
+      "Reuters": 37,
+      "Moneycontrol": 3
+    },
+    "collectionMethodDistribution": {
+      "DIRECT": 62,
+      "GOOGLE_RSS_FALLBACK": 37
+    },
+    "categoryDistribution": {
+      "RESULT_REACTION": 6,
+      "CRYPTO": 19,
+      "QUARTERLY_RESULTS": 3,
+      "IPO": 7,
+      "GENERAL_MARKET": 60,
+      "DOMESTIC_MARKETS": 4
+    },
+    "qualityMetrics": {
+      "avgQualityScore": 95,
+      "minQualityScore": 90,
+      "maxQualityScore": 100
+    },
+    "timestamp": "2026-08-11T05:30:19.208Z"
+  }
+}

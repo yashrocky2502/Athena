@@ -1,0 +1,432 @@
+{
+  "timestamp": "2026-08-15T02:07:34.699Z",
+  "version": "27.3",
+  "summary": {
+    "totalArticlesAudited": 8,
+    "articlesPassed": 7,
+    "articlesFailed": 1,
+    "articlePassRate": "87.5%",
+    "metricsStats": {
+      "totalMetricsAudited": 7,
+      "correctMetrics": 7,
+      "incorrectMetrics": 0,
+      "unresolvedMetrics": 0,
+      "unsupportedValues": 0,
+      "wrongPeriodAssignments": 0,
+      "wrongMetricAssignments": 0,
+      "wrongPercentageAssignments": 0,
+      "entityResolutionErrors": 0,
+      "falsePositiveCompanyMatches": 0,
+      "summarySourceMismatches": 0,
+      "telegramSourceMismatches": 1,
+      "metricAccuracyRate": "100.0%"
+    }
+  },
+  "ashokLeylandAcceptance": {
+    "scenario1": {
+      "id": "v2_2db3cabdda727292",
+      "patExpected": "₹609.11 Cr (+2.6% YoY)",
+      "revExpected": "₹9,634.35 Cr (+10.4% YoY)",
+      "volExpected": "48,763 CV units",
+      "noCrossContaminationVerified": true
+    }
+  },
+  "auditRecords": [
+    {
+      "articleId": "v2_5629773e54be2863",
+      "headline": "Ashok Leyland Q1 Results: Net profit rises 2.59% YoY to ₹609 crore, revenue up 10.4%",
+      "body": "Ashok Leyland reported a net profit of ₹609 crore for Q1 FY27, a 2.59% YoY increase. Revenue grew by 10.4% to ₹9,634 crore, with commercial vehicle volumes hitting a record 48,763 units despite rising material costs affecting operating margins.",
+      "entity": {
+        "resolvedCompany": "Ashok Leyland",
+        "resolvedSymbol": "ASHOKLEY",
+        "entityType": "EQUITY",
+        "fnoEligible": true,
+        "expectedCompany": "Ashok Leyland",
+        "expectedSymbol": "ASHOKLEY",
+        "expectedEntityType": "EQUITY",
+        "passed": true
+      },
+      "metricsAudit": [
+        {
+          "metric": "PAT",
+          "extractedValue": 609,
+          "unit": "Cr",
+          "period": "Q1",
+          "change": null,
+          "changePercent": 2.59,
+          "changeType": "YoY",
+          "sourceSpan": "Ashok Leyland reported a net profit of ₹609 crore for Q1 FY27, a 2.59% YoY increase.",
+          "confidence": "HIGH",
+          "expectedValue": 609,
+          "expectedMetric": "PAT",
+          "expectedChangePercent": 2.59,
+          "expectedDirection": "UP",
+          "passed": true,
+          "notes": "Exact match with source fact"
+        },
+        {
+          "metric": "Revenue",
+          "extractedValue": 9634,
+          "unit": "Cr",
+          "period": "Q1",
+          "change": null,
+          "changePercent": 10.4,
+          "changeType": "YoY",
+          "sourceSpan": "Revenue grew by 10.4% to ₹9,634 crore, with commercial vehicle volumes hitting a record 48,763 units despite rising material costs affecting operating margins.",
+          "confidence": "HIGH",
+          "expectedValue": 9634,
+          "expectedMetric": "Revenue",
+          "expectedChangePercent": 10.4,
+          "expectedDirection": "UP",
+          "passed": true,
+          "notes": "Exact match with source fact"
+        },
+        {
+          "metric": "Sales Volume",
+          "extractedValue": 48763,
+          "unit": "units",
+          "change": null,
+          "changePercent": null,
+          "changeType": "None",
+          "sourceSpan": "commercial vehicle volumes hitting a record 48,763 units",
+          "confidence": "HIGH",
+          "expectedValue": 48763,
+          "expectedMetric": "Sales Volume",
+          "expectedChangePercent": null,
+          "expectedDirection": "NEUTRAL",
+          "passed": true,
+          "notes": "Exact match with source fact"
+        }
+      ],
+      "summaryParity": {
+        "executiveSummary": "Ashok Leyland reported net profit of ₹609 Cr, up 2.59% YoY, while revenue at ₹9,634 Cr (increased 10.4%), while sales volume of 48,763 units.",
+        "keyFacts": [
+          "₹609 Cr",
+          "₹9,634 Cr",
+          "48,763 units",
+          "Ashok Leyland reported a net profit of ₹609 crore for Q1 FY27, a 2.59% YoY increase."
+        ],
+        "telegramText": "🚨 <b>ATHENA | EARNINGS</b>\n\n<b>Ashok Leyland Q1 Results: Net profit rises 2.59% YoY to ₹609 crore, revenue up 10.4%</b>\n\n🏷️ <b>Results</b> | 📊 <b>Impact: 100/100</b> | <b>Urgency: CRITICAL</b>\n\n• PAT: ₹609 Cr (↑ 2.59%)\n• Revenue: ₹9,634 Cr (↑ 10.4%)\n• Sales Volume: 48,763 units\n\n🧠 <b>Read-through:</b>\nQuarterly financial performance: ₹609 Cr; ₹9,634 Cr. Informs earnings trajectory for the reported period.\n\n📌 <b>F&O:</b>\nEarnings result event for ASHOKLEY. Option sellers should note event-driven volatility risk surrounding the announcement.\n\n⚠️ <b>Watch:</b>\nPost-announcement price action / volume confirmation\n\n<b>Source:</b> LiveMint • 08:20 am",
+        "hasNumericHallucinations": false,
+        "telegramParityPassed": true
+      },
+      "pipelineTrace": {
+        "rawArticle": true,
+        "semanticExtraction": true,
+        "canonicalRecord": true,
+        "apiResponseEquivalent": true,
+        "uiDisplayEquivalent": true,
+        "telegramFormatterEquivalent": true
+      },
+      "overallPassed": true
+    },
+    {
+      "articleId": "v2_b815c2c69f5a415f",
+      "headline": "S&P assigns investment-grade rating to IDFC FIRST Bank. Can it lift the stock?",
+      "body": "S&P Global Ratings has assigned IDFC FIRST Bank an inaugural investment-grade rating of BBB- for the long term, with a Stable Outlook. The rating is expected to strengthen the lender’s access to global funding markets and support international operations. S&P also highlighted strong capitalization, improving profitability, stable asset quality and funding.",
+      "entity": {
+        "resolvedCompany": "IDFC First Bank",
+        "resolvedSymbol": "IDFCFIRSTB",
+        "entityType": "EQUITY",
+        "fnoEligible": true,
+        "expectedCompany": "IDFC First Bank",
+        "expectedSymbol": "IDFCFIRSTB",
+        "expectedEntityType": "EQUITY",
+        "passed": true
+      },
+      "metricsAudit": [
+        {
+          "metric": "Credit Rating",
+          "extractedValue": null,
+          "unit": "Rating",
+          "change": null,
+          "changePercent": null,
+          "changeType": "None",
+          "sourceSpan": "S&P assigns investment-grade rating to IDFC FIRST Bank. Can it lift the stock? S&P Global Ratings has assigned IDFC FIRST Bank an inaugural investment-grade rating of BBB-",
+          "confidence": "HIGH",
+          "expectedValue": null,
+          "expectedMetric": "Credit Rating",
+          "expectedChangePercent": null,
+          "expectedDirection": "UP",
+          "passed": true,
+          "notes": "Exact match with source fact"
+        }
+      ],
+      "summaryParity": {
+        "executiveSummary": "S&P assigns investment-grade rating to IDFC FIRST Bank. Can it lift the stock?. S&P Global Ratings has assigned IDFC FIRST Bank an inaugural investment-grade rating of BBB- for the long term, with a Stable Outlook.",
+        "keyFacts": [
+          "BBB- (Stable Outlook)"
+        ],
+        "telegramText": "🚨 <b>ATHENA | BREAKING ALERT</b>\n\n<b>S&amp;P assigns investment-grade rating to IDFC FIRST Bank. Can it lift the stock?</b>\n\n🏷️ <b>F&amp;O</b> | 📊 <b>Impact: 100/100</b> | <b>Urgency: CRITICAL</b>\n\n• Credit Rating: BBB- (Stable Outlook) (↑)\n\n🧠 <b>Read-through:</b>\nRating / price target update: S&amp;P assigns investment-grade rating to IDFC FIRST Bank. Can it lift the stock?.\n\n📌 <b>F&O:</b>\nNo material F&O implication identified.\n\n⚠️ <b>Watch:</b>\nPost-announcement price action / volume confirmation\n\n<b>Source:</b> Economic Times • 08:57 am",
+        "hasNumericHallucinations": false,
+        "telegramParityPassed": false
+      },
+      "pipelineTrace": {
+        "rawArticle": true,
+        "semanticExtraction": true,
+        "canonicalRecord": true,
+        "apiResponseEquivalent": true,
+        "uiDisplayEquivalent": true,
+        "telegramFormatterEquivalent": true
+      },
+      "overallPassed": false
+    },
+    {
+      "articleId": "v2_a4c6d6104096f72a",
+      "headline": "Small-cap retail stock jumps 4% from today's low. Details here",
+      "body": "Patel Retail shares gained 4% on 14 August, supported by strong Q1 FY27 results. Revenue rose 69.7% YoY to ₹309.54 crore, and profit after tax increased 37.57% to ₹9.52 crore as the company expands its retail network with 53 stores across the Mumbai area.",
+      "entity": {
+        "resolvedCompany": "Market General",
+        "resolvedSymbol": null,
+        "entityType": "UNRESOLVED",
+        "fnoEligible": false,
+        "expectedCompany": "Market General",
+        "expectedSymbol": null,
+        "expectedEntityType": "UNRESOLVED",
+        "passed": true
+      },
+      "metricsAudit": [
+        {
+          "metric": "PAT",
+          "extractedValue": 9.52,
+          "unit": "Cr",
+          "change": null,
+          "changePercent": 37.57,
+          "changeType": "YoY",
+          "sourceSpan": "and profit after tax increased 37.57% to ₹9.52 crore as the company expands its retail network with 53 stores across the Mumbai area.",
+          "confidence": "HIGH",
+          "expectedValue": 9.52,
+          "expectedMetric": "PAT",
+          "expectedChangePercent": 37.57,
+          "expectedDirection": "UP",
+          "passed": true,
+          "notes": "Exact match with source fact"
+        },
+        {
+          "metric": "Revenue",
+          "extractedValue": 309.54,
+          "unit": "Cr",
+          "change": null,
+          "changePercent": 69.7,
+          "changeType": "YoY",
+          "sourceSpan": "Revenue rose 69.7% YoY to ₹309.54 crore,",
+          "confidence": "HIGH",
+          "expectedValue": 309.54,
+          "expectedMetric": "Revenue",
+          "expectedChangePercent": 69.7,
+          "expectedDirection": "UP",
+          "passed": true,
+          "notes": "Exact match with source fact"
+        }
+      ],
+      "summaryParity": {
+        "executiveSummary": "Small-cap retail stock jumps 4% from today's low. Details here. Patel Retail shares gained 4% on 14 August, supported by strong Q1 FY27 results.",
+        "keyFacts": [
+          "₹309.54 Cr",
+          "₹9.52 Cr"
+        ],
+        "telegramText": "🚨 <b>ATHENA | BREAKING ALERT</b>\n\n<b>Market General — Small-cap retail stock jumps 4% from today's low. Details here</b>\n\n🏷️ <b>Other</b> | 📊 <b>Impact: 85/100</b> | <b>Urgency: CRITICAL</b>\n\n• Revenue: ₹309.54 Cr (↑ 69.7%)\n• PAT: ₹9.52 Cr (↑ 37.57%)\n\n🧠 <b>Read-through:</b>\nATHENA could not establish a sufficiently specific financial implication from the available evidence.\n\n📌 <b>F&O:</b>\nNo material F&O implication identified.\n\n⚠️ <b>Watch:</b>\nPost-announcement price action / volume confirmation\n\n<b>Source:</b> LiveMint • 10:07 am",
+        "hasNumericHallucinations": false,
+        "telegramParityPassed": true
+      },
+      "pipelineTrace": {
+        "rawArticle": true,
+        "semanticExtraction": true,
+        "canonicalRecord": true,
+        "apiResponseEquivalent": true,
+        "uiDisplayEquivalent": true,
+        "telegramFormatterEquivalent": true
+      },
+      "overallPassed": true
+    },
+    {
+      "articleId": "v2_fc238193fa01bb9d",
+      "headline": "Natco Pharma Q1 profit falls 57 pc to Rs 206.5 cr",
+      "body": "Natco Pharma has reported a stark profit decline in the first quarter, largely driven by reduced sales of its leading cancer drug, lenalidomide. This led to a pronounced drop in consolidated revenues compared to the prior year. On a brighter note, the core business showed some positive growth, and total expenses saw a decrease, providing a silver lining to the financial report.",
+      "entity": {
+        "resolvedCompany": "Market General",
+        "resolvedSymbol": null,
+        "entityType": "UNRESOLVED",
+        "fnoEligible": false,
+        "expectedCompany": "Market General",
+        "expectedSymbol": null,
+        "expectedEntityType": "UNRESOLVED",
+        "passed": true
+      },
+      "metricsAudit": [
+        {
+          "metric": "PAT",
+          "extractedValue": 206.5,
+          "unit": "Cr",
+          "period": "Q1",
+          "change": null,
+          "changePercent": 57,
+          "changeType": "YoY",
+          "sourceSpan": "Natco Pharma Q1 profit falls 57 pc to Rs 206.5 cr.",
+          "confidence": "HIGH",
+          "expectedValue": 206.5,
+          "expectedMetric": "PAT",
+          "expectedChangePercent": 57,
+          "expectedDirection": "DOWN",
+          "passed": true,
+          "notes": "Exact match with source fact"
+        }
+      ],
+      "summaryParity": {
+        "executiveSummary": "Market General reported net profit of ₹206.5 Cr, down 57% YoY.",
+        "keyFacts": [
+          "₹206.5 Cr",
+          "Natco Pharma has reported a stark profit decline in the first quarter, largely driven by reduced sales of its leading cancer drug, lenalidomide."
+        ],
+        "telegramText": "🚨 <b>ATHENA | EARNINGS</b>\n\n<b>Market General — Natco Pharma Q1 profit falls 57 pc to Rs 206.5 cr</b>\n\n🏷️ <b>Results</b> | 📊 <b>Impact: 85/100</b> | <b>Urgency: CRITICAL</b>\n\n• PAT: ₹206.5 Cr (↓ 57%)\n• Natco Pharma has reported a stark profit decline in the first quarter, largely driven by reduced sales of its leading cancer drug, lenalidomide.\n\n🧠 <b>Read-through:</b>\nQuarterly financial performance: ₹206.5 Cr. Informs earnings trajectory for the reported period.\n\n📌 <b>F&O:</b>\nNo material F&O implication identified.\n\n⚠️ <b>Watch:</b>\nDecline in PAT: ₹206.5 Cr\n\n<b>Source:</b> Economic Times • 09:43 am",
+        "hasNumericHallucinations": false,
+        "telegramParityPassed": true
+      },
+      "pipelineTrace": {
+        "rawArticle": true,
+        "semanticExtraction": true,
+        "canonicalRecord": true,
+        "apiResponseEquivalent": true,
+        "uiDisplayEquivalent": true,
+        "telegramFormatterEquivalent": true
+      },
+      "overallPassed": true
+    },
+    {
+      "articleId": "v2_2eb5ba5205aa89f1",
+      "headline": "Quest Global said to pick banks for $1 billion India IPO",
+      "body": "Carlyle-backed Quest Global has appointed five banks for a potential Mumbai IPO targeting up to $1 billion. Axis Capital, Kotak Mahindra Capital, JM Financial, Morgan Stanley and Citigroup will advise. The offering may combine fresh shares and existing investor sales, with a draft prospectus expected by December, though details remain subject to change.",
+      "entity": {
+        "resolvedCompany": "Market General",
+        "resolvedSymbol": null,
+        "entityType": "UNRESOLVED",
+        "fnoEligible": false,
+        "expectedCompany": "Market General",
+        "expectedSymbol": null,
+        "expectedEntityType": "UNRESOLVED",
+        "passed": true
+      },
+      "metricsAudit": [],
+      "summaryParity": {
+        "executiveSummary": "Quest Global said to pick banks for $1 billion India IPO. Carlyle-backed Quest Global has appointed five banks for a potential Mumbai IPO targeting up to $1 billion.",
+        "keyFacts": [
+          "Quest Global said to pick banks for $1 billion India IPO"
+        ],
+        "telegramText": "🚨 <b>ATHENA | IPO</b>\n\n<b>Market General — Quest Global said to pick banks for $1 billion India IPO</b>\n\n🏷️ <b>IPO</b> | 📊 <b>Impact: 80/100</b> | <b>Urgency: CRITICAL</b>\n\n• Quest Global said to pick banks for $1 billion India IPO\n\n🧠 <b>Read-through:</b>\nInitial Public Offering development. Key issue parameters guide market expectations and investor participation.\n\n📌 <b>F&O:</b>\nNo material F&O implication identified.\n\n⚠️ <b>Watch:</b>\nNo explicit operational or financial risk factors identified in source text.\n\n<b>Source:</b> Economic Times • 10:21 am",
+        "hasNumericHallucinations": false,
+        "telegramParityPassed": true
+      },
+      "pipelineTrace": {
+        "rawArticle": true,
+        "semanticExtraction": true,
+        "canonicalRecord": true,
+        "apiResponseEquivalent": true,
+        "uiDisplayEquivalent": true,
+        "telegramFormatterEquivalent": true
+      },
+      "overallPassed": true
+    },
+    {
+      "articleId": "v2_f8d87bef2446ca90",
+      "headline": "Sensex falls 71 points, Nifty closes below 24,400; broader markets underperform. What lies ahead?",
+      "body": "The Indian stock market ended lower on Friday as Sensex dropped 71 points and Nifty closed at 24,366. Broader midcap and smallcap indices underperformed, falling 0.7% each. Analysts cite global yield uncertainty and oil prices for the sideways movement, while technical indicators point to key support near 24,200.",
+      "entity": {
+        "resolvedCompany": "Nifty 50",
+        "resolvedSymbol": "NIFTY",
+        "entityType": "BROAD_MARKET",
+        "fnoEligible": true,
+        "expectedCompany": "Nifty 50",
+        "expectedSymbol": "NIFTY",
+        "expectedEntityType": "BROAD_MARKET",
+        "passed": true
+      },
+      "metricsAudit": [],
+      "summaryParity": {
+        "executiveSummary": "Sensex falls 71 points, Nifty closes below 24,400; broader markets underperform. What lies ahead?. The Indian stock market ended lower on Friday as Sensex dropped 71 points and Nifty closed at 24,366.",
+        "keyFacts": [
+          "Sensex falls 71 points, Nifty closes below 24,400; broader markets underperform. What lies ahead?"
+        ],
+        "telegramText": "🚨 <b>ATHENA | BREAKING ALERT</b>\n\n<b>Nifty 50 — Sensex falls 71 points, Nifty closes below 24,400; broader markets underperform. What lies ahead?</b>\n\n🏷️ <b>Market</b> | 📊 <b>Impact: 75/100</b> | <b>Urgency: CRITICAL</b>\n\n• Sensex falls 71 points, Nifty closes below 24,400; broader markets underperform. What lies ahead?\n\n🧠 <b>Read-through:</b>\nMarket movement: Sensex falls 71 points, Nifty closes below 24,400; broader markets underperform. What lies ahead?.\n\n📌 <b>F&O:</b>\nNo material F&O implication identified.\n\n⚠️ <b>Watch:</b>\nNo explicit operational or financial risk factors identified in source text.\n\n<b>Source:</b> Economic Times • 10:23 am",
+        "hasNumericHallucinations": false,
+        "telegramParityPassed": true
+      },
+      "pipelineTrace": {
+        "rawArticle": true,
+        "semanticExtraction": true,
+        "canonicalRecord": true,
+        "apiResponseEquivalent": true,
+        "uiDisplayEquivalent": true,
+        "telegramFormatterEquivalent": true
+      },
+      "overallPassed": true
+    },
+    {
+      "articleId": "v2_7564338efd61bcf7",
+      "headline": "Rupee logs weekly decline, with RBI intervention curbing losses",
+      "body": "The Indian rupee faced a challenging week, depreciating against the dollar amidst mounting tensions from the Middle East conflict. Despite this, central bank interventions and steady dollar sales by state banks helped mitigate more significant losses. With India relying on imports for about ninety percent of its oil, the economy remains susceptible to supply disruptions.",
+      "entity": {
+        "resolvedCompany": "Macroeconomy",
+        "resolvedSymbol": null,
+        "entityType": "MACRO",
+        "fnoEligible": false,
+        "expectedCompany": "Macroeconomy",
+        "expectedSymbol": null,
+        "expectedEntityType": "MACRO",
+        "passed": true
+      },
+      "metricsAudit": [],
+      "summaryParity": {
+        "executiveSummary": "Rupee logs weekly decline, with RBI intervention curbing losses. The Indian rupee faced a challenging week, depreciating against the dollar amidst mounting tensions from the Middle East conflict.",
+        "keyFacts": [
+          "Rupee logs weekly decline, with RBI intervention curbing losses"
+        ],
+        "telegramText": "🚨 <b>ATHENA | REGULATORY</b>\n\n<b>Macroeconomy — Rupee logs weekly decline, with RBI intervention curbing losses</b>\n\n🏷️ <b>Economy</b> | 📊 <b>Impact: 80/100</b> | <b>Urgency: CRITICAL</b>\n\n• Rupee logs weekly decline, with RBI intervention curbing losses\n\n🧠 <b>Read-through:</b>\nRegulatory update: Rupee logs weekly decline, with RBI intervention curbing losses. Requisite compliance parameters apply as published.\n\n📌 <b>F&O:</b>\nNo material F&O implication identified.\n\n⚠️ <b>Watch:</b>\nNo explicit operational or financial risk factors identified in source text.\n\n<b>Source:</b> Economic Times • 10:24 am",
+        "hasNumericHallucinations": false,
+        "telegramParityPassed": true
+      },
+      "pipelineTrace": {
+        "rawArticle": true,
+        "semanticExtraction": true,
+        "canonicalRecord": true,
+        "apiResponseEquivalent": true,
+        "uiDisplayEquivalent": true,
+        "telegramFormatterEquivalent": true
+      },
+      "overallPassed": true
+    },
+    {
+      "articleId": "v2_a4535455f512be42",
+      "headline": "Sensex, Nifty end lower as oil prices rise amid Hormuz uncertainty - Telangana Today",
+      "body": "<a href=\"https://news.google.com/rss/articles/CBMilwFBVV95cUxPdXBmZ1BBWnV1NlNLaTc1SlppeWRGUkhoVHlNekZwTnBqWE8zNjd4b2l4ZmxvbUN4OGQzNWJNRXMzXzJ6UjVmNVJhQWRRWTFUU3g3cWgtZkFQRUZEOENJaTdSWS04Wk9tM0xKTVdlWDRVRl8xeFJ0WWlyd0t6XzFNTldLa0h4S1ZsWmxGZnU0RDdibWowQXVR?oc=5\" target=\"_blank\">Sensex, Nifty end lower as oil prices rise amid Hormuz uncertainty</a> <font color=\"#6f6f6f\">Telangana Today</font>",
+      "entity": {
+        "resolvedCompany": "Nifty 50",
+        "resolvedSymbol": "NIFTY",
+        "entityType": "BROAD_MARKET",
+        "fnoEligible": true,
+        "expectedCompany": "Nifty 50",
+        "expectedSymbol": "NIFTY",
+        "expectedEntityType": "BROAD_MARKET",
+        "passed": true
+      },
+      "metricsAudit": [],
+      "summaryParity": {
+        "executiveSummary": "Sensex, Nifty end lower as oil prices rise amid Hormuz uncertainty - Telangana Today. <a href=\"https://news.google.com/rss/articles/CBMilwFBVV95cUxPdXBmZ1BBWnV1NlNLaTc1SlppeWRGUkhoVHlNekZwTnBqWE8zNjd4b2l4ZmxvbUN4OGQzNWJNRXMzXzJ6UjVmNVJhQWRRWTFUU3g3cWgtZkFQRUZEOENJaTdSWS04Wk9tM0xKTVdlWDRVRl8xeFJ0WWlyd0t6XzFNTldLa0h4S1ZsWmxGZnU0RDdibWowQXVR?oc=5\" target=\"_blank\">Sensex, Nifty end lower as oil prices rise amid Hormuz uncertainty</a> <font color=\"#6f6f6f\">Telangana Today</font>",
+        "keyFacts": [
+          "Sensex, Nifty end lower as oil prices rise amid Hormuz uncertainty - Telangana Today"
+        ],
+        "telegramText": "🚨 <b>ATHENA | HIGH IMPACT</b>\n\n<b>Nifty 50 — Sensex, Nifty end lower as oil prices rise amid Hormuz uncertainty - Telangana Today</b>\n\n🏷️ <b>Market</b> | 📊 <b>Impact: 75/100</b> | <b>Urgency: HIGH</b>\n\n• Sensex, Nifty end lower as oil prices rise amid Hormuz uncertainty - Telangana Today\n\n🧠 <b>Read-through:</b>\nMarket movement: Sensex, Nifty end lower as oil prices rise amid Hormuz uncertainty - Telangana Today.\n\n📌 <b>F&O:</b>\nNo material F&O implication identified.\n\n⚠️ <b>Watch:</b>\nNo explicit operational or financial risk factors identified in source text.\n\n<b>Source:</b> Google News Business • 10:47 am",
+        "hasNumericHallucinations": false,
+        "telegramParityPassed": true
+      },
+      "pipelineTrace": {
+        "rawArticle": true,
+        "semanticExtraction": true,
+        "canonicalRecord": true,
+        "apiResponseEquivalent": true,
+        "uiDisplayEquivalent": true,
+        "telegramFormatterEquivalent": true
+      },
+      "overallPassed": true
+    }
+  ]
+}

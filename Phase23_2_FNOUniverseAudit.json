@@ -1,0 +1,1557 @@
+{
+  "canonicalCount": 204,
+  "uniqueSymbolCount": 204,
+  "hasDuplicates": false,
+  "symbols": [
+    {
+      "symbol": "NIFTY",
+      "name": "Nifty 50",
+      "aliases": [
+        "Nifty 50",
+        "Nifty Index",
+        "Nifty50"
+      ]
+    },
+    {
+      "symbol": "BANKNIFTY",
+      "name": "Bank Nifty",
+      "aliases": [
+        "Bank Nifty",
+        "Nifty Bank",
+        "BankNifty"
+      ]
+    },
+    {
+      "symbol": "FINNIFTY",
+      "name": "Nifty Financial Services",
+      "aliases": [
+        "Fin Nifty",
+        "Finnifty",
+        "Nifty Fin Services"
+      ]
+    },
+    {
+      "symbol": "MIDCPNIFTY",
+      "name": "Nifty Midcap Select",
+      "aliases": [
+        "Midcap Nifty",
+        "Midcpnifty",
+        "Nifty Midcap"
+      ]
+    },
+    {
+      "symbol": "RELIANCE",
+      "name": "Reliance Industries",
+      "aliases": [
+        "Reliance Industries",
+        "Reliance",
+        "RIL"
+      ]
+    },
+    {
+      "symbol": "TCS",
+      "name": "Tata Consultancy Services",
+      "aliases": [
+        "Tata Consultancy Services",
+        "TCS"
+      ]
+    },
+    {
+      "symbol": "INFY",
+      "name": "Infosys",
+      "aliases": [
+        "Infosys",
+        "Infy"
+      ]
+    },
+    {
+      "symbol": "HDFCBANK",
+      "name": "HDFC Bank",
+      "aliases": [
+        "HDFC Bank",
+        "HDFCBank"
+      ]
+    },
+    {
+      "symbol": "ICICIBANK",
+      "name": "ICICI Bank",
+      "aliases": [
+        "ICICI Bank",
+        "ICICIBank"
+      ]
+    },
+    {
+      "symbol": "SBIN",
+      "name": "State Bank of India",
+      "aliases": [
+        "State Bank of India",
+        "SBI",
+        "State Bank",
+        "SBIN"
+      ]
+    },
+    {
+      "symbol": "BHARTIARTL",
+      "name": "Bharti Airtel",
+      "aliases": [
+        "Bharti Airtel",
+        "Airtel"
+      ]
+    },
+    {
+      "symbol": "ITC",
+      "name": "ITC Limited",
+      "aliases": [
+        "ITC Limited",
+        "ITC"
+      ]
+    },
+    {
+      "symbol": "LT",
+      "name": "Larsen & Toubro",
+      "aliases": [
+        "Larsen & Toubro",
+        "L&T",
+        "Larsen and Toubro"
+      ]
+    },
+    {
+      "symbol": "KOTAKBANK",
+      "name": "Kotak Mahindra Bank",
+      "aliases": [
+        "Kotak Mahindra Bank",
+        "Kotak Bank",
+        "Kotak"
+      ]
+    },
+    {
+      "symbol": "AXISBANK",
+      "name": "Axis Bank",
+      "aliases": [
+        "Axis Bank"
+      ]
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "name": "Tata Motors",
+      "aliases": [
+        "Tata Motors",
+        "TaMo"
+      ]
+    },
+    {
+      "symbol": "MARUTI",
+      "name": "Maruti Suzuki",
+      "aliases": [
+        "Maruti Suzuki",
+        "Maruti"
+      ]
+    },
+    {
+      "symbol": "TATASTEEL",
+      "name": "Tata Steel",
+      "aliases": [
+        "Tata Steel"
+      ]
+    },
+    {
+      "symbol": "SUNPHARMA",
+      "name": "Sun Pharmaceutical",
+      "aliases": [
+        "Sun Pharma",
+        "Sun Pharmaceutical"
+      ]
+    },
+    {
+      "symbol": "M&M",
+      "name": "Mahindra & Mahindra",
+      "aliases": [
+        "Mahindra & Mahindra",
+        "M&M",
+        "Mahindra and Mahindra"
+      ]
+    },
+    {
+      "symbol": "ASIANPAINT",
+      "name": "Asian Paints",
+      "aliases": [
+        "Asian Paints",
+        "Asian Paint"
+      ]
+    },
+    {
+      "symbol": "TITAN",
+      "name": "Titan Company",
+      "aliases": [
+        "Titan Company",
+        "Titan"
+      ]
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "name": "Bajaj Finance",
+      "aliases": [
+        "Bajaj Finance"
+      ]
+    },
+    {
+      "symbol": "BAJAJFINSV",
+      "name": "Bajaj Finserv",
+      "aliases": [
+        "Bajaj Finserv"
+      ]
+    },
+    {
+      "symbol": "HCLTECH",
+      "name": "HCL Technologies",
+      "aliases": [
+        "HCL Technologies",
+        "HCL Tech",
+        "HCLTech"
+      ]
+    },
+    {
+      "symbol": "WIPRO",
+      "name": "Wipro",
+      "aliases": [
+        "Wipro"
+      ]
+    },
+    {
+      "symbol": "NTPC",
+      "name": "NTPC Limited",
+      "aliases": [
+        "NTPC"
+      ]
+    },
+    {
+      "symbol": "POWERGRID",
+      "name": "Power Grid Corporation",
+      "aliases": [
+        "Power Grid",
+        "PowerGrid",
+        "PGCIL"
+      ]
+    },
+    {
+      "symbol": "ULTRACETECH",
+      "name": "UltraTech Cement",
+      "aliases": [
+        "UltraTech Cement",
+        "UltraTech"
+      ]
+    },
+    {
+      "symbol": "COALINDIA",
+      "name": "Coal India",
+      "aliases": [
+        "Coal India"
+      ]
+    },
+    {
+      "symbol": "ONGC",
+      "name": "Oil & Natural Gas Corporation",
+      "aliases": [
+        "ONGC",
+        "Oil and Natural Gas Corporation"
+      ]
+    },
+    {
+      "symbol": "TATACONSUMER",
+      "name": "Tata Consumer Products",
+      "aliases": [
+        "Tata Consumer Products",
+        "Tata Consumer"
+      ]
+    },
+    {
+      "symbol": "NESTLEIND",
+      "name": "Nestle India",
+      "aliases": [
+        "Nestle India",
+        "Nestle"
+      ]
+    },
+    {
+      "symbol": "BRITANNIA",
+      "name": "Britannia Industries",
+      "aliases": [
+        "Britannia Industries",
+        "Britannia"
+      ]
+    },
+    {
+      "symbol": "GRASIM",
+      "name": "Grasim Industries",
+      "aliases": [
+        "Grasim Industries",
+        "Grasim"
+      ]
+    },
+    {
+      "symbol": "ADANIENT",
+      "name": "Adani Enterprises",
+      "aliases": [
+        "Adani Enterprises"
+      ]
+    },
+    {
+      "symbol": "ADANIPORTS",
+      "name": "Adani Ports",
+      "aliases": [
+        "Adani Ports",
+        "Adani Ports and SEZ"
+      ]
+    },
+    {
+      "symbol": "HDFCLIFE",
+      "name": "HDFC Life Insurance",
+      "aliases": [
+        "HDFC Life"
+      ]
+    },
+    {
+      "symbol": "SBILIFE",
+      "name": "SBI Life Insurance",
+      "aliases": [
+        "SBI Life"
+      ]
+    },
+    {
+      "symbol": "HINDUNILVR",
+      "name": "Hindustan Unilever",
+      "aliases": [
+        "Hindustan Unilever",
+        "HUL"
+      ]
+    },
+    {
+      "symbol": "HEROMOTOCO",
+      "name": "Hero MotoCorp",
+      "aliases": [
+        "Hero MotoCorp",
+        "Hero Moto"
+      ]
+    },
+    {
+      "symbol": "EICHERMOT",
+      "name": "Eicher Motors",
+      "aliases": [
+        "Eicher Motors"
+      ]
+    },
+    {
+      "symbol": "BAJAJ-AUTO",
+      "name": "Bajaj Auto",
+      "aliases": [
+        "Bajaj Auto"
+      ]
+    },
+    {
+      "symbol": "APOLLOHOSP",
+      "name": "Apollo Hospitals",
+      "aliases": [
+        "Apollo Hospitals"
+      ]
+    },
+    {
+      "symbol": "DIVISLAB",
+      "name": "Divi's Laboratories",
+      "aliases": [
+        "Divis Labs",
+        "Divi's Lab",
+        "Divis Laboratories"
+      ]
+    },
+    {
+      "symbol": "DRREDDY",
+      "name": "Dr. Reddy's Laboratories",
+      "aliases": [
+        "Dr Reddy",
+        "Dr. Reddy's",
+        "Dr Reddys"
+      ]
+    },
+    {
+      "symbol": "CIPLA",
+      "name": "Cipla",
+      "aliases": [
+        "Cipla"
+      ]
+    },
+    {
+      "symbol": "TECHM",
+      "name": "Tech Mahindra",
+      "aliases": [
+        "Tech Mahindra",
+        "TechM"
+      ]
+    },
+    {
+      "symbol": "HINDALCO",
+      "name": "Hindalco Industries",
+      "aliases": [
+        "Hindalco"
+      ]
+    },
+    {
+      "symbol": "JSWSTEEL",
+      "name": "JSW Steel",
+      "aliases": [
+        "JSW Steel"
+      ]
+    },
+    {
+      "symbol": "VEDL",
+      "name": "Vedanta Limited",
+      "aliases": [
+        "Vedanta"
+      ]
+    },
+    {
+      "symbol": "BHEL",
+      "name": "Bharat Heavy Electricals",
+      "aliases": [
+        "BHEL",
+        "Bharat Heavy Electricals"
+      ]
+    },
+    {
+      "symbol": "DLF",
+      "name": "DLF Limited",
+      "aliases": [
+        "DLF"
+      ]
+    },
+    {
+      "symbol": "TRENT",
+      "name": "Trent Limited",
+      "aliases": [
+        "Trent"
+      ]
+    },
+    {
+      "symbol": "GODREJPROP",
+      "name": "Godrej Properties",
+      "aliases": [
+        "Godrej Properties"
+      ]
+    },
+    {
+      "symbol": "HAL",
+      "name": "Hindustan Aeronautics",
+      "aliases": [
+        "Hindustan Aeronautics",
+        "HAL"
+      ]
+    },
+    {
+      "symbol": "BEL",
+      "name": "Bharat Electronics",
+      "aliases": [
+        "Bharat Electronics",
+        "BEL"
+      ]
+    },
+    {
+      "symbol": "RECLTD",
+      "name": "REC Limited",
+      "aliases": [
+        "REC",
+        "REC Limited"
+      ]
+    },
+    {
+      "symbol": "PFC",
+      "name": "Power Finance Corporation",
+      "aliases": [
+        "Power Finance Corp",
+        "PFC"
+      ]
+    },
+    {
+      "symbol": "CHOLAFIN",
+      "name": "Cholamandalam Investment",
+      "aliases": [
+        "Cholamandalam",
+        "Chola Finance"
+      ]
+    },
+    {
+      "symbol": "SHRIRAMFIN",
+      "name": "Shriram Finance",
+      "aliases": [
+        "Shriram Finance"
+      ]
+    },
+    {
+      "symbol": "MOTHERSON",
+      "name": "Samvardhana Motherson",
+      "aliases": [
+        "Motherson",
+        "Samvardhana Motherson"
+      ]
+    },
+    {
+      "symbol": "GAIL",
+      "name": "GAIL India",
+      "aliases": [
+        "GAIL",
+        "GAIL India"
+      ]
+    },
+    {
+      "symbol": "BPCL",
+      "name": "Bharat Petroleum",
+      "aliases": [
+        "Bharat Petroleum",
+        "BPCL"
+      ]
+    },
+    {
+      "symbol": "IOC",
+      "name": "Indian Oil Corporation",
+      "aliases": [
+        "Indian Oil",
+        "IOC"
+      ]
+    },
+    {
+      "symbol": "PETRONET",
+      "name": "Petronet LNG",
+      "aliases": [
+        "Petronet LNG",
+        "Petronet"
+      ]
+    },
+    {
+      "symbol": "TATAPOWER",
+      "name": "Tata Power",
+      "aliases": [
+        "Tata Power"
+      ]
+    },
+    {
+      "symbol": "JSWENERGY",
+      "name": "JSW Energy",
+      "aliases": [
+        "JSW Energy"
+      ]
+    },
+    {
+      "symbol": "PERSISTENT",
+      "name": "Persistent Systems",
+      "aliases": [
+        "Persistent Systems",
+        "Persistent"
+      ]
+    },
+    {
+      "symbol": "COFORGE",
+      "name": "Coforge Limited",
+      "aliases": [
+        "Coforge"
+      ]
+    },
+    {
+      "symbol": "LTIM",
+      "name": "LTIMindtree",
+      "aliases": [
+        "LTIMindtree",
+        "LTIM"
+      ]
+    },
+    {
+      "symbol": "LTTS",
+      "name": "L&T Technology Services",
+      "aliases": [
+        "L&T Tech Services",
+        "LTTS"
+      ]
+    },
+    {
+      "symbol": "MPHASIS",
+      "name": "Mphasis",
+      "aliases": [
+        "Mphasis"
+      ]
+    },
+    {
+      "symbol": "TATACOMM",
+      "name": "Tata Communications",
+      "aliases": [
+        "Tata Communications"
+      ]
+    },
+    {
+      "symbol": "DIXON",
+      "name": "Dixon Technologies",
+      "aliases": [
+        "Dixon Technologies",
+        "Dixon"
+      ]
+    },
+    {
+      "symbol": "AMBUJACEM",
+      "name": "Ambuja Cements",
+      "aliases": [
+        "Ambuja Cement",
+        "Ambuja Cements"
+      ]
+    },
+    {
+      "symbol": "ACC",
+      "name": "ACC Limited",
+      "aliases": [
+        "ACC Limited",
+        "ACC"
+      ]
+    },
+    {
+      "symbol": "DALBHARAT",
+      "name": "Dalmia Bharat",
+      "aliases": [
+        "Dalmia Bharat"
+      ]
+    },
+    {
+      "symbol": "LUPIN",
+      "name": "Lupin Limited",
+      "aliases": [
+        "Lupin"
+      ]
+    },
+    {
+      "symbol": "AUROPHARMA",
+      "name": "Aurobindo Pharma",
+      "aliases": [
+        "Aurobindo Pharma"
+      ]
+    },
+    {
+      "symbol": "BIOCON",
+      "name": "Biocon Limited",
+      "aliases": [
+        "Biocon"
+      ]
+    },
+    {
+      "symbol": "GLENMARK",
+      "name": "Glenmark Pharmaceuticals",
+      "aliases": [
+        "Glenmark Pharma",
+        "Glenmark"
+      ]
+    },
+    {
+      "symbol": "TORNTPHARM",
+      "name": "Torrent Pharmaceuticals",
+      "aliases": [
+        "Torrent Pharma"
+      ]
+    },
+    {
+      "symbol": "LAURUSLABS",
+      "name": "Laurus Labs",
+      "aliases": [
+        "Laurus Labs"
+      ]
+    },
+    {
+      "symbol": "GRANULES",
+      "name": "Granules India",
+      "aliases": [
+        "Granules India",
+        "Granules"
+      ]
+    },
+    {
+      "symbol": "SYNGENE",
+      "name": "Syngene International",
+      "aliases": [
+        "Syngene"
+      ]
+    },
+    {
+      "symbol": "TATACHEM",
+      "name": "Tata Chemicals",
+      "aliases": [
+        "Tata Chemicals"
+      ]
+    },
+    {
+      "symbol": "DEEPAKNTR",
+      "name": "Deepak Nitrite",
+      "aliases": [
+        "Deepak Nitrite"
+      ]
+    },
+    {
+      "symbol": "UPL",
+      "name": "UPL Limited",
+      "aliases": [
+        "UPL Limited",
+        "UPL"
+      ]
+    },
+    {
+      "symbol": "PIDILITIND",
+      "name": "Pidilite Industries",
+      "aliases": [
+        "Pidilite"
+      ]
+    },
+    {
+      "symbol": "POLYCAB",
+      "name": "Polycab India",
+      "aliases": [
+        "Polycab"
+      ]
+    },
+    {
+      "symbol": "HAVELLS",
+      "name": "Havells India",
+      "aliases": [
+        "Havells"
+      ]
+    },
+    {
+      "symbol": "CROMPTON",
+      "name": "Crompton Greaves Consumer",
+      "aliases": [
+        "Crompton"
+      ]
+    },
+    {
+      "symbol": "VOLTAS",
+      "name": "Voltas Limited",
+      "aliases": [
+        "Voltas"
+      ]
+    },
+    {
+      "symbol": "INDIGO",
+      "name": "InterGlobe Aviation",
+      "aliases": [
+        "InterGlobe Aviation",
+        "IndiGo"
+      ]
+    },
+    {
+      "symbol": "IRCTC",
+      "name": "Indian Railway Catering and Tourism",
+      "aliases": [
+        "IRCTC"
+      ]
+    },
+    {
+      "symbol": "CONCOR",
+      "name": "Container Corporation",
+      "aliases": [
+        "Container Corporation",
+        "CONCOR"
+      ]
+    },
+    {
+      "symbol": "ESCORTS",
+      "name": "Escorts Kubota",
+      "aliases": [
+        "Escorts Kubota",
+        "Escorts"
+      ]
+    },
+    {
+      "symbol": "BOSCHLTD",
+      "name": "Bosch Limited",
+      "aliases": [
+        "Bosch Limited",
+        "Bosch"
+      ]
+    },
+    {
+      "symbol": "MRF",
+      "name": "MRF Limited",
+      "aliases": [
+        "MRF"
+      ]
+    },
+    {
+      "symbol": "BALKRISIND",
+      "name": "Balkrishna Industries",
+      "aliases": [
+        "Balkrishna Industries"
+      ]
+    },
+    {
+      "symbol": "TIINDIA",
+      "name": "Tube Investments of India",
+      "aliases": [
+        "Tube Investments",
+        "TI India"
+      ]
+    },
+    {
+      "symbol": "TVSMOTOR",
+      "name": "TVS Motor Company",
+      "aliases": [
+        "TVS Motor"
+      ]
+    },
+    {
+      "symbol": "ASHOKLEY",
+      "name": "Ashok Leyland",
+      "aliases": [
+        "Ashok Leyland"
+      ]
+    },
+    {
+      "symbol": "BHARATFORG",
+      "name": "Bharat Forge",
+      "aliases": [
+        "Bharat Forge"
+      ]
+    },
+    {
+      "symbol": "CUMMINSIND",
+      "name": "Cummins India",
+      "aliases": [
+        "Cummins India",
+        "Cummins"
+      ]
+    },
+    {
+      "symbol": "ASTRAL",
+      "name": "Astral Limited",
+      "aliases": [
+        "Astral"
+      ]
+    },
+    {
+      "symbol": "SUPREMEIND",
+      "name": "Supreme Industries",
+      "aliases": [
+        "Supreme Industries"
+      ]
+    },
+    {
+      "symbol": "MUTHOOTFIN",
+      "name": "Muthoot Finance",
+      "aliases": [
+        "Muthoot Finance"
+      ]
+    },
+    {
+      "symbol": "MANAPPURAM",
+      "name": "Manappuram Finance",
+      "aliases": [
+        "Manappuram Finance",
+        "Manappuram"
+      ]
+    },
+    {
+      "symbol": "AUBANK",
+      "name": "AU Small Finance Bank",
+      "aliases": [
+        "AU Small Finance Bank",
+        "AU Bank"
+      ]
+    },
+    {
+      "symbol": "FEDERALBNK",
+      "name": "Federal Bank",
+      "aliases": [
+        "Federal Bank"
+      ]
+    },
+    {
+      "symbol": "IDFCFIRSTB",
+      "name": "IDFC First Bank",
+      "aliases": [
+        "IDFC First Bank"
+      ]
+    },
+    {
+      "symbol": "BANDHANBNK",
+      "name": "Bandhan Bank",
+      "aliases": [
+        "Bandhan Bank"
+      ]
+    },
+    {
+      "symbol": "INDUSINDBK",
+      "name": "IndusInd Bank",
+      "aliases": [
+        "IndusInd Bank"
+      ]
+    },
+    {
+      "symbol": "PNB",
+      "name": "Punjab National Bank",
+      "aliases": [
+        "Punjab National Bank",
+        "PNB"
+      ]
+    },
+    {
+      "symbol": "BANKBARODA",
+      "name": "Bank of Baroda",
+      "aliases": [
+        "Bank of Baroda",
+        "BoB"
+      ]
+    },
+    {
+      "symbol": "CANBK",
+      "name": "Canara Bank",
+      "aliases": [
+        "Canara Bank"
+      ]
+    },
+    {
+      "symbol": "ABCAPITAL",
+      "name": "Aditya Birla Capital",
+      "aliases": [
+        "Aditya Birla Capital",
+        "AB Capital"
+      ]
+    },
+    {
+      "symbol": "SBICARD",
+      "name": "SBI Cards and Payment",
+      "aliases": [
+        "SBI Card",
+        "SBI Cards"
+      ]
+    },
+    {
+      "symbol": "LICHSGFIN",
+      "name": "LIC Housing Finance",
+      "aliases": [
+        "LIC Housing Finance",
+        "LIC Housing"
+      ]
+    },
+    {
+      "symbol": "ICICIPRULI",
+      "name": "ICICI Prudential Life",
+      "aliases": [
+        "ICICI Prudential",
+        "ICICI Pru Life"
+      ]
+    },
+    {
+      "symbol": "MAXHEALTH",
+      "name": "Max Healthcare",
+      "aliases": [
+        "Max Healthcare"
+      ]
+    },
+    {
+      "symbol": "METROPOLIS",
+      "name": "Metropolis Healthcare",
+      "aliases": [
+        "Metropolis Healthcare",
+        "Metropolis"
+      ]
+    },
+    {
+      "symbol": "LALPATHLAB",
+      "name": "Dr. Lal PathLabs",
+      "aliases": [
+        "Dr Lal PathLabs",
+        "Lal PathLabs"
+      ]
+    },
+    {
+      "symbol": "GUJGASLTD",
+      "name": "Gujarat Gas",
+      "aliases": [
+        "Gujarat Gas"
+      ]
+    },
+    {
+      "symbol": "MGL",
+      "name": "Mahanagar Gas",
+      "aliases": [
+        "Mahanagar Gas",
+        "MGL"
+      ]
+    },
+    {
+      "symbol": "IGL",
+      "name": "Indraprastha Gas",
+      "aliases": [
+        "Indraprastha Gas",
+        "IGL"
+      ]
+    },
+    {
+      "symbol": "ATGL",
+      "name": "Adani Total Gas",
+      "aliases": [
+        "Adani Total Gas"
+      ]
+    },
+    {
+      "symbol": "GODREJCP",
+      "name": "Godrej Consumer Products",
+      "aliases": [
+        "Godrej Consumer",
+        "Godrej CP"
+      ]
+    },
+    {
+      "symbol": "DABUR",
+      "name": "Dabur India",
+      "aliases": [
+        "Dabur"
+      ]
+    },
+    {
+      "symbol": "MARICO",
+      "name": "Marico Limited",
+      "aliases": [
+        "Marico"
+      ]
+    },
+    {
+      "symbol": "COLPAL",
+      "name": "Colgate-Palmolive India",
+      "aliases": [
+        "Colgate-Palmolive",
+        "Colgate"
+      ]
+    },
+    {
+      "symbol": "MCDOWELL-N",
+      "name": "United Spirits",
+      "aliases": [
+        "United Spirits",
+        "McDowell"
+      ]
+    },
+    {
+      "symbol": "RADICO",
+      "name": "Radico Khaitan",
+      "aliases": [
+        "Radico Khaitan"
+      ]
+    },
+    {
+      "symbol": "TATAELXSI",
+      "name": "Tata Elxsi",
+      "aliases": [
+        "Tata Elxsi"
+      ]
+    },
+    {
+      "symbol": "KPITTECH",
+      "name": "KPIT Technologies",
+      "aliases": [
+        "KPIT Technologies",
+        "KPIT"
+      ]
+    },
+    {
+      "symbol": "OFSS",
+      "name": "Oracle Financial Services",
+      "aliases": [
+        "Oracle Financial Services",
+        "OFSS"
+      ]
+    },
+    {
+      "symbol": "PAGEIND",
+      "name": "Page Industries",
+      "aliases": [
+        "Page Industries"
+      ]
+    },
+    {
+      "symbol": "RAYMOND",
+      "name": "Raymond Limited",
+      "aliases": [
+        "Raymond"
+      ]
+    },
+    {
+      "symbol": "SONACOMS",
+      "name": "Sona BLW Precision",
+      "aliases": [
+        "Sona Comstar",
+        "Sona BLW"
+      ]
+    },
+    {
+      "symbol": "UNOMINDA",
+      "name": "Uno Minda",
+      "aliases": [
+        "Uno Minda"
+      ]
+    },
+    {
+      "symbol": "GMRINFRA",
+      "name": "GMR Airports Infrastructure",
+      "aliases": [
+        "GMR Airports",
+        "GMR Infra"
+      ]
+    },
+    {
+      "symbol": "IDEA",
+      "name": "Vodafone Idea",
+      "aliases": [
+        "Vodafone Idea",
+        "VI",
+        "Idea"
+      ]
+    },
+    {
+      "symbol": "INDUSTOWER",
+      "name": "Indus Towers",
+      "aliases": [
+        "Indus Towers"
+      ]
+    },
+    {
+      "symbol": "SAIL",
+      "name": "Steel Authority of India",
+      "aliases": [
+        "SAIL",
+        "Steel Authority of India"
+      ]
+    },
+    {
+      "symbol": "NMDC",
+      "name": "NMDC Limited",
+      "aliases": [
+        "NMDC"
+      ]
+    },
+    {
+      "symbol": "HINDCOPPER",
+      "name": "Hindustan Copper",
+      "aliases": [
+        "Hindustan Copper"
+      ]
+    },
+    {
+      "symbol": "NATIONALUM",
+      "name": "National Aluminium",
+      "aliases": [
+        "NALCO",
+        "National Aluminium"
+      ]
+    },
+    {
+      "symbol": "CHAMBLFERT",
+      "name": "Chambal Fertilisers",
+      "aliases": [
+        "Chambal Fertilisers",
+        "Chambal Fertilizer"
+      ]
+    },
+    {
+      "symbol": "GNFC",
+      "name": "Gujarat Narmada Valley",
+      "aliases": [
+        "GNFC"
+      ]
+    },
+    {
+      "symbol": "COROMANDEL",
+      "name": "Coromandel International",
+      "aliases": [
+        "Coromandel International"
+      ]
+    },
+    {
+      "symbol": "AARTIIND",
+      "name": "Aarti Industries",
+      "aliases": [
+        "Aarti Industries"
+      ]
+    },
+    {
+      "symbol": "ATUL",
+      "name": "Atul Limited",
+      "aliases": [
+        "Atul Limited",
+        "Atul"
+      ]
+    },
+    {
+      "symbol": "PIIND",
+      "name": "PI Industries",
+      "aliases": [
+        "PI Industries"
+      ]
+    },
+    {
+      "symbol": "SRF",
+      "name": "SRF Limited",
+      "aliases": [
+        "SRF Limited",
+        "SRF"
+      ]
+    },
+    {
+      "symbol": "NAVINFLUOR",
+      "name": "Navin Fluorine",
+      "aliases": [
+        "Navin Fluorine"
+      ]
+    },
+    {
+      "symbol": "EXIDEIND",
+      "name": "Exide Industries",
+      "aliases": [
+        "Exide Industries",
+        "Exide"
+      ]
+    },
+    {
+      "symbol": "AMARARAJABAT",
+      "name": "Amara Raja Energy",
+      "aliases": [
+        "Amara Raja",
+        "Amara Raja Batteries"
+      ]
+    },
+    {
+      "symbol": "CENTURYTEX",
+      "name": "Century Textiles",
+      "aliases": [
+        "Century Textiles"
+      ]
+    },
+    {
+      "symbol": "KEI",
+      "name": "KEI Industries",
+      "aliases": [
+        "KEI Industries"
+      ]
+    },
+    {
+      "symbol": "BALRAMCHIN",
+      "name": "Balrampur Chini Mills",
+      "aliases": [
+        "Balrampur Chini"
+      ]
+    },
+    {
+      "symbol": "TRIVENI",
+      "name": "Triveni Engineering",
+      "aliases": [
+        "Triveni Engineering"
+      ]
+    },
+    {
+      "symbol": "DELTACORP",
+      "name": "Delta Corp",
+      "aliases": [
+        "Delta Corp"
+      ]
+    },
+    {
+      "symbol": "PVRINOX",
+      "name": "PVR INOX",
+      "aliases": [
+        "PVR INOX",
+        "PVR",
+        "Inox"
+      ]
+    },
+    {
+      "symbol": "ZEEL",
+      "name": "Zee Entertainment",
+      "aliases": [
+        "Zee Entertainment",
+        "ZEEL",
+        "Zee Ent"
+      ]
+    },
+    {
+      "symbol": "SUNDARMFIN",
+      "name": "Sundaram Finance",
+      "aliases": [
+        "Sundaram Finance"
+      ]
+    },
+    {
+      "symbol": "CITYUNIONB",
+      "name": "City Union Bank",
+      "aliases": [
+        "City Union Bank",
+        "CUB"
+      ]
+    },
+    {
+      "symbol": "RBLBANK",
+      "name": "RBL Bank",
+      "aliases": [
+        "RBL Bank"
+      ]
+    },
+    {
+      "symbol": "IDFC",
+      "name": "IDFC Limited",
+      "aliases": [
+        "IDFC Limited"
+      ]
+    },
+    {
+      "symbol": "PEL",
+      "name": "Piramal Enterprises",
+      "aliases": [
+        "Piramal Enterprises",
+        "Piramal"
+      ]
+    },
+    {
+      "symbol": "OBEROIRLTY",
+      "name": "Oberoi Realty",
+      "aliases": [
+        "Oberoi Realty"
+      ]
+    },
+    {
+      "symbol": "PHOENIXLTD",
+      "name": "Phoenix Mills",
+      "aliases": [
+        "Phoenix Mills"
+      ]
+    },
+    {
+      "symbol": "ALKEM",
+      "name": "Alkem Laboratories",
+      "aliases": [
+        "Alkem Laboratories",
+        "Alkem"
+      ]
+    },
+    {
+      "symbol": "IPCALAB",
+      "name": "IPCA Laboratories",
+      "aliases": [
+        "IPCA Labs",
+        "IPCA Laboratories"
+      ]
+    },
+    {
+      "symbol": "INDIAMART",
+      "name": "IndiaMART InterMESH",
+      "aliases": [
+        "IndiaMART"
+      ]
+    },
+    {
+      "symbol": "NAUKRI",
+      "name": "Info Edge",
+      "aliases": [
+        "Info Edge",
+        "Naukri"
+      ]
+    },
+    {
+      "symbol": "MAPMYINDIA",
+      "name": "CE Info Systems",
+      "aliases": [
+        "MapmyIndia"
+      ]
+    },
+    {
+      "symbol": "POLICYBZR",
+      "name": "PB Fintech",
+      "aliases": [
+        "Policybazaar",
+        "PB Fintech"
+      ]
+    },
+    {
+      "symbol": "FIRSTSOURCE",
+      "name": "Firstsource Solutions",
+      "aliases": [
+        "Firstsource"
+      ]
+    },
+    {
+      "symbol": "NYKAA",
+      "name": "FSN E-Commerce Ventures",
+      "aliases": [
+        "Nykaa",
+        "FSN E-Commerce"
+      ]
+    },
+    {
+      "symbol": "DELHIVERY",
+      "name": "Delhivery Limited",
+      "aliases": [
+        "Delhivery"
+      ]
+    },
+    {
+      "symbol": "PAYTM",
+      "name": "One97 Communications",
+      "aliases": [
+        "Paytm",
+        "One97"
+      ]
+    },
+    {
+      "symbol": "ZOMATO",
+      "name": "Zomato Limited",
+      "aliases": [
+        "Zomato"
+      ]
+    },
+    {
+      "symbol": "ANGELONE",
+      "name": "Angel One",
+      "aliases": [
+        "Angel One",
+        "Angel Broking"
+      ]
+    },
+    {
+      "symbol": "CDSL",
+      "name": "Central Depository Services",
+      "aliases": [
+        "CDSL"
+      ]
+    },
+    {
+      "symbol": "BSE",
+      "name": "BSE Limited",
+      "aliases": [
+        "BSE Limited"
+      ]
+    },
+    {
+      "symbol": "MCX",
+      "name": "Multi Commodity Exchange",
+      "aliases": [
+        "MCX",
+        "Multi Commodity Exchange"
+      ]
+    },
+    {
+      "symbol": "HUDCO",
+      "name": "Housing & Urban Development Corp",
+      "aliases": [
+        "HUDCO"
+      ]
+    },
+    {
+      "symbol": "IREDA",
+      "name": "Indian Renewable Energy Dev",
+      "aliases": [
+        "IREDA"
+      ]
+    },
+    {
+      "symbol": "RVNL",
+      "name": "Rail Vikas Nigam",
+      "aliases": [
+        "RVNL",
+        "Rail Vikas"
+      ]
+    },
+    {
+      "symbol": "IRFC",
+      "name": "Indian Railway Finance Corp",
+      "aliases": [
+        "IRFC"
+      ]
+    },
+    {
+      "symbol": "MAZDOCK",
+      "name": "Mazagon Dock Shipbuilders",
+      "aliases": [
+        "Mazagon Dock",
+        "MAZDOCK"
+      ]
+    },
+    {
+      "symbol": "COCHINSHIP",
+      "name": "Cochin Shipyard",
+      "aliases": [
+        "Cochin Shipyard"
+      ]
+    },
+    {
+      "symbol": "BDL",
+      "name": "Bharat Dynamics",
+      "aliases": [
+        "Bharat Dynamics",
+        "BDL"
+      ]
+    },
+    {
+      "symbol": "SOLARINDS",
+      "name": "Solar Industries India",
+      "aliases": [
+        "Solar Industries"
+      ]
+    },
+    {
+      "symbol": "TATAINVEST",
+      "name": "Tata Investment Corporation",
+      "aliases": [
+        "Tata Investment"
+      ]
+    },
+    {
+      "symbol": "SUZLON",
+      "name": "Suzlon Energy",
+      "aliases": [
+        "Suzlon"
+      ]
+    },
+    {
+      "symbol": "NHPC",
+      "name": "NHPC Limited",
+      "aliases": [
+        "NHPC"
+      ]
+    },
+    {
+      "symbol": "SJVN",
+      "name": "SJVN Limited",
+      "aliases": [
+        "SJVN"
+      ]
+    },
+    {
+      "symbol": "OIL",
+      "name": "Oil India Limited",
+      "aliases": [
+        "Oil India"
+      ]
+    },
+    {
+      "symbol": "HINDPETRO",
+      "name": "Hindustan Petroleum Corporation",
+      "aliases": [
+        "HPCL",
+        "Hindustan Petroleum"
+      ]
+    },
+    {
+      "symbol": "LIC",
+      "name": "Life Insurance Corp of India",
+      "aliases": [
+        "LIC of India",
+        "LIC"
+      ]
+    },
+    {
+      "symbol": "JIOFIN",
+      "name": "Jio Financial Services",
+      "aliases": [
+        "Jio Financial",
+        "JioFin"
+      ]
+    }
+  ]
+}
