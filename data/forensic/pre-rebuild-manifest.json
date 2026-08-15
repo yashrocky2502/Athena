@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-08-15T06:28:54.082Z",
+  "files": [
+    {
+      "file": "data/news_core_v2.json",
+      "articleCount": 1195,
+      "fileHash": "65ca52db7c74ca91d32ced5b194e3819a3cfc49e0e689d06a711fed1003199d7",
+      "fileSize": 3613347
+    },
+    {
+      "file": "data/news_intelligence_v2.json",
+      "articleCount": 1267,
+      "fileHash": "ee34b1af7e55189bc7d6ad490943cef2c4b26bf936ff1df45bf78ac1a47fe304",
+      "fileSize": 4059427
+    },
+    {
+      "file": "data/v3_news_store.json",
+      "articleCount": 722,
+      "fileHash": "4891ff43e6155e859de6023b8f4b0f4bb7580abcb8a54872beda1c76c12e4e4e",
+      "fileSize": 84787570
+    },
+    {
+      "file": "data/news_core_v2.json.bak",
+      "articleCount": 1193,
+      "fileHash": "fa0a120c4ad203c2130ab46e12b629903d6c38c232251b31ee38fead169cd2c0",
+      "fileSize": 3605750
+    }
+  ]
+}
