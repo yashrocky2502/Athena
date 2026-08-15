@@ -35,7 +35,7 @@ async function testTrace() {
   console.log(`   F&O Result: Eligible=${freshArticle.fno.eligible}, Symbol=${freshArticle.fno.symbol}`);
 
   console.log(`2. Ingesting article to Store...`);
-  const saved = newsStore.saveArticles([freshArticle as any]);
+  const saved = await newsStore.saveArticles([freshArticle as any]);
   console.log(`3. Persisted to Store: ${saved.length === 1 ? 'SUCCESS' : 'FAILED'}`);
 
   const storeArt = newsStore.getAllArticles().find(a => a.id === freshArticleId);

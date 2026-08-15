@@ -289,8 +289,8 @@ export async function runPhase24_3RegressionSuite(): Promise<{ success: boolean;
 
     const countBefore = newsStore.getAllArticles().length;
     const norm = NewsNormalizer.normalizeArticle(raw);
-    const save1 = newsStore.saveArticles([norm]);
-    const save2 = newsStore.saveArticles([norm]);
+    const save1 = await newsStore.saveArticles([norm]);
+    const save2 = await newsStore.saveArticles([norm]);
     const countAfter = newsStore.getAllArticles().length;
 
     assert(save1.length === 1 && save2.length === 0 && (countAfter - countBefore === 1), "Duplicate RSS ingestion canonical deduplication prevents duplicate storage and pipeline delivery");

@@ -54,16 +54,24 @@ export class IntelligenceStore {
     }
   }
 
+  private saveTimeout: NodeJS.Timeout | null = null;
+
   public saveToDisk(): void {
-    try {
-      this.ensureDirectoryExists();
-      const records = Array.from(this.cache.values());
-      const tempPath = `${this.filePath}.tmp`;
-      fs.writeFileSync(tempPath, JSON.stringify(records.slice(0, 1500), null, 2), "utf-8");
-      fs.renameSync(tempPath, this.filePath);
-    } catch (err: any) {
-      console.error("[IntelligenceStore] Save error:", err?.message);
-    }
+    if (this.saveTimeout) return;
+    
+    this.saveTimeout = setTimeout(() => {
+      try {
+        this.ensureDirectoryExists();
+        const records = Array.from(this.cache.values());
+        const tempPath = `${this.filePath}.tmp`;
+        fs.writeFileSync(tempPath, JSON.stringify(records.slice(0, 3000), null, 2), "utf-8");
+        fs.renameSync(tempPath, this.filePath);
+      } catch (err: any) {
+        console.error("[IntelligenceStore] Save error:", err?.message);
+      } finally {
+        this.saveTimeout = null;
+      }
+    }, 1000); // Debounce saves by 1 second
   }
 
   public get(articleId: string, version: string = this.version): IntelligenceRecord | null {

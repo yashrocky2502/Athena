@@ -4,21 +4,21 @@ import path from 'path';
 
 const dataDir = path.join(process.cwd(), 'data');
 
-function getLegacyIds() {
+function getLegacyIds(): Set<string> {
     const data = JSON.parse(fs.readFileSync(path.join(dataDir, 'news_core_v2.json'), 'utf-8'));
-    return new Set(data.map((a: any) => a.id));
+    return new Set(data.map((a: any) => a.id as string));
 }
 
-function getV3Ids() {
+function getV3Ids(): Set<string> {
     const data = JSON.parse(fs.readFileSync(path.join(dataDir, 'v3_news_store.json'), 'utf-8'));
     // V3 store has 'storiesMap' which is an object of story objects
     return new Set(Object.keys(data.storiesMap));
 }
 
-function getIntelligenceIds() {
+function getIntelligenceIds(): Set<string> {
     const data = JSON.parse(fs.readFileSync(path.join(dataDir, 'news_intelligence_v2.json'), 'utf-8'));
     // Intelligence records have 'articleId'
-    return new Set(data.map((r: any) => r.articleId));
+    return new Set(data.map((r: any) => r.articleId as string));
 }
 
 const legacyIds = getLegacyIds();

@@ -34,9 +34,9 @@ function normalize(art: any, type: 'legacy' | 'v3' | 'intel') {
     }
 }
 
-const legacyMap = new Map(legacyRaw.map((a: any) => [a.id, normalize(a, 'legacy')]));
-const intelMap = new Map(intelRaw.map((a: any) => [a.articleId, normalize(a, 'intel')]));
-const v3Map = new Map(Object.values(v3Raw.storiesMap).map((a: any) => [a.storyId, normalize(a, 'v3')]));
+const legacyMap = new Map<string, any>(legacyRaw.map((a: any) => [a.id, normalize(a, 'legacy')]));
+const intelMap = new Map<string, any>(intelRaw.map((a: any) => [a.articleId, normalize(a, 'intel')]));
+const v3Map = new Map<string, any>(Object.values(v3Raw.storiesMap).map((a: any) => [a.storyId, normalize(a, 'v3')]));
 
 // 1. Classification of Intelligence-only (74 records identified earlier)
 const intelOnlyIds = [...intelMap.keys()].filter(id => !legacyMap.has(id) && !v3Map.has(id));
@@ -44,8 +44,8 @@ console.log('--- Intelligence-Only (74 IDs) Analysis ---');
 intelOnlyIds.forEach(id => {
     const intel = intelMap.get(id);
     // Match against Legacy/V3 using normalized URL/headline
-    const matchLegacy = [...legacyMap.values()].find(a => a.url === intel!.url || a.headline === intel!.headline);
-    const matchV3 = [...v3Map.values()].find(a => a.url === intel!.url || a.headline === intel!.headline);
+    const matchLegacy = [...legacyMap.values()].find((a: any) => a.url === intel!.url || a.headline === intel!.headline);
+    const matchV3 = [...v3Map.values()].find((a: any) => a.url === intel!.url || a.headline === intel!.headline);
     
     console.log(`ID: ${id}, URL: ${intel!.url}, MatchLegacy: ${!!matchLegacy}, MatchV3: ${!!matchV3}`);
 });
@@ -58,9 +58,9 @@ legacyOnlyIds.forEach(id => console.log('Legacy-Only ID:', id));
 // 3. V3 Cross-store analysis (zero ID overlap)
 console.log('\n--- V3 Cross-Store Analysis ---');
 let v3Matched = 0;
-for(const v3Art of v3Map.values()) {
-    const matchLegacy = [...legacyMap.values()].find(a => a.url === v3Art.url || a.headline === v3Art.headline);
-    const matchIntel = [...intelMap.values()].find(a => a.url === v3Art.url || a.headline === v3Art.headline);
+for(const v3Art of Array.from(v3Map.values()) as any[]) {
+    const matchLegacy = [...legacyMap.values()].find((a: any) => a.url === v3Art.url || a.headline === v3Art.headline);
+    const matchIntel = [...intelMap.values()].find((a: any) => a.url === v3Art.url || a.headline === v3Art.headline);
     if(matchLegacy || matchIntel) v3Matched++;
 }
 console.log('V3 articles matched by URL/headline:', v3Matched, 'out of', v3Map.size);

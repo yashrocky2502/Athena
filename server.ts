@@ -248,6 +248,23 @@ app.use((req, res, next) => {
   next();
 });
 
+// Express Middleware: Intercept res.json to safely sanitize circular structure errors automatically
+app.use((req, res, next) => {
+  const originalJson = res.json.bind(res);
+  res.json = function (body: any) {
+    try {
+      return originalJson(body);
+    } catch (err: any) {
+      if (err?.message?.includes('circular')) {
+        console.warn('[Express Middleware] Converting circular structure caught and sanitized:', req.originalUrl || req.url);
+        return originalJson(removeCircular(body));
+      }
+      throw err;
+    }
+  };
+  next();
+});
+
 // Internally rewrite /api/v3/news/stream to /api/v2/news/stream to bypass router wildcards
 app.use((req, res, next) => {
   if (req.url === "/api/v3/news/stream") {
@@ -268,23 +285,6 @@ app.use(["/api/v2/news", "/api/v3/news", "/api/v2/news/*", "/api/v3/news/*"], (r
 
 app.use("/api/v3", v3Router);
 app.use("/api/v4/news", newsCoreV2Router);
-
-// Express Middleware: Intercept res.json to safely sanitize circular structure errors automatically
-app.use((req, res, next) => {
-  const originalJson = res.json.bind(res);
-  res.json = function (body: any) {
-    try {
-      return originalJson(body);
-    } catch (err: any) {
-      if (err?.message?.includes('circular')) {
-        console.warn('[Express Middleware] Converting circular structure caught and sanitized:', req.originalUrl || req.url);
-        return originalJson(removeCircular(body));
-      }
-      throw err;
-    }
-  };
-  next();
-});
 
 // Initialize Gemini Client
 const apiKey = process.env.GEMINI_API_KEY;
