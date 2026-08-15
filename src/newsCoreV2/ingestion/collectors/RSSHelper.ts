@@ -7,7 +7,7 @@ export class RSSHelper {
   public static async fetchAndParseRSS(
     feedUrl: string,
     publisherName: string,
-    timeoutMs = 7500,
+    timeoutMs = 15000,
     fallbackUrls: string[] = []
   ): Promise<RawNewsItem[]> {
     const urlsToTry = [feedUrl, ...fallbackUrls];

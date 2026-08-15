@@ -10,7 +10,7 @@ export class PIBCollector implements NewsCollector {
       "https://pib.gov.in/RssMain.aspx?ModId=6",
       "https://pib.gov.in/RssMain.aspx?ModId=1"
     ];
-    return await RSSHelper.fetchAndParseRSS(primaryUrl, "Press Information Bureau", 7500, fallbackUrls);
+    return await RSSHelper.fetchAndParseRSS(primaryUrl, "Press Information Bureau", 15000, fallbackUrls);
   }
 }
 
@@ -19,7 +19,7 @@ export class RBICollector implements NewsCollector {
 
   public async collect(): Promise<RawNewsItem[]> {
     const url = "https://news.google.com/rss/search?q=site:rbi.org.in+OR+%22Reserve+Bank+of+India%22&hl=en-IN&gl=IN&ceid=IN:en";
-    return await RSSHelper.fetchAndParseRSS(url, "RBI", 7500);
+    return await RSSHelper.fetchAndParseRSS(url, "RBI", 15000);
   }
 }
 
@@ -32,7 +32,7 @@ export class SEBICollector implements NewsCollector {
       "https://www.sebi.gov.in/sebirss.xml",
       "https://news.google.com/rss/search?q=SEBI+circular+OR+press+release+India&hl=en-IN&gl=IN&ceid=IN:en"
     ];
-    return await RSSHelper.fetchAndParseRSS(primaryUrl, "SEBI", 7500, fallbackUrls);
+    return await RSSHelper.fetchAndParseRSS(primaryUrl, "SEBI", 15000, fallbackUrls);
   }
 }
 
