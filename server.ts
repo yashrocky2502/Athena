@@ -35,6 +35,7 @@ import dotenv from "dotenv";
 import { runTelegramRegressionSuite } from "./src/tests/telegramIntegrationRegression.ts";
 import { runLiveDatasetAudit } from "./src/tests/telegramLiveAudit.ts";
 import { newsCoreV2Router } from "./src/newsCoreV2/api/newsCoreV2Routes.ts";
+import { newsV5Router } from "./src/news/api/newsV5Routes.ts";
 import { newsSyncService } from "./src/newsCoreV2/sync/NewsSyncService.ts";
 
 import { getStories, addStory, updateStoryStatus, deleteStory } from "./src/lib/storyEngine.ts";
@@ -285,6 +286,7 @@ app.use(["/api/v2/news", "/api/v3/news", "/api/v2/news/*", "/api/v3/news/*"], (r
 
 app.use("/api/v3", v3Router);
 app.use("/api/v4/news", newsCoreV2Router);
+app.use("/api/v5/news", newsV5Router);
 
 // Initialize Gemini Client
 const apiKey = process.env.GEMINI_API_KEY;

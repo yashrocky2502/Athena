@@ -178,7 +178,9 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     try {
       setLifecycleState('SYNCING');
 
-      const url = `/api/v4/news/feed?page=${pageToLoad}&limit=50&category=${encodeURIComponent(categoryToLoad)}`;
+      const isV3Enabled = (import.meta as any).env?.VITE_NEWS_CORE_V3_ENABLED === 'true';
+      const feedBaseUrl = isV3Enabled ? '/api/v5/news/feed' : '/api/v4/news/feed';
+      const url = `${feedBaseUrl}?page=${pageToLoad}&limit=50&category=${encodeURIComponent(categoryToLoad)}`;
       const feedRes = await fetch(url, { signal: controller.signal });
 
       clearTimeout(timeoutId);
