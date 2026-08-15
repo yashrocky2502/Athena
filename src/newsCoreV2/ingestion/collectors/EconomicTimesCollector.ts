@@ -14,7 +14,7 @@ export class EconomicTimesCollector implements NewsCollector {
     ];
 
     const results: RawNewsItem[] = [];
-    const promises = urls.map((url) => RSSHelper.fetchAndParseRSS(url, "Economic Times", 7500, fallbacks));
+    const promises = urls.map((url) => RSSHelper.fetchAndParseRSS(url, "Economic Times", 12000, fallbacks));
     const settlements = await Promise.allSettled(promises);
     for (const res of settlements) {
       if (res.status === "fulfilled" && Array.isArray(res.value)) {

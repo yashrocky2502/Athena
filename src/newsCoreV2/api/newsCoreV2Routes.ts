@@ -287,6 +287,7 @@ import { Phase23_5_FeedIntegrityRegression } from "../tests/Phase23_5_FeedIntegr
 import { Phase23_5_C_RuntimeIntegrityRegression } from "../tests/Phase23_5_C_RuntimeIntegrityRegression.ts";
 import { Phase23_5_D_ForensicAudit } from "../tests/Phase23_5_D_ForensicAudit.ts";
 import { Phase23_5_E_StateArchitectureRegression } from "../tests/Phase23_5_E_StateArchitectureRegression.ts";
+import { Phase23_5_F_ConcurrencyRegression } from "../tests/Phase23_5_F_ConcurrencyRegression.ts";
 
 /**
  * GET /api/v4/news/regression
@@ -298,12 +299,14 @@ newsCoreV2Router.get("/regression", async (req: Request, res: Response) => {
     const phase235CReport = await Phase23_5_C_RuntimeIntegrityRegression.runSuite();
     const phase235DReport = await Phase23_5_D_ForensicAudit.runSuite();
     const phase235EReport = await Phase23_5_E_StateArchitectureRegression.runSuite();
+    const phase235FReport = await Phase23_5_F_ConcurrencyRegression.runSuite();
     res.json({
       ...report,
       phase23_5: phase235Report,
       phase23_5_c: phase235CReport,
       phase23_5_d: phase235DReport,
-      phase23_5_e: phase235EReport
+      phase23_5_e: phase235EReport,
+      phase23_5_f: phase235FReport
     });
   } catch (err: any) {
     res.status(500).json({
@@ -357,6 +360,18 @@ newsCoreV2Router.get("/regression-23-5-e", async (req: Request, res: Response) =
     res.status(500).json({
       status: "error",
       message: err.message || "Phase 23.5-E state architecture regression execution failed"
+    });
+  }
+});
+
+newsCoreV2Router.get("/regression-23-5-f", async (req: Request, res: Response) => {
+  try {
+    const report = await Phase23_5_F_ConcurrencyRegression.runSuite();
+    res.json(report);
+  } catch (err: any) {
+    res.status(500).json({
+      status: "error",
+      message: err.message || "Phase 23.5-F concurrency regression execution failed"
     });
   }
 });

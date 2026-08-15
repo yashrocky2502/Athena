@@ -95,7 +95,8 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
   const [syncNotification, setSyncNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const lastSeenServerSyncRef = useRef<string | null>(null);
-  const feedAbortControllerRef = useRef<AbortController | null>(null);
+  const feedAbortControllersRef = useRef<Record<string, AbortController>>({});
+  const categoryRequestGenerationRef = useRef<Record<string, number>>({});
 
   // Article Reader Modal State
   const [activeArticle, setActiveArticle] = useState<any | null>(null);
@@ -148,25 +149,28 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
 
   // Primary V2 Category-Isolated News Feed Loader
   const loadNewsFeed = async (pageToLoad = 1, categoryToLoad = selectedCategory, append = false) => {
-    const currentGen = (categoryFeeds[categoryToLoad]?.requestGeneration || 0) + 1;
+    if (!categoryRequestGenerationRef.current[categoryToLoad]) {
+      categoryRequestGenerationRef.current[categoryToLoad] = 0;
+    }
+    const requestGeneration = ++categoryRequestGenerationRef.current[categoryToLoad];
 
     setCategoryFeeds(prev => ({
       ...prev,
       [categoryToLoad]: {
         ...(prev[categoryToLoad] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: true, error: null, lastFetchedAt: null, requestGeneration: 0 }),
-        requestGeneration: currentGen,
+        requestGeneration,
         loading: !append
       }
     }));
 
-    if (feedAbortControllerRef.current) {
-      feedAbortControllerRef.current.abort();
+    if (feedAbortControllersRef.current[categoryToLoad]) {
+      feedAbortControllersRef.current[categoryToLoad].abort();
     }
 
     const controller = new AbortController();
-    feedAbortControllerRef.current = controller;
+    feedAbortControllersRef.current[categoryToLoad] = controller;
     const timeoutId = setTimeout(() => {
-      if (feedAbortControllerRef.current === controller) {
+      if (feedAbortControllersRef.current[categoryToLoad] === controller) {
         controller.abort();
       }
     }, 30000); // 30s timeout
@@ -179,8 +183,8 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
 
       clearTimeout(timeoutId);
 
-      if (categoryToLoad !== selectedCategoryRef.current) {
-        return; // Discard obsolete response for inactive tab
+      if (categoryToLoad !== selectedCategoryRef.current || requestGeneration !== categoryRequestGenerationRef.current[categoryToLoad]) {
+        return; // Discard obsolete response
       }
 
       if (!feedRes.ok) {
@@ -189,7 +193,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
 
       const feedData = await feedRes.json();
 
-      if (categoryToLoad !== selectedCategoryRef.current) {
+      if (categoryToLoad !== selectedCategoryRef.current || requestGeneration !== categoryRequestGenerationRef.current[categoryToLoad]) {
         return;
       }
 
@@ -202,8 +206,15 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           return; // Reject contaminated response
         }
 
+        if (categoryToLoad !== selectedCategoryRef.current || requestGeneration !== categoryRequestGenerationRef.current[categoryToLoad]) {
+          return;
+        }
+
         setCategoryFeeds(prev => {
-          const existing = prev[categoryToLoad] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration: currentGen };
+          if (categoryToLoad !== selectedCategoryRef.current || requestGeneration !== categoryRequestGenerationRef.current[categoryToLoad]) {
+            return prev;
+          }
+          const existing = prev[categoryToLoad] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration };
           const newList = append ? [...existing.articles, ...feedList] : feedList;
           const seen = new Set();
           const uniqueArticles = newList.filter(item => {
@@ -223,7 +234,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
               loading: false,
               error: null,
               lastFetchedAt: Date.now(),
-              requestGeneration: currentGen
+              requestGeneration
             }
           };
         });
@@ -238,13 +249,26 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
         setLastSuccessfulAutoSyncAt(nowStr);
         safeLocalStorage.setItem('athena_last_successful_auto_sync', nowStr);
 
-        // Category-scoped snapshot cache
+        if (categoryToLoad !== selectedCategoryRef.current || requestGeneration !== categoryRequestGenerationRef.current[categoryToLoad]) {
+          return;
+        }
+
+        // Pagination cache integrity: accumulated locally known feed
+        const existingArticlesForCache = append ? (categoryFeeds[categoryToLoad]?.articles || []) : [];
+        const combinedCacheList = append ? [...existingArticlesForCache, ...feedList] : feedList;
+        const seenCache = new Set();
+        const accumulatedCacheArticles = combinedCacheList.filter(item => {
+          if (seenCache.has(item.id)) return false;
+          seenCache.add(item.id);
+          return true;
+        });
+
         safeLocalStorage.setItem(`athena.newsFeed.v2.snapshot.v2.${categoryToLoad}`, JSON.stringify({
           category: categoryToLoad,
-          articles: feedList,
+          articles: accumulatedCacheArticles,
           page: feedData.page || pageToLoad,
           totalPages: feedData.totalPages || 1,
-          totalCount: feedData.totalCount || feedList.length,
+          totalCount: feedData.totalCount || accumulatedCacheArticles.length,
           savedAt: nowStr
         }));
       } else {
@@ -256,19 +280,22 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
       if (isAborted) {
         return;
       }
+      if (categoryToLoad !== selectedCategoryRef.current || requestGeneration !== categoryRequestGenerationRef.current[categoryToLoad]) {
+        return;
+      }
       console.error("[NewsPage] News Core V2 Feed error:", err);
       setLifecycleState('FAILED');
       setCategoryFeeds(prev => ({
         ...prev,
         [categoryToLoad]: {
-          ...(prev[categoryToLoad] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration: currentGen }),
+          ...(prev[categoryToLoad] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration }),
           loading: false,
           error: err.message || 'Failed to connect to News Core V2'
         }
       }));
     } finally {
-      if (feedAbortControllerRef.current === controller) {
-        feedAbortControllerRef.current = null;
+      if (feedAbortControllersRef.current[categoryToLoad] === controller) {
+        delete feedAbortControllersRef.current[categoryToLoad];
       }
     }
   };
@@ -360,7 +387,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     return () => clearInterval(interval);
   }, []);
 
-  // Instant Category-Scoped Startup Hydration
+  // Instant Category-Scoped Startup Hydration with Strict Cache Validation
   useEffect(() => {
     const hydrateCache = () => {
       setLifecycleState('HYDRATING_CACHE');
@@ -369,17 +396,26 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
         if (cachedStr) {
           const parsed = JSON.parse(cachedStr);
           if (parsed && parsed.category === selectedCategory && Array.isArray(parsed.articles)) {
-            setCategoryFeeds(prev => ({
-              ...prev,
-              [selectedCategory]: {
-                ...(prev[selectedCategory] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration: 0 }),
-                articles: parsed.articles,
-                page: parsed.page || 1,
-                totalPages: parsed.totalPages || 1,
-                totalCount: parsed.totalCount || parsed.articles.length,
-                loading: false
-              }
-            }));
+            const integrity = assertCanonicalFeedIntegrity(parsed.articles, selectedCategory);
+            const hasUniqueIds = new Set(parsed.articles.map((a: any) => a.id)).size === parsed.articles.length;
+            const hasSanePagination = typeof parsed.page === 'number' && typeof parsed.totalPages === 'number' && typeof parsed.totalCount === 'number';
+
+            if (integrity.valid && hasUniqueIds && hasSanePagination) {
+              setCategoryFeeds(prev => ({
+                ...prev,
+                [selectedCategory]: {
+                  ...(prev[selectedCategory] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration: 0 }),
+                  articles: parsed.articles,
+                  page: parsed.page || 1,
+                  totalPages: parsed.totalPages || 1,
+                  totalCount: parsed.totalCount || parsed.articles.length,
+                  loading: false
+                }
+              }));
+            } else {
+              console.warn(`[NewsPage] Discarding invalid/contaminated cache snapshot for ${selectedCategory}`);
+              safeLocalStorage.removeItem(`athena.newsFeed.v2.snapshot.v2.${selectedCategory}`);
+            }
           }
         }
       } catch (e) {
@@ -391,9 +427,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     hydrateCache();
 
     return () => {
-      if (feedAbortControllerRef.current) {
-        feedAbortControllerRef.current.abort();
-      }
+      Object.values(feedAbortControllersRef.current).forEach(c => (c as AbortController).abort());
     };
   }, [selectedCategory]);
 

@@ -9,6 +9,6 @@ export class MoneycontrolCollector implements NewsCollector {
     const fallbackUrls = [
       "https://www.moneycontrol.com/rss/MCtopnews.xml"
     ];
-    return await RSSHelper.fetchAndParseRSS(primaryUrl, "Moneycontrol", 7500, fallbackUrls);
+    return await RSSHelper.fetchAndParseRSS(primaryUrl, "Moneycontrol", 12000, fallbackUrls);
   }
 }

@@ -9,6 +9,6 @@ export class LiveMintCollector implements NewsCollector {
     const fallbackUrls = [
       "https://news.google.com/rss/search?q=site:livemint.com+markets&hl=en-IN&gl=IN&ceid=IN:en"
     ];
-    return await RSSHelper.fetchAndParseRSS(primaryUrl, "LiveMint", 7500, fallbackUrls);
+    return await RSSHelper.fetchAndParseRSS(primaryUrl, "LiveMint", 12000, fallbackUrls);
   }
 }

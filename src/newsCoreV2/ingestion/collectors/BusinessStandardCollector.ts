@@ -9,6 +9,6 @@ export class BusinessStandardCollector implements NewsCollector {
     const fallbackUrls = [
       "https://news.google.com/rss/search?q=site:business-standard.com+markets&hl=en-IN&gl=IN&ceid=IN:en"
     ];
-    return await RSSHelper.fetchAndParseRSS(primaryUrl, "Business Standard", 7500, fallbackUrls);
+    return await RSSHelper.fetchAndParseRSS(primaryUrl, "Business Standard", 12000, fallbackUrls);
   }
 }
