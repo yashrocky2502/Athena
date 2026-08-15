@@ -291,6 +291,7 @@ import { Phase23_5_D_ForensicAudit } from "../tests/Phase23_5_D_ForensicAudit.ts
 import { Phase23_5_E_StateArchitectureRegression } from "../tests/Phase23_5_E_StateArchitectureRegression.ts";
 import { Phase23_5_F_ConcurrencyRegression } from "../tests/Phase23_5_F_ConcurrencyRegression.ts";
 import { Phase23_5_G_PersistenceShrinkRegression } from "../tests/Phase23_5_G_PersistenceShrinkRegression.ts";
+import { Phase23_5_H_ProductionRuntimeVerification } from "../tests/Phase23_5_H_ProductionRuntimeVerification.ts";
 
 /**
  * GET /api/v4/news/forensic/runtime-count
@@ -299,6 +300,7 @@ import { Phase23_5_G_PersistenceShrinkRegression } from "../tests/Phase23_5_G_Pe
 newsCoreV2Router.get("/forensic/runtime-count", (req: Request, res: Response) => {
   try {
     const dataPath = path.join(process.cwd(), "data", "news_core_v2.json");
+    const backupPath = `${dataPath}.bak`;
     let diskCount = 0;
     let fileExists = fs.existsSync(dataPath);
     let fileSize = fileExists ? fs.statSync(dataPath).size : 0;
@@ -312,24 +314,49 @@ newsCoreV2Router.get("/forensic/runtime-count", (req: Request, res: Response) =>
       } catch (e) {}
     }
 
+    let backupCount = 0;
+    let backupExists = fs.existsSync(backupPath);
+    let backupSize = backupExists ? fs.statSync(backupPath).size : 0;
+    if (backupExists) {
+      try {
+        const rawBackup = fs.readFileSync(backupPath, "utf-8");
+        const parsedBackup = JSON.parse(rawBackup);
+        if (Array.isArray(parsedBackup)) {
+          backupCount = parsedBackup.length;
+        }
+      } catch (e) {}
+    }
+
     const allArticles = newsStore.getAllArticles();
     const memoryCount = allArticles.length;
     const uniqueIds = new Set(allArticles.map(a => a.id)).size;
     const duplicateIds = memoryCount - uniqueIds;
 
     res.json({
+      timestamp: new Date().toISOString(),
       processId: process.pid,
       processUptime: process.uptime(),
       cwd: process.cwd(),
       resolvedDataPath: dataPath,
       dataFileExists: fileExists,
       dataFileSizeBytes: fileSize,
+      backupFileExists: backupExists,
+      backupFileSizeBytes: backupSize,
       diskArticleCount: diskCount,
+      backupArticleCount: backupCount,
       memoryArticleCount: memoryCount,
       uniqueMemoryIds: uniqueIds,
       duplicateMemoryIds: duplicateIds,
       apiAllCount: memoryCount,
-      timestamp: new Date().toISOString()
+      lastSuccessfulPersistCount: newsStore.lastSuccessfulPersistCount,
+      lastPersistAttemptCount: newsStore.lastPersistAttemptCount,
+      lastPersistenceGuardRejection: newsStore.lastPersistenceGuardRejection,
+      lastSyncId: newsStore.lastSyncId,
+      lastSyncStart: newsStore.lastSyncStart,
+      lastSyncEnd: newsStore.lastSyncEnd,
+      lastSyncStatus: newsStore.lastSyncStatus,
+      persistWriteAttemptsCount: newsStore.persistWriteAttemptsCount,
+      persistGuardRejectionsCount: newsStore.persistGuardRejectionsCount
     });
   } catch (err: any) {
     res.status(500).json({
@@ -351,6 +378,7 @@ newsCoreV2Router.get("/regression", async (req: Request, res: Response) => {
     const phase235EReport = await Phase23_5_E_StateArchitectureRegression.runSuite();
     const phase235FReport = await Phase23_5_F_ConcurrencyRegression.runSuite();
     const phase235GReport = await Phase23_5_G_PersistenceShrinkRegression.runSuite();
+    const phase235HReport = await Phase23_5_H_ProductionRuntimeVerification.runSuite();
     res.json({
       ...report,
       phase23_5: phase235Report,
@@ -358,12 +386,25 @@ newsCoreV2Router.get("/regression", async (req: Request, res: Response) => {
       phase23_5_d: phase235DReport,
       phase23_5_e: phase235EReport,
       phase23_5_f: phase235FReport,
-      phase23_5_g: phase235GReport
+      phase23_5_g: phase235GReport,
+      phase23_5_h: phase235HReport
     });
   } catch (err: any) {
     res.status(500).json({
       status: "error",
       message: err.message || "Regression test suite execution failed"
+    });
+  }
+});
+
+newsCoreV2Router.get("/regression-23-5-h", async (req: Request, res: Response) => {
+  try {
+    const report = await Phase23_5_H_ProductionRuntimeVerification.runSuite();
+    res.json(report);
+  } catch (err: any) {
+    res.status(500).json({
+      status: "error",
+      message: err.message || "Phase 23.5-H production runtime verification execution failed"
     });
   }
 });

@@ -90,6 +90,11 @@ export class NewsSyncService {
     this.lastAttemptAt = new Date().toISOString();
     this.lastError = null;
     const startTime = Date.now();
+    const syncId = `sync_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+    this.store.lastSyncId = syncId;
+    this.store.lastSyncStart = this.lastAttemptAt;
+    this.store.lastSyncEnd = null;
+    this.store.lastSyncStatus = "SYNCING";
 
     let itemsProcessed = 0;
     let newAdded = 0;
@@ -205,6 +210,8 @@ export class NewsSyncService {
       this.lastError = err.message || "Sync execution failed";
     } finally {
       this.lastSyncDurationMs = Date.now() - startTime;
+      this.store.lastSyncEnd = new Date().toISOString();
+      this.store.lastSyncStatus = this.syncState;
       this.scheduleNextRun();
     }
 

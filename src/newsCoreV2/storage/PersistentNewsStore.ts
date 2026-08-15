@@ -20,6 +20,16 @@ export class PersistentNewsStore {
   private articleMap: Map<string, NewsArticleV2> = new Map();
   private isLoaded = false;
 
+  public lastSuccessfulPersistCount: number = 0;
+  public lastPersistAttemptCount: number = 0;
+  public lastPersistenceGuardRejection: any = null;
+  public lastSyncId: string | null = null;
+  public lastSyncStart: string | null = null;
+  public lastSyncEnd: string | null = null;
+  public lastSyncStatus: string | null = null;
+  public persistWriteAttemptsCount: number = 0;
+  public persistGuardRejectionsCount: number = 0;
+
   constructor(filePath?: string) {
     this.filePath = filePath || path.join(process.cwd(), "data", "news_core_v2.json");
     this.ensureDirectoryExists();
@@ -179,9 +189,25 @@ export class PersistentNewsStore {
       }
 
       const candidateCount = this.articles.length;
+      this.lastPersistAttemptCount = candidateCount;
+      this.persistWriteAttemptsCount++;
+      const timestamp = new Date().toISOString();
 
       if (!force && previousCount > 0 && candidateCount < previousCount) {
-        console.warn(`[PERSISTENCE_GUARD] WRITE_REJECTED previousCount=${previousCount} candidateCount=${candidateCount} reason=DATASET_SHRINK`);
+        const difference = candidateCount - previousCount;
+        const rejInfo = {
+          previousCount,
+          candidateCount,
+          difference,
+          processId: process.pid,
+          syncId: this.lastSyncId || "none",
+          reason: "DATASET_SHRINK",
+          timestamp
+        };
+        this.lastPersistenceGuardRejection = rejInfo;
+        this.persistGuardRejectionsCount++;
+
+        console.warn(`[PERSISTENCE_GUARD] WRITE_REJECTED previousCount=${previousCount} candidateCount=${candidateCount} difference=${difference} processId=${process.pid} syncId=${this.lastSyncId || "none"} reason=DATASET_SHRINK`);
         return;
       }
 
@@ -206,6 +232,9 @@ export class PersistentNewsStore {
       if (!Array.isArray(verifyParsed) || verifyParsed.length !== candidateCount) {
         throw new Error("Verification of written canonical file failed count match");
       }
+
+      this.lastSuccessfulPersistCount = verifyParsed.length;
+      console.log(`[PERSISTENCE_WRITE] previousCount=${previousCount} candidateCount=${candidateCount} finalCount=${verifyParsed.length} processId=${process.pid} reason=${force ? "FORCE_RECLASSIFICATION" : "NORMAL_INGESTION"} syncId=${this.lastSyncId || "none"} timestamp=${timestamp}`);
     } catch (e: any) {
       console.error("[PersistentNewsStore] Atomic disk write failed:", e.message);
       const backupPath = `${this.filePath}.bak`;
