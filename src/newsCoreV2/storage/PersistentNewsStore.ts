@@ -38,75 +38,118 @@ export class PersistentNewsStore {
   }
 
   /**
-   * Hydrates in-memory map from persistent disk file on startup.
+   * Hydrates in-memory map from persistent disk file on startup with backup safety.
    * Re-evaluates persisted articles using current deterministic FNO and NewsClassifier rules.
    */
   public hydrateFromDisk(): void {
     try {
+      const backupPath = `${this.filePath}.bak`;
+      let primaryParsed: any[] | null = null;
+      let backupParsed: any[] | null = null;
+
       if (fs.existsSync(this.filePath)) {
-        const raw = fs.readFileSync(this.filePath, "utf-8");
-        if (raw && raw.trim()) {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed)) {
-            this.articles = parsed;
-            this.articleMap.clear();
-            let hasChanges = false;
+        try {
+          const rawPrimary = fs.readFileSync(this.filePath, "utf-8");
+          if (rawPrimary && rawPrimary.trim()) {
+            const parsed = JSON.parse(rawPrimary);
+            if (Array.isArray(parsed)) {
+              primaryParsed = parsed;
+            }
+          }
+        } catch (e) {
+          console.warn("[PersistentNewsStore] Primary store JSON parse failed.");
+        }
+      }
 
-            for (const art of this.articles) {
-              if (art.id) {
-                const fnoResult = FNOEligibilityEngine.evaluate(
-                  art.headline || "",
-                  art.body || ""
-                );
-                const classification = NewsClassifier.classify(
-                  art.headline || "",
-                  art.body || "",
-                  art.source?.publisher || "",
-                  fnoResult
-                );
+      if (fs.existsSync(backupPath)) {
+        try {
+          const rawBackup = fs.readFileSync(backupPath, "utf-8");
+          if (rawBackup && rawBackup.trim()) {
+            const parsed = JSON.parse(rawBackup);
+            if (Array.isArray(parsed)) {
+              backupParsed = parsed;
+            }
+          }
+        } catch (e) {
+          console.warn("[PersistentNewsStore] Backup store JSON parse failed.");
+        }
+      }
 
-                const prevFnoEligible = art.fno?.eligible;
-                const prevFnoDecision = art.fno?.decision;
-                const prevFnoSymbol = art.fno?.symbol;
-                const prevCategory = art.category;
-                const prevPrimaryCategory = art.primaryCategory;
-                const prevSecondaryCategories = JSON.stringify(art.secondaryCategories || []);
-                const prevEventType = art.eventType;
+      let chosenArticles: any[] = [];
+      if (primaryParsed && backupParsed) {
+        if (primaryParsed.length >= backupParsed.length) {
+          chosenArticles = primaryParsed;
+        } else {
+          console.warn(`[PersistentNewsStore] SUSPICIOUS SHRINK DETECTED ON HYDRATION: Primary has ${primaryParsed.length} records, but backup has ${backupParsed.length}. Automatically restoring from backup.`);
+          chosenArticles = backupParsed;
+          fs.writeFileSync(this.filePath, JSON.stringify(backupParsed, null, 2), "utf-8");
+        }
+      } else if (primaryParsed) {
+        chosenArticles = primaryParsed;
+      } else if (backupParsed) {
+        console.warn(`[PersistentNewsStore] Primary store missing or invalid. Restoring from backup with ${backupParsed.length} records.`);
+        chosenArticles = backupParsed;
+        fs.writeFileSync(this.filePath, JSON.stringify(backupParsed, null, 2), "utf-8");
+      }
 
-                const newSecondaryCategories = JSON.stringify(classification.secondaryCategories || []);
+      if (chosenArticles.length > 0) {
+        this.articles = chosenArticles;
+        this.articleMap.clear();
+        let hasChanges = false;
 
-                if (
-                  prevFnoEligible !== fnoResult.eligible ||
-                  prevFnoDecision !== fnoResult.decision ||
-                  prevFnoSymbol !== fnoResult.symbol ||
-                  prevCategory !== classification.category ||
-                  prevPrimaryCategory !== classification.primaryCategory ||
-                  prevSecondaryCategories !== newSecondaryCategories ||
-                  prevEventType !== classification.eventType
-                ) {
-                  hasChanges = true;
-                }
+        for (const art of this.articles) {
+          if (art.id) {
+            const fnoResult = FNOEligibilityEngine.evaluate(
+              art.headline || "",
+              art.body || ""
+            );
+            const classification = NewsClassifier.classify(
+              art.headline || "",
+              art.body || "",
+              art.source?.publisher || "",
+              fnoResult
+            );
 
-                art.fno = fnoResult;
-                art.category = classification.category;
-                art.primaryCategory = classification.primaryCategory;
-                art.secondaryCategories = classification.secondaryCategories;
-                art.eventType = classification.eventType;
-                art.categoryConfidence = classification.categoryConfidence;
-                art.classificationEvidence = classification.classificationEvidence;
+            const prevFnoEligible = art.fno?.eligible;
+            const prevFnoDecision = art.fno?.decision;
+            const prevFnoSymbol = art.fno?.symbol;
+            const prevCategory = art.category;
+            const prevPrimaryCategory = art.primaryCategory;
+            const prevSecondaryCategories = JSON.stringify(art.secondaryCategories || []);
+            const prevEventType = art.eventType;
 
-                this.articleMap.set(art.id, art);
-              }
+            const newSecondaryCategories = JSON.stringify(classification.secondaryCategories || []);
+
+            if (
+              prevFnoEligible !== fnoResult.eligible ||
+              prevFnoDecision !== fnoResult.decision ||
+              prevFnoSymbol !== fnoResult.symbol ||
+              prevCategory !== classification.category ||
+              prevPrimaryCategory !== classification.primaryCategory ||
+              prevSecondaryCategories !== newSecondaryCategories ||
+              prevEventType !== classification.eventType
+            ) {
+              hasChanges = true;
             }
 
-            if (hasChanges) {
-              console.log(`[PersistentNewsStore] Reclassified persisted articles with current rules. Persisting updated store...`);
-              this.saveToDisk();
-            }
+            art.fno = fnoResult;
+            art.category = classification.category;
+            art.primaryCategory = classification.primaryCategory;
+            art.secondaryCategories = classification.secondaryCategories;
+            art.eventType = classification.eventType;
+            art.categoryConfidence = classification.categoryConfidence;
+            art.classificationEvidence = classification.classificationEvidence;
 
-            console.log(`[PersistentNewsStore] Hydrated ${this.articles.length} articles from disk (${this.filePath})`);
+            this.articleMap.set(art.id, art);
           }
         }
+
+        if (hasChanges) {
+          console.log(`[PersistentNewsStore] Reclassified persisted articles with current rules. Persisting updated store...`);
+          this.saveToDisk(true);
+        }
+
+        console.log(`[PersistentNewsStore] Hydrated ${this.articles.length} articles from disk (${this.filePath})`);
       }
     } catch (e: any) {
       console.warn("[PersistentNewsStore] Could not hydrate disk store:", e.message);
@@ -116,18 +159,64 @@ export class PersistentNewsStore {
   }
 
   /**
-   * Saves articles atomically to disk to prevent corrupt file writes.
+   * Saves articles atomically to disk with strict backup safety and dataset shrink protection.
    */
-  private saveToDisk(): void {
+  private saveToDisk(force = false): void {
     try {
       this.ensureDirectoryExists();
+      const backupPath = `${this.filePath}.bak`;
       const tempPath = `${this.filePath}.tmp`;
+
+      let previousCount = 0;
+      if (fs.existsSync(this.filePath)) {
+        try {
+          const existingRaw = fs.readFileSync(this.filePath, "utf-8");
+          const existingParsed = JSON.parse(existingRaw);
+          if (Array.isArray(existingParsed)) {
+            previousCount = existingParsed.length;
+          }
+        } catch (e) {}
+      }
+
+      const candidateCount = this.articles.length;
+
+      if (!force && previousCount > 0 && candidateCount < previousCount) {
+        console.warn(`[PERSISTENCE_GUARD] WRITE_REJECTED previousCount=${previousCount} candidateCount=${candidateCount} reason=DATASET_SHRINK`);
+        return;
+      }
+
       const dataStr = JSON.stringify(this.articles, null, 2);
 
       fs.writeFileSync(tempPath, dataStr, "utf-8");
+
+      const tempRaw = fs.readFileSync(tempPath, "utf-8");
+      const tempParsed = JSON.parse(tempRaw);
+      if (!Array.isArray(tempParsed)) {
+        throw new Error("Temporary file is not a valid array JSON");
+      }
+
+      if (fs.existsSync(this.filePath)) {
+        fs.copyFileSync(this.filePath, backupPath);
+      }
+
       fs.renameSync(tempPath, this.filePath);
+
+      const verifyRaw = fs.readFileSync(this.filePath, "utf-8");
+      const verifyParsed = JSON.parse(verifyRaw);
+      if (!Array.isArray(verifyParsed) || verifyParsed.length !== candidateCount) {
+        throw new Error("Verification of written canonical file failed count match");
+      }
     } catch (e: any) {
       console.error("[PersistentNewsStore] Atomic disk write failed:", e.message);
+      const backupPath = `${this.filePath}.bak`;
+      if (fs.existsSync(backupPath)) {
+        try {
+          fs.copyFileSync(backupPath, this.filePath);
+          console.log("[PersistentNewsStore] Successfully restored from .bak after write failure.");
+        } catch (restoreErr) {
+          console.error("[PersistentNewsStore] Failed to restore from backup:", restoreErr);
+        }
+      }
     }
   }
 

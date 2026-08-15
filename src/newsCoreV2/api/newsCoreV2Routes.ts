@@ -283,11 +283,61 @@ newsCoreV2Router.get("/health", (req: Request, res: Response) => {
   }
 });
 
+import fs from "fs";
+import path from "path";
 import { Phase23_5_FeedIntegrityRegression } from "../tests/Phase23_5_FeedIntegrityRegression.ts";
 import { Phase23_5_C_RuntimeIntegrityRegression } from "../tests/Phase23_5_C_RuntimeIntegrityRegression.ts";
 import { Phase23_5_D_ForensicAudit } from "../tests/Phase23_5_D_ForensicAudit.ts";
 import { Phase23_5_E_StateArchitectureRegression } from "../tests/Phase23_5_E_StateArchitectureRegression.ts";
 import { Phase23_5_F_ConcurrencyRegression } from "../tests/Phase23_5_F_ConcurrencyRegression.ts";
+import { Phase23_5_G_PersistenceShrinkRegression } from "../tests/Phase23_5_G_PersistenceShrinkRegression.ts";
+
+/**
+ * GET /api/v4/news/forensic/runtime-count
+ * Returns independent disk count, memory count, and process identity.
+ */
+newsCoreV2Router.get("/forensic/runtime-count", (req: Request, res: Response) => {
+  try {
+    const dataPath = path.join(process.cwd(), "data", "news_core_v2.json");
+    let diskCount = 0;
+    let fileExists = fs.existsSync(dataPath);
+    let fileSize = fileExists ? fs.statSync(dataPath).size : 0;
+    if (fileExists) {
+      try {
+        const raw = fs.readFileSync(dataPath, "utf-8");
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          diskCount = parsed.length;
+        }
+      } catch (e) {}
+    }
+
+    const allArticles = newsStore.getAllArticles();
+    const memoryCount = allArticles.length;
+    const uniqueIds = new Set(allArticles.map(a => a.id)).size;
+    const duplicateIds = memoryCount - uniqueIds;
+
+    res.json({
+      processId: process.pid,
+      processUptime: process.uptime(),
+      cwd: process.cwd(),
+      resolvedDataPath: dataPath,
+      dataFileExists: fileExists,
+      dataFileSizeBytes: fileSize,
+      diskArticleCount: diskCount,
+      memoryArticleCount: memoryCount,
+      uniqueMemoryIds: uniqueIds,
+      duplicateMemoryIds: duplicateIds,
+      apiAllCount: memoryCount,
+      timestamp: new Date().toISOString()
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      status: "error",
+      message: err.message || "Forensic runtime count failed"
+    });
+  }
+});
 
 /**
  * GET /api/v4/news/regression
@@ -300,13 +350,15 @@ newsCoreV2Router.get("/regression", async (req: Request, res: Response) => {
     const phase235DReport = await Phase23_5_D_ForensicAudit.runSuite();
     const phase235EReport = await Phase23_5_E_StateArchitectureRegression.runSuite();
     const phase235FReport = await Phase23_5_F_ConcurrencyRegression.runSuite();
+    const phase235GReport = await Phase23_5_G_PersistenceShrinkRegression.runSuite();
     res.json({
       ...report,
       phase23_5: phase235Report,
       phase23_5_c: phase235CReport,
       phase23_5_d: phase235DReport,
       phase23_5_e: phase235EReport,
-      phase23_5_f: phase235FReport
+      phase23_5_f: phase235FReport,
+      phase23_5_g: phase235GReport
     });
   } catch (err: any) {
     res.status(500).json({
@@ -372,6 +424,18 @@ newsCoreV2Router.get("/regression-23-5-f", async (req: Request, res: Response) =
     res.status(500).json({
       status: "error",
       message: err.message || "Phase 23.5-F concurrency regression execution failed"
+    });
+  }
+});
+
+newsCoreV2Router.get("/regression-23-5-g", async (req: Request, res: Response) => {
+  try {
+    const report = await Phase23_5_G_PersistenceShrinkRegression.runSuite();
+    res.json(report);
+  } catch (err: any) {
+    res.status(500).json({
+      status: "error",
+      message: err.message || "Phase 23.5-G persistence shrink regression execution failed"
     });
   }
 });
