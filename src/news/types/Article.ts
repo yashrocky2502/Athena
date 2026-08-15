@@ -61,6 +61,9 @@ export interface NewsArticle {
     /** Confidence score of the classification (0-100) */
     classificationConfidence: number;
 
+    /** Relevance score for feed ordering (0-100) */
+    relevanceScore: number;
+
     /** Sentiment analysis (optional enrichment) */
     sentiment?: Sentiment;
 

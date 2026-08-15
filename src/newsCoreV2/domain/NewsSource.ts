@@ -1,4 +1,4 @@
-export type CollectionMethod = "DIRECT" | "RSS";
+export type CollectionMethod = "DIRECT" | "RSS" | "MIGRATED_V3" | "MIGRATED_INTELLIGENCE" | "MIGRATION";
 
 export interface NewsSource {
   publisher: string;
