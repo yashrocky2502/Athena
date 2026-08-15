@@ -19,6 +19,7 @@ export class PersistentNewsStore {
   private articles: NewsArticleV2[] = [];
   private articleMap: Map<string, NewsArticleV2> = new Map();
   private isLoaded = false;
+  private persistLock = Promise.resolve();
 
   public lastSuccessfulPersistCount: number = 0;
   public lastPersistAttemptCount: number = 0;
@@ -171,111 +172,114 @@ export class PersistentNewsStore {
   /**
    * Saves articles atomically to disk with strict backup safety and dataset shrink protection.
    */
-  private saveToDisk(force = false): void {
-    try {
-      this.ensureDirectoryExists();
-      const backupPath = `${this.filePath}.bak`;
-      const tempPath = `${this.filePath}.tmp`;
+  private async saveToDisk(force = false): Promise<void> {
+    this.persistLock = this.persistLock.then(async () => {
+      try {
+        this.ensureDirectoryExists();
+        const backupPath = `${this.filePath}.bak`;
+        const tempPath = `${this.filePath}.${Date.now()}-${Math.random().toString(36).substring(2, 9)}.tmp`;
 
-      let previousCount = 0;
-      if (fs.existsSync(this.filePath)) {
-        try {
-          const existingRaw = fs.readFileSync(this.filePath, "utf-8");
-          const existingParsed = JSON.parse(existingRaw);
-          if (Array.isArray(existingParsed)) {
-            previousCount = existingParsed.length;
-          }
-        } catch (e) {}
-      }
-
-      const candidateCount = this.articles.length;
-      this.lastPersistAttemptCount = candidateCount;
-      this.persistWriteAttemptsCount++;
-      const timestamp = new Date().toISOString();
-
-      // Identity Integrity Check: Ensure no historical IDs are lost
-      const existingIds = new Set<string>();
-      if (fs.existsSync(this.filePath)) {
-        try {
-          const raw = fs.readFileSync(this.filePath, "utf-8");
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed)) {
-            for (const art of parsed) {
-              if (art.id) existingIds.add(art.id);
+        let previousCount = 0;
+        if (fs.existsSync(this.filePath)) {
+          try {
+            const existingRaw = fs.readFileSync(this.filePath, "utf-8");
+            const existingParsed = JSON.parse(existingRaw);
+            if (Array.isArray(existingParsed)) {
+              previousCount = existingParsed.length;
             }
+          } catch (e) {}
+        }
+
+        const candidateCount = this.articles.length;
+        this.lastPersistAttemptCount = candidateCount;
+        this.persistWriteAttemptsCount++;
+        const timestamp = new Date().toISOString();
+
+        // Identity Integrity Check: Ensure no historical IDs are lost
+        const existingIds = new Set<string>();
+        if (fs.existsSync(this.filePath)) {
+          try {
+            const raw = fs.readFileSync(this.filePath, "utf-8");
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+              for (const art of parsed) {
+                if (art.id) existingIds.add(art.id);
+              }
+            }
+          } catch (e) {}
+        }
+        
+        const candidateIds = new Set(this.articles.map(a => a.id).filter(id => !!id));
+        const missingIds: string[] = [];
+        for (const id of existingIds) {
+          if (!candidateIds.has(id)) {
+            missingIds.push(id);
           }
-        } catch (e) {}
-      }
-      
-      const candidateIds = new Set(this.articles.map(a => a.id).filter(id => !!id));
-      const missingIds: string[] = [];
-      for (const id of existingIds) {
-        if (!candidateIds.has(id)) {
-          missingIds.push(id);
+        }
+
+        if (!force && previousCount > 0 && (candidateCount < previousCount || missingIds.length > 0)) {
+          const difference = candidateCount - previousCount;
+          const rejInfo = {
+            previousCount,
+            candidateCount,
+            difference,
+            missingIdsCount: missingIds.length,
+            processId: process.pid,
+            syncId: this.lastSyncId || "none",
+            reason: candidateCount < previousCount ? "DATASET_SHRINK" : "IDENTITY_REPLACEMENT",
+            timestamp
+          };
+          this.lastPersistenceGuardRejection = rejInfo;
+          this.persistGuardRejectionsCount++;
+
+          console.warn(`[PERSISTENCE_GUARD] WRITE_REJECTED previousCount=${previousCount} candidateCount=${candidateCount} difference=${difference} missingIdsCount=${missingIds.length} processId=${process.pid} syncId=${this.lastSyncId || "none"} reason=${candidateCount < previousCount ? "DATASET_SHRINK" : "IDENTITY_REPLACEMENT"}`);
+          return;
+        }
+
+        const dataStr = JSON.stringify(this.articles, null, 2);
+
+        fs.writeFileSync(tempPath, dataStr, "utf-8");
+
+        const tempRaw = fs.readFileSync(tempPath, "utf-8");
+        const tempParsed = JSON.parse(tempRaw);
+        if (!Array.isArray(tempParsed)) {
+          throw new Error("Temporary file is not a valid array JSON");
+        }
+
+        if (fs.existsSync(this.filePath)) {
+          fs.copyFileSync(this.filePath, backupPath);
+        }
+
+        fs.renameSync(tempPath, this.filePath);
+
+        const verifyRaw = fs.readFileSync(this.filePath, "utf-8");
+        const verifyParsed = JSON.parse(verifyRaw);
+        if (!Array.isArray(verifyParsed) || verifyParsed.length !== candidateCount) {
+          throw new Error("Verification of written canonical file failed count match");
+        }
+
+        this.lastSuccessfulPersistCount = verifyParsed.length;
+        console.log(`[PERSISTENCE_WRITE] previousCount=${previousCount} candidateCount=${candidateCount} finalCount=${verifyParsed.length} processId=${process.pid} reason=${force ? "FORCE_RECLASSIFICATION" : "NORMAL_INGESTION"} syncId=${this.lastSyncId || "none"} timestamp=${timestamp}`);
+      } catch (e: any) {
+        console.error("[PersistentNewsStore] Atomic disk write failed:", e.message);
+        const backupPath = `${this.filePath}.bak`;
+        if (fs.existsSync(backupPath)) {
+          try {
+            fs.copyFileSync(backupPath, this.filePath);
+            console.log("[PersistentNewsStore] Successfully restored from .bak after write failure.");
+          } catch (restoreErr) {
+            console.error("[PersistentNewsStore] Failed to restore from backup:", restoreErr);
+          }
         }
       }
-
-      if (!force && previousCount > 0 && (candidateCount < previousCount || missingIds.length > 0)) {
-        const difference = candidateCount - previousCount;
-        const rejInfo = {
-          previousCount,
-          candidateCount,
-          difference,
-          missingIdsCount: missingIds.length,
-          processId: process.pid,
-          syncId: this.lastSyncId || "none",
-          reason: candidateCount < previousCount ? "DATASET_SHRINK" : "IDENTITY_REPLACEMENT",
-          timestamp
-        };
-        this.lastPersistenceGuardRejection = rejInfo;
-        this.persistGuardRejectionsCount++;
-
-        console.warn(`[PERSISTENCE_GUARD] WRITE_REJECTED previousCount=${previousCount} candidateCount=${candidateCount} difference=${difference} missingIdsCount=${missingIds.length} processId=${process.pid} syncId=${this.lastSyncId || "none"} reason=${candidateCount < previousCount ? "DATASET_SHRINK" : "IDENTITY_REPLACEMENT"}`);
-        return;
-      }
-
-      const dataStr = JSON.stringify(this.articles, null, 2);
-
-      fs.writeFileSync(tempPath, dataStr, "utf-8");
-
-      const tempRaw = fs.readFileSync(tempPath, "utf-8");
-      const tempParsed = JSON.parse(tempRaw);
-      if (!Array.isArray(tempParsed)) {
-        throw new Error("Temporary file is not a valid array JSON");
-      }
-
-      if (fs.existsSync(this.filePath)) {
-        fs.copyFileSync(this.filePath, backupPath);
-      }
-
-      fs.renameSync(tempPath, this.filePath);
-
-      const verifyRaw = fs.readFileSync(this.filePath, "utf-8");
-      const verifyParsed = JSON.parse(verifyRaw);
-      if (!Array.isArray(verifyParsed) || verifyParsed.length !== candidateCount) {
-        throw new Error("Verification of written canonical file failed count match");
-      }
-
-      this.lastSuccessfulPersistCount = verifyParsed.length;
-      console.log(`[PERSISTENCE_WRITE] previousCount=${previousCount} candidateCount=${candidateCount} finalCount=${verifyParsed.length} processId=${process.pid} reason=${force ? "FORCE_RECLASSIFICATION" : "NORMAL_INGESTION"} syncId=${this.lastSyncId || "none"} timestamp=${timestamp}`);
-    } catch (e: any) {
-      console.error("[PersistentNewsStore] Atomic disk write failed:", e.message);
-      const backupPath = `${this.filePath}.bak`;
-      if (fs.existsSync(backupPath)) {
-        try {
-          fs.copyFileSync(backupPath, this.filePath);
-          console.log("[PersistentNewsStore] Successfully restored from .bak after write failure.");
-        } catch (restoreErr) {
-          console.error("[PersistentNewsStore] Failed to restore from backup:", restoreErr);
-        }
-      }
-    }
+    });
+    return this.persistLock;
   }
 
   /**
    * Saves or updates articles after canonical deduplication.
    */
-  public saveArticles(newArticles: NewsArticleV2[]): NewsArticleV2[] {
+  public async saveArticles(newArticles: NewsArticleV2[]): Promise<NewsArticleV2[]> {
     if (!newArticles || newArticles.length === 0) return [];
 
     const { uniqueArticles } = CanonicalDeduplicator.deduplicate(newArticles, this.articles);
@@ -293,15 +297,16 @@ export class PersistentNewsStore {
       return timeB - timeA;
     });
 
-    this.saveToDisk();
+    await this.saveToDisk();
     return uniqueArticles;
   }
 
   /**
    * Upserts a single article.
    */
-  public upsertArticle(article: NewsArticleV2): number {
-    return this.saveArticles([article]).length;
+  public async upsertArticle(article: NewsArticleV2): Promise<number> {
+    const saved = await this.saveArticles([article]);
+    return saved.length;
   }
 
   /**
@@ -393,7 +398,7 @@ export class PersistentNewsStore {
     }
 
     if (updated > 0) {
-      this.saveToDisk();
+      await this.saveToDisk();
     }
 
     return { processed, updated };

@@ -1,5 +1,6 @@
 import { newsStore } from "../storage/PersistentNewsStore";
 import { NewsArticleV2 } from "../domain/NewsArticle";
+import assert from "assert";
 
 export async function reproduceRaceCondition() {
     console.log("Starting race condition reproduction test...");
@@ -39,7 +40,6 @@ export async function reproduceRaceCondition() {
     if (found1 && found2) {
         console.log("Race condition test passed (both articles present).");
     } else {
-        console.error("Race condition test failed! Missing articles.");
+        throw new Error("Race condition test failed! Missing articles.");
     }
-
 }

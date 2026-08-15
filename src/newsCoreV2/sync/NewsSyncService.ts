@@ -9,9 +9,12 @@ import { newsStore, PersistentNewsStore } from "../storage/PersistentNewsStore.t
 import { SummaryEngine } from "../summary/SummaryEngine.ts";
 import crypto from "crypto";
 
+import { TelegramOutbox, TelegramOutboxEntry } from "../storage/TelegramOutbox.ts";
+
 export class NewsSyncService {
   private collectorRegistry: CollectorRegistry;
   private store: PersistentNewsStore;
+  private outbox: TelegramOutbox;
 
   private syncState: SyncState = "IDLE";
   private lastSuccessfulSyncAt: string | null = null;
@@ -24,9 +27,34 @@ export class NewsSyncService {
   private autoSyncIntervalMs = 60000; // 60 seconds interval
   private timer: NodeJS.Timeout | null = null;
 
+  // ... (existing constructor)
   constructor(store?: PersistentNewsStore) {
     this.collectorRegistry = new CollectorRegistry();
     this.store = store || newsStore;
+    this.outbox = new TelegramOutbox();
+    this.startOutboxProcessor();
+  }
+
+  private startOutboxProcessor(): void {
+    setInterval(async () => {
+      const entries = this.outbox.getEntries();
+      for (const entry of entries) {
+        // Implement retry logic with backoff
+        if (entry.nextRetryAt && new Date(entry.nextRetryAt) > new Date()) continue;
+        
+        try {
+            await TelegramNotificationPipeline.getInstance().processArticle(entry.payload);
+            this.outbox.removeEntry(entry.articleId);
+        } catch (err: any) {
+            entry.attempts++;
+            entry.lastAttemptAt = new Date().toISOString();
+            // Simple exponential backoff: 1m, 2m, 4m, 8m...
+            const delay = Math.pow(2, entry.attempts - 1) * 60000;
+            entry.nextRetryAt = new Date(Date.now() + delay).toISOString();
+            console.warn(`[NewsSyncService] Telegram retry ${entry.attempts} for ${entry.articleId} in ${delay}ms`);
+        }
+      }
+    }, 60000); // Check outbox every minute
   }
 
   public getStatus(): SyncStatusReport {
@@ -163,7 +191,7 @@ export class NewsSyncService {
         }
 
         // Step 3: Atomic write to Persistent Store
-        const savedArticles = this.store.saveArticles(processedArticles);
+        const savedArticles = await this.store.saveArticles(processedArticles);
         newAdded = savedArticles.length;
         this.lastSyncItemCount = newAdded;
         this.lastSuccessfulSyncAt = new Date().toISOString();
@@ -172,30 +200,25 @@ export class NewsSyncService {
         if (savedArticles.length > 0) {
           const pipeline = TelegramNotificationPipeline.getInstance();
           for (const art of savedArticles) {
-            // Process asynchronously to not block the sync loop timeout
-            (async () => {
-              try {
+            try {
+              const summaryData = SummaryEngine.generateDeterministicSummarySync(art);
+              art.summary = summaryData.summary;
+              art.whatChanged = summaryData.whatChanged;
+              art.keyMetrics = summaryData.keyMetrics;
+              art.whyItMatters = summaryData.whyItMatters;
+              art.marketImpact = summaryData.marketImpact;
+              art.riskWatchpoints = summaryData.riskWatchpoints;
+              art.summaryConfidence = summaryData.confidence;
+              art.summaryProcessingMode = summaryData.processingMode;
                 
-                  const summaryData = SummaryEngine.generateDeterministicSummarySync(art);
-                  art.summary = summaryData.summary;
-                  art.whatChanged = summaryData.whatChanged;
-                  art.keyMetrics = summaryData.keyMetrics;
-                  art.whyItMatters = summaryData.whyItMatters;
-                  art.marketImpact = summaryData.marketImpact;
-                  art.riskWatchpoints = summaryData.riskWatchpoints;
-                  art.summaryConfidence = summaryData.confidence;
-                  art.summaryProcessingMode = summaryData.processingMode;
+              // Re-persist article with summary so UI sees it
+              await this.store.upsertArticle(art);
                 
-                
-                // Re-persist article with summary so UI sees it
-                this.store.upsertArticle(art);
-                
-                // Dispatch
-                await pipeline.processArticle(art);
-              } catch (err) {
-                console.warn('[NewsSyncService] Telegram dispatch error for article', art.id, err);
-              }
-            })();
+              // Add to outbox instead of immediate dispatch
+              this.outbox.addEntry(art.id, art);
+            } catch (err) {
+              console.warn('[NewsSyncService] Telegram outbox entry error for article', art.id, err);
+            }
           }
         }
 
