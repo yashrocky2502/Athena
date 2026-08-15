@@ -13,12 +13,46 @@ import {
 
 type SentimentFilter = 'ALL' | 'BULLISH' | 'BEARISH' | 'NEUTRAL';
 
+export type CategoryFeedState = {
+  articles: any[];
+  page: number;
+  totalPages: number;
+  totalCount: number;
+  loading: boolean;
+  error: string | null;
+  lastFetchedAt: number | null;
+  requestGeneration: number;
+};
+
+const ALL_CATEGORIES: CategoryName[] = [
+  'All', 'Results', 'Crypto', 'IPO', 'F&O', 'Economy',
+  'Market', 'Corporate', 'Commodities', 'Global', 'Technology', 'Exchange'
+];
+
 export default function NewsPage({ developerMode = false }: { developerMode?: boolean }) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryName>('All');
-  const [articles, setArticles] = useState<any[]>([]);
-  const [fnoArticles, setFnoArticles] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const selectedCategoryRef = useRef<CategoryName>(selectedCategory);
+  useEffect(() => {
+    selectedCategoryRef.current = selectedCategory;
+  }, [selectedCategory]);
+
+  // Isolated Category Feed States
+  const [categoryFeeds, setCategoryFeeds] = useState<Record<string, CategoryFeedState>>(() => {
+    const initial: Record<string, CategoryFeedState> = {};
+    for (const cat of ALL_CATEGORIES) {
+      initial[cat] = {
+        articles: [],
+        page: 1,
+        totalPages: 1,
+        totalCount: 0,
+        loading: true,
+        error: null,
+        lastFetchedAt: null,
+        requestGeneration: 0
+      };
+    }
+    return initial;
+  });
 
   // Streaming & Status State
   const [streamStatus, setStreamStatus] = useState<"CONNECTED" | "RECONNECTING" | "OFFLINE">("CONNECTED");
@@ -29,7 +63,6 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
   const [showDiagnosticsModal, setShowDiagnosticsModal] = useState<boolean>(false);
   const [livePushToast, setLivePushToast] = useState<{ count: number; headline: string; publisher: string; time: string } | null>(null);
   const toastTimeoutRef = useRef<any>(null);
-  const [isFeedStale, setIsFeedStale] = useState<boolean>(false);
 
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,11 +74,8 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
   const [metricsData, setMetricsData] = useState<any | null>(null);
   const [loadingMetrics, setLoadingMetrics] = useState(false);
 
-  // Lazy Rendering State
+  // Lazy Rendering State (per-category view slice)
   const [visibleCount, setVisibleCount] = useState(50);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
   const [serverCategoryCounts, setServerCategoryCounts] = useState<Record<string, number>>({});
 
   // V2 News Feed Lifecycle and Sync State
@@ -61,13 +91,11 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     const saved = safeLocalStorage.getItem('athena_last_manual_sync');
     return saved ? new Date(saved) : null;
   });
-  const [lastFetchedAt, setLastFetchedAt] = useState<Date | null>(null);
   const [nextAutoSyncSec, setNextAutoSyncSec] = useState<number>(60);
   const [syncNotification, setSyncNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const lastSeenServerSyncRef = useRef<string | null>(null);
   const feedAbortControllerRef = useRef<AbortController | null>(null);
-  const requestGenerationRef = useRef<number>(0);
 
   // Article Reader Modal State
   const [activeArticle, setActiveArticle] = useState<any | null>(null);
@@ -77,7 +105,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
   const [activeSummary, setActiveSummary] = useState<any | null>(null);
   const [loadingSummary, setLoadingSummary] = useState<boolean>(false);
 
-  // Fetch V2 Sync Status
+  // Fetch V2 Sync Status using selectedCategoryRef.current to avoid stale closures
   const fetchSyncStatus = async () => {
     try {
       const res = await fetch("/api/v4/news/status");
@@ -88,7 +116,8 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           lastSeenServerSyncRef.current = data.lastSuccessfulSyncAt;
           setLastSuccessfulAutoSyncAt(data.lastSuccessfulSyncAt);
           safeLocalStorage.setItem('athena_last_successful_auto_sync', data.lastSuccessfulSyncAt);
-          loadNewsFeed(1, selectedCategory, false);
+          const activeCat = selectedCategoryRef.current;
+          loadNewsFeed(1, activeCat, false);
         }
       }
     } catch (err) {
@@ -117,12 +146,19 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     return { valid: mixedCount === 0, mixedCount, validArticles };
   };
 
-  // Primary V2 News Feed Loader
+  // Primary V2 Category-Isolated News Feed Loader
   const loadNewsFeed = async (pageToLoad = 1, categoryToLoad = selectedCategory, append = false) => {
-    requestGenerationRef.current += 1;
-    const currentGen = requestGenerationRef.current;
+    const currentGen = (categoryFeeds[categoryToLoad]?.requestGeneration || 0) + 1;
 
-    // Cancel any previous pending feed request
+    setCategoryFeeds(prev => ({
+      ...prev,
+      [categoryToLoad]: {
+        ...(prev[categoryToLoad] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: true, error: null, lastFetchedAt: null, requestGeneration: 0 }),
+        requestGeneration: currentGen,
+        loading: !append
+      }
+    }));
+
     if (feedAbortControllerRef.current) {
       feedAbortControllerRef.current.abort();
     }
@@ -143,8 +179,8 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
 
       clearTimeout(timeoutId);
 
-      if (currentGen !== requestGenerationRef.current || categoryToLoad !== selectedCategory) {
-        return; // Discard obsolete response
+      if (categoryToLoad !== selectedCategoryRef.current) {
+        return; // Discard obsolete response for inactive tab
       }
 
       if (!feedRes.ok) {
@@ -153,8 +189,8 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
 
       const feedData = await feedRes.json();
 
-      if (currentGen !== requestGenerationRef.current || categoryToLoad !== selectedCategory) {
-        return; // Discard obsolete response
+      if (categoryToLoad !== selectedCategoryRef.current) {
+        return;
       }
 
       if (feedData.status === 'success' && Array.isArray(feedData.articles)) {
@@ -166,41 +202,51 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           return; // Reject contaminated response
         }
 
-        setArticles(prev => {
-          const newList = append ? [...prev, ...feedList] : feedList;
+        setCategoryFeeds(prev => {
+          const existing = prev[categoryToLoad] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration: currentGen };
+          const newList = append ? [...existing.articles, ...feedList] : feedList;
           const seen = new Set();
-          return newList.filter(item => {
+          const uniqueArticles = newList.filter(item => {
             if (seen.has(item.id)) return false;
             seen.add(item.id);
             return true;
           });
+
+          return {
+            ...prev,
+            [categoryToLoad]: {
+              ...existing,
+              articles: uniqueArticles,
+              page: feedData.page || pageToLoad,
+              totalPages: feedData.totalPages || 1,
+              totalCount: feedData.totalCount || uniqueArticles.length,
+              loading: false,
+              error: null,
+              lastFetchedAt: Date.now(),
+              requestGeneration: currentGen
+            }
+          };
         });
 
-        setCurrentPage(feedData.page || pageToLoad);
-        setTotalPages(feedData.totalPages || 1);
-        setTotalCount(feedData.totalCount || feedList.length);
         if (feedData.categoryCounts) {
           setServerCategoryCounts(feedData.categoryCounts);
         }
 
         setLifecycleState('COMPLETED');
-        setLoading(false);
-        setError(null);
-
         const nowStr = new Date().toISOString();
         setLastCacheWriteAt(nowStr);
         setLastSuccessfulAutoSyncAt(nowStr);
-        setLastFetchedAt(new Date());
         safeLocalStorage.setItem('athena_last_successful_auto_sync', nowStr);
 
-        if (pageToLoad === 1 && categoryToLoad === 'All') {
-          safeLocalStorage.setItem('athena.newsFeed.v2.snapshot.v1', JSON.stringify({
-            articles: feedList,
-            lastCacheWriteAt: nowStr,
-            lastSuccessfulAutoSyncAt: nowStr,
-            lifecycleState: 'COMPLETED'
-          }));
-        }
+        // Category-scoped snapshot cache
+        safeLocalStorage.setItem(`athena.newsFeed.v2.snapshot.v2.${categoryToLoad}`, JSON.stringify({
+          category: categoryToLoad,
+          articles: feedList,
+          page: feedData.page || pageToLoad,
+          totalPages: feedData.totalPages || 1,
+          totalCount: feedData.totalCount || feedList.length,
+          savedAt: nowStr
+        }));
       } else {
         throw new Error(feedData.message || 'Invalid News Core V2 payload');
       }
@@ -212,10 +258,14 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
       }
       console.error("[NewsPage] News Core V2 Feed error:", err);
       setLifecycleState('FAILED');
-      setLoading(false);
-      if (articles.length === 0) {
-        setError(err.message || 'Failed to connect to News Core V2');
-      }
+      setCategoryFeeds(prev => ({
+        ...prev,
+        [categoryToLoad]: {
+          ...(prev[categoryToLoad] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration: currentGen }),
+          loading: false,
+          error: err.message || 'Failed to connect to News Core V2'
+        }
+      }));
     } finally {
       if (feedAbortControllerRef.current === controller) {
         feedAbortControllerRef.current = null;
@@ -240,7 +290,8 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           type: 'success',
           message: `V2 Sync Complete: ${data.itemsProcessed || 0} processed, ${data.newAdded || 0} new.`
         });
-        await loadNewsFeed(1, selectedCategory, false);
+        const activeCat = selectedCategoryRef.current;
+        await loadNewsFeed(1, activeCat, false);
       } else {
         throw new Error(`Sync error HTTP ${res.status}`);
       }
@@ -283,12 +334,18 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     }
   };
 
-  // 60-second Countdown Auto-Sync Scheduler
+  // 60-second Countdown Auto-Sync Scheduler using selectedCategoryRef.current
   useEffect(() => {
     const timer = setInterval(() => {
       setNextAutoSyncSec((prev) => {
         if (prev <= 1) {
-          handleManualSync();
+          fetch("/api/v4/news/sync", { method: "POST" })
+            .then(res => res.json())
+            .then(() => {
+              const activeCat = selectedCategoryRef.current;
+              loadNewsFeed(1, activeCat, false);
+            })
+            .catch(e => console.warn("[NewsPage] Auto-sync background error:", e));
           return 60;
         }
         return prev - 1;
@@ -303,23 +360,30 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     return () => clearInterval(interval);
   }, []);
 
-  // Instant Startup Hydration
+  // Instant Category-Scoped Startup Hydration
   useEffect(() => {
     const hydrateCache = () => {
       setLifecycleState('HYDRATING_CACHE');
       try {
-        const cachedStr = safeLocalStorage.getItem('athena.newsFeed.v2.snapshot.v1');
+        const cachedStr = safeLocalStorage.getItem(`athena.newsFeed.v2.snapshot.v2.${selectedCategory}`);
         if (cachedStr) {
           const parsed = JSON.parse(cachedStr);
-          if (parsed && Array.isArray(parsed.articles)) {
-            setArticles(parsed.articles);
-            setLastCacheWriteAt(parsed.lastCacheWriteAt || null);
-            setLastSuccessfulAutoSyncAt(parsed.lastSuccessfulAutoSyncAt || null);
-            setLoading(false);
+          if (parsed && parsed.category === selectedCategory && Array.isArray(parsed.articles)) {
+            setCategoryFeeds(prev => ({
+              ...prev,
+              [selectedCategory]: {
+                ...(prev[selectedCategory] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration: 0 }),
+                articles: parsed.articles,
+                page: parsed.page || 1,
+                totalPages: parsed.totalPages || 1,
+                totalCount: parsed.totalCount || parsed.articles.length,
+                loading: false
+              }
+            }));
           }
         }
       } catch (e) {
-        console.warn("[NewsPage] Failed to parse V2 snapshot cache:", e);
+        console.warn("[NewsPage] Failed to parse category snapshot cache:", e);
       }
       setLifecycleState('IDLE');
     };
@@ -331,79 +395,60 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
         feedAbortControllerRef.current.abort();
       }
     };
-  }, []);
+  }, [selectedCategory]);
 
-  // Whenever selectedCategory changes, fetch page 1 for that category
+  // Whenever selectedCategory changes, fetch page 1 for that specific category
   useEffect(() => {
-    setArticles([]);
-    setLoading(true);
-    setCurrentPage(1);
     setVisibleCount(50);
     loadNewsFeed(1, selectedCategory, false);
   }, [selectedCategory]);
 
-  // V2 Category Classification & Pre-grouped Data (strictly matching canonical categories)
-  const classifiedArrays = useMemo(() => {
-    const map: Record<string, any[]> = {
-      'All': articles,
-      'F&O': articles.filter(a => a.isFO || (a.primaryCategory && a.primaryCategory.toLowerCase() === 'f&o')),
-      'Crypto': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'crypto'),
-      'Commodities': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'commodities'),
-      'IPO': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'ipo'),
-      'Results': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'results'),
-      'Market': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'market'),
-      'Corporate': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'corporate'),
-      'Economy': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'economy'),
-      'Global': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'global'),
-      'Technology': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'technology'),
-      'Exchange': articles.filter(a => a.primaryCategory && a.primaryCategory.toLowerCase() === 'exchange')
-    };
+  // Active Category Feed Derived State (Strict Isolation: NO All fallback)
+  const currentFeed = categoryFeeds[selectedCategory] || {
+    articles: [],
+    page: 1,
+    totalPages: 1,
+    totalCount: 0,
+    loading: true,
+    error: null
+  };
 
+  const targetCategoryArticles = currentFeed.articles;
+  const loading = currentFeed.loading;
+  const error = currentFeed.error;
+  const currentPage = currentFeed.page;
+  const totalPages = currentFeed.totalPages;
+  const totalCount = currentFeed.totalCount;
+
+  // V2 Category Classification & Pre-grouped Data
+  const classifiedArrays = useMemo(() => {
+    const map: Record<string, any[]> = {};
+    for (const cat of ALL_CATEGORIES) {
+      if (cat === 'All') {
+        map[cat] = categoryFeeds['All']?.articles || [];
+      } else if (cat === 'F&O') {
+        map[cat] = (categoryFeeds[cat]?.articles || []).filter(a => a.isFO || a.fno?.eligible);
+      } else {
+        map[cat] = (categoryFeeds[cat]?.articles || []).filter(a => (a.primaryCategory || a.category || '').toLowerCase() === cat.toLowerCase());
+      }
+    }
     return map;
-  }, [articles]);
+  }, [categoryFeeds]);
 
   const categoryCounts = useMemo(() => {
     if (Object.keys(serverCategoryCounts).length > 0) {
       return serverCategoryCounts;
     }
     const counts: Record<string, number> = {};
-    for (const cat of Object.keys(classifiedArrays)) {
-      counts[cat] = classifiedArrays[cat].length;
+    for (const cat of ALL_CATEGORIES) {
+      counts[cat] = categoryFeeds[cat]?.totalCount || (classifiedArrays[cat] ? classifiedArrays[cat].length : 0);
     }
     return counts;
-  }, [classifiedArrays, serverCategoryCounts]);
-
-  const targetCategoryArticles = useMemo(() => {
-    if (selectedCategory === 'All') {
-      return articles;
-    }
-    const catLower = selectedCategory.toLowerCase();
-    return articles.filter(a => {
-      if (catLower === 'f&o' || catLower === 'fno') {
-        return !!(a.fno?.eligible || a.isFO);
-      }
-      const primary = (a.primaryCategory || a.category || '').toLowerCase();
-      return primary === catLower;
-    });
-  }, [articles, selectedCategory]);
+  }, [categoryFeeds, serverCategoryCounts, classifiedArrays]);
 
   const verifiedCategoryArticles = useMemo(() => {
     if (selectedCategory === 'All') return targetCategoryArticles;
     const catLower = selectedCategory.toLowerCase();
-    const offending = targetCategoryArticles.filter(a => {
-      if (catLower === 'f&o' || catLower === 'fno') {
-        return !(a.fno?.eligible || a.isFO);
-      }
-      const primary = (a.primaryCategory || a.category || '').toLowerCase();
-      return primary !== catLower;
-    });
-    if (offending.length > 0) {
-      console.error("[ATHENA CATEGORY INTEGRITY VIOLATION DETECTED & PREVENTED]", {
-        selectedCategory,
-        offendingCount: offending.length,
-        offendingIds: offending.map(o => o.id)
-      });
-    }
     return targetCategoryArticles.filter(a => {
       if (catLower === 'f&o' || catLower === 'fno') {
         return !!(a.fno?.eligible || a.isFO);
@@ -434,7 +479,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     }
 
     return result;
-  }, [targetCategoryArticles, searchQuery, sentimentFilter]);
+  }, [verifiedCategoryArticles, searchQuery, sentimentFilter]);
 
   const visibleArticles = useMemo(() => {
     return filteredArticles.slice(0, visibleCount);
@@ -448,54 +493,53 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     });
     setActiveSummary({
       summary: article.summary || article.body || article.headline,
-      provider: 'News Core V2',
-      cached: true
+      sentiment: article.sentiment || 'NEUTRAL',
+      impactScore: article.impactScore || 5,
+      keyPoints: article.keyPoints || []
     });
-    setLoadingActiveContent(false);
-    setErrorActiveContent(null);
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto px-3 sm:px-6 py-4">
-      {/* HEADER BAR */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30">
-            <Newspaper className="w-5 h-5" />
+    <div className="flex flex-col gap-6 p-3 sm:p-6 max-w-7xl mx-auto w-full font-sans text-slate-100">
+      {/* TOP HEADER & TELEMETRY BAR */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/80 border border-slate-800/80 p-4 sm:p-5 rounded-2xl shadow-xl backdrop-blur-md">
+        <div className="flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
+            <Newspaper className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold text-slate-100 tracking-tight">Institutional News Feed</h1>
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                CORE V2
-              </span>
+              <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-100">Athena Terminal News Core V2</h1>
+              <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-semibold">Isolated Feed Architecture</span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Normalized canonical deduplicated market intelligence feed
-            </p>
+            <p className="text-xs text-slate-400">Real-time financial intelligence stream • Total Records: <span className="font-mono font-semibold text-slate-200">{totalCount}</span></p>
           </div>
         </div>
 
-        {/* CONTROLS BAR */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* Sync Button */}
+          {/* Manual Sync Button */}
           <button
             onClick={handleManualSync}
             disabled={isSyncing}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 text-white text-xs font-semibold transition-all shadow-md shadow-indigo-600/20"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-xs font-semibold shadow-md shadow-indigo-600/20 transition-all cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
-            <span>{isSyncing ? 'Syncing...' : 'Sync Feed'}</span>
-            <span className="font-mono text-[10px] opacity-75">({nextAutoSyncSec}s)</span>
+            <span>{isSyncing ? 'Syncing...' : 'Sync News Now'}</span>
           </button>
 
-          {/* Audit Metrics */}
+          {/* Auto-Sync Countdown Badge */}
+          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-950/60 border border-slate-800 text-slate-300 text-xs font-mono">
+            <Clock className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Auto-sync in {nextAutoSyncSec}s</span>
+          </div>
+
+          {/* Metrics Audit Modal Button */}
           <button
             onClick={() => {
-              loadMetrics();
               setShowMetricsModal(true);
+              loadMetrics();
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 text-xs font-medium border border-slate-700/60 transition-all"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 text-xs font-medium border border-slate-700/60 transition-all cursor-pointer"
           >
             <Activity className="w-3.5 h-3.5 text-indigo-400" />
             <span>Provider Audit</span>
@@ -504,7 +548,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           {/* Diagnostics Panel Toggle */}
           <button
             onClick={() => setShowDiagnosticsModal(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 text-xs font-medium border border-slate-700/60 transition-all"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 text-xs font-medium border border-slate-700/60 transition-all cursor-pointer"
           >
             <Cpu className="w-3.5 h-3.5 text-emerald-400" />
             <span>Diagnostics</span>
@@ -578,15 +622,15 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
       </div>
 
       {/* MAIN CONTENT AREA */}
-      {loading && articles.length === 0 ? (
+      {loading && targetCategoryArticles.length === 0 ? (
         <NewsSkeletonLoader />
-      ) : error && articles.length === 0 ? (
+      ) : error && targetCategoryArticles.length === 0 ? (
         <div className="p-8 bg-rose-950/20 border border-rose-500/30 rounded-2xl text-center flex flex-col items-center gap-3">
           <AlertCircle className="w-8 h-8 text-rose-400" />
           <h3 className="text-base font-semibold text-rose-200">Unable to load News Feed</h3>
           <p className="text-xs text-rose-300 max-w-md">{error}</p>
           <button
-            onClick={loadNewsFeed}
+            onClick={() => loadNewsFeed(1, selectedCategory, false)}
             className="mt-2 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold"
           >
             Retry Connection

@@ -286,6 +286,7 @@ newsCoreV2Router.get("/health", (req: Request, res: Response) => {
 import { Phase23_5_FeedIntegrityRegression } from "../tests/Phase23_5_FeedIntegrityRegression.ts";
 import { Phase23_5_C_RuntimeIntegrityRegression } from "../tests/Phase23_5_C_RuntimeIntegrityRegression.ts";
 import { Phase23_5_D_ForensicAudit } from "../tests/Phase23_5_D_ForensicAudit.ts";
+import { Phase23_5_E_StateArchitectureRegression } from "../tests/Phase23_5_E_StateArchitectureRegression.ts";
 
 /**
  * GET /api/v4/news/regression
@@ -296,11 +297,13 @@ newsCoreV2Router.get("/regression", async (req: Request, res: Response) => {
     const phase235Report = await Phase23_5_FeedIntegrityRegression.runSuite();
     const phase235CReport = await Phase23_5_C_RuntimeIntegrityRegression.runSuite();
     const phase235DReport = await Phase23_5_D_ForensicAudit.runSuite();
+    const phase235EReport = await Phase23_5_E_StateArchitectureRegression.runSuite();
     res.json({
       ...report,
       phase23_5: phase235Report,
       phase23_5_c: phase235CReport,
-      phase23_5_d: phase235DReport
+      phase23_5_d: phase235DReport,
+      phase23_5_e: phase235EReport
     });
   } catch (err: any) {
     res.status(500).json({
@@ -342,6 +345,18 @@ newsCoreV2Router.get("/regression-23-5-d", async (req: Request, res: Response) =
     res.status(500).json({
       status: "error",
       message: err.message || "Phase 23.5-D forensic audit execution failed"
+    });
+  }
+});
+
+newsCoreV2Router.get("/regression-23-5-e", async (req: Request, res: Response) => {
+  try {
+    const report = await Phase23_5_E_StateArchitectureRegression.runSuite();
+    res.json(report);
+  } catch (err: any) {
+    res.status(500).json({
+      status: "error",
+      message: err.message || "Phase 23.5-E state architecture regression execution failed"
     });
   }
 });

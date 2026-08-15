@@ -141,6 +141,7 @@ export class CanonicalDeduplicator {
             id: duplicateMatch.id
           };
           registerArticle(updatedArticle);
+          uniqueNew.push(updatedArticle);
         }
       } else {
         // Unique new article!
