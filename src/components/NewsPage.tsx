@@ -136,9 +136,14 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     const validArticles = articlesList.filter(art => {
       const primary = (art.primaryCategory || art.category || '').toLowerCase();
       if (target === 'f&o' || target === 'fno') {
-        const isFno = art.fno?.eligible || art.isFO;
+        const isFno = !!(art.fno?.eligible || art.isFO || art.isFnO || art.fnoEligible);
         if (!isFno) mixedCount++;
         return isFno;
+      }
+      if (target === 'market' || target === 'markets') {
+        const isMarket = primary === 'market' || primary === 'markets';
+        if (!isMarket) mixedCount++;
+        return isMarket;
       }
       const matches = primary === target;
       if (!matches) mixedCount++;
@@ -175,10 +180,11 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
       }
     }, 30000); // 30s timeout
 
+    const isV3Enabled = (import.meta as any).env?.VITE_NEWS_CORE_V3_ENABLED === 'true';
+
     try {
       setLifecycleState('SYNCING');
 
-      const isV3Enabled = (import.meta as any).env?.VITE_NEWS_CORE_V3_ENABLED === 'true';
       const feedBaseUrl = isV3Enabled ? '/api/v5/news/feed' : '/api/v4/news/feed';
       const url = `${feedBaseUrl}?page=${pageToLoad}&limit=50&category=${encodeURIComponent(categoryToLoad)}`;
       const feedRes = await fetch(url, { signal: controller.signal });
@@ -265,8 +271,13 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           return true;
         });
 
-        safeLocalStorage.setItem(`athena.newsFeed.v2.snapshot.v2.${categoryToLoad}`, JSON.stringify({
+        const cacheKey = isV3Enabled 
+          ? `athena.newsCoreV3.feed.${categoryToLoad}` 
+          : `athena.newsFeed.v2.snapshot.v2.${categoryToLoad}`;
+
+        safeLocalStorage.setItem(cacheKey, JSON.stringify({
           category: categoryToLoad,
+          version: isV3Enabled ? 'V3' : 'V2',
           articles: accumulatedCacheArticles,
           page: feedData.page || pageToLoad,
           totalPages: feedData.totalPages || 1,
@@ -274,7 +285,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           savedAt: nowStr
         }));
       } else {
-        throw new Error(feedData.message || 'Invalid News Core V2 payload');
+        throw new Error(feedData.message || (isV3Enabled ? 'Invalid News Core V3 payload' : 'Invalid News Core V2 payload'));
       }
     } catch (err: any) {
       clearTimeout(timeoutId);
@@ -285,14 +296,14 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
       if (categoryToLoad !== selectedCategoryRef.current || requestGeneration !== categoryRequestGenerationRef.current[categoryToLoad]) {
         return;
       }
-      console.error("[NewsPage] News Core V2 Feed error:", err);
+      console.error("[NewsPage] News Feed error:", err);
       setLifecycleState('FAILED');
       setCategoryFeeds(prev => ({
         ...prev,
         [categoryToLoad]: {
           ...(prev[categoryToLoad] || { articles: [], page: 1, totalPages: 1, totalCount: 0, loading: false, error: null, lastFetchedAt: null, requestGeneration }),
           loading: false,
-          error: err.message || 'Failed to connect to News Core V2'
+          error: err.message || (isV3Enabled ? 'Failed to connect to News Core V3' : 'Failed to connect to News Core V2')
         }
       }));
     } finally {
@@ -394,7 +405,12 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     const hydrateCache = () => {
       setLifecycleState('HYDRATING_CACHE');
       try {
-        const cachedStr = safeLocalStorage.getItem(`athena.newsFeed.v2.snapshot.v2.${selectedCategory}`);
+        const isV3Enabled = (import.meta as any).env?.VITE_NEWS_CORE_V3_ENABLED === 'true';
+        const cacheKey = isV3Enabled 
+          ? `athena.newsCoreV3.feed.${selectedCategory}` 
+          : `athena.newsFeed.v2.snapshot.v2.${selectedCategory}`;
+
+        const cachedStr = safeLocalStorage.getItem(cacheKey);
         if (cachedStr) {
           const parsed = JSON.parse(cachedStr);
           if (parsed && parsed.category === selectedCategory && Array.isArray(parsed.articles)) {
@@ -416,7 +432,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
               }));
             } else {
               console.warn(`[NewsPage] Discarding invalid/contaminated cache snapshot for ${selectedCategory}`);
-              safeLocalStorage.removeItem(`athena.newsFeed.v2.snapshot.v2.${selectedCategory}`);
+              safeLocalStorage.removeItem(cacheKey);
             }
           }
         }

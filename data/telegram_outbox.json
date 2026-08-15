@@ -1,10 +1,1 @@
-[
-  {
-    "articleId": "telegram_crash_test",
-    "payload": {
-      "id": "telegram_crash_test",
-      "headline": "Test"
-    },
-    "attempts": 0
-  }
-]
+[]
