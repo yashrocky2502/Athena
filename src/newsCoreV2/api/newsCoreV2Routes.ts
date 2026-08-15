@@ -293,6 +293,16 @@ import { Phase23_5_F_ConcurrencyRegression } from "../tests/Phase23_5_F_Concurre
 import { Phase23_5_G_PersistenceShrinkRegression } from "../tests/Phase23_5_G_PersistenceShrinkRegression.ts";
 import { Phase23_5_H_ProductionRuntimeVerification } from "../tests/Phase23_5_H_ProductionRuntimeVerification.ts";
 import { Phase23_5_I_IdentityIntegrityRegression } from "../tests/Phase23_5_I_IdentityIntegrityRegression.ts";
+import { reproduceRaceCondition } from "../tests/ReproduceRaceCondition.ts";
+
+newsCoreV2Router.get("/regression-race-condition", async (req: Request, res: Response) => {
+  try {
+    await reproduceRaceCondition();
+    res.json({ status: "success" });
+  } catch (err: any) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+});
 
 /**
  * GET /api/v4/news/forensic/runtime-count
