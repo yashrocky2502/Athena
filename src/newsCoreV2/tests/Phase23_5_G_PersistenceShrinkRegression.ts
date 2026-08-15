@@ -143,8 +143,23 @@ export class Phase23_5_G_PersistenceShrinkRegression {
     // TEST G10: Suspicious dataset shrink rejected
     let g10Passed = true;
     try {
-      const countAfterG10 = newsStore.getAllArticles().length;
-      g10Passed = countAfterG10 >= initialCount;
+      const dataPath = path.join(process.cwd(), "data", "news_core_v2.json");
+      const backupPath = `${dataPath}.bak`;
+      
+      // Setup: ensure valid backup exists
+      if (fs.existsSync(dataPath)) {
+        fs.copyFileSync(dataPath, backupPath);
+      }
+      
+      // Simulate: overwrite primary with small array to trigger guard
+      const smallArray = [{ id: "temp_1", headline: "Shrink attempt" }];
+      fs.writeFileSync(dataPath, JSON.stringify(smallArray), "utf-8");
+      
+      // Action: attempt to hydrate (this *should* trigger guard/restore)
+      newsStore.hydrateFromDisk();
+      
+      // Verify: store should still have original count (restored)
+      g10Passed = newsStore.getAllArticles().length >= initialCount;
     } catch (e) {
       g10Passed = false;
     }
