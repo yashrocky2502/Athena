@@ -154,8 +154,8 @@ router.get('/feed', async (req: Request, res: Response) => {
         // Evaluate Canary Decision
         const canaryDecision = newsCanaryRouter.shouldRouteToCanary(req);
 
-        // If explicit override disables canary on V5 route, or canary disabled
-        if (!canaryDecision.useCanary && (req.headers['x-news-canary'] === 'false' || req.query['canary'] === '0')) {
+        // If canary says use V2 (control group, disabled, or override)
+        if (!canaryDecision.useCanary) {
             const allArticles = newsStore.getAllArticles();
             let filtered = allArticles;
             if (category && category.toLowerCase() !== 'all') {
@@ -189,24 +189,59 @@ router.get('/feed', async (req: Request, res: Response) => {
             });
         }
 
-        const feedResult = await feedService.getFeed({
-            category,
-            symbol,
-            page,
-            limit,
-            sort
-        });
+        try {
+            const feedResult = await feedService.getFeed({
+                category,
+                symbol,
+                page,
+                limit,
+                sort
+            });
 
-        res.setHeader('x-news-canary-routed', 'true');
-        res.setHeader('x-news-canary-reason', canaryDecision.reason);
+            res.setHeader('x-news-canary-routed', 'true');
+            res.setHeader('x-news-canary-reason', canaryDecision.reason);
 
-        res.json({
-            status: 'success',
-            version: 'V5-STAGE2',
-            canaryRouted: true,
-            canaryReason: canaryDecision.reason,
-            ...feedResult
-        });
+            res.json({
+                status: 'success',
+                version: 'V5-STAGE2',
+                canaryRouted: true,
+                canaryReason: canaryDecision.reason,
+                ...feedResult
+            });
+        } catch (canaryErr: any) {
+            console.warn('[NewsV5] V3 Feed failed, falling back to V2:', canaryErr.message);
+            const allArticles = newsStore.getAllArticles();
+            let filtered = allArticles;
+            if (category && category.toLowerCase() !== 'all') {
+                const lowerCat = category.toLowerCase();
+                if (lowerCat === 'f&o' || lowerCat === 'fno') {
+                    filtered = newsStore.getFNOArticles();
+                } else {
+                    filtered = allArticles.filter(a => (a.primaryCategory || a.category || '').toLowerCase() === lowerCat);
+                }
+            }
+            if (symbol && symbol.trim().length > 0) {
+                const symUpper = symbol.trim().toUpperCase();
+                filtered = filtered.filter(a => ((a as any).symbol || '').toUpperCase() === symUpper);
+            }
+            const totalCount = filtered.length;
+            const totalPages = Math.max(1, Math.ceil(totalCount / limit));
+            const startIndex = (page - 1) * limit;
+            const paginated = (page >= 1 && page <= totalPages && startIndex < totalCount) ? filtered.slice(startIndex, startIndex + limit) : [];
+            const uiArticles = NewsCoreV2UIAdapter.adaptMany(paginated);
+
+            return res.json({
+                status: 'success',
+                version: 'V5-V2-FALLBACK',
+                canaryRouted: false,
+                canaryReason: `FALLBACK_${canaryErr.message}`,
+                articles: uiArticles,
+                totalCount,
+                page,
+                limit,
+                totalPages
+            });
+        }
     } catch (err: any) {
         console.error('[NewsV5] Feed error:', err);
         res.status(500).json({
