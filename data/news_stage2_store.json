@@ -1,5 +1,41 @@
 [
   {
+    "id": "test_stage3_6_growth_1786878714614",
+    "headline": "STAGE 3.6 AUDIT TEST: Reserve Bank Announces Policy Rate Decision",
+    "body": "Detailed body test for stage 3.6 audit.",
+    "primaryCategory": "Economy",
+    "publishedAt": "2026-08-16T11:11:54.614Z",
+    "source": {
+      "publisher": "Athena Audit",
+      "url": "https://athena.test/test_stage3_6_growth_1786878714614"
+    },
+    "canonicalUrl": "https://athena.test/test_stage3_6_growth_1786878714614"
+  },
+  {
+    "id": "test_stage3_6_growth_1786878360459",
+    "headline": "STAGE 3.6 AUDIT TEST: Reserve Bank Announces Policy Rate Decision",
+    "body": "Detailed body test for stage 3.6 audit.",
+    "primaryCategory": "Economy",
+    "publishedAt": "2026-08-16T11:06:00.459Z",
+    "source": {
+      "publisher": "Athena Audit",
+      "url": "https://athena.test/test_stage3_6_growth_1786878360459"
+    },
+    "canonicalUrl": "https://athena.test/test_stage3_6_growth_1786878360459"
+  },
+  {
+    "id": "test_stage3_6_growth_1786877749012",
+    "headline": "STAGE 3.6 AUDIT TEST: Reserve Bank Announces Policy Rate Decision",
+    "body": "Detailed body test for stage 3.6 audit.",
+    "primaryCategory": "Economy",
+    "publishedAt": "2026-08-16T10:55:49.012Z",
+    "source": {
+      "publisher": "Athena Audit",
+      "url": "https://athena.test/test_stage3_6_growth_1786877749012"
+    },
+    "canonicalUrl": "https://athena.test/test_stage3_6_growth_1786877749012"
+  },
+  {
     "id": "test_stage3_6_growth_1786876941707",
     "headline": "STAGE 3.6 AUDIT TEST: Reserve Bank Announces Policy Rate Decision",
     "body": "Detailed body test for stage 3.6 audit.",

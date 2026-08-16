@@ -39,11 +39,11 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
       expect(groqProvider.getFallbackModel()).toBe('llama-3.3-70b-versatile');
     });
 
-    it('should verify Gemini fallback model is gemini-3.6-flash and alternative candidates are verified', () => {
+    it('should verify Gemini fallback model is gemini-3.7-flash and alternative candidates are verified', () => {
       const geminiProvider = new GeminiProvider();
       delete process.env.GEMINI_FALLBACK_MODEL;
 
-      expect(['gemini-3.7-flash', 'gemini-3.6-flash']).toContain(geminiProvider.getModelName());
+      expect(geminiProvider.getModelName()).toBe('gemini-3.7-flash');
     });
 
     it('should verify ZERO occurrences of deprecated Gemini 2.5 models across all production source files', () => {

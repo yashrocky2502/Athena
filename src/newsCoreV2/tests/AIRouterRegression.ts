@@ -5,7 +5,7 @@ import { TestResult, RegressionReport } from "./NewsCoreV2Regression";
 
 export class AIRouterRegression {
   public static async runSuite(): Promise<RegressionReport> {
-    console.log("[AIRouterRegression] Starting Stage 4.3 AI Router (Groq -> Gemini 3.6 Flash -> Local) Hardening Suite...");
+    console.log("[AIRouterRegression] Starting Stage 4.3 AI Router (Groq -> Gemini 3.7 Flash -> Local) Hardening Suite...");
     
     // Save original env variables and provider methods
     const originalGeminiKey = process.env.GEMINI_API_KEY;
@@ -65,7 +65,7 @@ export class AIRouterRegression {
 
         geminiMockBehavior = () => {
           return {
-            text: "Executive Summary: Success with Gemini 3.6 Flash TATA MOTORS.\nHighlights: Standard highlights.\nMatters: Focus points.\nInvestor Takeaway: Long term hold."
+            text: "Executive Summary: Success with Gemini 3.7 Flash TATA MOTORS.\nHighlights: Standard highlights.\nMatters: Focus points.\nInvestor Takeaway: Long term hold."
           };
         };
       };
@@ -87,7 +87,7 @@ export class AIRouterRegression {
       });
 
       // ------------------------------------------------------------------------
-      // TEST 2: Groq failure -> Gemini 3.6 Flash fallback success
+      // TEST 2: Groq failure -> Gemini 3.7 Flash fallback success
       // ------------------------------------------------------------------------
       resetMocks();
       router.groqProvider.generate = async () => {
@@ -102,13 +102,13 @@ export class AIRouterRegression {
       });
 
       results.push({
-        testName: "Groq failure -> Gemini 3.6 Flash fallback success",
-        passed: response.provider === "gemini" && geminiCallHistory.length === 1 && geminiCallHistory[0] === "gemini-3.6-flash",
+        testName: "Groq failure -> Gemini 3.7 Flash fallback success",
+        passed: response.provider === "gemini" && geminiCallHistory.length === 1 && geminiCallHistory[0] === "gemini-3.7-flash",
         message: `Used provider: ${response.provider}, Gemini sequence: ${JSON.stringify(geminiCallHistory)}`
       });
 
       // ------------------------------------------------------------------------
-      // TEST 3: Groq failure -> Gemini 3.6 Flash failure -> Athena Local Engine
+      // TEST 3: Groq failure -> Gemini 3.7 Flash failure -> Athena Local Engine
       // ------------------------------------------------------------------------
       resetMocks();
       router.groqProvider.generate = async () => {

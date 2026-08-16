@@ -10,7 +10,11 @@ export class GeminiProvider implements IAIProvider {
   private costTracker = CostTracker.getInstance();
 
   public getModelName(): string {
-    return process.env.GEMINI_FALLBACK_MODEL || 'gemini-3.7-flash';
+    const model = process.env.GEMINI_FALLBACK_MODEL || 'gemini-3.7-flash';
+    if (model === 'gemini-3.6-flash') {
+      return 'gemini-3.7-flash';
+    }
+    return model;
   }
 
   public isHealthy(): boolean {

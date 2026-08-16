@@ -44,7 +44,7 @@ describe('Stage 6.4: Runtime Error Forensics & Production Safety Audit', () => {
 
     expect(groq.getPrimaryModel()).toBe('openai/gpt-oss-120b');
     expect(groq.getFallbackModel()).toBe('llama-3.3-70b-versatile');
-    expect(['gemini-3.7-flash', 'gemini-3.6-flash']).toContain(gemini.getModelName());
+    expect(gemini.getModelName()).toBe('gemini-3.7-flash');
 
     // Scan production source files for deprecated gemini-2.5 or gemini-2.0
     function walkDir(dir: string): string[] {

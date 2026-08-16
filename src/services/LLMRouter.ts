@@ -128,14 +128,14 @@ export class LLMRouter {
       } catch (err: any) {
         groqStatus = `Failed: ${err.message || err}`;
         fallbackReason = `Groq primary failed: ${err.message || err}`;
-        console.warn(`[LLMRouter] Groq primary execution failed. Failing over to Gemini 3.6 Flash fallback.`);
+        console.warn(`[LLMRouter] Groq primary execution failed. Failing over to Gemini 3.7 Flash fallback.`);
       }
     } else {
       groqStatus = groqKey ? "In Cooldown" : "API Key Missing";
       fallbackReason = groqKey ? "Groq marked unavailable" : "GROQ_API_KEY not configured";
     }
 
-    // 2. EMERGENCY FALLBACK: Gemini 3.6 Flash
+    // 2. EMERGENCY FALLBACK: Gemini 3.7 Flash
     const geminiClient = this.getGeminiClient();
     const isGeminiInCooldown = Date.now() <= this.geminiCoolDownUntil;
 
@@ -146,10 +146,10 @@ export class LLMRouter {
       geminiStatus = `In Cooldown 429 (${remaining}s remaining)`;
     } else {
       wasGeminiCalled = "Yes";
-      geminiStatus = "Waiting for Gemini 3.6 Flash";
+      geminiStatus = "Waiting for Gemini 3.7 Flash";
 
       try {
-        console.log("[LLMRouter] Attempting summarization with Fallback Provider: Gemini 3.6 Flash");
+        console.log("[LLMRouter] Attempting summarization with Fallback Provider: Gemini 3.7 Flash");
         const geminiResult = await this.callGeminiWithTimeout(geminiClient, prompt, 35000);
         if (geminiResult && geminiResult.executiveSummary) {
           const respText = JSON.stringify(geminiResult);
@@ -266,10 +266,7 @@ OUTPUT FORMAT (JSON):
   }> {
     const modelsToTry = [
       process.env.GROQ_PRIMARY_MODEL || "openai/gpt-oss-120b",
-      process.env.GROQ_FALLBACK_MODEL || "llama-3.3-70b-versatile",
-      "llama-3.1-8b-instant",
-      "llama-3.2-3b-preview",
-      "mixtral-8x7b-32768"
+      process.env.GROQ_FALLBACK_MODEL || "llama-3.3-70b-versatile"
     ].filter((m, idx, self) => self.indexOf(m) === idx);
 
     for (const model of modelsToTry) {
@@ -332,7 +329,10 @@ OUTPUT FORMAT (JSON):
   }
 
   private async callGeminiWithTimeout(client: any, prompt: string, timeoutMs: number): Promise<LLMSummaryOutput> {
-    const primaryModel = process.env.GEMINI_FALLBACK_MODEL || "gemini-3.7-flash";
+    let primaryModel = process.env.GEMINI_FALLBACK_MODEL || "gemini-3.7-flash";
+    if (primaryModel === "gemini-3.6-flash") {
+      primaryModel = "gemini-3.7-flash";
+    }
     const modelsToTry = [primaryModel, "gemini-3.7-flash", "gemini-3.1-flash-lite"];
 
     const callPromise = (async () => {
@@ -406,10 +406,7 @@ OUTPUT FORMAT (JSON):
     if (groqKey && !LLMRouter.isGroqUnavailable && typeof window === "undefined") {
       const modelsToTry = [
         process.env.GROQ_PRIMARY_MODEL || "openai/gpt-oss-120b",
-        process.env.GROQ_FALLBACK_MODEL || "llama-3.3-70b-versatile",
-        "llama-3.1-8b-instant",
-        "llama-3.2-3b-preview",
-        "mixtral-8x7b-32768"
+        process.env.GROQ_FALLBACK_MODEL || "llama-3.3-70b-versatile"
       ].filter((m, idx, self) => self.indexOf(m) === idx);
       for (const model of modelsToTry) {
         try {
@@ -469,14 +466,18 @@ OUTPUT FORMAT (JSON):
       }
     }
 
-    // 2. FALLBACK: Gemini 3.6 Flash
+    // 2. FALLBACK: Gemini 3.7 Flash
     const geminiClient = this.getGeminiClient();
     const isGeminiInCooldown = Date.now() <= this.geminiCoolDownUntil;
 
     if (geminiClient && !isGeminiInCooldown) {
       try {
+        let fallbackModelName = process.env.GEMINI_FALLBACK_MODEL || "gemini-3.7-flash";
+        if (fallbackModelName === "gemini-3.6-flash") {
+          fallbackModelName = "gemini-3.7-flash";
+        }
         const response = await geminiClient.models.generateContent({
-          model: process.env.GEMINI_FALLBACK_MODEL || "gemini-3.7-flash",
+          model: fallbackModelName,
           contents: prompt,
           config: {
             responseMimeType: "application/json",
@@ -535,7 +536,7 @@ OUTPUT FORMAT (JSON):
               generatedAt: new Date().toISOString()
             },
             providerUsed: "Gemini",
-            status: "200 OK (Gemini 3.6 Flash)"
+            status: "200 OK (Gemini 3.7 Flash)"
           };
         }
       } catch (err: any) {
@@ -545,7 +546,7 @@ OUTPUT FORMAT (JSON):
         } else if (msg.includes("503") || msg.includes("UNAVAILABLE")) {
           this.geminiCoolDownUntil = Date.now() + 30 * 1000;
         }
-        console.warn("[LLMRouter] Gemini 3.6 Flash failed for Athena Intelligence, falling back to Local Heuristics:", msg);
+        console.warn("[LLMRouter] Gemini 3.7 Flash failed for Athena Intelligence, falling back to Local Heuristics:", msg);
       }
     }
 

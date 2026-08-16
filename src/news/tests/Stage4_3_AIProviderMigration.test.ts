@@ -219,13 +219,13 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
     });
   });
 
-  describe('3. Obsolete Model Purge & Gemini 3.6 Configuration Verification', () => {
-    it('should verify GeminiProvider default model is strictly gemini-3.6-flash', () => {
+  describe('3. Obsolete Model Purge & Gemini 3.7 Configuration Verification', () => {
+    it('should verify GeminiProvider default model is strictly gemini-3.7-flash', () => {
       const geminiProvider = new GeminiProvider();
       const originalEnv = process.env.GEMINI_FALLBACK_MODEL;
       delete process.env.GEMINI_FALLBACK_MODEL;
 
-      expect(['gemini-3.7-flash', 'gemini-3.6-flash']).toContain(geminiProvider.getModelName());
+      expect(geminiProvider.getModelName()).toBe('gemini-3.7-flash');
 
       process.env.GEMINI_FALLBACK_MODEL = originalEnv;
     });

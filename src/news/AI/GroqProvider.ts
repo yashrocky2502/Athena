@@ -54,9 +54,7 @@ export class GroqProvider implements IAIProvider {
     const models = [
       this.getPrimaryModel(),
       this.getFallbackModel(),
-      'llama-3.3-70b-versatile',
-      'llama-3.1-8b-instant',
-      'llama-3.2-3b-preview'
+      'llama-3.3-70b-versatile'
     ].filter((m, idx, self) => self.indexOf(m) === idx);
     const maxRetries = models.length - 1;
     let attempt = 0;

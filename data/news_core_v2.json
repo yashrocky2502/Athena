@@ -1,5 +1,311 @@
 [
   {
+    "id": "v2_186d9a1fc28f0930",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/geraldine-weisss-dividend-strategy-the-blue-chip-investing-formula-that-stood-the-test-of-time/articleshow/133273809.cms",
+    "headline": "Geraldine Weiss’s dividend strategy: The blue-chip investing formula that stood the 'Test of Time'",
+    "body": "Geraldine Weiss built a disciplined value-investing strategy around buying financially strong blue-chip companies when their dividend yields rose above historical norms. Her approach combined reliable dividend growth, reasonable valuations, moderate debt and patience to generate income and identify undervalued stocks.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/geraldine-weisss-dividend-strategy-the-blue-chip-investing-formula-that-stood-the-test-of-time/articleshow/133273809.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:58:46.000Z",
+    "collectedAt": "2026-08-16T11:12:09.026Z",
+    "category": "Corporate",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 100,
+    "primaryCategory": "Corporate",
+    "secondaryCategories": [],
+    "eventType": "DIVIDEND",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Corporate] Corporate action/order win keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_b6d82cb12576ba7f",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPOGMwbVNfMVVsOUQwaTBHMWJPcnlpdFlLSHhUVXhfbk1wS3BZWk54OW4wR2ZPdjdEZDV3MkZPYTMxLVlzVU5LcnM2SWlGN1FIVldGQ0FUZkh1LXpxZDl1aXM2eHJCYmtQRFZzRWx2ZERuQTJ6dE1DRWJNeXYwUktQRjlrZFhZLTlPMW1kQTYteXlEcHFrc1pYbmtzWDIzd1E3VTVjemk0c2FnMUhjWHRTdjNhaElDa0ZKdm9nRm5Objh0Nk55d25HWXo4UUjSAdIBQVVfeXFMTzUyZEktQVpuMkhBYjdEOXU3Ny1oUlhTZTJyQi11djk2NXRMaV8zUFJGQlY4MEx4QWY4bC16N0pSWWROb2JGNGRqeTUxNkd2c3d2SlEyVHJQekV1SHRtbkphZ2tmbzRBTGdqVzJLbHJxd3dic2ZySjZoc2taQU1KLTlCOElJZFZKY0tjdzFOQk1ncU1Pa1g2WU9sdG9VdmN3YlUwVkhhNDdmRjhRLWNXQlg0N2J4LVdHNVQ4LVpCT0RuUkdaNGVlanNheGpYemluamNR?oc=5",
+    "headline": "AI techie joins MNC, says there's no work for him. Netizens call it 'free salary' - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMizAFBVV95cUxPOGMwbVNfMVVsOUQwaTBHMWJPcnlpdFlLSHhUVXhfbk1wS3BZWk54OW4wR2ZPdjdEZDV3MkZPYTMxLVlzVU5LcnM2SWlGN1FIVldGQ0FUZkh1LXpxZDl1aXM2eHJCYmtQRFZzRWx2ZERuQTJ6dE1DRWJNeXYwUktQRjlrZFhZLTlPMW1kQTYteXlEcHFrc1pYbmtzWDIzd1E3VTVjemk0c2FnMUhjWHRTdjNhaElDa0ZKdm9nRm5Objh0Nk55d25HWXo4UUjSAdIBQVVfeXFMTzUyZEktQVpuMkhBYjdEOXU3Ny1oUlhTZTJyQi11djk2NXRMaV8zUFJGQlY4MEx4QWY4bC16N0pSWWROb2JGNGRqeTUxNkd2c3d2SlEyVHJQekV1SHRtbkphZ2tmbzRBTGdqVzJLbHJxd3dic2ZySjZoc2taQU1KLTlCOElJZFZKY0tjdzFOQk1ncU1Pa1g2WU9sdG9VdmN3YlUwVkhhNDdmRjhRLWNXQlg0N2J4LVdHNVQ4LVpCT0RuUkdaNGVlanNheGpYemluamNR?oc=5\" target=\"_blank\">AI techie joins MNC, says there's no work for him. Netizens call it 'free salary'</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPOGMwbVNfMVVsOUQwaTBHMWJPcnlpdFlLSHhUVXhfbk1wS3BZWk54OW4wR2ZPdjdEZDV3MkZPYTMxLVlzVU5LcnM2SWlGN1FIVldGQ0FUZkh1LXpxZDl1aXM2eHJCYmtQRFZzRWx2ZERuQTJ6dE1DRWJNeXYwUktQRjlrZFhZLTlPMW1kQTYteXlEcHFrc1pYbmtzWDIzd1E3VTVjemk0c2FnMUhjWHRTdjNhaElDa0ZKdm9nRm5Objh0Nk55d25HWXo4UUjSAdIBQVVfeXFMTzUyZEktQVpuMkhBYjdEOXU3Ny1oUlhTZTJyQi11djk2NXRMaV8zUFJGQlY4MEx4QWY4bC16N0pSWWROb2JGNGRqeTUxNkd2c3d2SlEyVHJQekV1SHRtbkphZ2tmbzRBTGdqVzJLbHJxd3dic2ZySjZoc2taQU1KLTlCOElJZFZKY0tjdzFOQk1ncU1Pa1g2WU9sdG9VdmN3YlUwVkhhNDdmRjhRLWNXQlg0N2J4LVdHNVQ4LVpCT0RuUkdaNGVlanNheGpYemluamNR?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:47:56.000Z",
+    "collectedAt": "2026-08-16T10:55:40.126Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_c4aa26522e4e70ca",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOTW5iaFZ4aVZKYW8xdW5VVWp4dFQzX0dyclVGUVdQT1U0Z2o5OTRDWEdxT0pmZjh2dnNrdXhjSTRGRElDR3VFWnZJT3c0VURSTTZuRDRQWkpFSVdwU1FpczlIeXRLWGJjcEdibmhFa0lTbzFmOC1leFkxSG0tWENjSXc3eHAyQ3R0NWsxZlo5Ym9PMlJTcW1jaVBSdmZWb1VsVXFMVFRXeG9oMUlGY1NvNS1CNE1OaHhvbElKUWVRblROOHFRLUloelVQMnpZZ9IB0wFBVV95cUxOQkJBTmJfN1YyVmtxazhnNU1Ec255ZGYtN2hSYnVjY29HV01EU2xYQ19nVGl5SWNVLVpiSWFYNUphN05sNmR6OEQtcTZGM1E5SHhQMFZQLVF3SnJFWk9rTnFfeUpSTDUyYjZ5bmNyejFSX09PZ1JqcXJoU1lpaUM0UldEUUZzSTNOS1A0UDd1Rlp2WWxXUG4ybkF6TFJyb0puNGJyUTBTbEl2cGJBS0cxMVFaQ3BqWWw3dFQ4NlhITkxHRy1JWEx6Z2lNOEhNMXdHbUI0?oc=5",
+    "headline": "Oppo, OnePlus, Realme phones to be made by Amber Enterprises in India from FY28 - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMizgFBVV95cUxOTW5iaFZ4aVZKYW8xdW5VVWp4dFQzX0dyclVGUVdQT1U0Z2o5OTRDWEdxT0pmZjh2dnNrdXhjSTRGRElDR3VFWnZJT3c0VURSTTZuRDRQWkpFSVdwU1FpczlIeXRLWGJjcEdibmhFa0lTbzFmOC1leFkxSG0tWENjSXc3eHAyQ3R0NWsxZlo5Ym9PMlJTcW1jaVBSdmZWb1VsVXFMVFRXeG9oMUlGY1NvNS1CNE1OaHhvbElKUWVRblROOHFRLUloelVQMnpZZ9IB0wFBVV95cUxOQkJBTmJfN1YyVmtxazhnNU1Ec255ZGYtN2hSYnVjY29HV01EU2xYQ19nVGl5SWNVLVpiSWFYNUphN05sNmR6OEQtcTZGM1E5SHhQMFZQLVF3SnJFWk9rTnFfeUpSTDUyYjZ5bmNyejFSX09PZ1JqcXJoU1lpaUM0UldEUUZzSTNOS1A0UDd1Rlp2WWxXUG4ybkF6TFJyb0puNGJyUTBTbEl2cGJBS0cxMVFaQ3BqWWw3dFQ4NlhITkxHRy1JWEx6Z2lNOEhNMXdHbUI0?oc=5\" target=\"_blank\">Oppo, OnePlus, Realme phones to be made by Amber Enterprises in India from FY28</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOTW5iaFZ4aVZKYW8xdW5VVWp4dFQzX0dyclVGUVdQT1U0Z2o5OTRDWEdxT0pmZjh2dnNrdXhjSTRGRElDR3VFWnZJT3c0VURSTTZuRDRQWkpFSVdwU1FpczlIeXRLWGJjcEdibmhFa0lTbzFmOC1leFkxSG0tWENjSXc3eHAyQ3R0NWsxZlo5Ym9PMlJTcW1jaVBSdmZWb1VsVXFMVFRXeG9oMUlGY1NvNS1CNE1OaHhvbElKUWVRblROOHFRLUloelVQMnpZZ9IB0wFBVV95cUxOQkJBTmJfN1YyVmtxazhnNU1Ec255ZGYtN2hSYnVjY29HV01EU2xYQ19nVGl5SWNVLVpiSWFYNUphN05sNmR6OEQtcTZGM1E5SHhQMFZQLVF3SnJFWk9rTnFfeUpSTDUyYjZ5bmNyejFSX09PZ1JqcXJoU1lpaUM0UldEUUZzSTNOS1A0UDd1Rlp2WWxXUG4ybkF6TFJyb0puNGJyUTBTbEl2cGJBS0cxMVFaQ3BqWWw3dFQ4NlhITkxHRy1JWEx6Z2lNOEhNMXdHbUI0?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:47:03.000Z",
+    "collectedAt": "2026-08-16T10:55:40.126Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_ed6fb482443196d3",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxONnJZc3RaRkhZMkhCT3o5ei1NYnU0c1VDeVBZeGo0NEJwdjJyX1JlZVBzMEhjTUpMLWgyVG1hS21IWDlmX2hyLU5TUjMtS2ZRSWlvUmxoQUJ3cXZ2M3hrZEhQc0NBd05tdHBfZzFJZ1d6c1F5R0tsVkQ0WXR0YkZib3VJRkxlUDREMXVMRkoxY29yM01RLWdBQXp4ZklzM0NSa0FvSEE3V0R6Zy1nYzJWcjlVVmxlRktFbjBsZG9FTXhlZk5WVnJBVGY5UHYtdU9CMWgyQ1pqMFhmY2YtYTBN0gHkAUFVX3lxTE5VbzRPNFJ2WFdMRnEybXhuZ3BZOGhnb3pWUm9kZDhKSnZja2VqTVRTb05zNEdrdHJubWpUY0M0X01BblZiNXVYd21ITHg4ZDQySzZTbjI2QzIwZkxRTGFHR1F0NTkwX3N5VFJ1NU5sc2R0QlJCdjlwVEVJM2pUcWRScDlGd2tSamYxa2tReGg2b0gzNkI2RlR4Y3VxbklfaXNLclc1b3VJem0wRWN6bkNKWWJJYkdvVzI2UU02YU12cHlGYVNtRXRuUURmbVREcGdwRUxJVkExNWRfLW03ejV1cnZsRw?oc=5",
+    "headline": "Expert view: Markets navigate hormuz risks, FII comeback and policy crosswinds - livemint.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi3wFBVV95cUxONnJZc3RaRkhZMkhCT3o5ei1NYnU0c1VDeVBZeGo0NEJwdjJyX1JlZVBzMEhjTUpMLWgyVG1hS21IWDlmX2hyLU5TUjMtS2ZRSWlvUmxoQUJ3cXZ2M3hrZEhQc0NBd05tdHBfZzFJZ1d6c1F5R0tsVkQ0WXR0YkZib3VJRkxlUDREMXVMRkoxY29yM01RLWdBQXp4ZklzM0NSa0FvSEE3V0R6Zy1nYzJWcjlVVmxlRktFbjBsZG9FTXhlZk5WVnJBVGY5UHYtdU9CMWgyQ1pqMFhmY2YtYTBN0gHkAUFVX3lxTE5VbzRPNFJ2WFdMRnEybXhuZ3BZOGhnb3pWUm9kZDhKSnZja2VqTVRTb05zNEdrdHJubWpUY0M0X01BblZiNXVYd21ITHg4ZDQySzZTbjI2QzIwZkxRTGFHR1F0NTkwX3N5VFJ1NU5sc2R0QlJCdjlwVEVJM2pUcWRScDlGd2tSamYxa2tReGg2b0gzNkI2RlR4Y3VxbklfaXNLclc1b3VJem0wRWN6bkNKWWJJYkdvVzI2UU02YU12cHlGYVNtRXRuUURmbVREcGdwRUxJVkExNWRfLW03ejV1cnZsRw?oc=5\" target=\"_blank\">Expert view: Markets navigate hormuz risks, FII comeback and policy crosswinds</a> <font color=\"#6f6f6f\">livemint.com</font>",
+    "source": {
+      "publisher": "Google News Business",
+      "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxONnJZc3RaRkhZMkhCT3o5ei1NYnU0c1VDeVBZeGo0NEJwdjJyX1JlZVBzMEhjTUpMLWgyVG1hS21IWDlmX2hyLU5TUjMtS2ZRSWlvUmxoQUJ3cXZ2M3hrZEhQc0NBd05tdHBfZzFJZ1d6c1F5R0tsVkQ0WXR0YkZib3VJRkxlUDREMXVMRkoxY29yM01RLWdBQXp4ZklzM0NSa0FvSEE3V0R6Zy1nYzJWcjlVVmxlRktFbjBsZG9FTXhlZk5WVnJBVGY5UHYtdU9CMWgyQ1pqMFhmY2YtYTBN0gHkAUFVX3lxTE5VbzRPNFJ2WFdMRnEybXhuZ3BZOGhnb3pWUm9kZDhKSnZja2VqTVRTb05zNEdrdHJubWpUY0M0X01BblZiNXVYd21ITHg4ZDQySzZTbjI2QzIwZkxRTGFHR1F0NTkwX3N5VFJ1NU5sc2R0QlJCdjlwVEVJM2pUcWRScDlGd2tSamYxa2tReGg2b0gzNkI2RlR4Y3VxbklfaXNLclc1b3VJem0wRWN6bkNKWWJJYkdvVzI2UU02YU12cHlGYVNtRXRuUURmbVREcGdwRUxJVkExNWRfLW03ejV1cnZsRw?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:39:19.000Z",
+    "collectedAt": "2026-08-16T10:49:37.201Z",
+    "category": "Market",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Market",
+    "secondaryCategories": [],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Expert view: Markets navigate hormuz risks, FII comeback and policy crosswinds. While foreign flows have improved sentiment, domestic policymakers have introduced a new area of debate.",
+    "whatChanged": [
+      "Expert view: Markets navigate hormuz risks, FII comeback and policy crosswinds"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Market movement: Expert view: Markets navigate hormuz risks, FII comeback and policy crosswinds.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_c3a208a8cf87252a",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/news/ahead-of-market-10-things-that-will-decide-stock-market-action-on-monday/articleshow/133273600.cms",
+    "headline": "Ahead of Market: 10 things that will decide stock market action on Monday",
+    "body": "Sensex and Nifty ended last week lower amid range-bound trading, with broader markets also under pressure. Analysts identified four key factors that could drive Dalal Street this week, placing Nifty support at 24,200-24,230 and resistance at 24,500-24,550.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/news/ahead-of-market-10-things-that-will-decide-stock-market-action-on-monday/articleshow/133273600.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:35:27.000Z",
+    "collectedAt": "2026-08-16T10:52:40.218Z",
+    "category": "Market",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 100,
+    "primaryCategory": "Market",
+    "secondaryCategories": [],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Ahead of Market: 10 things that will decide stock market action on Monday. Sensex and Nifty ended last week lower amid range-bound trading, with broader markets also under pressure.",
+    "whatChanged": [
+      "Ahead of Market: 10 things that will decide stock market action on Monday"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Market movement: Ahead of Market: 10 things that will decide stock market action on Monday.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_4825bbcb4d3c2899",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQSjF5MzJOZk1pdkwtUkpydFhJOTJLV0hpVVJIZkZmNndjV3BQUENVQ0dOMmlGNFQ1MmpuSXlGc2VpMEJPdDhLZTVXTXJxTmg1bTBGSU42QkVTRHYwT1FndWpScnRHUEFzeXM2bVR5cVNDaXpjNU93b2pNNkViQWszTnN5Rk5wTzUtRDBseTVSUmFRVzUxc0tpeDZFUlY4ZldNVG1zajJkeDdzTzl2ZEF6andjVmdHS1dKZE41b212eWVTdm1IdWk2eDZYWUJoNGpNTHI4Ujk2S2dodldD?oc=5",
+    "headline": "Indian Stock Market Outlook Next Week: Sensex, Nifty May Stay Range-Bound as Crude Oil, Global Risks Rise - Goodreturns",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi3AFBVV95cUxQSjF5MzJOZk1pdkwtUkpydFhJOTJLV0hpVVJIZkZmNndjV3BQUENVQ0dOMmlGNFQ1MmpuSXlGc2VpMEJPdDhLZTVXTXJxTmg1bTBGSU42QkVTRHYwT1FndWpScnRHUEFzeXM2bVR5cVNDaXpjNU93b2pNNkViQWszTnN5Rk5wTzUtRDBseTVSUmFRVzUxc0tpeDZFUlY4ZldNVG1zajJkeDdzTzl2ZEF6andjVmdHS1dKZE41b212eWVTdm1IdWk2eDZYWUJoNGpNTHI4Ujk2S2dodldD?oc=5\" target=\"_blank\">Indian Stock Market Outlook Next Week: Sensex, Nifty May Stay Range-Bound as Crude Oil, Global Risks Rise</a> <font color=\"#6f6f6f\">Goodreturns</font>",
+    "source": {
+      "publisher": "Google News Business",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQSjF5MzJOZk1pdkwtUkpydFhJOTJLV0hpVVJIZkZmNndjV3BQUENVQ0dOMmlGNFQ1MmpuSXlGc2VpMEJPdDhLZTVXTXJxTmg1bTBGSU42QkVTRHYwT1FndWpScnRHUEFzeXM2bVR5cVNDaXpjNU93b2pNNkViQWszTnN5Rk5wTzUtRDBseTVSUmFRVzUxc0tpeDZFUlY4ZldNVG1zajJkeDdzTzl2ZEF6andjVmdHS1dKZE41b212eWVTdm1IdWk2eDZYWUJoNGpNTHI4Ujk2S2dodldD?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:32:44.000Z",
+    "collectedAt": "2026-08-16T10:39:03.704Z",
+    "category": "Market",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Market",
+    "secondaryCategories": [
+      "Commodities"
+    ],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in headline",
+      "[Commodities] Commodity assets/futures matched in headline (1)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "NIFTY",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Index symbol NIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
+    },
+    "summary": "Indian Stock Market Outlook Next Week: Sensex, Nifty May Stay Range-Bound as Crude Oil, Global Risks Rise - Goodreturns. <a href=\"https://news.google.com/rss/articles/CBMi3AFBVV95cUxQSjF5MzJOZk1pdkwtUkpydFhJOTJLV0hpVVJIZkZmNndjV3BQUENVQ0dOMmlGNFQ1MmpuSXlGc2VpMEJPdDhLZTVXTXJxTmg1bTBGSU42QkVTRHYwT1FndWpScnRHUEFzeXM2bVR5cVNDaXpjNU93b2pNNkViQWszTnN5Rk5wTzUtRDBseTVSUmFRVzUxc0tpeDZFUlY4ZldNVG1zajJkeDdzTzl2ZEF6andjVmdHS1dKZE41b212eWVTdm1IdWk2eDZYWUJoNGpNTHI4Ujk2S2dodldD?oc=5\" target=\"_blank\">Indian Stock Market Outlook Next Week: Sensex, Nifty May Stay Range-Bound as Crude Oil, Global Risks Rise</a> <font color=\"#6f6f6f\">Goodreturns</font>",
+    "whatChanged": [
+      "Indian Stock Market Outlook Next Week: Sensex, Nifty May Stay Range-Bound as Crude Oil, Global Risks Rise - Goodreturns"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Forward management guidance: Indian Stock Market Outlook Next Week: Sensex, Nifty May Stay Range-Bound as Crude Oil, Global Risks Rise - Goodreturns.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 75,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_560ce8d8d952f436",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/ipos/fpos/what-shah-rukh-khan-madhuri-dixit-and-sachin-tendulkar-see-in-purple-style-labs-ipo-heres-what-drhp-reveals/articleshow/133273577.cms",
+    "headline": "What Shah Rukh Khan, Madhuri Dixit and Sachin Tendulkar see in Purple Style Labs IPO? Here’s what DRHP reveals",
+    "body": "Shah Rukh Khan, Madhuri Dixit and Sachin Tendulkar are among investors in Purple Style Labs, the parent of Pernia’s Pop-Up Shop, which is gearing up for a ₹660 crore IPO by August-end. The company has received Sebi approval and has expanded from an online platform into physical retail, with 14 Experience Centres across India and London.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/ipos/fpos/what-shah-rukh-khan-madhuri-dixit-and-sachin-tendulkar-see-in-purple-style-labs-ipo-heres-what-drhp-reveals/articleshow/133273577.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:32:42.000Z",
+    "collectedAt": "2026-08-16T10:52:40.218Z",
+    "category": "IPO",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 100,
+    "primaryCategory": "IPO",
+    "secondaryCategories": [
+      "Economy"
+    ],
+    "eventType": "IPO",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[IPO] IPO indicators matched in headline (2)",
+      "[Economy] Economy/regulatory keywords matched in body"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "What Shah Rukh Khan, Madhuri Dixit and Sachin Tendulkar see in Purple Style Labs IPO? Here’s what DRHP reveals. Shah Rukh Khan, Madhuri Dixit and Sachin Tendulkar are among investors in Purple Style Labs, the parent of Pernia’s Pop-Up Shop, which is gearing up for a ₹660 crore IPO by August-end.",
+    "whatChanged": [
+      "The company has received Sebi approval and has expanded from an online platform into physical retail, with 14 Experience Centres across India and London."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Initial Public Offering development. Key issue parameters guide market expectations and investor participation.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "Regulatory / Legal watchpoint: \"The company has received Sebi approval and has expanded from an online platform into physical retail, with 14 Experience\""
+    ],
+    "summaryConfidence": 80,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_e9fd4448862b21b9",
+    "canonicalUrl": "https://www.livemint.com/market/ipo/molbio-diagnostics-ipo-listing-date-tomorrow-heres-what-gmp-experts-signal-ahead-of-debut-11786870962625.html",
+    "headline": "Molbio Diagnostics IPO listing date tomorrow. Here's what GMP, experts signal ahead of debut",
+    "body": "Molbio Diagnostics IPO listing: The shares of Mobio Diagnostics will be listed on both exchanges - NSE and BSE. The allotment of Molbio Diagnostics IPO was finalised on Thursday, 13 August.",
+    "source": {
+      "publisher": "LiveMint",
+      "url": "https://www.livemint.com/market/ipo/molbio-diagnostics-ipo-listing-date-tomorrow-heres-what-gmp-experts-signal-ahead-of-debut-11786870962625.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:30:53.000Z",
+    "collectedAt": "2026-08-16T10:36:00.902Z",
+    "category": "IPO",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "IPO",
+    "secondaryCategories": [],
+    "eventType": "IPO",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[IPO] IPO indicators matched in headline (2)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Molbio Diagnostics IPO listing date tomorrow. Here's what GMP, experts signal ahead of debut. Molbio Diagnostics IPO listing: The shares of Mobio Diagnostics will be listed on both exchanges - NSE and BSE.",
+    "whatChanged": [
+      "Molbio Diagnostics IPO listing date tomorrow. Here's what GMP, experts signal ahead of debut"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "The IPO features grey market premium (GMP) of ₹,. Grey market premium serves as an informal listing expectation indicator, distinct from fundamental operating performance.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_4e87e64244ed85c6",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQWFBwM1A0X3paWGhRT3QyOW5QUzVFYUpSbG9feUxzeFh2dmZBT0NWQkxqbllnQ0tpdUNNRzM5cW5OVDB5cjJoZXZDMG5SZTdYOWIwR1BMYzRLZG1taVU0RFBuOFEyZGxxOHpvTmF4dW8ydG5tMUM4S1JMdXVmazRhNWgtczc4dVljX3gwZVlHV1Voak12VEdDMVNBUFR3UDE5dTk4VWVtaUNVUkVOcl9CanpVLWFqdDRxei1GclNVV3RBRXZjbHRBMmJR0gHPAUFVX3lxTE1oUUdxUlY0eFJhcFBJVVF3QkJKMGdTQ0ZqVi1QTEhqQWpJRmFzdXUxNWFoNG5LTDY1emdrdTlQMFJUTmFpRnNzOU5IN2ZTc2hKX1BlaDRHb2pYazVIV0EtTW9YajhTMGhtY1E0bnFhR3RDZU5XYmRmdm9KZEdmbXRUVGZsS0RRX3pJN2FmOXV1dG1wVWFkUWs2dGNHeEJaSWxoVEhHR2VhUHhPQ3dITnlEWjlEc1pid2tCN0tqWk9qZUdPdDRneThLVnJRaHRfRQ?oc=5",
     "headline": "Aditya Birla Sun Life MF resumes fresh subscriptions in Gold Fund - Moneycontrol.com",
@@ -27,7 +333,19 @@
       "confidence": "NONE",
       "decision": "EXCLUDE",
       "reason": "No canonical F&O entity identified in headline"
-    }
+    },
+    "summary": "Aditya Birla Sun Life MF resumes fresh subscriptions in Gold Fund - Moneycontrol.com. <a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxQWFBwM1A0X3paWGhRT3QyOW5QUzVFYUpSbG9feUxzeFh2dmZBT0NWQkxqbllnQ0tpdUNNRzM5cW5OVDB5cjJoZXZDMG5SZTdYOWIwR1BMYzRLZG1taVU0RFBuOFEyZGxxOHpvTmF4dW8ydG5tMUM4S1JMdXVmazRhNWgtczc4dVljX3gwZVlHV1Voak12VEdDMVNBUFR3UDE5dTk4VWVtaUNVUkVOcl9CanpVLWFqdDRxei1GclNVV3RBRXZjbHRBMmJR0gHPAUFVX3lxTE1oUUdxUlY0eFJhcFBJVVF3QkJKMGdTQ0ZqVi1QTEhqQWpJRmFzdXUxNWFoNG5LTDY1emdrdTlQMFJUTmFpRnNzOU5IN2ZTc2hKX1BlaDRHb2pYazVIV0EtTW9YajhTMGhtY1E0bnFhR3RDZU5XYmRmdm9KZEdmbXRUVGZsS0RRX3pJN2FmOXV1dG1wVWFkUWs2dGNHeEJaSWxoVEhHR2VhUHhPQ3dITnlEWjlEc1pid2tCN0tqWk9qZUdPdDRneThLVnJRaHRfRQ?oc=5\" target=\"_blank\">Aditya Birla Sun Life MF resumes fresh subscriptions in Gold Fund</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "whatChanged": [
+      "Aditya Birla Sun Life MF resumes fresh subscriptions in Gold Fund - Moneycontrol.com"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Commodity market update: Aditya Birla Sun Life MF resumes fresh subscriptions in Gold Fund - Moneycontrol.com.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
   },
   {
     "id": "v2_1d8f9257c79a82e8",
@@ -1161,6 +1479,48 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_845a627895ad1f95",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNYWFRMXd1SGpTeHJzYm1LWjFNanlSakFWdUpmVHFJVThXVmNITFZMcmhSdzlfUjkwN01INWFOM3dtamlxWkVYbGU4aWZwOVNXODBnazUzRk5nblJSMU1Ba1JWWXh5eUxyTWZKXy1yM0U3YldSbTlRZlRSUXFuTTlwVVFJU29PNGZOOGJiOU5qT08tS0xobGhRZzFhR2l1N0d1bE8wRU1OVnY3eEl2NDdKVHA0ek9RbHE2VFBFRnZSVzlwQmlVVVFkb0RPYWpuU2JjOURVNzBfSdIB3AFBVV95cUxNdUVDTGU0TVczUF8tdFVidnNLczNybGFtYUthbDJCc1Z5dHBDamxOWERESlhLQjRDejdZMXhUcGJrRHE0UHpZQVdkVVVnN2J2cmczWWJEdUIzNVlhWEQ1U0NialdUUVdSVEt2cGYzME94eHFwbTA1T2p5b3RXaDU0WmJwcHhCQkJDWFQ4Nno3UlRrU0ctdFhXNVpNRDNNeGg0dWVrVlc0RW5mcG9yS0pWRGNnQmJjTHBrbWlfOXRFMHhINmpndVdkREo0Y09CMU1BSWZrdHVZc29xZnJI?oc=5",
+    "headline": "Air India Express passenger fires round during screening at Varanasi airport, 2 injured - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi1wFBVV95cUxNYWFRMXd1SGpTeHJzYm1LWjFNanlSakFWdUpmVHFJVThXVmNITFZMcmhSdzlfUjkwN01INWFOM3dtamlxWkVYbGU4aWZwOVNXODBnazUzRk5nblJSMU1Ba1JWWXh5eUxyTWZKXy1yM0U3YldSbTlRZlRSUXFuTTlwVVFJU29PNGZOOGJiOU5qT08tS0xobGhRZzFhR2l1N0d1bE8wRU1OVnY3eEl2NDdKVHA0ek9RbHE2VFBFRnZSVzlwQmlVVVFkb0RPYWpuU2JjOURVNzBfSdIB3AFBVV95cUxNdUVDTGU0TVczUF8tdFVidnNLczNybGFtYUthbDJCc1Z5dHBDamxOWERESlhLQjRDejdZMXhUcGJrRHE0UHpZQVdkVVVnN2J2cmczWWJEdUIzNVlhWEQ1U0NialdUUVdSVEt2cGYzME94eHFwbTA1T2p5b3RXaDU0WmJwcHhCQkJDWFQ4Nno3UlRrU0ctdFhXNVpNRDNNeGg0dWVrVlc0RW5mcG9yS0pWRGNnQmJjTHBrbWlfOXRFMHhINmpndVdkREo0Y09CMU1BSWZrdHVZc29xZnJI?oc=5\" target=\"_blank\">Air India Express passenger fires round during screening at Varanasi airport, 2 injured</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNYWFRMXd1SGpTeHJzYm1LWjFNanlSakFWdUpmVHFJVThXVmNITFZMcmhSdzlfUjkwN01INWFOM3dtamlxWkVYbGU4aWZwOVNXODBnazUzRk5nblJSMU1Ba1JWWXh5eUxyTWZKXy1yM0U3YldSbTlRZlRSUXFuTTlwVVFJU29PNGZOOGJiOU5qT08tS0xobGhRZzFhR2l1N0d1bE8wRU1OVnY3eEl2NDdKVHA0ek9RbHE2VFBFRnZSVzlwQmlVVVFkb0RPYWpuU2JjOURVNzBfSdIB3AFBVV95cUxNdUVDTGU0TVczUF8tdFVidnNLczNybGFtYUthbDJCc1Z5dHBDamxOWERESlhLQjRDejdZMXhUcGJrRHE0UHpZQVdkVVVnN2J2cmczWWJEdUIzNVlhWEQ1U0NialdUUVdSVEt2cGYzME94eHFwbTA1T2p5b3RXaDU0WmJwcHhCQkJDWFQ4Nno3UlRrU0ctdFhXNVpNRDNNeGg0dWVrVlc0RW5mcG9yS0pWRGNnQmJjTHBrbWlfOXRFMHhINmpndVdkREo0Y09CMU1BSWZrdHVZc29xZnJI?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T06:45:32.000Z",
+    "collectedAt": "2026-08-16T10:43:11.149Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Air India Express passenger fires round during screening at Varanasi airport, 2 injured - Moneycontrol.com. <a href=\"https://news.google.com/rss/articles/CBMi1wFBVV95cUxNYWFRMXd1SGpTeHJzYm1LWjFNanlSakFWdUpmVHFJVThXVmNITFZMcmhSdzlfUjkwN01INWFOM3dtamlxWkVYbGU4aWZwOVNXODBnazUzRk5nblJSMU1Ba1JWWXh5eUxyTWZKXy1yM0U3YldSbTlRZlRSUXFuTTlwVVFJU29PNGZOOGJiOU5qT08tS0xobGhRZzFhR2l1N0d1bE8wRU1OVnY3eEl2NDdKVHA0ek9RbHE2VFBFRnZSVzlwQmlVVVFkb0RPYWpuU2JjOURVNzBfSdIB3AFBVV95cUxNdUVDTGU0TVczUF8tdFVidnNLczNybGFtYUthbDJCc1Z5dHBDamxOWERESlhLQjRDejdZMXhUcGJrRHE0UHpZQVdkVVVnN2J2cmczWWJEdUIzNVlhWEQ1U0NialdUUVdSVEt2cGYzME94eHFwbTA1T2p5b3RXaDU0WmJwcHhCQkJDWFQ4Nno3UlRrU0ctdFhXNVpNRDNNeGg0dWVrVlc0RW5mcG9yS0pWRGNnQmJjTHBrbWlfOXRFMHhINmpndVdkREo0Y09CMU1BSWZrdHVZc29xZnJI?oc=5\" target=\"_blank\">Air India Express passenger fires round during screening at Varanasi airport, 2 injured</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "whatChanged": [
+      "Air India Express passenger fires round during screening at Varanasi airport, 2 injured - Moneycontrol.com"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_8b613491e8342940",
     "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/indicators/finance-ministry-asks-ministries-to-move-from-wpi-to-ppi-in-future-contracts/articleshow/133271213.cms",
     "headline": "Finance ministry asks ministries to move from WPI to PPI in future contracts",
@@ -1482,6 +1842,48 @@
     "summary": "FPIs back in buying mode: Rs 16,621 crore flows into Indian stocks in August - Moneycontrol.com. <a href=\"https://news.google.com/rss/articles/CBMizAFBVV95cUxOTDZ2OVJiV0xtT2MxUHVZckNYNjFZMFZNTWlDajVaNkdPN2dwbF9ieGxQMDAxUnI3dTV5R1I3N19kS1JWbmc4R2pxS3ppT0xxNW9oM2F4MmlNMkhTenpLalplZ193SF9wWFVoWnh6aEVfeVdyem9hMlA0aHBEaWVkSmYxWDNTZkoxT1cyeFhOdmlxa2xGTEo0ZkZWQXpPNkd5Qkk1UDR2SmhWcnFtcXU1VkRobEhoc0FVQndtVHdXaWxDbGk2Q05rZ3pldzTSAdIBQVVfeXFMTU51am5HTlM3U09TMmp4ZlA2aDhvLXlSUTZuSUNoQWJyZnQtWldFUXhzMFVNX1djZ19jTzF5U3BsUzVkelI3eUZBaThJUGpzSlVpdDRraTlIOGtnejVsRnExVnRNUEozMHZrUWxyT1NzQTc5RWI5SEJxdTFIblozQnF1NjBaYU5pQlBCOGd4RmtJTXA0TWoxM1pfMy01V3RESm1zVkRpU1JTMzR2VXVzQ0R0WFBIR2lESFFxdWY1YV9qRk1xcXV0NnJZM2FmTTlnSFNB?oc=5\" target=\"_blank\">FPIs back in buying mode: Rs 16,621 crore flows into Indian stocks in August</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
     "whatChanged": [
       "FPIs back in buying mode: Rs 16,621 crore flows into Indian stocks in August - Moneycontrol.com"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_099eec6c40379f08",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNZVN2UEhGY2hxdU83N3NMVnpjOE8xSGZIU1Ywek9mOV9qSXJmRjJTOUlZYS01RUoxQm9IODRlYVNRSGJXU3VtY1M0WXVKaHpCWnkxZXhiRllOU056cDNXTkNVMkdncWV4R0RYVXJIbTloUFBxZzlZVU01UHNjakM3Qg?oc=5",
+    "headline": "DRI uncovers large-scale illegal use of SAFTA agreement in areca imports - pib.gov.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMigAFBVV95cUxNZVN2UEhGY2hxdU83N3NMVnpjOE8xSGZIU1Ywek9mOV9qSXJmRjJTOUlZYS01RUoxQm9IODRlYVNRSGJXU3VtY1M0WXVKaHpCWnkxZXhiRllOU056cDNXTkNVMkdncWV4R0RYVXJIbTloUFBxZzlZVU01UHNjakM3Qg?oc=5\" target=\"_blank\">DRI uncovers large-scale illegal use of SAFTA agreement in areca imports</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNZVN2UEhGY2hxdU83N3NMVnpjOE8xSGZIU1Ywek9mOV9qSXJmRjJTOUlZYS01RUoxQm9IODRlYVNRSGJXU3VtY1M0WXVKaHpCWnkxZXhiRllOU056cDNXTkNVMkdncWV4R0RYVXJIbTloUFBxZzlZVU01UHNjakM3Qg?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T05:21:00.000Z",
+    "collectedAt": "2026-08-16T10:36:00.902Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "DRI uncovers large-scale illegal use of SAFTA agreement in areca imports - pib.gov.in. <a href=\"https://news.google.com/rss/articles/CBMigAFBVV95cUxNZVN2UEhGY2hxdU83N3NMVnpjOE8xSGZIU1Ywek9mOV9qSXJmRjJTOUlZYS01RUoxQm9IODRlYVNRSGJXU3VtY1M0WXVKaHpCWnkxZXhiRllOU056cDNXTkNVMkdncWV4R0RYVXJIbTloUFBxZzlZVU01UHNjakM3Qg?oc=5\" target=\"_blank\">DRI uncovers large-scale illegal use of SAFTA agreement in areca imports</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "whatChanged": [
+      "DRI uncovers large-scale illegal use of SAFTA agreement in areca imports - pib.gov.in"
     ],
     "keyMetrics": [],
     "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
@@ -17678,6 +18080,36 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_83158fee861b73c2",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOMVI0WmJibngyMWNDZ292SGdfUXF0Nm1GWFRXUkNiUE1lWUdwSVlzdGE1NE04ejF0UEpDeTFrcnVoUEdIT0x1WWtVcURBYnFHYXBxZ2VqYTQwSnFkV0dqTWtuQmc5dXdZOVhObFp1eXl5TmJISVdpNnFKZnpjVm92XzRzTmFXWlZaM1FmWmdvQ21LZ2NCbmd6Rmx2NFFqemRmMkZENGhRcVNaRnBTa0c5NXFCSVVaUGxYd2NBckM1VHdFWWxIT0RyREhWazNSMVFnLWFJ0gHYAUFVX3lxTE5YQzNZR1MtUHgtTDNEeVVQdmQteGxua3pYUl9IZXR3clJLUnd3anlRb0NBSE12VmxueVdSVlZFZzFjOGhyNWR1akViX1lrb1NCMkRfWXp1SEppNDBMUVVLWF9YeHp4QkMxNlpCczduUmQtTVI1TzhNVm0wTmREZ1dLUy1RSDhLQkNEektjd2xmVjVMSXFsc0hSbi14M3pkb3VoV2MtU0tNMkxnQlI5N0YxLU5vdFlfY2lodWpuNDNRRzFqa0J4LTg2U0x0c0N0R2VQY2hVb2RUag?oc=5",
+    "headline": "Praj Industries shares gain 8% after strong Q1 results beat estimates - CNBC TV18",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi0wFBVV95cUxOMVI0WmJibngyMWNDZ292SGdfUXF0Nm1GWFRXUkNiUE1lWUdwSVlzdGE1NE04ejF0UEpDeTFrcnVoUEdIT0x1WWtVcURBYnFHYXBxZ2VqYTQwSnFkV0dqTWtuQmc5dXdZOVhObFp1eXl5TmJISVdpNnFKZnpjVm92XzRzTmFXWlZaM1FmWmdvQ21LZ2NCbmd6Rmx2NFFqemRmMkZENGhRcVNaRnBTa0c5NXFCSVVaUGxYd2NBckM1VHdFWWxIT0RyREhWazNSMVFnLWFJ0gHYAUFVX3lxTE5YQzNZR1MtUHgtTDNEeVVQdmQteGxua3pYUl9IZXR3clJLUnd3anlRb0NBSE12VmxueVdSVlZFZzFjOGhyNWR1akViX1lrb1NCMkRfWXp1SEppNDBMUVVLWF9YeHp4QkMxNlpCczduUmQtTVI1TzhNVm0wTmREZ1dLUy1RSDhLQkNEektjd2xmVjVMSXFsc0hSbi14M3pkb3VoV2MtU0tNMkxnQlI5N0YxLU5vdFlfY2lodWpuNDNRRzFqa0J4LTg2U0x0c0N0R2VQY2hVb2RUag?oc=5\" target=\"_blank\">Praj Industries shares gain 8% after strong Q1 results beat estimates</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
+    "source": {
+      "publisher": "CNBC TV18",
+      "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOMVI0WmJibngyMWNDZ292SGdfUXF0Nm1GWFRXUkNiUE1lWUdwSVlzdGE1NE04ejF0UEpDeTFrcnVoUEdIT0x1WWtVcURBYnFHYXBxZ2VqYTQwSnFkV0dqTWtuQmc5dXdZOVhObFp1eXl5TmJISVdpNnFKZnpjVm92XzRzTmFXWlZaM1FmWmdvQ21LZ2NCbmd6Rmx2NFFqemRmMkZENGhRcVNaRnBTa0c5NXFCSVVaUGxYd2NBckM1VHdFWWxIT0RyREhWazNSMVFnLWFJ0gHYAUFVX3lxTE5YQzNZR1MtUHgtTDNEeVVQdmQteGxua3pYUl9IZXR3clJLUnd3anlRb0NBSE12VmxueVdSVlZFZzFjOGhyNWR1akViX1lrb1NCMkRfWXp1SEppNDBMUVVLWF9YeHp4QkMxNlpCczduUmQtTVI1TzhNVm0wTmREZ1dLUy1RSDhLQkNEektjd2xmVjVMSXFsc0hSbi14M3pkb3VoV2MtU0tNMkxnQlI5N0YxLU5vdFlfY2lodWpuNDNRRzFqa0J4LTg2U0x0c0N0R2VQY2hVb2RUag?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-14T05:54:21.000Z",
+    "collectedAt": "2026-08-16T10:55:40.126Z",
+    "category": "Results",
+    "sentiment": "BULLISH",
+    "relevanceScore": 65,
+    "primaryCategory": "Results",
+    "secondaryCategories": [],
+    "eventType": "EARNINGS",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Results] Financial results indicators matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
     "id": "v2_6b7e14c58eb326ad",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxPa1dmNExSTlFaSzBpN2wtMWRnbnRxbVRkNVZlRFF1akZwaDktUFpiNmhpcjFVOXpGWUZzUEFKYTV2b3hOc0NSNjlRYzlUZjFvSnpuSmJDQWdJNkNYV1cybGRhbjdWSkJzV0lPWng2U0JRODUzdkdpUGIyTjlRR0Z2ZlFtcmE2U0l1OU9rVXY0Y0lMY1NsamxHREs2Um1SVENVaF9scWczNXlwRTZfbzluZ2NmYkthU3BqXzVKWFI1Zko5N0U5ODdNX1p0cGVLQnNFV1NVWGR5blJhd0E5NzR4cjBZU1VOam11SmfSAe8BQVVfeXFMTk91bkpmSG9ENjh0anVHOW1NX2I5aTd2d0JYMURVb21yXzBENGxBZVhlbGNfRTJ4UXc3SGwwdzMtd29OY1NHSEZZd1RUSHpBbXVNaVo0ZDhjcXE3SUxFbEtOWU5CdWU2T1JsYjZobWVSR3FZdEJSV0NBODhHVy1mcDluQnNGT2IwRkk0UTNia3dtT0N3Nll1UkJYZnZfaFpnMGVJbE5IUHVqelVZbjl4Q2hJWTNSVWJyM0IxeUZpYVIzTHE0NGdWMld3QlhTaGZ3TlpPekE1SFlWY3FJMjV5RkRDOU1TeTVpNlhEaGdpR28?oc=5",
     "headline": "LG Electronics expects stronger second quarter after last year's GST uncertainty - CNBC TV18",
@@ -25234,522 +25666,4 @@
     },
     "summary": "Dow Jones ends unchanged despite tame inflation print; S&P 500, Nasdaq outperform - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxOQ3lab00yZm9jZHp2NGM0YXBNNXJjb0FuWHg4VDBEOFNnclFvd3JDYnBacDJObHM2UXRrOGRwX2N2b2xnTkpSUlU1dWpSR0pMM0R2eDNCUi1FaGV6N1JUVkhmMTVmMFlLdWVuSUFwTi1XNW52bGlmX28tMjQyVjRfOGR6NHc0eU5RcGhVSmI2Vk9fSkFaYWVsZGNhbHJCWnQ3a3luX1RFdzUxZzZ6UTVNVHNKN1BYRDFNMUlIdlRVS2ZVLUh1Y3Y0S2Vn0gHPAUFVX3lxTE9BTkdWazc1TmozckprVDA5Q3FxdmZZSUdxbm1vS2xRREJCZjFoWUJtVDN1WFB6MlMxVC0xTlRLM3hHTkY3eFhlSHZ6eUt5TG1Jc0F3QlVpZEpzV2diRXhxOEpiYm1JZ1dRSTYxajRRR01wMmVPZW9rNUhoM3RjRGhWNEFpa1JIaGRsVHRqUFlad3laOEtyMEg5YXYtQlRxWXBaSS1VMlpxOS1Udjd5bFBKc05ZUXE0Z1J0Z2ZEU2tYWFZTazlnakV6MF9ianBnMA?oc=5\" target=\"_blank\">Dow Jones ends unchanged despite tame inflation print; S&P 500, Nasdaq outperform</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
     "whatChanged": [
-      "Dow Jones ends unchanged despite tame inflation print; S&P 500, Nasdaq outperform - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Macroeconomic update: Dow Jones ends unchanged despite tame inflation print; S&P 500, Nasdaq outperform - CNBC TV18.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_63517574491efe17",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPU2dvUDItVm83RFcyd3Y3WXl6a2JuV2QzeDM0b09qUDI5UEhZdGdWREJiVXlXalotUXVXQk80R0NyT2kxZURkTm0xN0ktLWpycmpHZV9sbG1WaWhLN2FYS0RwWXVQNHZpcm9rOVVzeTlxX0hCelp2MWxIY3ljQW0yUTRqSk5ZYTk5bnVnZ2FZc1JfQWFkWjRwUkxVc0h2X05EWkVJakxIam9QU2hHNkdUSFE1R3JiZllBS2I5bVV0V3ROR2R6TmVjbC1iMkNQYkHSAdQBQVVfeXFMTVNYUUN2Y0xmMXdTSmhSRUo1NjZBSnItRHhOVW9wV2t1MFJZR2VtT1BrR2E2ODFEMDNLbzZiYU9VRWlzRHo2eG5tRUplQkFFdUZHVWJLVnNhLUlXR05FOV9WZDl1aW1rb0dINUozZ3ZFSTZ1TXEybkt5TGtfcGFoamlrU3k4aEFKMC1xUWRHbk1GWnoxVlhVSEI4VjBJN3VuM3RQam9YMnE2U2QzWUpZd01KMnJFcl9Rdk9pVV84cjZmVFVpdFJxMHpXTnJfMjdSLWU3Rjk?oc=5",
-    "headline": "India's SME IPO market is booming, but the trust deficit remains - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMizwFBVV95cUxPU2dvUDItVm83RFcyd3Y3WXl6a2JuV2QzeDM0b09qUDI5UEhZdGdWREJiVXlXalotUXVXQk80R0NyT2kxZURkTm0xN0ktLWpycmpHZV9sbG1WaWhLN2FYS0RwWXVQNHZpcm9rOVVzeTlxX0hCelp2MWxIY3ljQW0yUTRqSk5ZYTk5bnVnZ2FZc1JfQWFkWjRwUkxVc0h2X05EWkVJakxIam9QU2hHNkdUSFE1R3JiZllBS2I5bVV0V3ROR2R6TmVjbC1iMkNQYkHSAdQBQVVfeXFMTVNYUUN2Y0xmMXdTSmhSRUo1NjZBSnItRHhOVW9wV2t1MFJZR2VtT1BrR2E2ODFEMDNLbzZiYU9VRWlzRHo2eG5tRUplQkFFdUZHVWJLVnNhLUlXR05FOV9WZDl1aW1rb0dINUozZ3ZFSTZ1TXEybkt5TGtfcGFoamlrU3k4aEFKMC1xUWRHbk1GWnoxVlhVSEI4VjBJN3VuM3RQam9YMnE2U2QzWUpZd01KMnJFcl9Rdk9pVV84cjZmVFVpdFJxMHpXTnJfMjdSLWU3Rjk?oc=5\" target=\"_blank\">India's SME IPO market is booming, but the trust deficit remains</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPU2dvUDItVm83RFcyd3Y3WXl6a2JuV2QzeDM0b09qUDI5UEhZdGdWREJiVXlXalotUXVXQk80R0NyT2kxZURkTm0xN0ktLWpycmpHZV9sbG1WaWhLN2FYS0RwWXVQNHZpcm9rOVVzeTlxX0hCelp2MWxIY3ljQW0yUTRqSk5ZYTk5bnVnZ2FZc1JfQWFkWjRwUkxVc0h2X05EWkVJakxIam9QU2hHNkdUSFE1R3JiZllBS2I5bVV0V3ROR2R6TmVjbC1iMkNQYkHSAdQBQVVfeXFMTVNYUUN2Y0xmMXdTSmhSRUo1NjZBSnItRHhOVW9wV2t1MFJZR2VtT1BrR2E2ODFEMDNLbzZiYU9VRWlzRHo2eG5tRUplQkFFdUZHVWJLVnNhLUlXR05FOV9WZDl1aW1rb0dINUozZ3ZFSTZ1TXEybkt5TGtfcGFoamlrU3k4aEFKMC1xUWRHbk1GWnoxVlhVSEI4VjBJN3VuM3RQam9YMnE2U2QzWUpZd01KMnJFcl9Rdk9pVV84cjZmVFVpdFJxMHpXTnJfMjdSLWU3Rjk?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T23:45:03.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "IPO",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "IPO",
-    "secondaryCategories": [],
-    "eventType": "IPO",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[IPO] IPO indicators matched in headline (1)"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "India's SME IPO market is booming, but the trust deficit remains - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMizwFBVV95cUxPU2dvUDItVm83RFcyd3Y3WXl6a2JuV2QzeDM0b09qUDI5UEhZdGdWREJiVXlXalotUXVXQk80R0NyT2kxZURkTm0xN0ktLWpycmpHZV9sbG1WaWhLN2FYS0RwWXVQNHZpcm9rOVVzeTlxX0hCelp2MWxIY3ljQW0yUTRqSk5ZYTk5bnVnZ2FZc1JfQWFkWjRwUkxVc0h2X05EWkVJakxIam9QU2hHNkdUSFE1R3JiZllBS2I5bVV0V3ROR2R6TmVjbC1iMkNQYkHSAdQBQVVfeXFMTVNYUUN2Y0xmMXdTSmhSRUo1NjZBSnItRHhOVW9wV2t1MFJZR2VtT1BrR2E2ODFEMDNLbzZiYU9VRWlzRHo2eG5tRUplQkFFdUZHVWJLVnNhLUlXR05FOV9WZDl1aW1rb0dINUozZ3ZFSTZ1TXEybkt5TGtfcGFoamlrU3k4aEFKMC1xUWRHbk1GWnoxVlhVSEI4VjBJN3VuM3RQam9YMnE2U2QzWUpZd01KMnJFcl9Rdk9pVV84cjZmVFVpdFJxMHpXTnJfMjdSLWU3Rjk?oc=5\" target=\"_blank\">India's SME IPO market is booming, but the trust deficit remains</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "whatChanged": [
-      "India's SME IPO market is booming, but the trust deficit remains - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Initial Public Offering development. Key issue parameters guide market expectations and investor participation.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_599d914884fc55d1",
-    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/policy/ride-hailing-aggregators-told-to-remove-tipping-prompts/articleshow/133192841.cms",
-    "headline": "Ride-hailing aggregators told to remove tipping prompts",
-    "body": "The road transport ministry has mandated that motor vehicle aggregators eliminate any tipping prompts that appear before or during trips. This decision is based on the need for adherence to the Motor Vehicle Aggregator Guidelines, 2025, especially after instances of deceptive tipping practices were noted. Tips should only be suggested post-trip to ensure all funds go directly to drivers without any reductions.",
-    "source": {
-      "publisher": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/policy/ride-hailing-aggregators-told-to-remove-tipping-prompts/articleshow/133192841.cms",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T20:17:06.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 100,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Ride-hailing aggregators told to remove tipping prompts. The road transport ministry has mandated that motor vehicle aggregators eliminate any tipping prompts that appear before or during trips.",
-    "whatChanged": [
-      "Ride-hailing aggregators told to remove tipping prompts"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_6cb4a172a9524bc4",
-    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/policy/msme-rules-next-month-focus-on-global-value-chains/articleshow/133192809.cms",
-    "headline": "MSME rules next month, focus on global value chains",
-    "body": "The MSME ministry is set to announce new regulations for small businesses next month. These amendments focus on improving invoice financing through the Trade Receivables Discounting System, ultimately aiming to bolster cost efficiency and global competitiveness. As Parliament has recently addressed issues of delayed payments, digital platforms will play a crucial role in overseeing the effective implementation of this law.",
-    "source": {
-      "publisher": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/policy/msme-rules-next-month-focus-on-global-value-chains/articleshow/133192809.cms",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T20:06:12.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 100,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "MSME rules next month, focus on global value chains. The MSME ministry is set to announce new regulations for small businesses next month.",
-    "whatChanged": [
-      "As Parliament has recently addressed issues of delayed payments, digital platforms will play a crucial role in overseeing the effective implementation of this law."
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_f82e33ab763a7908",
-    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/policy/nirmala-sitharaman-calls-on-multilateral-banks-to-lay-brics-for-private-infra-investment/articleshow/133192791.cms",
-    "headline": "Nirmala Sitharaman calls on multilateral banks to lay BRICS for private infra investment",
-    "body": "Finance Minister Nirmala Sitharaman emphasized the challenges faced by BRICS nations in mobilizing private capital. She urged multilateral institutions to draw investors into infrastructure projects, as India needs ample private investments alongside its public capital. A substantial pipeline of infrastructure projects is being cultivated through public-private partnerships, allowing the group to target resilient and sustainable growth through meaningful cooperation outcomes.",
-    "source": {
-      "publisher": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/policy/nirmala-sitharaman-calls-on-multilateral-banks-to-lay-brics-for-private-infra-investment/articleshow/133192791.cms",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T20:01:11.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 100,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Nirmala Sitharaman calls on multilateral banks to lay BRICS for private infra investment. Finance Minister Nirmala Sitharaman emphasized the challenges faced by BRICS nations in mobilizing private capital.",
-    "whatChanged": [
-      "Nirmala Sitharaman calls on multilateral banks to lay BRICS for private infra investment"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 80,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_8f53cc0b9d3b11d5",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5yZFJzd0lYZV9LSUxHYkd3UllGQ25NSHozazJGSk03dUxpTWJraS1KMWJWVXFRUUU3S2VncEV4dU1tZk4xTkJ2T0ZkNFJWd25DQ1hhcmE2cUotSGhkN1NQRGtLT0ZiX25aNl9LUkNNV3N6OWdk?oc=5",
-    "headline": "Expanding the Development Horizon - PIB",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMidEFVX3lxTE5yZFJzd0lYZV9LSUxHYkd3UllGQ25NSHozazJGSk03dUxpTWJraS1KMWJWVXFRUUU3S2VncEV4dU1tZk4xTkJ2T0ZkNFJWd25DQ1hhcmE2cUotSGhkN1NQRGtLT0ZiX25aNl9LUkNNV3N6OWdk?oc=5\" target=\"_blank\">Expanding the Development Horizon</a> <font color=\"#6f6f6f\">PIB</font>",
-    "source": {
-      "publisher": "Press Information Bureau",
-      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5yZFJzd0lYZV9LSUxHYkd3UllGQ25NSHozazJGSk03dUxpTWJraS1KMWJWVXFRUUU3S2VncEV4dU1tZk4xTkJ2T0ZkNFJWd25DQ1hhcmE2cUotSGhkN1NQRGtLT0ZiX25aNl9LUkNNV3N6OWdk?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T18:51:00.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Expanding the Development Horizon - PIB. <a href=\"https://news.google.com/rss/articles/CBMidEFVX3lxTE5yZFJzd0lYZV9LSUxHYkd3UllGQ25NSHozazJGSk03dUxpTWJraS1KMWJWVXFRUUU3S2VncEV4dU1tZk4xTkJ2T0ZkNFJWd25DQ1hhcmE2cUotSGhkN1NQRGtLT0ZiX25aNl9LUkNNV3N6OWdk?oc=5\" target=\"_blank\">Expanding the Development Horizon</a> <font color=\"#6f6f6f\">PIB</font>",
-    "whatChanged": [
-      "Expanding the Development Horizon - PIB"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_183bacccd2e688aa",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOemY5d0VaMTBHNDFzLVFMU1VhZktLUzA4QlpPbTZpalVQdEtEMEF5WjExc0N0T2ZuczRwQjBFaVE1MXJVWFlzYVJsYW5aWXlua1B0enBUVXdkS0NRd2tEVm8xM2V4TllONmZxcjRPbUJEbjVSZmt0ajMweExDTWF1akpqWmVtNWxFTlkzU0xlcmUtZTJGeEJuQmhn0gGfAUFVX3lxTE1mUGNsdEFhVU5LbUJzQ0FaSmdIRWtqdkFReVZMdHlIVjRaWXRGS3hFOUFrRXFaVDBQdWFLZl9kV1kyVTR4VVBJTEYwVm1LeUpBM1ZJVDk4R0dnSHAzQ0VpWHpSMFNxVElhcXVsWFVfalQydld2THVXcmlpQktjc0VKN0dmSzhQbEdmZGZ5SG1xalQxNVVXd2YzVlZ3TGphYw?oc=5",
-    "headline": "SEBI’s PMS overhaul: Why experts see MF-PMS as a ‘win-win’ for investors, portfolio managers - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMimgFBVV95cUxOemY5d0VaMTBHNDFzLVFMU1VhZktLUzA4QlpPbTZpalVQdEtEMEF5WjExc0N0T2ZuczRwQjBFaVE1MXJVWFlzYVJsYW5aWXlua1B0enBUVXdkS0NRd2tEVm8xM2V4TllONmZxcjRPbUJEbjVSZmt0ajMweExDTWF1akpqWmVtNWxFTlkzU0xlcmUtZTJGeEJuQmhn0gGfAUFVX3lxTE1mUGNsdEFhVU5LbUJzQ0FaSmdIRWtqdkFReVZMdHlIVjRaWXRGS3hFOUFrRXFaVDBQdWFLZl9kV1kyVTR4VVBJTEYwVm1LeUpBM1ZJVDk4R0dnSHAzQ0VpWHpSMFNxVElhcXVsWFVfalQydld2THVXcmlpQktjc0VKN0dmSzhQbEdmZGZ5SG1xalQxNVVXd2YzVlZ3TGphYw?oc=5\" target=\"_blank\">SEBI’s PMS overhaul: Why experts see MF-PMS as a ‘win-win’ for investors, portfolio managers</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOemY5d0VaMTBHNDFzLVFMU1VhZktLUzA4QlpPbTZpalVQdEtEMEF5WjExc0N0T2ZuczRwQjBFaVE1MXJVWFlzYVJsYW5aWXlua1B0enBUVXdkS0NRd2tEVm8xM2V4TllONmZxcjRPbUJEbjVSZmt0ajMweExDTWF1akpqWmVtNWxFTlkzU0xlcmUtZTJGeEJuQmhn0gGfAUFVX3lxTE1mUGNsdEFhVU5LbUJzQ0FaSmdIRWtqdkFReVZMdHlIVjRaWXRGS3hFOUFrRXFaVDBQdWFLZl9kV1kyVTR4VVBJTEYwVm1LeUpBM1ZJVDk4R0dnSHAzQ0VpWHpSMFNxVElhcXVsWFVfalQydld2THVXcmlpQktjc0VKN0dmSzhQbEdmZGZ5SG1xalQxNVVXd2YzVlZ3TGphYw?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T18:34:10.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "Economy",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Economy",
-    "secondaryCategories": [
-      "Corporate"
-    ],
-    "eventType": "REGULATORY",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Economy] Economy/regulatory keywords matched in headline",
-      "[Corporate] Corporate action/order win keywords matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "SEBI’s PMS overhaul: Why experts see MF-PMS as a ‘win-win’ for investors, portfolio managers - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMimgFBVV95cUxOemY5d0VaMTBHNDFzLVFMU1VhZktLUzA4QlpPbTZpalVQdEtEMEF5WjExc0N0T2ZuczRwQjBFaVE1MXJVWFlzYVJsYW5aWXlua1B0enBUVXdkS0NRd2tEVm8xM2V4TllONmZxcjRPbUJEbjVSZmt0ajMweExDTWF1akpqWmVtNWxFTlkzU0xlcmUtZTJGeEJuQmhn0gGfAUFVX3lxTE1mUGNsdEFhVU5LbUJzQ0FaSmdIRWtqdkFReVZMdHlIVjRaWXRGS3hFOUFrRXFaVDBQdWFLZl9kV1kyVTR4VVBJTEYwVm1LeUpBM1ZJVDk4R0dnSHAzQ0VpWHpSMFNxVElhcXVsWFVfalQydld2THVXcmlpQktjc0VKN0dmSzhQbEdmZGZ5SG1xalQxNVVXd2YzVlZ3TGphYw?oc=5\" target=\"_blank\">SEBI’s PMS overhaul: Why experts see MF-PMS as a ‘win-win’ for investors, portfolio managers</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "whatChanged": [
-      "SEBI’s PMS overhaul: Why experts see MF-PMS as a ‘win-win’ for investors, portfolio managers - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Regulatory update: SEBI’s PMS overhaul: Why experts see MF-PMS as a ‘win-win’ for investors, portfolio managers - CNBC TV18. Requisite compliance parameters apply as published.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "Regulatory / Legal watchpoint: \"<a href=\"https://news.google.com/rss/articles/CBMimgFBVV95cUxOemY5d0VaMTBHNDFzLVFMU1VhZktLUzA4QlpPbTZpalVQdEtEMEF5WjExc0\""
-    ],
-    "summaryConfidence": 80,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_884679b8730f8f3a",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5EcWp0UEdxVlVkMkpDakR0THkzUnR1TWpleEF0cGZRQ3N6bVo5cFl1VWllQ2RtbXFWM25pZF95S1o5Tlg5U3RUaW85cjNteWlOajZ2TmpkcG9UYnNOUUktbS1sZlVYcE80R19xYnpIa2I?oc=5",
-    "headline": "POWERGRID Share Price Today - Power Grid Corporation of India on NSE/BSE - scanx.trade",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE5EcWp0UEdxVlVkMkpDakR0THkzUnR1TWpleEF0cGZRQ3N6bVo5cFl1VWllQ2RtbXFWM25pZF95S1o5Tlg5U3RUaW85cjNteWlOajZ2TmpkcG9UYnNOUUktbS1sZlVYcE80R19xYnpIa2I?oc=5\" target=\"_blank\">POWERGRID Share Price Today - Power Grid Corporation of India on NSE/BSE</a> <font color=\"#6f6f6f\">scanx.trade</font>",
-    "source": {
-      "publisher": "NSE",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5EcWp0UEdxVlVkMkpDakR0THkzUnR1TWpleEF0cGZRQ3N6bVo5cFl1VWllQ2RtbXFWM25pZF95S1o5Tlg5U3RUaW85cjNteWlOajZ2TmpkcG9UYnNOUUktbS1sZlVYcE80R19xYnpIa2I?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T18:01:09.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Exchange",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 85,
-    "primaryCategory": "Exchange",
-    "secondaryCategories": [],
-    "eventType": "EXCHANGE_NOTICE",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Exchange] Exchange regulatory/circular indicators matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": "POWERGRID",
-      "confidence": "HIGH",
-      "decision": "EXCLUDE",
-      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
-    },
-    "summary": "POWERGRID Share Price Today - Power Grid Corporation of India on NSE/BSE - scanx.trade. <a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE5EcWp0UEdxVlVkMkpDakR0THkzUnR1TWpleEF0cGZRQ3N6bVo5cFl1VWllQ2RtbXFWM25pZF95S1o5Tlg5U3RUaW85cjNteWlOajZ2TmpkcG9UYnNOUUktbS1sZlVYcE80R19xYnpIa2I?oc=5\" target=\"_blank\">POWERGRID Share Price Today - Power Grid Corporation of India on NSE/BSE</a> <font color=\"#6f6f6f\">scanx.trade</font>",
-    "whatChanged": [
-      "POWERGRID Share Price Today - Power Grid Corporation of India on NSE/BSE - scanx.trade"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Exchange notice: POWERGRID Share Price Today - Power Grid Corporation of India on NSE/BSE - scanx.trade.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 75,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_2027b2e143e5514e",
-    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-s-african-customs-union-ink-terms-to-launch-trade-talks/articleshow/133188901.cms",
-    "headline": "India, S African customs union ink terms to launch trade talks",
-    "body": "India and the Southern African Customs Union have commenced discussions by signing Terms of Reference for a trade agreement. Expected to finalize within a few months, this preferential trade pact is designed to enhance bilateral trade significantly. India plays a pivotal role as a key supplier to SACU nations across a range of industrial sectors, promising to cultivate stronger economic ties throughout Africa.",
-    "source": {
-      "publisher": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-s-african-customs-union-ink-terms-to-launch-trade-talks/articleshow/133188901.cms",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T17:03:41.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 100,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "India, S African customs union ink terms to launch trade talks. India and the Southern African Customs Union have commenced discussions by signing Terms of Reference for a trade agreement.",
-    "whatChanged": [
-      "India, S African customs union ink terms to launch trade talks"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_8733a2eeab4da489",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMipwFBVV95cUxONHM5T25iNTVXbzl4eDhfRTA0cnVuc0V1czdpRThfYW0zZGJDMlhaa3l6LW1XeUZFRFpiNDVtRnh4UjFFSWs0VkJFdF9RclZfa3FOakZFbloyM3NKdGQwQW5KUjdaYTRRcjBNVFlxSXExcW9yTzIxOUpteEpUMjQwdmpkZ2h0b001RGlVNHE5R0hjbjNLU1FlU0RLRkNoenVhZ2M2OEZkc9IBrAFBVV95cUxQM3Z5REpiNVB3a0o1RmJTaDNkZWsxXzZYaHVzclQzWUpvRHE1aGhUaDBKYmdfQkZDcml1TnRqUVVSUEtaWm1yZ2JGWE91VUcwSXlLZjVlLWMzLXRJVGFCR3l6UTRKZ0JCU1hMUmNMUm9RenVQYjBRdlFBRTRQMFRvbUJtdm1mVGRTWUlsVkdRdXpzTHc0RGw0cC1aVENySW92MUkxMXptX29VSldN?oc=5",
-    "headline": "Petronet LNG Q1 profit falls 15% sequentially as revenue drops 41%; margin expands - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxONHM5T25iNTVXbzl4eDhfRTA0cnVuc0V1czdpRThfYW0zZGJDMlhaa3l6LW1XeUZFRFpiNDVtRnh4UjFFSWs0VkJFdF9RclZfa3FOakZFbloyM3NKdGQwQW5KUjdaYTRRcjBNVFlxSXExcW9yTzIxOUpteEpUMjQwdmpkZ2h0b001RGlVNHE5R0hjbjNLU1FlU0RLRkNoenVhZ2M2OEZkc9IBrAFBVV95cUxQM3Z5REpiNVB3a0o1RmJTaDNkZWsxXzZYaHVzclQzWUpvRHE1aGhUaDBKYmdfQkZDcml1TnRqUVVSUEtaWm1yZ2JGWE91VUcwSXlLZjVlLWMzLXRJVGFCR3l6UTRKZ0JCU1hMUmNMUm9RenVQYjBRdlFBRTRQMFRvbUJtdm1mVGRTWUlsVkdRdXpzTHc0RGw0cC1aVENySW92MUkxMXptX29VSldN?oc=5\" target=\"_blank\">Petronet LNG Q1 profit falls 15% sequentially as revenue drops 41%; margin expands</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxONHM5T25iNTVXbzl4eDhfRTA0cnVuc0V1czdpRThfYW0zZGJDMlhaa3l6LW1XeUZFRFpiNDVtRnh4UjFFSWs0VkJFdF9RclZfa3FOakZFbloyM3NKdGQwQW5KUjdaYTRRcjBNVFlxSXExcW9yTzIxOUpteEpUMjQwdmpkZ2h0b001RGlVNHE5R0hjbjNLU1FlU0RLRkNoenVhZ2M2OEZkc9IBrAFBVV95cUxQM3Z5REpiNVB3a0o1RmJTaDNkZWsxXzZYaHVzclQzWUpvRHE1aGhUaDBKYmdfQkZDcml1TnRqUVVSUEtaWm1yZ2JGWE91VUcwSXlLZjVlLWMzLXRJVGFCR3l6UTRKZ0JCU1hMUmNMUm9RenVQYjBRdlFBRTRQMFRvbUJtdm1mVGRTWUlsVkdRdXpzTHc0RGw0cC1aVENySW92MUkxMXptX29VSldN?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T16:49:08.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "Results",
-    "sentiment": "BEARISH",
-    "relevanceScore": 65,
-    "primaryCategory": "Results",
-    "secondaryCategories": [
-      "F&O"
-    ],
-    "eventType": "EARNINGS",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Results] Financial results indicators matched in headline",
-      "[F&O] F&O Eligible Symbol: PETRONET"
-    ],
-    "fno": {
-      "eligible": true,
-      "symbol": "PETRONET",
-      "confidence": "HIGH",
-      "decision": "INCLUDE",
-      "reason": "Headline alias \"Petronet LNG\" matched PETRONET. Tier 2 Catalyst Match: \"profit\""
-    },
-    "summary": "Petronet LNG reported revenue at  (declined 15%).",
-    "whatChanged": [
-      "-15%"
-    ],
-    "keyMetrics": [
-      {
-        "metricName": "Revenue",
-        "currentValue": null,
-        "previousValue": null,
-        "change": null,
-        "changePercent": 15,
-        "direction": "DOWN",
-        "unit": "Cr",
-        "sourceSentence": "15% sequentially as revenue drops 41%;",
-        "displayText": "-15%"
-      }
-    ],
-    "whyItMatters": "Quarterly financial performance: -15%. Informs earnings trajectory for the reported period.",
-    "marketImpact": "Earnings result event for PETRONET. Option sellers should note event-driven volatility risk surrounding the announcement.",
-    "riskWatchpoints": [
-      "Decline in Revenue: -15%"
-    ],
-    "summaryConfidence": 100,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_3405f4edee835e27",
-    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/finance/bank-deposits-hit-decade-high-growth-as-nri-dollar-inflows-cross-37-billion/articleshow/133188027.cms",
-    "headline": "Bank deposits hit decade-high growth as NRI dollar inflows cross $37 billion",
-    "body": "Bank deposits saw their fastest growth in nearly ten years by July. Overseas Indians deposited about $37 billion in foreign currency accounts. Bank credit growth also accelerated to its fastest pace since June 2024. This surge was driven by corporate demand and MSME lending programs. India garnered nearly $41 billion in total inflows by July 31.",
-    "source": {
-      "publisher": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/finance/bank-deposits-hit-decade-high-growth-as-nri-dollar-inflows-cross-37-billion/articleshow/133188027.cms",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T16:30:47.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 100,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Bank deposits hit decade-high growth as NRI dollar inflows cross $37 billion. Bank deposits saw their fastest growth in nearly ten years by July.",
-    "whatChanged": [
-      "Bank deposits hit decade-high growth as NRI dollar inflows cross $37 billion"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 80,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_f1c9f9f0cdad61b8",
-    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/finance/rbi-proposes-new-interest-rate-rules-for-regulated-entities-seeks-public-comments/articleshow/133188150.cms",
-    "headline": "RBI proposes new interest rate rules for regulated entities, seeks public comments",
-    "body": "The Reserve Bank of India is harmonizing interest rate determination methods for regulated entities. New guidelines will define internal benchmarks and loan pricing components for banks. Floating rate loans will have benchmark resets not exceeding three months. Existing loans must migrate to the new framework by April 2029. These draft guidelines are open for public comment until September 11.",
-    "source": {
-      "publisher": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/finance/rbi-proposes-new-interest-rate-rules-for-regulated-entities-seeks-public-comments/articleshow/133188150.cms",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T16:30:07.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Economy",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 100,
-    "primaryCategory": "Economy",
-    "secondaryCategories": [],
-    "eventType": "REGULATORY",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Economy] Economy/regulatory keywords matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "RBI proposes new interest rate rules for regulated entities, seeks public comments. The Reserve Bank of India is harmonizing interest rate determination methods for regulated entities.",
-    "whatChanged": [
-      "RBI proposes new interest rate rules for regulated entities, seeks public comments"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Proposed regulatory framework / consultation paper outlines prospective policy parameters for market participants; changes remain draft proposals subject to final notification and effective dates.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 80,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_a7504b5354b9c157",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOejZTSFBzV2MxS2VLUVEtR1lJMThqWTlfLWJORXpuVGRjOV91NFkzZ3dRLTFnTlk1ZU0yMWNEd3RrSlEzZUdUeVNFaEk0NGREd2lHZGE5S05nWjJPRkZMQ2s2QVVZWmFtS2tPOHNKc0FOLU9DOTMtYWlQbFpxS3BxMVltaC1wWF9WQ0U4elJIVENCVlVTa2FZTzQwUVZtVXQ0cG9iUk55aDVGXzZkVTRMNmZR?oc=5",
-    "headline": "Indian stock market correction may see the return of foreign investors - Asia Asset Management",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMisgFBVV95cUxOejZTSFBzV2MxS2VLUVEtR1lJMThqWTlfLWJORXpuVGRjOV91NFkzZ3dRLTFnTlk1ZU0yMWNEd3RrSlEzZUdUeVNFaEk0NGREd2lHZGE5S05nWjJPRkZMQ2s2QVVZWmFtS2tPOHNKc0FOLU9DOTMtYWlQbFpxS3BxMVltaC1wWF9WQ0U4elJIVENCVlVTa2FZTzQwUVZtVXQ0cG9iUk55aDVGXzZkVTRMNmZR?oc=5\" target=\"_blank\">Indian stock market correction may see the return of foreign investors</a> <font color=\"#6f6f6f\">Asia Asset Management</font>",
-    "source": {
-      "publisher": "Google News Business",
-      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOejZTSFBzV2MxS2VLUVEtR1lJMThqWTlfLWJORXpuVGRjOV91NFkzZ3dRLTFnTlk1ZU0yMWNEd3RrSlEzZUdUeVNFaEk0NGREd2lHZGE5S05nWjJPRkZMQ2s2QVVZWmFtS2tPOHNKc0FOLU9DOTMtYWlQbFpxS3BxMVltaC1wWF9WQ0U4elJIVENCVlVTa2FZTzQwUVZtVXQ0cG9iUk55aDVGXzZkVTRMNmZR?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T16:06:25.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Market",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Market",
-    "secondaryCategories": [],
-    "eventType": "MARKET_MOVEMENT",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Market] Broad market commentary keywords matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F
+      "Dow Jones ends unchanged despite tame inflation print; S&P 500, Nasdaq outperform - CN
