@@ -125,14 +125,17 @@ router.get('/health/ingestion', async (_req: Request, res: Response) => {
     try {
         const telemetry = IngestionTelemetry.getInstance();
         const currentCount = await stage2Store.count();
+        const summary = telemetry.getTelemetrySummary();
         res.json({
             status: 'success',
+            ...summary,
+            canonicalCount: currentCount,
+            canonicalArticleCount: currentCount,
             articlesAdded: telemetry.articlesAdded,
             duplicatesRejected: telemetry.duplicatesRejected,
             ingestionAttempts: telemetry.ingestionAttempts,
             ingestionFailures: telemetry.ingestionFailures,
             malformedRecords: telemetry.malformedRecords,
-            canonicalCount: currentCount,
             growthPerHour: telemetry.getGrowthPerHour(),
             growthPerDay: telemetry.getGrowthPerDay(),
             lastSuccessfulIngestion: telemetry.lastSuccessfulIngestion,

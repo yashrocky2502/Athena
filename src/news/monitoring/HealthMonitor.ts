@@ -3,6 +3,9 @@ import path from 'path';
 import crypto from 'crypto';
 import { JsonNewsStore } from '../storage/JsonNewsStore.ts';
 import { IngestionTelemetry } from './IngestionTelemetry.ts';
+import { collectorHealthMonitor } from './CollectorHealthMonitor.ts';
+import { CanonicalArticleValidator } from '../validation/CanonicalArticleValidator.ts';
+import { PersistentV3StorageAdapter } from '../NewsEngineV3/storage/PersistentV3StorageAdapter.ts';
 
 export interface IngestionError {
     timestamp: string;
@@ -110,28 +113,40 @@ export class HealthMonitor {
             countStatus = 'DECREASED';
         }
 
-        // 2. Freshness Monitor
+        // 2. Freshness Monitor & Lag Calculations
         let oldestPublishedAt: string | null = null;
         let newestPublishedAt: string | null = null;
         let ingestionLagSeconds = 0;
+        let ageOfNewestArticleMinutes = 0;
+        let ageOfNewestArticleSeconds = 0;
+        let timeSinceLastSuccessfulIngestionSeconds: number | null = null;
+        let timeSinceLastCollectorExecutionSeconds: number | null = null;
         let freshnessStatus: 'HEALTHY' | 'WARNING' | 'CRITICAL' = 'HEALTHY';
 
+        const telemetry = IngestionTelemetry.getInstance();
+
+        if (telemetry.lastSuccessfulIngestion) {
+            const syncTime = new Date(telemetry.lastSuccessfulIngestion).getTime();
+            timeSinceLastSuccessfulIngestionSeconds = Math.max(0, Math.floor((now.getTime() - syncTime) / 1000));
+            timeSinceLastCollectorExecutionSeconds = timeSinceLastSuccessfulIngestionSeconds;
+        }
+
         if (articles.length > 0) {
-            // Since articles are pre-sorted by publishedAt descending, the first is newest, last is oldest
-            newestPublishedAt = articles[0].publishedAt;
-            oldestPublishedAt = articles[articles.length - 1].publishedAt;
+            // Sort to ensure absolute bounds
+            const sortedByPub = [...articles].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+            newestPublishedAt = sortedByPub[0].publishedAt;
+            oldestPublishedAt = sortedByPub[sortedByPub.length - 1].publishedAt;
 
             const newestDate = new Date(newestPublishedAt);
             if (!isNaN(newestDate.getTime())) {
-                const ageMinutes = (now.getTime() - newestDate.getTime()) / (60 * 1000);
-                ingestionLagSeconds = Math.max(0, Math.floor((now.getTime() - newestDate.getTime()) / 1000));
+                ageOfNewestArticleMinutes = parseFloat(((now.getTime() - newestDate.getTime()) / (60 * 1000)).toFixed(1));
+                ageOfNewestArticleSeconds = Math.max(0, Math.floor((now.getTime() - newestDate.getTime()) / 1000));
+                ingestionLagSeconds = ageOfNewestArticleSeconds;
 
                 const warningThreshold = Number(process.env.ATHENA_NEWS_FRESHNESS_WARNING_MINUTES) || 30;
                 const criticalThreshold = Number(process.env.ATHENA_NEWS_FRESHNESS_CRITICAL_MINUTES) || 120;
 
-                const telemetry = IngestionTelemetry.getInstance();
                 const lastSyncSuccess = telemetry.lastSuccessfulIngestion;
-                
                 let isCollectorInactive = false;
                 if (lastSyncSuccess) {
                     const syncInactivityMinutes = (now.getTime() - new Date(lastSyncSuccess).getTime()) / (60 * 1000);
@@ -140,42 +155,53 @@ export class HealthMonitor {
                     }
                 }
 
-                // If ageMinutes is large, only flag warning/critical if there is actual collector inactivity
-                if (ageMinutes > criticalThreshold && isCollectorInactive) {
+                // If ageMinutes is large and collector is inactive, elevate alert
+                if (ageOfNewestArticleMinutes > criticalThreshold && isCollectorInactive) {
                     freshnessStatus = 'CRITICAL';
-                } else if (ageMinutes > warningThreshold && isCollectorInactive) {
+                } else if (ageOfNewestArticleMinutes > warningThreshold && isCollectorInactive) {
                     freshnessStatus = 'WARNING';
+                } else {
+                    freshnessStatus = 'HEALTHY';
                 }
             }
         }
 
-        // 3. Duplicate Identification
+        // 3. Duplicate Identification & Schema Compliance
         let uniqueIds = 0;
-        let uniqueUrls = 0;
+        let uniqueCanonicalUrls = 0;
         let duplicateIds = 0;
-        let duplicateUrls = 0;
-        let missingRequiredFields = 0;
+        let duplicateCanonicalUrls = 0;
+        let invalidSchemaCount = 0;
 
         const seenIds = new Set<string>();
         const seenUrls = new Set<string>();
 
         for (const art of articles) {
-            if (!art.id || !art.headline || !art.publishedAt || !art.sourceUrl) {
-                missingRequiredFields++;
+            const valErrors = CanonicalArticleValidator.validate(art);
+            if (valErrors.length > 0) {
+                invalidSchemaCount++;
             }
+
             if (seenIds.has(art.id)) {
                 duplicateIds++;
             } else {
                 seenIds.add(art.id);
             }
+
             if (seenUrls.has(art.sourceUrl)) {
-                duplicateUrls++;
+                duplicateCanonicalUrls++;
             } else {
                 seenUrls.add(art.sourceUrl);
             }
         }
         uniqueIds = seenIds.size;
-        uniqueUrls = seenUrls.size;
+        uniqueCanonicalUrls = seenUrls.size;
+
+        const schemaCompliance = {
+            validCount: currentCount - invalidSchemaCount,
+            invalidCount: invalidSchemaCount,
+            compliancePercentage: currentCount > 0 ? parseFloat((((currentCount - invalidSchemaCount) / currentCount) * 100).toFixed(2)) : 100
+        };
 
         // 4. Category Quality Monitoring
         const currentCategoryCounts: Record<string, number> = {};
@@ -260,9 +286,54 @@ export class HealthMonitor {
             publisherAnomalies.push(`Publisher inactivity detected: ${idlePublishers.join(', ')} have zero articles published in the last 7 days.`);
         }
 
-        // 6. Alert Severity Model
+        // 6. Collector Health Matrix
+        const collectorHealthMatrix = collectorHealthMonitor.getCollectorHealthReport();
+
+        // 7. News Population Separation Definition
+        const v3Stories = await PersistentV3StorageAdapter.getInstance().getAllStories();
+        const populationBreakdown = {
+            populationA: {
+                name: 'Population A — Canonical Articles',
+                storage: 'data/news_stage2_store.json',
+                count: currentCount,
+                purpose: 'Immutable, authoritative historical source of truth for all fully validated articles.'
+            },
+            populationB: {
+                name: 'Population B — Raw Ingestion Records',
+                storage: 'Transient / Event Ingestion Payloads',
+                count: telemetry.ingestionAttempts,
+                purpose: 'Unfiltered incoming payloads prior to identity hashing, classification, and deduplication.'
+            },
+            populationC: {
+                name: 'Population C — Clustered V3 Stories',
+                storage: 'data/v3_news_store.json',
+                count: v3Stories.length,
+                purpose: 'Multi-article grouped and synthesized analytical story clusters.'
+            },
+            populationD: {
+                name: 'Population D — Duplicates & Syndicated Articles',
+                storage: 'Filtered by Deduplication Engine',
+                count: telemetry.duplicatesRejected,
+                purpose: 'Articles identified as exact or near-match syndications; rejected from canonical store.'
+            },
+            populationE: {
+                name: 'Population E — Retained / Expired V3 Stories',
+                storage: 'Pruned by RETENTION_DAYS=30 in V3 Storage',
+                count: 0,
+                purpose: 'Expired story clusters pruned from V3 active storage. Leaves canonical store untouched.'
+            },
+            populationF: {
+                name: 'Population F — Current UI Feed Records',
+                storage: 'API Response / In-Memory Filtered',
+                count: currentCount,
+                purpose: 'Targeted user view applying active category, symbol, search, and pagination filters.'
+            },
+            cardinalityTruth: 'Canonical Articles ≠ Clustered Stories ≠ UI Feed Count'
+        };
+
+        // 8. Alert Severity Model
         let overallStatus: 'healthy' | 'warning' | 'critical' = 'healthy';
-        if (this.criticalCountDecreaseDetected || duplicateIds > 0 || duplicateUrls > 0 || missingRequiredFields > 0) {
+        if (this.criticalCountDecreaseDetected || duplicateIds > 0 || duplicateCanonicalUrls > 0 || invalidSchemaCount > 0) {
             overallStatus = 'critical';
         } else if (freshnessStatus === 'CRITICAL') {
             overallStatus = 'critical';
@@ -270,14 +341,14 @@ export class HealthMonitor {
             overallStatus = 'warning';
         }
 
-        // 7. Writer Status metadata (Expected legacy vs canonical vs monitoring)
+        // 9. Writer Status metadata (Expected legacy vs canonical vs monitoring)
         const stage2Path = path.join(process.cwd(), 'data', 'news_stage2_store.json');
         const v2Path = path.join(process.cwd(), 'data', 'news_core_v2.json');
         const v3Path = path.join(process.cwd(), 'data', 'v3_news_store.json');
         const intelPath = path.join(process.cwd(), 'data', 'news_intelligence_v2.json');
 
         const getFileInfo = (p: string) => {
-            if (!fs.existsSync(p)) return { exists: false };
+            if (!fs.existsSync(p)) return { exists: false, size: 0, sha256: 'missing', mtime: null };
             const stat = fs.statSync(p);
             return {
                 exists: true,
@@ -298,18 +369,43 @@ export class HealthMonitor {
 
         this.cachedHealthData = {
             status: overallStatus,
+            canonicalArticleCount: currentCount,
             count: currentCount,
-            oldestPublishedAt,
-            newestPublishedAt,
-            ingestionLagSeconds,
+            previousKnownCanonicalCount: this.previousCount,
+            previousCount: this.previousCount,
+            countDelta,
             uniqueIds,
-            uniqueUrls,
+            uniqueCanonicalUrls,
             duplicateIds,
-            duplicateUrls,
-            missingRequiredFields,
-            categoryCount: currentCategoryCounts,
-            publisherCount,
+            duplicateCanonicalUrls,
+            duplicateUrls: duplicateCanonicalUrls,
+            missingRequiredFields: invalidSchemaCount,
+            schemaCompliance,
+            oldestArticle: oldestPublishedAt,
+            oldestPublishedAt,
+            newestArticle: newestPublishedAt,
+            newestPublishedAt,
+            sha256: writerStatus.canonicalStore.exists ? writerStatus.canonicalStore.sha256 : 'missing',
             storeHash: writerStatus.canonicalStore.exists ? writerStatus.canonicalStore.sha256 : 'missing',
+            backupSha256: writerStatus.canonicalBackupStore.exists ? writerStatus.canonicalBackupStore.sha256 : 'missing',
+            fileSizeBytes: writerStatus.canonicalStore.size,
+            fileSize: writerStatus.canonicalStore.size,
+            ingestionLagSeconds,
+            ageOfNewestArticleMinutes,
+            ageOfNewestArticleSeconds,
+            timeSinceLastSuccessfulIngestionSeconds,
+            timeSinceLastCollectorExecutionSeconds,
+            articlesReceivedLast5Min: telemetry.getArticlesAddedInWindow(5),
+            articlesReceivedLast15Min: telemetry.getArticlesAddedInWindow(15),
+            articlesReceivedLastHour: telemetry.getGrowthPerHour(),
+            articlesReceivedLast24Hours: telemetry.getGrowthPerDay(),
+            freshnessStatus,
+            categoryDistribution: currentCategoryCounts,
+            categoryCount: currentCategoryCounts,
+            publisherDistribution: publisherCount,
+            publisherCount,
+            collectorHealth: collectorHealthMatrix,
+            populationBreakdown,
             lastCheckedAt: now.toISOString(),
             writerStatus,
             diagnostics: {
@@ -351,4 +447,5 @@ export class HealthMonitor {
         this.lastCheckedAt = null;
     }
 }
+
 export const healthMonitor = HealthMonitor.getInstance();

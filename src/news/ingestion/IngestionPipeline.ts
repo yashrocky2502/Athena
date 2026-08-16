@@ -6,6 +6,7 @@ import { INewsStore } from '../storage/NewsStore.ts';
 import { NewsArticle } from '../types/Article.ts';
 import { CanonicalArticleValidator } from '../validation/CanonicalArticleValidator.ts';
 import { IngestionTelemetry } from '../monitoring/IngestionTelemetry.ts';
+import { collectorHealthMonitor } from '../monitoring/CollectorHealthMonitor.ts';
 
 export interface IngestionResult {
     processed: number;
@@ -75,10 +76,12 @@ export class IngestionPipeline {
                 console.error(`[IngestionPipeline] Error processing article:`, err);
                 result.errors++;
                 telemetry.recordFailure('parser_failure', err.message || 'Error processing article', sourceName);
+                collectorHealthMonitor.recordCollectorFailure(sourceName, err.message || 'Error processing article');
             }
         }
 
-        telemetry.recordSuccess(result.saved, result.duplicates);
+        telemetry.recordSuccess(result.saved, result.duplicates, sourceName);
+        collectorHealthMonitor.recordCollectorExecution(sourceName, result.processed, result.saved, result.duplicates);
         return result;
     }
 }

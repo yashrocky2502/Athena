@@ -25550,20 +25550,21 @@
       "rawMetadata": {
         "wire": "Investor Relations Corporate Feed"
       }
-    }
-  },
-  "normalizedArticles": {
-    "DOC_4d96cecb9f0bb23d": {
-      "id": "DOC_4d96cecb9f0bb23d",
-      "correlationId": "TRC_MSVI1B8V_76P7HT_1E",
-      "rawArticleId": "RAW_ET_2_MSVI131A_YBMRVH_5",
-      "publisher": {
-        "id": "ECONOMIC_TIMES",
-        "name": "Economic Times",
-        "baseUrl": "https://economictimes.indiatimes.com/markets/stocks/news/will-sensex-nifty-continue-to-bleed-on-monday-4-factors-which-will-drive-d-street-action-this-week/articleshow/133270103.cms",
-        "isOfficialExchange": false,
-        "trustScore": 98
-      },
-      "cleanTitle": "Will Sensex, Nifty continue to bleed on Monday? 4 factors which will drive D-Street action this week",
-      "cleanBody": "The Indian stock market remained range-bound in the last week, with Sensex losing around 500 points and Nifty falling 205 points to end in the red. Analysts now highlight four key factors that can influence Dalal Street 's action during the upcoming week between August 17 (Monday) to August 21 (Friday). #sr_widget.onDemand p, #stock_pro.onDemand p{font-size: 14px;line-height: 1.28;} .onDemand .live_stock{left:17px;padding:1px 3px 1px 5px;font-size:12px;font-weight:600;line-height:18px;top:9px} #sr_widget.onDemand .sr_desc{margin:0 auto 0;} #sr_widget.onDemand .sr_desc{color: #024d99;margin-top:10px;} #sr_widget.onDemand .crypto .live_stock .lb-icon{8px 6px 5px 3px !important} #sr_widget.crypto.onDemand a.text{border-bottom:1px solid #ccc;padding-bottom:5px;display:block;width:100%} #sr_widget.onDemand .sr_desc .text p, #stock_pro.onDemand .sr_desc .text p{font-size:12px;font-weight:400;} On Friday, Sensex and Nifty recorded slight losses even as oil prices stabilised around $87 per barrel. Sensex fell around 71 points to close at 78,009, while Nifty 50 lost 30 points to end the session at 24,366. Broader markets slipped into the deep red, with the Nifty Smallcap 100 and Nifty Midcap 100 indices falling around 0.7% each.",
-      "summaryLead": "The Indian stock market remained range-bound in the last week, with Sensex losing around 500 points and Nifty falling 205 points to end in the red. Analysts now highlight four key factors that can influence Dalal Street 's action during the 
+    },
+    "RAW_GNEWS_0_MSVICO3S_P0FL00_22S": {
+      "id": "RAW_GNEWS_0_MSVICO3S_P0FL00_22S",
+      "publisherId": "GOOGLE_NEWS_RSS",
+      "sourceUrl": "https://news.google.com/rss/articles/CBMigwJBVV95cUxQMjBNS3I3OUxxbTRJc3RCbGVrNTltemhYNXozM21neGNUQnBNbTR0V3ZDcXlSQmF1azNzeUlxbU1mVld5SUtTdkotZ19GSmRBOFppOEhtTHd5R3VaWEVqRU5UMjI1QkdoVzE5eERLVWRGcFE1Uk5YR1drWXVSNGJQTmtfNUY2UW9DNkVNRjBWLUg3dlV4dUlyYnV5TVdqams3MXJrSk11dFQ3RjhwT0JCN1NOdHJlSDE2Z0Y2NXB5T0RWVjVhNjRnMGJOdldKcl9ZMkl4Mm40MVBnSVZiRDVDRDFJYk9TZHBnVE9tZFR1MU50WU9iV1NVUGNaSUVPT2ZScEc00gH8AUFVX3lxTE1uYVhwWVAwNzBMekFMUjcxZDBwcXpicUR2dVZoOHNZNG9qN3A5dTVidUZuMm0zelNqMHItSXJIbXkwdGI0cFpPNDk4Ty04WUdwNjlJOEhkWUlCMFJVRVNmaFZKZ05VV0pKc3BQMVZGYnh6LXo2NXB5anBhSzlGNWh1azVPQUYwZC0yanRZSUlTT05ZSHVuaGlYZmRNb1ExMGpKaU40MmExdFc3M2ZPdi04Q3JhYTUzcjFDSlQ1MUFNVzhKUGdKUXdNQ1RMYldHRUJhOHppdXAwdl8zUFgwN280R0UtbHhDUkxONS1UUVdjdzdaRmhzOHlRZXRxcA?oc=5",
+      "title": "Pakistan celebrates Independence Day: Here's how its stock market performed in last one year - The Economic Times",
+      "rawBody": "Pakistan celebrates Independence Day: Here's how its stock market performed in last one year  The Economic Times",
+      "publishedAt": "2026-08-14T08:06:35.000Z",
+      "fetchedAt": "2026-08-16T07:53:10.468Z",
+      "rawMetadata": {
+        "rssSource": "Google News Financial RSS"
+      }
+    },
+    "RAW_GNEWS_1_MSVICO3S_91CSYA_22T": {
+      "id": "RAW_GNEWS_1_MSVICO3S_91CSYA_22T",
+      "publisherId": "GOOGLE_NEWS_RSS",
+      "sourceUrl": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNRDJfemNXZjdYY0NPaFpGVmUzclFucHRxYU10b0N4TDZjUDBXcmI1Uk53eGtWcVZCU1I3dlpiMzlGWUdjaTRkWjl4Vm5RbkVqRlRYMWViUFEzLTV5YXp3WDM2UWpHcHZOVzBPTUxEVlF3MkVFb256cDJudGJVM1BWOUs3ZGQ5c3c0Nm03akRfdk0zei1nYTI5UVRGM1Y5Wm9tRmJBWlU5OWxpT190TDR3SGF5SS05OC1RVFFsdXBMTUFsUUNYVG52QjRONTh5dGZoVlp0WVNSODVoNlE4NVB0ei1QbXY1LXBDWVlFX01vVdIB6AFBVV95cUxPb3FYV1pRUGZJODBVSGg0UWdNWEJlQk1OUjk2SEhHZ0xIVnNmTUhzNFVjdGp4R09YdWlfTVRvRkhLSzFLcWhzQkJlTGpKU3lXWTRZWWJmWXhYaDNQZnpLQVh1UjA0M1lDNWRYLXdkZWI2ekVxajZCMkRCTDdKSFdoNG55TnYyRVAtS2tXdUtoazNqc2RXdVpQMElHNWxxemp0ZjNYX09hbE5BN0JRdlp6Rkh6LWRjY1VncWtaWkQwOVV6SFp6bG1MMmhMc1F5Q0JjaW9QYS1hWlFfR2U4Y3ptMXV2X1VYWVJS?oc=5",
+      "title": "How Indian stock marke
