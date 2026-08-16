@@ -38,6 +38,8 @@ import { newsCoreV2Router } from "./src/newsCoreV2/api/newsCoreV2Routes.ts";
 import { newsV5Router } from "./src/news/api/newsV5Routes.ts";
 import { newsSyncService } from "./src/newsCoreV2/sync/NewsSyncService.ts";
 import { LegacyWriterGuard } from "./src/news/isolation/LegacyWriterGuard.ts";
+import { healthMonitor } from "./src/news/monitoring/HealthMonitor.ts";
+
 
 import { getStories, addStory, updateStoryStatus, deleteStory } from "./src/lib/storyEngine.ts";
 import { QueryPlanner } from "./src/lib/QueryPlanner.ts";
@@ -3000,6 +3002,10 @@ async function startServer() {
     try {
       // 1. Startup NewsEngineV3 (loads persistent storage & hydrates hot cache)
       await NewsEngineV3.getInstance().startup();
+
+      // 1.5. Initialize production health monitor
+      await healthMonitor.initialize();
+
 
       // 2. Hydrate known IDs from persistent storage into memory
       const hydratedCount = await hydrateKnownArticleIds();

@@ -13,6 +13,9 @@ import { newsCanaryRouter } from '../canary/NewsCanaryRouter.ts';
 import { newsStore } from '../../newsCoreV2/storage/PersistentNewsStore.ts';
 import { NewsCoreV2UIAdapter } from '../../newsCoreV2/api/NewsCoreV2UIAdapter.ts';
 import { PersistentV3StorageAdapter } from '../NewsEngineV3/storage/PersistentV3StorageAdapter.ts';
+import { healthMonitor } from '../monitoring/HealthMonitor.ts';
+import { IngestionTelemetry } from '../monitoring/IngestionTelemetry.ts';
+
 
 const router = Router();
 
@@ -99,6 +102,50 @@ router.get('/isolation/status', (_req: Request, res: Response) => {
         isolation: LegacyWriterGuard.getStatus()
     });
 });
+
+/**
+ * GET /api/v5/news/health/canonical
+ * Production health and integrity checking for the canonical Stage 2 store.
+ */
+router.get('/health/canonical', async (_req: Request, res: Response) => {
+    try {
+        const report = await healthMonitor.checkHealth();
+        res.json(report);
+    } catch (err: any) {
+        console.error('[NewsV5] Canonical Health error:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/health/ingestion
+ * Stateful telemetry and growth statistics of background ingestion cycles.
+ */
+router.get('/health/ingestion', async (_req: Request, res: Response) => {
+    try {
+        const telemetry = IngestionTelemetry.getInstance();
+        const currentCount = await stage2Store.count();
+        res.json({
+            status: 'success',
+            articlesAdded: telemetry.articlesAdded,
+            duplicatesRejected: telemetry.duplicatesRejected,
+            ingestionAttempts: telemetry.ingestionAttempts,
+            ingestionFailures: telemetry.ingestionFailures,
+            malformedRecords: telemetry.malformedRecords,
+            canonicalCount: currentCount,
+            growthPerHour: telemetry.getGrowthPerHour(),
+            growthPerDay: telemetry.getGrowthPerDay(),
+            lastSuccessfulIngestion: telemetry.lastSuccessfulIngestion,
+            lastFailedIngestion: telemetry.lastFailedIngestion,
+            errors: telemetry.getErrors(),
+            malformed: telemetry.getMalformed()
+        });
+    } catch (err: any) {
+        console.error('[NewsV5] Ingestion Telemetry error:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
 
 /**
  * POST /api/v5/news/isolation/toggle
