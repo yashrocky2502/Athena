@@ -4,6 +4,9 @@ import { newsSyncService } from "../sync/NewsSyncService.ts";
 import { NewsCoreV2Regression } from "../tests/NewsCoreV2Regression.ts";
 import { NewsCoreV2UIAdapter } from "./NewsCoreV2UIAdapter.ts";
 import { UnifiedIntelligenceEngine } from "../intelligenceV2/UnifiedIntelligenceEngine.ts";
+import { newsShadowComparator } from "../../news/shadow/NewsShadowComparator.ts";
+import { feedService } from "../../news/api/newsV5Routes.ts";
+import { newsCanaryRouter } from "../../news/canary/NewsCanaryRouter.ts";
 
 export const newsCoreV2Router = Router();
 
@@ -42,12 +45,55 @@ newsCoreV2Router.get("/:articleId/intelligence", async (req: Request, res: Respo
  * GET /api/v4/news/feed
  * Returns all articles adapted for the UI.
  */
-newsCoreV2Router.get("/feed", (req: Request, res: Response) => {
+newsCoreV2Router.get("/feed", async (req: Request, res: Response) => {
   try {
-    const page = req.query.page ? parseInt(req.query.page as string) : 1;
-    const limit = req.query.limit ? parseInt(req.query.limit as string) : (req.query.page ? 50 : 150);
+    const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : (req.query.page ? 50 : 150);
     const categoryQuery = req.query.category as string | undefined;
+    const symbolQuery = req.query.symbol as string | undefined;
 
+    // 1. Canary Routing Decision
+    const canaryDecision = newsCanaryRouter.shouldRouteToCanary(req);
+
+    if (canaryDecision.useCanary) {
+      try {
+        const feedResult = await feedService.getFeed({
+          category: categoryQuery || 'All',
+          symbol: symbolQuery,
+          page,
+          limit,
+          sort: req.query.sort as any
+        });
+
+        const syncStatus = newsSyncService.getStatus();
+
+        res.setHeader('x-news-canary-routed', 'true');
+        res.setHeader('x-news-canary-reason', canaryDecision.reason);
+
+        return res.json({
+          status: "success",
+          version: "V5-STAGE3.5-CANARY",
+          canaryRouted: true,
+          canaryReason: canaryDecision.reason,
+          articles: feedResult.articles,
+          count: feedResult.articles.length,
+          totalCount: feedResult.totalCount,
+          page: feedResult.page,
+          limit: feedResult.limit,
+          totalPages: feedResult.totalPages,
+          hasNext: feedResult.page < feedResult.totalPages,
+          hasPrevious: feedResult.page > 1,
+          categoryCounts: feedResult.categoryCounts,
+          lastSuccessfulSyncAt: syncStatus.lastSuccessfulSyncAt,
+          nextSyncAt: syncStatus.nextSyncAt
+        });
+      } catch (canaryErr: any) {
+        console.warn('[NewsCoreV2] V3 Canary feed failed, falling back to V2:', canaryErr.message);
+        // Fallthrough seamlessly to V2 response calculation below
+      }
+    }
+
+    // 2. Control Path (V2 Feed)
     const allArticles = newsStore.getAllArticles();
     let filtered = allArticles;
 
@@ -63,15 +109,22 @@ newsCoreV2Router.get("/feed", (req: Request, res: Response) => {
       }
     }
 
+    if (symbolQuery && symbolQuery.trim().length > 0) {
+      const symUpper = symbolQuery.trim().toUpperCase();
+      filtered = filtered.filter(art => ((art as any).symbol || '').toUpperCase() === symUpper);
+    }
+
+    const totalCount = filtered.length;
+    const totalPages = Math.max(1, Math.ceil(totalCount / limit));
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-    const paginatedArticles = filtered.slice(startIndex, endIndex);
+    const paginatedArticles = (page >= 1 && page <= totalPages && startIndex < totalCount)
+      ? filtered.slice(startIndex, endIndex)
+      : [];
 
     const syncStatus = newsSyncService.getStatus();
     const uiArticles = NewsCoreV2UIAdapter.adaptMany(paginatedArticles);
 
-    const totalCount = filtered.length;
-    const totalPages = Math.ceil(totalCount / limit);
     const hasNext = page < totalPages;
     const hasPrevious = page > 1;
 
@@ -99,7 +152,7 @@ newsCoreV2Router.get("/feed", (req: Request, res: Response) => {
       }).length;
     }
 
-    res.json({
+    const responsePayload = {
       status: "success",
       articles: uiArticles,
       count: uiArticles.length,
@@ -112,13 +165,47 @@ newsCoreV2Router.get("/feed", (req: Request, res: Response) => {
       categoryCounts,
       lastSuccessfulSyncAt: syncStatus.lastSuccessfulSyncAt,
       nextSyncAt: syncStatus.nextSyncAt
-    });
+    };
+
+    // Trigger Non-blocking Shadow Mode comparison if enabled
+    if (newsShadowComparator.isEnabled()) {
+      setImmediate(() => {
+        newsShadowComparator.runShadowComparison(
+          {
+            category: categoryQuery || 'All',
+            symbol: symbolQuery,
+            page,
+            limit,
+            sort: req.query.sort as any
+          },
+          responsePayload,
+          feedService
+        ).catch(err => {
+          console.warn('[NewsCoreV2] Shadow comparison warning:', err);
+        });
+      });
+    }
+
+    res.json(responsePayload);
   } catch (err: any) {
     res.status(500).json({
       status: "error",
       message: err.message || "Failed to fetch news feed"
     });
   }
+});
+
+/**
+ * GET /api/v4/news/shadow/status
+ * Exposes shadow comparison metrics and diagnostics.
+ */
+newsCoreV2Router.get("/shadow/status", (_req: Request, res: Response) => {
+  res.json({
+    status: "success",
+    version: "V4-SHADOW-V5",
+    metrics: newsShadowComparator.getMetrics(),
+    recentComparisons: newsShadowComparator.getRecentComparisons(10)
+  });
 });
 
 /**

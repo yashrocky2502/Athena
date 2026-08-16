@@ -29,6 +29,7 @@ import {
 } from '../types/V3Types';
 import { V3Logger } from '../logging/V3Logger';
 import { V3Telemetry } from '../telemetry/V3Telemetry';
+import { LegacyWriterGuard } from '../../isolation/LegacyWriterGuard';
 
 export interface PersistentStoreData {
   rawArticles: Record<string, V3RawArticle>;
@@ -188,6 +189,11 @@ export class PersistentV3StorageAdapter implements
   }
 
   private persistToDisk(): void {
+    if (!LegacyWriterGuard.isLegacyWritersEnabled()) {
+      V3Logger.getInstance().debug('PersistentStorage', 'PERSISTENCE_SUPPRESSED_BY_LEGACY_GUARD', { filePath: this.storageFilePath });
+      return;
+    }
+
     try {
       const dataDir = path.dirname(this.storageFilePath);
       if (!fs.existsSync(dataDir)) {

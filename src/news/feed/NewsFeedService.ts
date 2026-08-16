@@ -92,10 +92,10 @@ export class NewsFeedService {
 
         const totalCount = articles.length;
         const totalPages = Math.max(1, Math.ceil(totalCount / limit));
-        const safePage = Math.max(1, Math.min(page, totalPages));
+        const effectivePage = Math.min(page, totalPages);
         
-        const start = (safePage - 1) * limit;
-        const pagedArticles = start < totalCount ? articles.slice(start, start + limit).map(art => ({
+        const start = (effectivePage - 1) * limit;
+        const pagedArticles = articles.slice(start, start + limit).map(art => ({
             ...art,
             title: art.headline,
             url: art.sourceUrl || art.source?.url || '',
@@ -107,14 +107,14 @@ export class NewsFeedService {
             summary: art.intelligence?.summary || art.body,
             cleanBody: art.body,
             fullArticleBody: art.body
-        })) : [];
+        }));
 
         const categoryCounts = await this.getCategoryCounts();
 
         return {
             articles: pagedArticles,
             totalCount,
-            page: safePage,
+            page: effectivePage,
             limit,
             totalPages,
             categoryCounts

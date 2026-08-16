@@ -37,6 +37,7 @@ import { runLiveDatasetAudit } from "./src/tests/telegramLiveAudit.ts";
 import { newsCoreV2Router } from "./src/newsCoreV2/api/newsCoreV2Routes.ts";
 import { newsV5Router } from "./src/news/api/newsV5Routes.ts";
 import { newsSyncService } from "./src/newsCoreV2/sync/NewsSyncService.ts";
+import { LegacyWriterGuard } from "./src/news/isolation/LegacyWriterGuard.ts";
 
 import { getStories, addStory, updateStoryStatus, deleteStory } from "./src/lib/storyEngine.ts";
 import { QueryPlanner } from "./src/lib/QueryPlanner.ts";
@@ -2780,6 +2781,17 @@ function scheduleNextRun(delayMs?: number) {
 }
 
 async function executeNewsSync(isManual = false, clear = false) {
+  if (!LegacyWriterGuard.isLegacyWritersEnabled()) {
+    console.log("[Legacy Writer Isolation] executeNewsSync skipped: Legacy news writers disabled (ATHENA_LEGACY_WRITERS_ENABLED=false)");
+    scheduleNextRun(60000);
+    return {
+      success: true,
+      skipped: true,
+      reason: "ATHENA_LEGACY_WRITERS_ENABLED=false",
+      timestamp: new Date().toISOString()
+    };
+  }
+
   if (isSyncInProgress && activeSyncPromise) {
     console.log("[News Scheduler] Sync already in progress, joining active run...");
     return activeSyncPromise;

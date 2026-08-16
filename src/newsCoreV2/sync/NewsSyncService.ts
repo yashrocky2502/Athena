@@ -8,6 +8,7 @@ import { NewsArticleV2 } from "../domain/NewsArticle.ts";
 import { newsStore, PersistentNewsStore } from "../storage/PersistentNewsStore.ts";
 import { SummaryEngine } from "../summary/SummaryEngine.ts";
 import crypto from "crypto";
+import { LegacyWriterGuard } from "../../news/isolation/LegacyWriterGuard.ts";
 
 import { TelegramOutbox, TelegramOutboxEntry } from "../storage/TelegramOutbox.ts";
 
@@ -109,6 +110,12 @@ export class NewsSyncService {
    * Executes a full synchronization pipeline with strict timeout protection and guaranteed terminal state.
    */
   public async runSync(): Promise<{ status: SyncState; itemsProcessed: number; newAdded: number }> {
+    if (!LegacyWriterGuard.isLegacyWritersEnabled()) {
+      console.log("[NewsSyncService] Legacy news sync skipped: ATHENA_LEGACY_WRITERS_ENABLED=false");
+      this.syncState = "IDLE";
+      return { status: "IDLE", itemsProcessed: 0, newAdded: 0 };
+    }
+
     if (this.syncState === "SYNCING") {
       console.log("[NewsSyncService] Sync already in progress, skipping duplicate call.");
       return { status: "SYNCING", itemsProcessed: 0, newAdded: 0 };

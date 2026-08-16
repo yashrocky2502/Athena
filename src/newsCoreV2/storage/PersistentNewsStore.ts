@@ -4,6 +4,7 @@ import { NewsArticleV2 } from "../domain/NewsArticle";
 import { CanonicalDeduplicator } from "../deduplication/CanonicalDeduplicator";
 import { FNOEligibilityEngine } from "../fno/FNOEligibilityEngine";
 import { NewsClassifier } from "../classification/NewsClassifier";
+import { LegacyWriterGuard } from "../../news/isolation/LegacyWriterGuard";
 
 export interface NewsStoreStats {
   storageCount: number;
@@ -173,6 +174,11 @@ export class PersistentNewsStore {
    * Saves articles atomically to disk with strict backup safety and dataset shrink protection.
    */
   private async saveToDisk(force = false): Promise<void> {
+    if (!LegacyWriterGuard.isLegacyWritersEnabled()) {
+      console.log(`[PersistentNewsStore] Suppressed disk save to ${this.filePath} (ATHENA_LEGACY_WRITERS_ENABLED=false)`);
+      return;
+    }
+
     this.persistLock = this.persistLock.then(async () => {
       try {
         this.ensureDirectoryExists();
