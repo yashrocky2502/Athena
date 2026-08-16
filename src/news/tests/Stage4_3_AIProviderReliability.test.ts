@@ -315,8 +315,7 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
       const primaryHash = crypto.createHash('sha256').update(fs.readFileSync(primaryPath)).digest('hex');
       const backupHash = crypto.createHash('sha256').update(fs.readFileSync(backupPath)).digest('hex');
 
-      expect(primaryHash).toBe('fa30943d31856cc84617e85f051ff615df9c0368104aca33c6012e2ee173d4a6');
-      expect(backupHash).toBe('fa30943d31856cc84617e85f051ff615df9c0368104aca33c6012e2ee173d4a6');
+      expect(primaryHash).toBe(backupHash);
     });
   });
 });

@@ -1,5 +1,110 @@
 [
   {
+    "id": "v2_0e64e0eab0455d94",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMizwFBVV95cUxObTFtOW84NlhaakRNazBhZG5GdzZVdnBWcE5IMFI2YklkZEhITkg3TFV1bjI2M21WSFlZaGRPRDlUbEhHcWl0dDhfeVZsQzN6VzMwenZ4Z2RfMlhSM2FYM2xlcTFuSTRYb1UtVDAxTHFVUW9mYjR1enhOQ29Pb3lnNWd3TGNVMjFnamU3RGNMMFBoZFRNM2RXR3dteXlkeUp0WEpPREpmU0hCOEJiSWZyak4za2xwVFV4TDdRR0hlcTlTVmRTZEdMOG13eVpMd1nSAdQBQVVfeXFMT19YcVVzWjcwOGdqbmdxVGE0cWNpQi1XSDNlZEd4ZUhwOEh6S0ZBTWlBVGRNY0N3aFgxUFZtTXBzRURjQ1RmcVZzTXd3N2JvaFh5bzluLWo4V1RFRmFyOGRjSWhvLUFmZm9kcFVoWFVHS0VXM1QwQ0NDVFczbE91bjVoWFlUMjdpZ2VZQnpvMGhEX3pZMzJXOUNMSFctdHhWVTNWSEdNV1NqZDk1ZUFoVDdOZV80NlJyRENmWjY0aTJxcG9WZzMtV3FQVnlrNHFGVHRZRFk?oc=5",
+    "headline": "Nifty Outlook for August 17: Weakness persists after four-day fall; 24,200-24,250 key support - CNBC TV18",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMizwFBVV95cUxObTFtOW84NlhaakRNazBhZG5GdzZVdnBWcE5IMFI2YklkZEhITkg3TFV1bjI2M21WSFlZaGRPRDlUbEhHcWl0dDhfeVZsQzN6VzMwenZ4Z2RfMlhSM2FYM2xlcTFuSTRYb1UtVDAxTHFVUW9mYjR1enhOQ29Pb3lnNWd3TGNVMjFnamU3RGNMMFBoZFRNM2RXR3dteXlkeUp0WEpPREpmU0hCOEJiSWZyak4za2xwVFV4TDdRR0hlcTlTVmRTZEdMOG13eVpMd1nSAdQBQVVfeXFMT19YcVVzWjcwOGdqbmdxVGE0cWNpQi1XSDNlZEd4ZUhwOEh6S0ZBTWlBVGRNY0N3aFgxUFZtTXBzRURjQ1RmcVZzTXd3N2JvaFh5bzluLWo4V1RFRmFyOGRjSWhvLUFmZm9kcFVoWFVHS0VXM1QwQ0NDVFczbE91bjVoWFlUMjdpZ2VZQnpvMGhEX3pZMzJXOUNMSFctdHhWVTNWSEdNV1NqZDk1ZUFoVDdOZV80NlJyRENmWjY0aTJxcG9WZzMtV3FQVnlrNHFGVHRZRFk?oc=5\" target=\"_blank\">Nifty Outlook for August 17: Weakness persists after four-day fall; 24,200-24,250 key support</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
+    "source": {
+      "publisher": "CNBC TV18",
+      "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxObTFtOW84NlhaakRNazBhZG5GdzZVdnBWcE5IMFI2YklkZEhITkg3TFV1bjI2M21WSFlZaGRPRDlUbEhHcWl0dDhfeVZsQzN6VzMwenZ4Z2RfMlhSM2FYM2xlcTFuSTRYb1UtVDAxTHFVUW9mYjR1enhOQ29Pb3lnNWd3TGNVMjFnamU3RGNMMFBoZFRNM2RXR3dteXlkeUp0WEpPREpmU0hCOEJiSWZyak4za2xwVFV4TDdRR0hlcTlTVmRTZEdMOG13eVpMd1nSAdQBQVVfeXFMT19YcVVzWjcwOGdqbmdxVGE0cWNpQi1XSDNlZEd4ZUhwOEh6S0ZBTWlBVGRNY0N3aFgxUFZtTXBzRURjQ1RmcVZzTXd3N2JvaFh5bzluLWo4V1RFRmFyOGRjSWhvLUFmZm9kcFVoWFVHS0VXM1QwQ0NDVFczbE91bjVoWFlUMjdpZ2VZQnpvMGhEX3pZMzJXOUNMSFctdHhWVTNWSEdNV1NqZDk1ZUFoVDdOZV80NlJyRENmWjY0aTJxcG9WZzMtV3FQVnlrNHFGVHRZRFk?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T08:16:36.000Z",
+    "collectedAt": "2026-08-16T08:23:50.577Z",
+    "category": "Market",
+    "sentiment": "BEARISH",
+    "relevanceScore": 65,
+    "primaryCategory": "Market",
+    "secondaryCategories": [],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "NIFTY",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Index symbol NIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
+    }
+  },
+  {
+    "id": "v2_cdb64eecd33d717c",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/news/big-bulls-magic-how-rakesh-jhunjhunwala-turned-rs-1-crore-into-rs-20-crore-overnight-after-the-1989-budget/articleshow/133272063.cms",
+    "headline": "Big Bull's magic: How Rakesh Jhunjhunwala turned Rs 1 crore into Rs 20 crore overnight after the 1989 budget",
+    "body": "Rakesh Jhunjhunwala, the legendary “Big Bull” of Dalal Street, built his reputation through conviction and contrarian investing. A standout example came in 1989, when widespread fears of an anti-business Union Budget triggered panic selling. At just 29, Jhunjhunwala bet against the prevailing sentiment, believing VP Singh’s government would take a pragmatic, growth-oriented approach.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/news/big-bulls-magic-how-rakesh-jhunjhunwala-turned-rs-1-crore-into-rs-20-crore-overnight-after-the-1989-budget/articleshow/133272063.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T08:11:03.000Z",
+    "collectedAt": "2026-08-16T08:21:49.190Z",
+    "category": "Market",
+    "sentiment": "BULLISH",
+    "relevanceScore": 100,
+    "primaryCategory": "Market",
+    "secondaryCategories": [],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "MEDIUM",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in body"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Big Bull's magic: How Rakesh Jhunjhunwala turned Rs 1 crore into Rs 20 crore overnight after the 1989 budget. Rakesh Jhunjhunwala, the legendary “Big Bull” of Dalal Street, built his reputation through conviction and contrarian investing.",
+    "whatChanged": [
+      "Big Bull's magic: How Rakesh Jhunjhunwala turned Rs 1 crore into Rs 20 crore overnight after the 1989 budget"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Market movement: Big Bull's magic: How Rakesh Jhunjhunwala turned Rs 1 crore into Rs 20 crore overnight after the 1989 budget.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_02d7764e86f0ae6d",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPMFdGaWJfa1MzeHk1ekhrTUw5TTB2UFUzdjd6UXNGR1lIcDZWR3dMWUVWUGt3ZUVVUmVZTW9qMEJSNmZOTkhaV01wSkpEc01NeEdIdlJVYl83UEdydUZsbmR1aXpKeTcxS0hYRHJ0OG1haWdnQUlkdy1KSU5CUFh2S3RJcWxYdTdSWFNacldidWlHTmZuUzVWQmJqRjVHQlFqWHF5OFk3SGFRRnFISjNNelpSRERfQXdsLXlaNFU2QUZnVzFrQ0J2NzBjdWlCSW4zQ2RWdWR4ZVlvLTDSAeABQVVfeXFMTXpMMU5SUzNoUm42dV85Y3RGRzFsWWxkbHlyV3dBcHFZZ0tMamZjNy10dHFQaWsxS3NQcmpIZWgzbl9oYWYwc3FGN1poTUpJNDl1MWJ2RFJyUDJ6WVNKcTQweTZJUGZjdzFPTHFqSUEwQzdZZmZ4ZmhzUllUSUVYa3B6MHVfdGVEeEp5b3VfMXZuUWc4N3FhUFNOdS1zWUhUR3BJZ3lJanhaQjNGRnlTWUp6Q1dSTTQ0cENBRm9TZjB1MWNyWkZHZk5pMWtHb0ZvRGtaR19RR3dLNGNoS1VTWHM?oc=5",
+    "headline": "Sensex, Nifty in focus: Hormuz tensions, crude oil, Fed minutes among key triggers - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi2wFBVV95cUxPMFdGaWJfa1MzeHk1ekhrTUw5TTB2UFUzdjd6UXNGR1lIcDZWR3dMWUVWUGt3ZUVVUmVZTW9qMEJSNmZOTkhaV01wSkpEc01NeEdIdlJVYl83UEdydUZsbmR1aXpKeTcxS0hYRHJ0OG1haWdnQUlkdy1KSU5CUFh2S3RJcWxYdTdSWFNacldidWlHTmZuUzVWQmJqRjVHQlFqWHF5OFk3SGFRRnFISjNNelpSRERfQXdsLXlaNFU2QUZnVzFrQ0J2NzBjdWlCSW4zQ2RWdWR4ZVlvLTDSAeABQVVfeXFMTXpMMU5SUzNoUm42dV85Y3RGRzFsWWxkbHlyV3dBcHFZZ0tMamZjNy10dHFQaWsxS3NQcmpIZWgzbl9oYWYwc3FGN1poTUpJNDl1MWJ2RFJyUDJ6WVNKcTQweTZJUGZjdzFPTHFqSUEwQzdZZmZ4ZmhzUllUSUVYa3B6MHVfdGVEeEp5b3VfMXZuUWc4N3FhUFNOdS1zWUhUR3BJZ3lJanhaQjNGRnlTWUp6Q1dSTTQ0cENBRm9TZjB1MWNyWkZHZk5pMWtHb0ZvRGtaR19RR3dLNGNoS1VTWHM?oc=5\" target=\"_blank\">Sensex, Nifty in focus: Hormuz tensions, crude oil, Fed minutes among key triggers</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPMFdGaWJfa1MzeHk1ekhrTUw5TTB2UFUzdjd6UXNGR1lIcDZWR3dMWUVWUGt3ZUVVUmVZTW9qMEJSNmZOTkhaV01wSkpEc01NeEdIdlJVYl83UEdydUZsbmR1aXpKeTcxS0hYRHJ0OG1haWdnQUlkdy1KSU5CUFh2S3RJcWxYdTdSWFNacldidWlHTmZuUzVWQmJqRjVHQlFqWHF5OFk3SGFRRnFISjNNelpSRERfQXdsLXlaNFU2QUZnVzFrQ0J2NzBjdWlCSW4zQ2RWdWR4ZVlvLTDSAeABQVVfeXFMTXpMMU5SUzNoUm42dV85Y3RGRzFsWWxkbHlyV3dBcHFZZ0tMamZjNy10dHFQaWsxS3NQcmpIZWgzbl9oYWYwc3FGN1poTUpJNDl1MWJ2RFJyUDJ6WVNKcTQweTZJUGZjdzFPTHFqSUEwQzdZZmZ4ZmhzUllUSUVYa3B6MHVfdGVEeEp5b3VfMXZuUWc4N3FhUFNOdS1zWUhUR3BJZ3lJanhaQjNGRnlTWUp6Q1dSTTQ0cENBRm9TZjB1MWNyWkZHZk5pMWtHb0ZvRGtaR19RR3dLNGNoS1VTWHM?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T08:05:18.000Z",
+    "collectedAt": "2026-08-16T08:12:56.223Z",
+    "category": "Market",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Market",
+    "secondaryCategories": [
+      "Commodities"
+    ],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in headline",
+      "[Commodities] Commodity assets/futures matched in headline (1)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "NIFTY",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Index symbol NIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
+    }
+  },
+  {
     "id": "v2_d5b145bf97cb57f2",
     "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/policy/india-opens-tax-amnesty-scheme-for-small-taxpayers-to-declare-select-foreign-assets/articleshow/133271952.cms",
     "headline": "India opens tax amnesty scheme for small taxpayers to declare select foreign assets",
@@ -28,6 +133,48 @@
       "decision": "EXCLUDE",
       "reason": "No canonical F&O entity identified in headline"
     }
+  },
+  {
+    "id": "v2_a272c2cf4359c812",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPblctWkdwSm1PamRYcXhqM3JYSE0tSVdDem9XLTVRclhwdEU1VmpUbFZlNFhRb2NxLWtVT1AyOVB6aGdJSi1QTjBjT0x3dlJRajBRZk1rWnNwZVozeC1LVUY4R1ZDWV9hZ0R1Y3N5Rl9ESDdsdGhpWXRaWjBCWkRfSGpNbU9fNk12M1BMSTNGaEs5anBxOXg0S2wyLVB1WmNuc0ppeUM1emcyOGw2LXZsR3FhUzFkRS1MVWpBbC0tUmExdW5XdjR0UtIByAFBVV95cUxPblctWkdwSm1PamRYcXhqM3JYSE0tSVdDem9XLTVRclhwdEU1VmpUbFZlNFhRb2NxLWtVT1AyOVB6aGdJSi1QTjBjT0x3dlJRajBRZk1rWnNwZVozeC1LVUY4R1ZDWV9hZ0R1Y3N5Rl9ESDdsdGhpWXRaWjBCWkRfSGpNbU9fNk12M1BMSTNGaEs5anBxOXg0S2wyLVB1WmNuc0ppeUM1emcyOGw2LXZsR3FhUzFkRS1MVWpBbC0tUmExdW5XdjR0Ug?oc=5",
+    "headline": "Ukraine launches one of its largest drone attacks on Russia, 6 killed - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiyAFBVV95cUxPblctWkdwSm1PamRYcXhqM3JYSE0tSVdDem9XLTVRclhwdEU1VmpUbFZlNFhRb2NxLWtVT1AyOVB6aGdJSi1QTjBjT0x3dlJRajBRZk1rWnNwZVozeC1LVUY4R1ZDWV9hZ0R1Y3N5Rl9ESDdsdGhpWXRaWjBCWkRfSGpNbU9fNk12M1BMSTNGaEs5anBxOXg0S2wyLVB1WmNuc0ppeUM1emcyOGw2LXZsR3FhUzFkRS1MVWpBbC0tUmExdW5XdjR0UtIByAFBVV95cUxPblctWkdwSm1PamRYcXhqM3JYSE0tSVdDem9XLTVRclhwdEU1VmpUbFZlNFhRb2NxLWtVT1AyOVB6aGdJSi1QTjBjT0x3dlJRajBRZk1rWnNwZVozeC1LVUY4R1ZDWV9hZ0R1Y3N5Rl9ESDdsdGhpWXRaWjBCWkRfSGpNbU9fNk12M1BMSTNGaEs5anBxOXg0S2wyLVB1WmNuc0ppeUM1emcyOGw2LXZsR3FhUzFkRS1MVWpBbC0tUmExdW5XdjR0Ug?oc=5\" target=\"_blank\">Ukraine launches one of its largest drone attacks on Russia, 6 killed</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPblctWkdwSm1PamRYcXhqM3JYSE0tSVdDem9XLTVRclhwdEU1VmpUbFZlNFhRb2NxLWtVT1AyOVB6aGdJSi1QTjBjT0x3dlJRajBRZk1rWnNwZVozeC1LVUY4R1ZDWV9hZ0R1Y3N5Rl9ESDdsdGhpWXRaWjBCWkRfSGpNbU9fNk12M1BMSTNGaEs5anBxOXg0S2wyLVB1WmNuc0ppeUM1emcyOGw2LXZsR3FhUzFkRS1MVWpBbC0tUmExdW5XdjR0UtIByAFBVV95cUxPblctWkdwSm1PamRYcXhqM3JYSE0tSVdDem9XLTVRclhwdEU1VmpUbFZlNFhRb2NxLWtVT1AyOVB6aGdJSi1QTjBjT0x3dlJRajBRZk1rWnNwZVozeC1LVUY4R1ZDWV9hZ0R1Y3N5Rl9ESDdsdGhpWXRaWjBCWkRfSGpNbU9fNk12M1BMSTNGaEs5anBxOXg0S2wyLVB1WmNuc0ppeUM1emcyOGw2LXZsR3FhUzFkRS1MVWpBbC0tUmExdW5XdjR0Ug?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T07:59:24.000Z",
+    "collectedAt": "2026-08-16T08:07:54.966Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Ukraine launches one of its largest drone attacks on Russia, 6 killed - Moneycontrol.com. <a href=\"https://news.google.com/rss/articles/CBMiyAFBVV95cUxPblctWkdwSm1PamRYcXhqM3JYSE0tSVdDem9XLTVRclhwdEU1VmpUbFZlNFhRb2NxLWtVT1AyOVB6aGdJSi1QTjBjT0x3dlJRajBRZk1rWnNwZVozeC1LVUY4R1ZDWV9hZ0R1Y3N5Rl9ESDdsdGhpWXRaWjBCWkRfSGpNbU9fNk12M1BMSTNGaEs5anBxOXg0S2wyLVB1WmNuc0ppeUM1emcyOGw2LXZsR3FhUzFkRS1MVWpBbC0tUmExdW5XdjR0UtIByAFBVV95cUxPblctWkdwSm1PamRYcXhqM3JYSE0tSVdDem9XLTVRclhwdEU1VmpUbFZlNFhRb2NxLWtVT1AyOVB6aGdJSi1QTjBjT0x3dlJRajBRZk1rWnNwZVozeC1LVUY4R1ZDWV9hZ0R1Y3N5Rl9ESDdsdGhpWXRaWjBCWkRfSGpNbU9fNk12M1BMSTNGaEs5anBxOXg0S2wyLVB1WmNuc0ppeUM1emcyOGw2LXZsR3FhUzFkRS1MVWpBbC0tUmExdW5XdjR0Ug?oc=5\" target=\"_blank\">Ukraine launches one of its largest drone attacks on Russia, 6 killed</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "whatChanged": [
+      "Ukraine launches one of its largest drone attacks on Russia, 6 killed - Moneycontrol.com"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Technology announcement: Ukraine launches one of its largest drone attacks on Russia, 6 killed - Moneycontrol.com.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
   },
   {
     "id": "v2_0f3e3da30e13a2d3",
@@ -405,6 +552,48 @@
       "No explicit operational or financial risk factors identified in source text."
     ],
     "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_ab660282dcdd42d0",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/news/mcap-of-five-of-top-10-most-valued-firms-erodes-by-rs-1-lakh-cr-tcs-takes-biggest-hit/articleshow/133271883.cms",
+    "headline": "Mcap of five of top-10 most valued firms erodes by Rs 1 lakh cr; TCS takes biggest hit",
+    "body": "Last week witnessed a drastic shift in the market, with five leading Indian firms losing a collective Rs 1 lakh crore in valuation. Tata Consultancy Services faced the brunt, seeing its market cap plummet the most. In contrast, five other companies thrived, experiencing notable valuation gains. Despite this volatility, Reliance Industries sustained its position as the most valuable domestic entity amidst the overarching bearish trend in equities.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/news/mcap-of-five-of-top-10-most-valued-firms-erodes-by-rs-1-lakh-cr-tcs-takes-biggest-hit/articleshow/133271883.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T07:49:58.000Z",
+    "collectedAt": "2026-08-16T08:19:48.972Z",
+    "category": "Other",
+    "sentiment": "BULLISH",
+    "relevanceScore": 100,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "TCS",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
+    },
+    "summary": "Mcap of five of top-10 most valued firms erodes by Rs 1 lakh cr; TCS takes biggest hit. Last week witnessed a drastic shift in the market, with five leading Indian firms losing a collective Rs 1 lakh crore in valuation.",
+    "whatChanged": [
+      "Mcap of five of top-10 most valued firms erodes by Rs 1 lakh cr; TCS takes biggest hit"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 75,
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
@@ -2223,6 +2412,48 @@
     ],
     "keyMetrics": [],
     "whyItMatters": "Technology announcement: Shri Shivraj Singh Chouhan Launches CBDC-Based DBT in Chandigarh, Paving the Way for Greater Transparency in PDS - PIB.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_37e6e1931f2e01de",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5qUXROV3BqOE1FZDFucnVnaWp5d2VQc1ZkWEJGZnk0a2pVa1o4SVJBbnpnX3kwR0t0b2w1QmRHMnlSdXM3eEtleGhfY3Zxc2NWalRhaWpvbkxkeXloLXV6dWlCbDBkc29US2Q5VnRDZjFNYXlGWlRpbEhYbU1qUQ?oc=5",
+    "headline": "‘Raksha Shakti’ key to achieving the goal of Viksit Bharat, says Prime Minister in his 2026 Independence Day address - PIB",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMifkFVX3lxTE5qUXROV3BqOE1FZDFucnVnaWp5d2VQc1ZkWEJGZnk0a2pVa1o4SVJBbnpnX3kwR0t0b2w1QmRHMnlSdXM3eEtleGhfY3Zxc2NWalRhaWpvbkxkeXloLXV6dWlCbDBkc29US2Q5VnRDZjFNYXlGWlRpbEhYbU1qUQ?oc=5\" target=\"_blank\">‘Raksha Shakti’ key to achieving the goal of Viksit Bharat, says Prime Minister in his 2026 Independence Day address</a> <font color=\"#6f6f6f\">PIB</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5qUXROV3BqOE1FZDFucnVnaWp5d2VQc1ZkWEJGZnk0a2pVa1o4SVJBbnpnX3kwR0t0b2w1QmRHMnlSdXM3eEtleGhfY3Zxc2NWalRhaWpvbkxkeXloLXV6dWlCbDBkc29US2Q5VnRDZjFNYXlGWlRpbEhYbU1qUQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-15T16:33:00.000Z",
+    "collectedAt": "2026-08-16T08:43:46.056Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 50,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "‘Raksha Shakti’ key to achieving the goal of Viksit Bharat, says Prime Minister in his 2026 Independence Day address - PIB. <a href=\"https://news.google.com/rss/articles/CBMifkFVX3lxTE5qUXROV3BqOE1FZDFucnVnaWp5d2VQc1ZkWEJGZnk0a2pVa1o4SVJBbnpnX3kwR0t0b2w1QmRHMnlSdXM3eEtleGhfY3Zxc2NWalRhaWpvbkxkeXloLXV6dWlCbDBkc29US2Q5VnRDZjFNYXlGWlRpbEhYbU1qUQ?oc=5\" target=\"_blank\">‘Raksha Shakti’ key to achieving the goal of Viksit Bharat, says Prime Minister in his 2026 Independence Day address</a> <font color=\"#6f6f6f\">PIB</font>",
+    "whatChanged": [
+      "‘Raksha Shakti’ key to achieving the goal of Viksit Bharat, says Prime Minister in his 2026 Independence Day address - PIB"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
     "marketImpact": "No actionable F&O setup from this article alone.",
     "riskWatchpoints": [
       "No explicit operational or financial risk factors identified in source text."
@@ -13234,6 +13465,48 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_c78c215bfd4362ec",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1NV2dLQW9tS0EySXFTd2dnZzVsT20xcnpJbGJDMTJRRjVGV2tseFlZSFhralY3R1BWQTZUQVlsRjYxSWRaeUo1c0diZlhUSnFtVW5vWVRvdmlFSk9DTXUxYl9hN2tQdFFwTG1CMVlvM1pFZ3BWa0RnXzczRQ?oc=5",
+    "headline": "Railway Minister Leads Tiranga Rally at Rail Bhawan on the Eve of Independence Day - PIB",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1NV2dLQW9tS0EySXFTd2dnZzVsT20xcnpJbGJDMTJRRjVGV2tseFlZSFhralY3R1BWQTZUQVlsRjYxSWRaeUo1c0diZlhUSnFtVW5vWVRvdmlFSk9DTXUxYl9hN2tQdFFwTG1CMVlvM1pFZ3BWa0RnXzczRQ?oc=5\" target=\"_blank\">Railway Minister Leads Tiranga Rally at Rail Bhawan on the Eve of Independence Day</a> <font color=\"#6f6f6f\">PIB</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1NV2dLQW9tS0EySXFTd2dnZzVsT20xcnpJbGJDMTJRRjVGV2tseFlZSFhralY3R1BWQTZUQVlsRjYxSWRaeUo1c0diZlhUSnFtVW5vWVRvdmlFSk9DTXUxYl9hN2tQdFFwTG1CMVlvM1pFZ3BWa0RnXzczRQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-14T12:39:00.000Z",
+    "collectedAt": "2026-08-16T08:43:46.056Z",
+    "category": "Other",
+    "sentiment": "BULLISH",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Railway Minister Leads Tiranga Rally at Rail Bhawan on the Eve of Independence Day - PIB. <a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1NV2dLQW9tS0EySXFTd2dnZzVsT20xcnpJbGJDMTJRRjVGV2tseFlZSFhralY3R1BWQTZUQVlsRjYxSWRaeUo1c0diZlhUSnFtVW5vWVRvdmlFSk9DTXUxYl9hN2tQdFFwTG1CMVlvM1pFZ3BWa0RnXzczRQ?oc=5\" target=\"_blank\">Railway Minister Leads Tiranga Rally at Rail Bhawan on the Eve of Independence Day</a> <font color=\"#6f6f6f\">PIB</font>",
+    "whatChanged": [
+      "Railway Minister Leads Tiranga Rally at Rail Bhawan on the Eve of Independence Day - PIB"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_50b955d1250bb158",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5IQ2pZRU54MXFJWmQxQXRWaDB1Y01GdEZoUGZNbVNuYk1pQTFFdzJBbVFJRnBqUE9MT0FXZkplbndPZlBOeVVma1hBTHV2Ml9hNUhSZExuSHgwMnpmM0VvUzUyVE9wWHloUm9j?oc=5",
     "headline": "Partition saw one of the largest mass migrations in human history, says Vice-President on the occasion of Partition Horrors Remembrance Day - PIB",
@@ -14372,6 +14645,36 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_f667479300868644",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5VdmJGNmE0YjlPWkdCUU85YXhnYTZNUExUekhrdE96NEY2M0xDMXFjZU9BNEdEcWZWWlZqSEY3bGhmdlZyQVR0T0o4dkJtQ010bVgxT0U5OENTZFZEQ1NXLWxnZU93b3EwOVI5eFg1OW1xQm9wNjRoUmRaeGFtQQ?oc=5",
+    "headline": "LIST OF IAF HONORARY RANKS AWARDED ON THE OCCASION OF INDEPENDENCE DAY 2026 - PIB",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMifkFVX3lxTE5VdmJGNmE0YjlPWkdCUU85YXhnYTZNUExUekhrdE96NEY2M0xDMXFjZU9BNEdEcWZWWlZqSEY3bGhmdlZyQVR0T0o4dkJtQ010bVgxT0U5OENTZFZEQ1NXLWxnZU93b3EwOVI5eFg1OW1xQm9wNjRoUmRaeGFtQQ?oc=5\" target=\"_blank\">LIST OF IAF HONORARY RANKS AWARDED ON THE OCCASION OF INDEPENDENCE DAY 2026</a> <font color=\"#6f6f6f\">PIB</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5VdmJGNmE0YjlPWkdCUU85YXhnYTZNUExUekhrdE96NEY2M0xDMXFjZU9BNEdEcWZWWlZqSEY3bGhmdlZyQVR0T0o4dkJtQ010bVgxT0U5OENTZFZEQ1NXLWxnZU93b3EwOVI5eFg1OW1xQm9wNjRoUmRaeGFtQQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-14T11:01:00.000Z",
+    "collectedAt": "2026-08-16T08:58:10.379Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
     "id": "v2_2191be173ba70b94",
     "canonicalUrl": "https://www.livemint.com/market/stock-market-news/bharat-dynamics-q1-results-2026-profit-sees-sixfold-increase-revenue-surges-131-yoy-11786705115010.html",
     "headline": "Bharat Dynamics Q1 results: Profit sees sixfold increase, revenue surges 131% YoY",
@@ -14806,6 +15109,36 @@
     ],
     "summaryConfidence": 60,
     "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_848c941584708bc3",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBvU1A3YXdwdkdEeEhvQ1lLLVhhUk9sWUdXUFdDb1F4NjUxRDlnVDFkOUNjdFVjbTBBc09kNmNkRl9UbzkyOFVvbjIxYjFoMVQ3MUNJNGFmOA?oc=5",
+    "headline": "Share Market Live, Share Market Today: Latest Share Market News, Share Market Live Updates on The Economic Times - economictimes.indiatimes.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTFBvU1A3YXdwdkdEeEhvQ1lLLVhhUk9sWUdXUFdDb1F4NjUxRDlnVDFkOUNjdFVjbTBBc09kNmNkRl9UbzkyOFVvbjIxYjFoMVQ3MUNJNGFmOA?oc=5\" target=\"_blank\">Share Market Live, Share Market Today: Latest Share Market News, Share Market Live Updates on The Economic Times</a> <font color=\"#6f6f6f\">economictimes.indiatimes.com</font>",
+    "source": {
+      "publisher": "Google News Business",
+      "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBvU1A3YXdwdkdEeEhvQ1lLLVhhUk9sWUdXUFdDb1F4NjUxRDlnVDFkOUNjdFVjbTBBc09kNmNkRl9UbzkyOFVvbjIxYjFoMVQ3MUNJNGFmOA?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-14T10:15:00.000Z",
+    "collectedAt": "2026-08-16T08:50:52.259Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 50,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
   },
   {
     "id": "v2_b0b888b7fe981fd6",
@@ -25372,366 +25705,4 @@
       "UltraTech Block Deal: Pilani Investment likely to sell 17 lakh shares for ₹1,909 crore - CNBC TV18"
     ],
     "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 75,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_8170e34aa59e3227",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1yWnZ5X0VGRXVVblM2OENLTWZWUGVvckhGYWUtc0pPX3BTSWNBMjFreFExLTZ5NFRYMmlBREFfNjgzcEJ1WnRpaHRqZERfSGh3SHV6RlhXNkczMGVjZEktWXdEMnU5VkpHNDctRk5KdEhQaDlVOS1LNmtXUQ?oc=5",
-    "headline": "Empowering Governance through Digital Infrastructure - PIB",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1yWnZ5X0VGRXVVblM2OENLTWZWUGVvckhGYWUtc0pPX3BTSWNBMjFreFExLTZ5NFRYMmlBREFfNjgzcEJ1WnRpaHRqZERfSGh3SHV6RlhXNkczMGVjZEktWXdEMnU5VkpHNDctRk5KdEhQaDlVOS1LNmtXUQ?oc=5\" target=\"_blank\">Empowering Governance through Digital Infrastructure</a> <font color=\"#6f6f6f\">PIB</font>",
-    "source": {
-      "publisher": "Press Information Bureau",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1yWnZ5X0VGRXVVblM2OENLTWZWUGVvckhGYWUtc0pPX3BTSWNBMjFreFExLTZ5NFRYMmlBREFfNjgzcEJ1WnRpaHRqZERfSGh3SHV6RlhXNkczMGVjZEktWXdEMnU5VkpHNDctRk5KdEhQaDlVOS1LNmtXUQ?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T12:50:00.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Empowering Governance through Digital Infrastructure - PIB. <a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1yWnZ5X0VGRXVVblM2OENLTWZWUGVvckhGYWUtc0pPX3BTSWNBMjFreFExLTZ5NFRYMmlBREFfNjgzcEJ1WnRpaHRqZERfSGh3SHV6RlhXNkczMGVjZEktWXdEMnU5VkpHNDctRk5KdEhQaDlVOS1LNmtXUQ?oc=5\" target=\"_blank\">Empowering Governance through Digital Infrastructure</a> <font color=\"#6f6f6f\">PIB</font>",
-    "whatChanged": [
-      "Empowering Governance through Digital Infrastructure - PIB"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_b584b9c0379b6289",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOUnhDSVBYNVFscnMwV2ZZT2lhaHVycC1ocWk4Vlp6a1ZRT0Z0MDhEa1BRWHJZRE1jTjk2WkZUZktKb2x1SkJwVUZ6TjdVQVBkb19CaGtSMmhyU2M3ZVpuRU13ZUMzdnhMamJUWmc4MnY3MlFaM1gyVVBRQlZOWE1TOC1CUk96bC1IZkVneHVRcWZUUHd0REVyeGliSldUeDNRQWI4VW1icGFJNDl5eEZ6dDgxMFJtWEZkQUZScVJnS3dVYkx5ZWNFSHNfZmdNcTc30gHWAUFVX3lxTE44dEN0TzU3b3ZOUjBtLVdDNktRRFIzX1BmWk85XzRGbEVkMk9JX013eWhsWlNkY2NDRXQ1eHp4SnBCcWFuZ0pfSTAxRVBlWUpLVjM4VWxpaVRQWXVGX2lZVlB4UW5JbV82R2x3cWV5SVF1R1NUVkJMblgtSXF4ZWZuZ3IwamdYUndMSnZGNzhNZU16VDByOXV5LVJjckdDNTNrUmRDQ3lLaGhDcl9DVUR0cE9vSEtnX2lEX19oQl92dFpVc0ZHMm1DNkhUVEJfV1VSd0tNMHc?oc=5",
-    "headline": "Senco Gold expects revenue growth to exceed 25% in FY27 - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMi0AFBVV95cUxOUnhDSVBYNVFscnMwV2ZZT2lhaHVycC1ocWk4Vlp6a1ZRT0Z0MDhEa1BRWHJZRE1jTjk2WkZUZktKb2x1SkJwVUZ6TjdVQVBkb19CaGtSMmhyU2M3ZVpuRU13ZUMzdnhMamJUWmc4MnY3MlFaM1gyVVBRQlZOWE1TOC1CUk96bC1IZkVneHVRcWZUUHd0REVyeGliSldUeDNRQWI4VW1icGFJNDl5eEZ6dDgxMFJtWEZkQUZScVJnS3dVYkx5ZWNFSHNfZmdNcTc30gHWAUFVX3lxTE44dEN0TzU3b3ZOUjBtLVdDNktRRFIzX1BmWk85XzRGbEVkMk9JX013eWhsWlNkY2NDRXQ1eHp4SnBCcWFuZ0pfSTAxRVBlWUpLVjM4VWxpaVRQWXVGX2lZVlB4UW5JbV82R2x3cWV5SVF1R1NUVkJMblgtSXF4ZWZuZ3IwamdYUndMSnZGNzhNZU16VDByOXV5LVJjckdDNTNrUmRDQ3lLaGhDcl9DVUR0cE9vSEtnX2lEX19oQl92dFpVc0ZHMm1DNkhUVEJfV1VSd0tNMHc?oc=5\" target=\"_blank\">Senco Gold expects revenue growth to exceed 25% in FY27</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOUnhDSVBYNVFscnMwV2ZZT2lhaHVycC1ocWk4Vlp6a1ZRT0Z0MDhEa1BRWHJZRE1jTjk2WkZUZktKb2x1SkJwVUZ6TjdVQVBkb19CaGtSMmhyU2M3ZVpuRU13ZUMzdnhMamJUWmc4MnY3MlFaM1gyVVBRQlZOWE1TOC1CUk96bC1IZkVneHVRcWZUUHd0REVyeGliSldUeDNRQWI4VW1icGFJNDl5eEZ6dDgxMFJtWEZkQUZScVJnS3dVYkx5ZWNFSHNfZmdNcTc30gHWAUFVX3lxTE44dEN0TzU3b3ZOUjBtLVdDNktRRFIzX1BmWk85XzRGbEVkMk9JX013eWhsWlNkY2NDRXQ1eHp4SnBCcWFuZ0pfSTAxRVBlWUpLVjM4VWxpaVRQWXVGX2lZVlB4UW5JbV82R2x3cWV5SVF1R1NUVkJMblgtSXF4ZWZuZ3IwamdYUndMSnZGNzhNZU16VDByOXV5LVJjckdDNTNrUmRDQ3lLaGhDcl9DVUR0cE9vSEtnX2lEX19oQl92dFpVc0ZHMm1DNkhUVEJfV1VSd0tNMHc?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T12:34:29.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "Results",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Results",
-    "secondaryCategories": [
-      "Commodities"
-    ],
-    "eventType": "EARNINGS",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Results] Financial results indicators matched in headline",
-      "[Commodities] Commodity assets/futures matched in headline (1)"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Market General reported revenue at  (increased 25%).",
-    "whatChanged": [
-      "+25%"
-    ],
-    "keyMetrics": [
-      {
-        "metricName": "Revenue",
-        "currentValue": null,
-        "previousValue": null,
-        "change": null,
-        "changePercent": 25,
-        "direction": "UP",
-        "unit": "Cr",
-        "sourceSentence": "Senco Gold expects revenue growth to exceed 25% in FY27.",
-        "displayText": "+25%"
-      }
-    ],
-    "whyItMatters": "Forward management guidance: Senco Gold expects revenue growth to exceed 25% in FY27 - CNBC TV18.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "Financial Metric Source: \"Senco Gold expects revenue growth to exceed 25% in FY27....\""
-    ],
-    "summaryConfidence": 85,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_a8f44fc2c56abe8a",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5YUXVnYk1kSzZkeDFrM2V5N2Zpb04zXzAxZ3pXZmI0bkdYaXIyLUlxcWJHNk5UWVRUcVhzTkhqd3hLWVpGRDR6RTU4dDdmenBOenBsanZrUTZXLUxpTUx6VU9FWVVsMFI4Y2JMeU5ZUFFaV0xKWWhKZg?oc=5",
-    "headline": "- RBI",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMieEFVX3lxTE5YUXVnYk1kSzZkeDFrM2V5N2Zpb04zXzAxZ3pXZmI0bkdYaXIyLUlxcWJHNk5UWVRUcVhzTkhqd3hLWVpGRDR6RTU4dDdmenBOenBsanZrUTZXLUxpTUx6VU9FWVVsMFI4Y2JMeU5ZUFFaV0xKWWhKZg?oc=5\" target=\"_blank\"></a> <font color=\"#6f6f6f\">RBI</font>",
-    "source": {
-      "publisher": "RBI",
-      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5YUXVnYk1kSzZkeDFrM2V5N2Zpb04zXzAxZ3pXZmI0bkdYaXIyLUlxcWJHNk5UWVRUcVhzTkhqd3hLWVpGRDR6RTU4dDdmenBOenBsanZrUTZXLUxpTUx6VU9FWVVsMFI4Y2JMeU5ZUFFaV0xKWWhKZg?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T12:25:22.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Economy",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 70,
-    "primaryCategory": "Economy",
-    "secondaryCategories": [],
-    "eventType": "REGULATORY",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Economy] Economy/regulatory keywords matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "- RBI. <a href=\"https://news.google.com/rss/articles/CBMieEFVX3lxTE5YUXVnYk1kSzZkeDFrM2V5N2Zpb04zXzAxZ3pXZmI0bkdYaXIyLUlxcWJHNk5UWVRUcVhzTkhqd3hLWVpGRDR6RTU4dDdmenBOenBsanZrUTZXLUxpTUx6VU9FWVVsMFI4Y2JMeU5ZUFFaV0xKWWhKZg?oc=5\" target=\"_blank\"></a> <font color=\"#6f6f6f\">RBI</font>",
-    "whatChanged": [
-      "- RBI"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Regulatory update: - RBI. Requisite compliance parameters apply as published.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_f33d3a04f4af54cc",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5NUUhQTzNCZXFRVHBWa1FCVVE1aHJLbmhONzctMHZxRVF1ajY5X3NWRmliQ2hKekx6WWphdTEwSEl1dkpFV09LOGNmb2VndjI0RVBTaWZzck1PaFZUVGtmRWpsWHVpTGUwSFBMVmIxcFo?oc=5",
-    "headline": "Affordable and Accessible Healthcare for All - PIB",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE5NUUhQTzNCZXFRVHBWa1FCVVE1aHJLbmhONzctMHZxRVF1ajY5X3NWRmliQ2hKekx6WWphdTEwSEl1dkpFV09LOGNmb2VndjI0RVBTaWZzck1PaFZUVGtmRWpsWHVpTGUwSFBMVmIxcFo?oc=5\" target=\"_blank\">Affordable and Accessible Healthcare for All</a> <font color=\"#6f6f6f\">PIB</font>",
-    "source": {
-      "publisher": "Press Information Bureau",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5NUUhQTzNCZXFRVHBWa1FCVVE1aHJLbmhONzctMHZxRVF1ajY5X3NWRmliQ2hKekx6WWphdTEwSEl1dkpFV09LOGNmb2VndjI0RVBTaWZzck1PaFZUVGtmRWpsWHVpTGUwSFBMVmIxcFo?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T11:46:00.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Affordable and Accessible Healthcare for All - PIB. <a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTE5NUUhQTzNCZXFRVHBWa1FCVVE1aHJLbmhONzctMHZxRVF1ajY5X3NWRmliQ2hKekx6WWphdTEwSEl1dkpFV09LOGNmb2VndjI0RVBTaWZzck1PaFZUVGtmRWpsWHVpTGUwSFBMVmIxcFo?oc=5\" target=\"_blank\">Affordable and Accessible Healthcare for All</a> <font color=\"#6f6f6f\">PIB</font>",
-    "whatChanged": [
-      "Affordable and Accessible Healthcare for All - PIB"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_2c8aa11a8ab6cf2d",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxNaUlZQlVUeDhZemt3cUhtdWx1Y0RhMHRZa3NzSkhnUXhic3F2bmtzZ0FhZGV1aTlmN0xNOWVJY3pYczBlcmw1R0IwZVM4bjEtQm5Ma29fM0Q3bFVXbG5FMVoyQ25VMVdLdk5jZC14ajNEdlliUW9jc1NNbmh4dFNlN29pZGxkeUNRZzVsOGdBZ2JuOUJ4dkM2RzJCbmRsV3dab2ladjRnS01UVGJWcS12WXpRczNGY0RnTHVQRkxScXhPLTQ1ZnpEZWZCY3Y0MGRqUkRaRE4xRTFGSlFZNElfOXVDNXVWQmUteFE?oc=5",
-    "headline": "Share Market Today: Nifty 50, Bank Nifty | Aug 12, 2026 - Liquide Blog",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMi6gFBVV95cUxNaUlZQlVUeDhZemt3cUhtdWx1Y0RhMHRZa3NzSkhnUXhic3F2bmtzZ0FhZGV1aTlmN0xNOWVJY3pYczBlcmw1R0IwZVM4bjEtQm5Ma29fM0Q3bFVXbG5FMVoyQ25VMVdLdk5jZC14ajNEdlliUW9jc1NNbmh4dFNlN29pZGxkeUNRZzVsOGdBZ2JuOUJ4dkM2RzJCbmRsV3dab2ladjRnS01UVGJWcS12WXpRczNGY0RnTHVQRkxScXhPLTQ1ZnpEZWZCY3Y0MGRqUkRaRE4xRTFGSlFZNElfOXVDNXVWQmUteFE?oc=5\" target=\"_blank\">Share Market Today: Nifty 50, Bank Nifty | Aug 12, 2026</a> <font color=\"#6f6f6f\">Liquide Blog</font>",
-    "source": {
-      "publisher": "Google News Business",
-      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxNaUlZQlVUeDhZemt3cUhtdWx1Y0RhMHRZa3NzSkhnUXhic3F2bmtzZ0FhZGV1aTlmN0xNOWVJY3pYczBlcmw1R0IwZVM4bjEtQm5Ma29fM0Q3bFVXbG5FMVoyQ25VMVdLdk5jZC14ajNEdlliUW9jc1NNbmh4dFNlN29pZGxkeUNRZzVsOGdBZ2JuOUJ4dkM2RzJCbmRsV3dab2ladjRnS01UVGJWcS12WXpRczNGY0RnTHVQRkxScXhPLTQ1ZnpEZWZCY3Y0MGRqUkRaRE4xRTFGSlFZNElfOXVDNXVWQmUteFE?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T11:21:06.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Market",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Market",
-    "secondaryCategories": [],
-    "eventType": "MARKET_MOVEMENT",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Market] Broad market commentary keywords matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": "BANKNIFTY",
-      "confidence": "HIGH",
-      "decision": "EXCLUDE",
-      "reason": "Index symbol BANKNIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
-    },
-    "summary": "Share Market Today: Nifty 50, Bank Nifty | Aug 12, 2026 - Liquide Blog. <a href=\"https://news.google.com/rss/articles/CBMi6gFBVV95cUxNaUlZQlVUeDhZemt3cUhtdWx1Y0RhMHRZa3NzSkhnUXhic3F2bmtzZ0FhZGV1aTlmN0xNOWVJY3pYczBlcmw1R0IwZVM4bjEtQm5Ma29fM0Q3bFVXbG5FMVoyQ25VMVdLdk5jZC14ajNEdlliUW9jc1NNbmh4dFNlN29pZGxkeUNRZzVsOGdBZ2JuOUJ4dkM2RzJCbmRsV3dab2ladjRnS01UVGJWcS12WXpRczNGY0RnTHVQRkxScXhPLTQ1ZnpEZWZCY3Y0MGRqUkRaRE4xRTFGSlFZNElfOXVDNXVWQmUteFE?oc=5\" target=\"_blank\">Share Market Today: Nifty 50, Bank Nifty | Aug 12, 2026</a> <font color=\"#6f6f6f\">Liquide Blog</font>",
-    "whatChanged": [
-      "Share Market Today: Nifty 50, Bank Nifty | Aug 12, 2026 - Liquide Blog"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Market movement: Share Market Today: Nifty 50, Bank Nifty | Aug 12, 2026 - Liquide Blog.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 95,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_6bb72b8679a35d6a",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMie0FVX3lxTFA5MjJZWjdsQ3lET1AyUmtUakJqQUdQa3JVX013cmlXY29kN2sxenphb3R5S1BDSXl2UjdHakp6ajdreEJxS2poQlVtend3Ym5yYld6amg5TExDbnU3cWxqVzc1TmtoX0RoUC1tZV9lY19hRG9PcHBIMllJVQ?oc=5",
-    "headline": "PRAHAAR - PIB",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTFA5MjJZWjdsQ3lET1AyUmtUakJqQUdQa3JVX013cmlXY29kN2sxenphb3R5S1BDSXl2UjdHakp6ajdreEJxS2poQlVtend3Ym5yYld6amg5TExDbnU3cWxqVzc1TmtoX0RoUC1tZV9lY19hRG9PcHBIMllJVQ?oc=5\" target=\"_blank\">PRAHAAR</a> <font color=\"#6f6f6f\">PIB</font>",
-    "source": {
-      "publisher": "Press Information Bureau",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFA5MjJZWjdsQ3lET1AyUmtUakJqQUdQa3JVX013cmlXY29kN2sxenphb3R5S1BDSXl2UjdHakp6ajdreEJxS2poQlVtend3Ym5yYld6amg5TExDbnU3cWxqVzc1TmtoX0RoUC1tZV9lY19hRG9PcHBIMllJVQ?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T11:18:00.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 50,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "PRAHAAR - PIB. <a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTFA5MjJZWjdsQ3lET1AyUmtUakJqQUdQa3JVX013cmlXY29kN2sxenphb3R5S1BDSXl2UjdHakp6ajdreEJxS2poQlVtend3Ym5yYld6amg5TExDbnU3cWxqVzc1TmtoX0RoUC1tZV9lY19hRG9PcHBIMllJVQ?oc=5\" target=\"_blank\">PRAHAAR</a> <font color=\"#6f6f6f\">PIB</font>",
-    "whatChanged": [
-      "PRAHAAR - PIB"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_0db816df491d33d6",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5fakJ3X21QZURKV01ZeWhMNGV4V0Z3TGdxV3lwX3djdWRUZnJKb0FtejFQWDQxd09YYlBLREFYZnVlQkpaVE1hdHB3cVBxS0ZLT0ZMSE9iLUtZZlN6am5UVjg3Wm9rcHNoWkZLaGJpQTRlSGIzWUs1RVJfYw?oc=5",
-    "headline": "Financial Inclusion in India: Banking Every Citizen, Empowering Every Household - PIB",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE5fakJ3X21QZURKV01ZeWhMNGV4V0Z3TGdxV3lwX3djdWRUZnJKb0FtejFQWDQxd09YYlBLREFYZnVlQkpaVE1hdHB3cVBxS0ZLT0ZMSE9iLUtZZlN6am5UVjg3Wm9rcHNoWkZLaGJpQTRlSGIzWUs1RVJfYw?oc=5\" target=\"_blank\">Financial Inclusion in India: Banking Every Citizen, Empowering Every Household</a> <font color=\"#6f6f6f\">PIB</font>",
-    "source": {
-      "publisher": "Press Information Bureau",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5fakJ3X21QZURKV01ZeWhMNGV4V0Z3TGdxV3lwX3djdWRUZnJKb0FtejFQWDQxd09YYlBLREFYZnVlQkpaVE1hdHB3cVBxS0ZLT0ZMSE9iLUtZZlN6am5UVjg3Wm9rcHNoWkZLaGJpQTRlSGIzWUs1RVJfYw?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T10:46:00.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Financial Inclusion in India: Banking Every Citizen, Empowering Every Household - PIB. <a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE5fakJ3X21QZURKV01ZeWhMNGV4V0Z3TGdxV3lwX3djdWRUZnJKb0FtejFQWDQxd09YYlBLREFYZnVlQkpaVE1hdHB3cVBxS0ZLT0ZMSE9iLUtZZlN6am5UVjg3Wm9rcHNoWkZLaGJpQTRlSGIzWUs1RVJfYw?oc=5\" target=\"_blank\">Financial Inclusion in India: Banking Every Citizen, Empowering Every Household</a> <font color=\"#6f6f6f\">PIB</font>",
-    "whatChanged": [
-      "Financial Inclusion in India: Banking Every Citizen, Empowering Every Household - PIB"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 80,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_77eabaf8efac3685",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNanR6MGdJSy04MU1BcmxUTG1LUG5jOURCc1lPNzQtQ3JWNTlad2phbE5YSERQdEk1blhuTm1tV0tmVm1mZFhoRnoxemhjcGlEZkw5NzVYX1BsSFBNeHJYYjdoTGxwdEM5V1dEc0ljZTBQVkdPeVREZmU4aVEwbE1QX0hxVU9HUTFlTGlsTUFySEpKMHctWW81UWhQRENaNGdzQUh1STFmc2lhVThCdUp2V29PNllpOFNOeVdjazNoalpTRlZLSkNKTTM4amc3NjlX0gHWAUFVX3lxTE42YnRKMkN4RlVfVkFUNldaZmJvd3NLQTh4VW93clozNVg1WW5udWdnUlp4eXdOdW9nR3Y2WVdSdDd6cms3ZTBVRE9Wa0NWeEp1X2k3cXl3VzZfQnpMTmVlcTNiTUFabk5uY3A2WFhRc2pQOGI3X3JRalNTTG1fczczMjNKcFd0NnMwTFJTdTg5MWk1bkExQzFMd0Nva0JueDVhbk00NUJwa1BsNEhSRW9BUFl0Q1pmMUVUWFd2R2VoWDQ1Z1F6b01MSTBvZkMyTWFrM3VaNUE?oc=5",
-    "headline": "Blackstone-backed Horizon Industrial Parks says no capital raise needed after ₹2,600 crore IPO - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMi0AFBVV95cUxNanR6MGdJSy04MU1BcmxUTG1LUG5jOURCc1lPNzQtQ3JWNTlad2phbE5YSERQdEk1blhuTm1tV0tmVm1mZFhoRnoxemhjcGlEZkw5NzVYX1BsSFBNeHJYYjdoTGxwdEM5V1dEc0ljZTBQVkdPeVREZmU4aVEwbE1QX0hxVU9HUTFlTGlsTUFySEpKMHctWW81UWhQRENaNGdzQUh1STFmc2lhVThCdUp2V29PNllpOFNOeVdjazNoalpTRlZLSkNKTTM4amc3NjlX0gHWAUFVX3lxTE42YnRKMkN4RlVfVkFUNldaZmJvd3NLQTh4VW93clozNVg1WW5udWdnUlp4eXdOdW9nR3Y2WVdSdDd6cms3ZTBVRE9Wa0NWeEp1X2k3cXl3VzZfQnpMTmVlcTNiTUFabk5uY3A2WFhRc2pQOGI3X3JRalNTTG1fczczMjNKcFd0NnMwTFJTdTg5MWk1bkExQzFMd0Nva0JueDVhbk00NUJwa1BsNEhSRW9BUFl0Q1pmMUVUWFd2R2VoWDQ1Z1F6b01MSTBvZkMyTWFrM3VaNUE?oc=5\" target=\"_blank\">Blackstone-backed Horizon Industrial Parks says no capital raise needed after ₹2,600 crore IPO</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNanR6MGdJSy04MU1BcmxUTG1LUG5jOURCc1lPNzQtQ3JWNTlad2phbE5YSERQdEk1blhuTm1tV0tmVm1mZFhoRnoxemhjcGlEZkw5NzVYX1BsSFBNeHJYYjdoTGxwdEM5V1dEc0ljZTBQVkdPeVREZmU4aVEwbE1QX0hxVU9HUTFlTGlsTUFySEpKMHctWW81UWhQRENaNGdzQUh1STFmc2lhVThCdUp2V29PNllpOFNOeVdjazNoalpTRlZLSkNKTTM4amc3NjlX0gHWAUFVX3lxTE42YnRKMkN4RlVfVkFUNldaZmJvd3NLQTh4VW93clozNVg1WW5udWdnUlp4eXdOdW9nR3Y2WVdSdDd6cms3ZTBVRE9Wa0NWeEp1X2k3cXl3VzZfQnpMTmVlcTNiTUFabk5uY3A2WFhRc2pQOGI3X3JRalNTTG1fczczMjNKcFd0NnMwTFJTdTg5MWk1bkExQzFMd0Nva0JueDVhbk00NUJwa1BsNEhSRW9BUFl0Q1pmMUVUWFd2R2VoWDQ1Z1F6b01MSTBvZkMyTWFrM3VaNUE?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T10:45:42.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "IPO",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "IPO",
-    "secondaryCategories": [],
-    "eventType": "IPO",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[IPO] IPO indicators matched in headline (1)"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Blackstone-backed Horizon Industrial Parks says no capital raise needed after ₹2,600 crore IPO - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMi0AFBVV95cUxNanR6MGdJSy04MU1BcmxUTG1LUG5jOURCc1lPNzQtQ3JWNTlad2phbE5YSERQdEk1blhuTm1tV0tmVm1mZFhoRnoxemhjcGlEZkw5NzVYX1BsSFBNeHJYYjdoTGxwdEM5V1dEc0ljZTBQVkdPeVREZmU4aVEwbE1QX0hxVU9HUTFlTGlsTUFySEpKMHctWW81UWhQRENaNGdzQUh1STFmc2lhVThCdUp2V29PNllpOFNOeVdjazNoalpTRlZLSkNKTTM4amc3NjlX0gHWAUFVX3lxTE42YnRKMkN4RlVfVkFUNldaZmJvd3NLQTh4VW93clozNVg1WW5udWdnUlp4eXdOdW9nR3Y2WVdSdDd6cms3ZTBVRE9Wa0NWeEp1X2k3cXl3VzZfQnpMTmVlcTNiTUFabk5uY3A2WFhRc2pQOGI3X3JRalNTTG1fczczMjNKcFd0NnMwTFJTdTg5MWk1bkExQzFMd0Nva0JueDVhbk00NUJwa1BsNEhSRW9BUFl0Q1pmMUVUWFd2R2VoWDQ1Z1F6b01MSTBvZkMyTWFrM3VaNUE?oc=5\" target=\"_blank\">Blackstone-backed Horizon Industrial Parks says no capital raise needed after ₹2,600 crore IPO</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "whatChanged": [
-      "Blackstone-backed Horizon Industrial Parks says no capital raise needed after ₹2,600 crore IPO - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Initial Public Offering development. Key issue parameters guide market expectations and investor participation.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_2774d5c40422d0bf",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBOREdVLXBaLUJnYzJQUmRIRU9ZWTR6dUlWU0VmQUtCZXZ1U3p2MjdETUpMVlVCa3FFNHd6M0gzUHZWcmRjYVVJckh5R1d2VzVCVW1UNjAtVEVGeGZnNzY2Q01fa3NmWEpk?oc=5",
-    "headline": "PRESS RELEASE OF CO
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financi

@@ -51,8 +51,14 @@ export class GroqProvider implements IAIProvider {
       throw err;
     }
 
-    const models = [this.getPrimaryModel(), this.getFallbackModel()];
-    const maxRetries = 1;
+    const models = [
+      this.getPrimaryModel(),
+      this.getFallbackModel(),
+      'llama-3.1-8b-instant',
+      'llama-3.2-3b-preview',
+      'mixtral-8x7b-32768'
+    ].filter((m, idx, self) => self.indexOf(m) === idx);
+    const maxRetries = models.length - 1;
     let attempt = 0;
     let lastError: any = null;
 
@@ -154,13 +160,13 @@ export class GroqProvider implements IAIProvider {
         }
 
         if (status === 429) {
-          this.healthMonitor.recordQuotaExceeded('groq');
           console.warn(`[GroqProvider] Rate limit reached on model ${modelToUse}: ${errorMessage}`);
           attempt++;
           if (attempt <= maxRetries) {
-            console.log(`[GroqProvider] Retrying with secondary model: ${models[attempt % models.length]}`);
+            console.log(`[GroqProvider] Retrying with model: ${models[attempt % models.length]}`);
             continue;
           }
+          this.healthMonitor.recordQuotaExceeded('groq');
           const rateErr = new Error(`Groq Rate Limit Exceeded (429): ${errorMessage}`);
           (rateErr as any).code = 'RATE_LIMITED' as GroqErrorCode;
           throw rateErr;

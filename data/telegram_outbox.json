@@ -1,1 +1,48 @@
-[]
+[
+  {
+    "articleId": "v2_7b90b68887d14d3a",
+    "payload": {
+      "id": "v2_7b90b68887d14d3a",
+      "canonicalUrl": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1rOVpXNkxNSmp5T0NUR0g0M0dyWHd6TWRic0hjcDNPa19lWGFsNk0tT2wycnltQk9aU2M0Qy10WFFHb0kwaWZPeXpkOU40bk5fdDc4R2lOaDAzOEJILV9XcEpBUjh6LVQzZFZSQTRPQnRYS0puY3l2dkdPZw?oc=5",
+      "headline": "National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector - PIB",
+      "body": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1rOVpXNkxNSmp5T0NUR0g0M0dyWHd6TWRic0hjcDNPa19lWGFsNk0tT2wycnltQk9aU2M0Qy10WFFHb0kwaWZPeXpkOU40bk5fdDc4R2lOaDAzOEJILV9XcEpBUjh6LVQzZFZSQTRPQnRYS0puY3l2dkdPZw?oc=5\" target=\"_blank\">National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector</a> <font color=\"#6f6f6f\">PIB</font>",
+      "source": {
+        "publisher": "Press Information Bureau",
+        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1rOVpXNkxNSmp5T0NUR0g0M0dyWHd6TWRic0hjcDNPa19lWGFsNk0tT2wycnltQk9aU2M0Qy10WFFHb0kwaWZPeXpkOU40bk5fdDc4R2lOaDAzOEJILV9XcEpBUjh6LVQzZFZSQTRPQnRYS0puY3l2dkdPZw?oc=5",
+        "collectionMethod": "RSS"
+      },
+      "publishedAt": "2026-08-11T09:40:00.000Z",
+      "collectedAt": "2026-08-16T08:59:12.507Z",
+      "category": "Other",
+      "sentiment": "NEUTRAL",
+      "relevanceScore": 65,
+      "primaryCategory": "Other",
+      "secondaryCategories": [],
+      "eventType": "OTHER",
+      "categoryConfidence": "LOW",
+      "classificationEvidence": [
+        "Default fallback classification for general news story"
+      ],
+      "fno": {
+        "eligible": false,
+        "symbol": null,
+        "confidence": "NONE",
+        "decision": "EXCLUDE",
+        "reason": "No canonical F&O entity identified in headline"
+      },
+      "summary": "National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector - PIB. <a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1rOVpXNkxNSmp5T0NUR0g0M0dyWHd6TWRic0hjcDNPa19lWGFsNk0tT2wycnltQk9aU2M0Qy10WFFHb0kwaWZPeXpkOU40bk5fdDc4R2lOaDAzOEJILV9XcEpBUjh6LVQzZFZSQTRPQnRYS0puY3l2dkdPZw?oc=5\" target=\"_blank\">National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector</a> <font color=\"#6f6f6f\">PIB</font>",
+      "whatChanged": [
+        "National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector - PIB"
+      ],
+      "keyMetrics": [],
+      "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+      "marketImpact": "No actionable F&O setup from this article alone.",
+      "riskWatchpoints": [
+        "No explicit operational or financial risk factors identified in source text."
+      ],
+      "summaryConfidence": 60,
+      "summaryProcessingMode": "DETERMINISTIC"
+    },
+    "attempts": 0
+  }
+]

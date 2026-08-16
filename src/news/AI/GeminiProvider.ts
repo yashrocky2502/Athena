@@ -109,13 +109,13 @@ export class GeminiProvider implements IAIProvider {
         const msg = String(err?.message || err);
 
         if (msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED') || msg.includes('quota')) {
-          console.warn(`[GeminiProvider] Quota/rate limit exceeded on model ${modelToUse} (attempt ${attempt + 1})`);
-          this.healthMonitor.recordQuotaExceeded('gemini');
+          console.warn(`[GeminiProvider] Quota/rate limit exceeded on model ${modelToUse} (attempt ${attempt + 1}/${candidateModels.length})`);
           attempt++;
           if (attempt <= maxRetries) {
             console.log(`[GeminiProvider] Attempting alternative fallback model: ${candidateModels[attempt % candidateModels.length]}`);
             continue;
           }
+          this.healthMonitor.recordQuotaExceeded('gemini');
           break;
         }
 
