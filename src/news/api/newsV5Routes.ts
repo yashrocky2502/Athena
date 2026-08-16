@@ -241,9 +241,11 @@ router.get('/feed', async (req: Request, res: Response) => {
         }
 
         try {
+            const query = (req.query.query as string) || (req.query.q as string) || undefined;
             const feedResult = await feedService.getFeed({
                 category,
                 symbol,
+                query,
                 page,
                 limit,
                 sort
@@ -587,6 +589,67 @@ router.post('/sync', async (req: Request, res: Response) => {
         });
     } catch (err: any) {
         console.error('[NewsV5] Sync error:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/report/:id
+ * Generates dynamic AI Intelligence Report for an article.
+ */
+router.get('/intelligence/report/:id', async (req: Request, res: Response) => {
+    try {
+        const articleId = req.params.id;
+        const article = await stage2Store.getById(articleId);
+        if (!article) {
+            return res.status(444).json({ status: 'error', message: 'Article not found' });
+        }
+        const { NewsIntelligenceQualityService } = await import('../intelligence/NewsIntelligenceQualityService.ts');
+        const report = await NewsIntelligenceQualityService.generateFullReport(article);
+        res.json({
+            status: 'success',
+            articleId,
+            report
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/benchmark
+ * Evaluates Stage 5 Quality Benchmark Dataset.
+ */
+router.get('/intelligence/benchmark', async (_req: Request, res: Response) => {
+    try {
+        const { QualityBenchmarkDataset } = await import('../intelligence/QualityBenchmarkDataset.ts');
+        const { NewsIntelligenceQualityService } = await import('../intelligence/NewsIntelligenceQualityService.ts');
+        const cases = QualityBenchmarkDataset.getTestCases();
+        const results = cases.map(c => {
+            const enriched = NewsIntelligenceQualityService.enrich({
+                id: c.id,
+                headline: c.title,
+                summary: c.body,
+                body: c.body,
+                publishedAt: c.publishedAt,
+                primaryCategory: c.category,
+                publisher: { name: c.publisher, url: '' }
+            } as any);
+            return {
+                id: c.id,
+                title: c.title,
+                relevanceScore: enriched.relevanceScore,
+                urgency: enriched.urgency,
+                directionalBias: enriched.directionalBias,
+                alertPriority: enriched.alertPriority
+            };
+        });
+        res.json({
+            status: 'success',
+            totalTestCases: cases.length,
+            benchmarkResults: results
+        });
+    } catch (err: any) {
         res.status(500).json({ status: 'error', message: err.message });
     }
 });

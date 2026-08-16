@@ -1,5 +1,7 @@
 import { NewsArticle } from '../types/Article.ts';
 import { INewsStore } from '../storage/NewsStore.ts';
+import { NewsIntelligenceQualityService } from '../intelligence/NewsIntelligenceQualityService.ts';
+import { NewsSearchEngine } from '../intelligence/NewsSearchEngine.ts';
 
 export interface FeedResponse {
     articles: NewsArticle[];
@@ -13,6 +15,7 @@ export interface FeedResponse {
 export interface FeedOptions {
     category?: string;
     symbol?: string;
+    query?: string;
     page?: number;
     limit?: number;
     sort?: 'latest' | 'relevance';
@@ -23,10 +26,32 @@ const CANONICAL_CATEGORIES = [
     'Market', 'Corporate', 'Commodities', 'Global', 'Technology', 'Exchange'
 ];
 
+const enrichmentCache = new Map<string, any>();
+
+function getEnrichedArticle(art: NewsArticle): any {
+    const key = `${art.id}_${art.publishedAt}`;
+    let cached = enrichmentCache.get(key);
+    if (!cached) {
+        cached = NewsIntelligenceQualityService.enrich(art);
+        if (enrichmentCache.size > 2000) {
+            enrichmentCache.clear();
+        }
+        enrichmentCache.set(key, cached);
+    }
+    return cached;
+}
+
 export class NewsFeedService {
     constructor(private store: INewsStore) {}
 
+    private categoryCountsCache: { time: number; counts: Record<string, number> } | null = null;
+
     public async getCategoryCounts(): Promise<Record<string, number>> {
+        const now = Date.now();
+        if (this.categoryCountsCache && (now - this.categoryCountsCache.time) < 1000) {
+            return this.categoryCountsCache.counts;
+        }
+
         const all = await this.store.getAll();
         const counts: Record<string, number> = {
             'All': all.length,
@@ -54,12 +79,15 @@ export class NewsFeedService {
                 counts[cat]++;
             }
         }
+
+        this.categoryCountsCache = { time: now, counts };
         return counts;
     }
 
     public async getFeed(options: FeedOptions = {}): Promise<FeedResponse> {
         const category = options.category || 'All';
         const symbol = options.symbol;
+        const query = options.query;
         const rawPage = parseInt(options.page as any, 10);
         const page = (!rawPage || rawPage <= 0) ? 1 : rawPage;
         const rawLimit = parseInt(options.limit as any, 10);
@@ -73,9 +101,17 @@ export class NewsFeedService {
             articles = articles.filter(a => a.symbol?.toUpperCase() === symUpper);
         }
 
+        if (query && query.trim().length > 0) {
+            const searchRes = NewsSearchEngine.search(articles, { query });
+            articles = searchRes.articles;
+        }
+
+        // Enrich articles with Stage 5 Intelligence attributes dynamically
+        const enriched = articles.map(art => getEnrichedArticle(art));
+
         // Apply deterministic sorting
         if (sort === 'relevance') {
-            articles.sort((a, b) => {
+            enriched.sort((a, b) => {
                 const diff = (b.relevanceScore || 50) - (a.relevanceScore || 50);
                 if (diff !== 0) return diff;
                 const timeDiff = new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
@@ -83,19 +119,19 @@ export class NewsFeedService {
                 return a.id.localeCompare(b.id);
             });
         } else {
-            articles.sort((a, b) => {
+            enriched.sort((a, b) => {
                 const timeDiff = new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
                 if (timeDiff !== 0) return timeDiff;
                 return a.id.localeCompare(b.id);
             });
         }
 
-        const totalCount = articles.length;
+        const totalCount = enriched.length;
         const totalPages = Math.max(1, Math.ceil(totalCount / limit));
         const effectivePage = Math.min(page, totalPages);
         
         const start = (effectivePage - 1) * limit;
-        const pagedArticles = articles.slice(start, start + limit).map(art => ({
+        const pagedArticles = enriched.slice(start, start + limit).map(art => ({
             ...art,
             title: art.headline,
             url: art.sourceUrl || art.source?.url || '',
@@ -121,5 +157,6 @@ export class NewsFeedService {
         };
     }
 }
+
 
 
