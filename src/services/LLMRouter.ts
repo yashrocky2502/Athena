@@ -159,7 +159,7 @@ export class LLMRouter {
             wasGroqCalled,
             wasGeminiCalled: "Yes",
             groqStatus,
-            geminiStatus: "200 OK (gemini-3.6-flash)",
+            geminiStatus: "200 OK (gemini-3.7-flash)",
             promptLength,
             responseLength: respText.length,
             fallbackReason
@@ -332,7 +332,7 @@ OUTPUT FORMAT (JSON):
   }
 
   private async callGeminiWithTimeout(client: any, prompt: string, timeoutMs: number): Promise<LLMSummaryOutput> {
-    const primaryModel = process.env.GEMINI_FALLBACK_MODEL || "gemini-3.6-flash";
+    const primaryModel = process.env.GEMINI_FALLBACK_MODEL || "gemini-3.7-flash";
     const modelsToTry = [primaryModel, "gemini-3.7-flash", "gemini-3.1-flash-lite"];
 
     const callPromise = (async () => {
@@ -476,7 +476,7 @@ OUTPUT FORMAT (JSON):
     if (geminiClient && !isGeminiInCooldown) {
       try {
         const response = await geminiClient.models.generateContent({
-          model: process.env.GEMINI_FALLBACK_MODEL || "gemini-3.6-flash",
+          model: process.env.GEMINI_FALLBACK_MODEL || "gemini-3.7-flash",
           contents: prompt,
           config: {
             responseMimeType: "application/json",

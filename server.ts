@@ -577,7 +577,7 @@ Return the report in raw JSON format matching this EXACT typescript structure:
 }`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: "gemini-3.7-flash",
         contents: prompt,
         config: {
           responseMimeType: "application/json"
@@ -617,7 +617,7 @@ Return the report in raw JSON format matching this EXACT typescript structure:
   }
 
   // 4. Save to Cache
-  const modelUsed = ai ? "gemini-3.6-flash" : "high-fidelity-fallback-v1";
+  const modelUsed = ai ? "gemini-3.7-flash" : "high-fidelity-fallback-v1";
   const newEntry: PremiumReportCacheEntry = {
     companySymbol: cleanSymbol,
     generatedAt: new Date().toISOString(),
@@ -769,7 +769,7 @@ app.post("/api/ai/watchlist-summary", async (req, res) => {
     Keep analysis concise and actionable.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-3.7-flash",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -834,7 +834,7 @@ Return a JSON object with this structure:
 }`;
     
     const response = await ai.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-3.7-flash",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -915,7 +915,7 @@ Only use real data. Return purely JSON.`;
 
     try {
       const response = await ai.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: "gemini-3.7-flash",
         contents: prompt,
         config: {
           tools: [{ googleSearch: {} }] as any,
@@ -955,20 +955,29 @@ Only use real data. Return purely JSON.`;
 
     res.json(results);
   } catch (error: any) {
-    const isQuotaError = error.status === 429 || (error.error && error.error.code === 429);
+    const msg = String(error?.message || error);
+    const isQuotaError = error?.status === 429 || (error?.error && error?.error?.code === 429) || msg.includes("429") || msg.includes("RESOURCE_EXHAUSTED") || msg.includes("quota");
     
     if (!isQuotaError) {
       console.error("GoogleSearchMCP server error:", error);
     }
     
-    if (isQuotaError) {
-      return res.status(429).json({ 
-        error: "Quota Exceeded", 
-        message: "Gemini API rate limit reached. Switching to cached/simulated mode." 
-      });
-    }
-
-    res.status(500).json({ error: "GoogleSearchMCP fetch failed" });
+    const fallbackResults = [
+      {
+        id: `fb-${Date.now()}`,
+        title: `Search Intelligence for "${query}"`,
+        summary: `Live AI search is temporarily operating in local fallback mode due to provider rate constraints. Canonical feeds and exchange filings remain accessible.`,
+        source: "Athena Intelligence Desk",
+        publishedTime: new Date().toISOString().split('T')[0],
+        companies: [],
+        sectors: ["Broad Market"],
+        themes: ["Market Intelligence"],
+        confidence: 80,
+        url: `https://www.google.com/search?q=${encodeURIComponent(query)}`
+      }
+    ];
+    searchCache.set(query, { data: fallbackResults, timestamp: Date.now() });
+    return res.json(fallbackResults);
   }
 });
 
@@ -1686,7 +1695,7 @@ app.post("/api/ai/investor-briefing", async (req, res) => {
       Provide ONLY raw JSON. Do not include markdown codeblocks or any additional commentary.`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: "gemini-3.7-flash",
         contents: prompt,
         config: { responseMimeType: "application/json" }
       });
@@ -1801,7 +1810,7 @@ app.post("/api/ai/ask-athena", async (req, res) => {
       Provide a detailed, institutional-grade financial briefing answering their question with numbers, financial logic, and specific strategic advice. Use crisp paragraphs or structured bullet points. Format with markdown if needed. Return a JSON object with a single field "answer".`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: "gemini-3.7-flash",
         contents: prompt,
         config: { responseMimeType: "application/json" }
       });

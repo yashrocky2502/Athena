@@ -1534,7 +1534,7 @@ export default function CompanyIntelligence({ companySymbol, onBack, developerMo
               <p className="text-[11px] text-slate-400 leading-relaxed">
                 <span className="text-slate-500">Dossier Loaded:</span> <span className="text-slate-300">{premiumReport ? "YES" : "NO"}</span><br/>
                 <span className="text-slate-500">Market Participant Outlook:</span> <span className="text-emerald-400 font-bold">{premiumReport?.report?.optionSellerView ? "PRESENT" : "PENDING"}</span><br/>
-                <span className="text-slate-500">Model:</span> <span className="text-slate-300">{premiumReport?.model || "gemini-3.6-flash"}</span>
+                <span className="text-slate-500">Model:</span> <span className="text-slate-300">{premiumReport?.model || "gemini-3.7-flash"}</span>
               </p>
             </div>
 

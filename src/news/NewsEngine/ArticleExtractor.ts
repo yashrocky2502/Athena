@@ -427,7 +427,7 @@ export class ArticleExtractor {
               if (aiScore > initialScore) {
                 extractedBody = cleanText;
                 extractionMethod = 'AI Assisted';
-                aiUsed = 'gemini-3.6-flash';
+                aiUsed = 'gemini-3.7-flash';
                 retrySuccess = true;
               }
             }
