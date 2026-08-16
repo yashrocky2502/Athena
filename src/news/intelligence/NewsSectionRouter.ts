@@ -62,7 +62,10 @@ export class NewsSectionRouter {
     const text = `${article.headline || article.title || ''} ${article.summary || article.description || ''} ${article.body || article.cleanBody || ''}`.toLowerCase();
     const headlineLower = (article.headline || article.title || '').toLowerCase();
     const categoryLower = (article.primaryCategory || article.category || '').toLowerCase();
-    const publisherLower = (article.publisher?.name || article.publisher || article.source || '').toLowerCase();
+    const publisherVal = typeof article.publisher === 'string' 
+      ? article.publisher 
+      : (article.publisher?.name || (typeof article.source === 'string' ? article.source : (article.source?.name || '')));
+    const publisherLower = String(publisherVal).toLowerCase();
 
     // Symbols & Companies
     const tickers: string[] = (article.tickers || []).map((t: any) => String(t).toUpperCase());

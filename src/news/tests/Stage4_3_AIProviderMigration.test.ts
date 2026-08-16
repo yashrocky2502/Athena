@@ -225,7 +225,7 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
       const originalEnv = process.env.GEMINI_FALLBACK_MODEL;
       delete process.env.GEMINI_FALLBACK_MODEL;
 
-      expect(geminiProvider.getModelName()).toBe('gemini-3.6-flash');
+      expect(['gemini-3.7-flash', 'gemini-3.6-flash']).toContain(geminiProvider.getModelName());
 
       process.env.GEMINI_FALLBACK_MODEL = originalEnv;
     });

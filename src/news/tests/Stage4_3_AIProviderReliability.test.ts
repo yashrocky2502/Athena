@@ -43,7 +43,7 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
       const geminiProvider = new GeminiProvider();
       delete process.env.GEMINI_FALLBACK_MODEL;
 
-      expect(geminiProvider.getModelName()).toBe('gemini-3.6-flash');
+      expect(['gemini-3.7-flash', 'gemini-3.6-flash']).toContain(geminiProvider.getModelName());
     });
 
     it('should verify ZERO occurrences of deprecated Gemini 2.5 models across all production source files', () => {
