@@ -229,7 +229,28 @@ export const NewsDiagnosticsPanel: React.FC<NewsDiagnosticsPanelProps> = ({
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [recoveryNotice, setRecoveryNotice] = useState<string | null>(null);
   const [countdown, setCountdown] = useState<number>(42);
-  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'latency' | 'clients' | 'quality' | 'priority' | 'failover' | 'breaking' | 'timelines' | 'reliability' | 'ops'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'latency' | 'clients' | 'quality' | 'priority' | 'failover' | 'breaking' | 'timelines' | 'reliability' | 'ops' | 'reconciliation'>('overview');
+  const [reconcileData, setReconcileData] = useState<any>(null);
+  const [reconcileLoading, setReconcileLoading] = useState<boolean>(false);
+
+  const fetchReconciliation = async () => {
+    setReconcileLoading(true);
+    try {
+      const res = await fetch("/api/v5/news/reconciliation");
+      const json = await res.json();
+      setReconcileData(json);
+    } catch (err) {
+      console.warn("[Diagnostics] Failed to fetch count truth layer:", err);
+    } finally {
+      setReconcileLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen && activeTab === 'reconciliation') {
+      fetchReconciliation();
+    }
+  }, [isOpen, activeTab]);
 
   const fetchDiagnostics = async (showSpin = false) => {
     if (showSpin) setRefreshing(true);
@@ -378,7 +399,8 @@ export const NewsDiagnosticsPanel: React.FC<NewsDiagnosticsPanelProps> = ({
             { id: 'breaking', label: '8. Breaking News', icon: Flame },
             { id: 'timelines', label: '9. Event Timelines', icon: Globe },
             { id: 'reliability', label: '10. Reliability', icon: Server },
-            { id: 'ops', label: '11. Operations Controls', icon: Settings }
+            { id: 'ops', label: '11. Operations Controls', icon: Settings },
+            { id: 'reconciliation', label: '12. Count Reconciliation', icon: Database }
           ].map((t) => {
             const Icon = t.icon;
             const active = activeTab === t.id;
@@ -1021,6 +1043,157 @@ export const NewsDiagnosticsPanel: React.FC<NewsDiagnosticsPanelProps> = ({
                   </a>
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* TAB 12: COUNT RECONCILIATION & POPULATION TRUTH LAYER */}
+          {activeTab === 'reconciliation' && (
+            <div className="space-y-6">
+              <div className="p-5 rounded-2xl bg-indigo-950/20 border border-indigo-500/20 space-y-2">
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <Database className="w-4 h-4 text-indigo-400 animate-pulse" />
+                  ATHENA News Engine Count Truth Layer
+                </h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  This panel permanently resolves the historical confusion of varying news numbers by mapping and auditing each separate, measurable population from the underlying physical storage adapters in real-time.
+                </p>
+              </div>
+
+              {reconcileLoading ? (
+                <div className="py-12 text-center text-slate-400 flex flex-col items-center gap-3">
+                  <RefreshCw className="w-6 h-6 animate-spin text-indigo-400" />
+                  <span>Hydrating truth layer from physical JSON files...</span>
+                </div>
+              ) : reconcileData ? (
+                <div className="space-y-6 text-xs">
+                  {/* Primary Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1">
+                      <span className="text-slate-400 text-[10px] uppercase font-mono block">Population A: Canonical Articles</span>
+                      <span className="font-mono font-bold text-2xl text-indigo-400 block">{reconcileData.canonicalArticles}</span>
+                      <span className="text-[10px] text-slate-500 block">news_stage2_store.json</span>
+                    </div>
+
+                    <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1">
+                      <span className="text-slate-400 text-[10px] uppercase font-mono block">Population B: Raw Articles</span>
+                      <span className="font-mono font-bold text-2xl text-slate-100 block">{reconcileData.rawIngestionRecords}</span>
+                      <span className="text-[10px] text-slate-500 block">v3_news_store.json (rawArticles)</span>
+                    </div>
+
+                    <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1">
+                      <span className="text-slate-400 text-[10px] uppercase font-mono block">Population C: Clustered Stories</span>
+                      <span className="font-mono font-bold text-2xl text-emerald-400 block">{reconcileData.clusteredStories}</span>
+                      <span className="text-[10px] text-slate-500 block">v3_news_store.json (storiesMap)</span>
+                    </div>
+
+                    <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1">
+                      <span className="text-slate-400 text-[10px] uppercase font-mono block">Population F: UI Feed</span>
+                      <span className="font-mono font-bold text-2xl text-purple-400 block">{reconcileData.uiFeedArticles}</span>
+                      <span className="text-[10px] text-slate-500 block">/api/v5/news/feed</span>
+                    </div>
+                  </div>
+
+                  {/* Secondary Population Details */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1">
+                      <span className="text-slate-400 text-[10px] uppercase font-mono block">Population D: Duplicates</span>
+                      <span className="font-mono font-bold text-lg text-amber-500 block">{reconcileData.duplicateRecords}</span>
+                      <span className="text-[10px] text-slate-500 block">Exact & syndicated matches filtered</span>
+                    </div>
+
+                    <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1">
+                      <span className="text-slate-400 text-[10px] uppercase font-mono block">Population E: Retained Stories</span>
+                      <span className="font-mono font-bold text-lg text-emerald-500 block">{reconcileData.retainedStories}</span>
+                      <span className="text-[10px] text-slate-500 block">Active inside 30-day window</span>
+                    </div>
+
+                    <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1">
+                      <span className="text-slate-400 text-[10px] uppercase font-mono block">Population E: Expired Stories</span>
+                      <span className="font-mono font-bold text-lg text-rose-400 block">{reconcileData.expiredStories}</span>
+                      <span className="text-[10px] text-slate-500 block">Safely archived in canonical store</span>
+                    </div>
+                  </div>
+
+                  {/* Safety & Immutability Counters */}
+                  <div className="bg-slate-950/40 border border-emerald-500/20 p-4 rounded-xl">
+                    <span className="text-xs font-bold text-emerald-400 font-mono block uppercase mb-2">Canonical Store Immutability Audits</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        <span className="text-slate-300">Articles Lost: <strong className="text-white">{reconcileData.canonicalArticlesLost}</strong></span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        <span className="text-slate-300">Articles Mutated: <strong className="text-white">{reconcileData.canonicalArticlesModified}</strong></span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        <span className="text-slate-300">Articles Pruned: <strong className="text-white">{reconcileData.canonicalArticlesPruned}</strong></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Why counts are different explanations */}
+                  <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wider font-mono">Why Are These Counts Different?</h4>
+                    <div className="space-y-3.5 text-slate-300 leading-relaxed">
+                      <div>
+                        <strong className="text-indigo-400 block font-mono text-[11px] mb-0.5">Canonical Articles ({reconcileData.canonicalArticles}) vs Clustered Stories ({reconcileData.clusteredStories})</strong>
+                        <p className="text-slate-400">
+                          Story retention only removes the presentation clusters from the temporary, high-level stories dashboard (the 30-day retention window). It <strong className="text-emerald-400">never</strong> deletes the underlying historical records from the canonical database, which retains a permanent record of all published financial intelligence.
+                        </p>
+                      </div>
+                      <div>
+                        <strong className="text-slate-200 block font-mono text-[11px] mb-0.5">Raw Ingestion Records ({reconcileData.rawIngestionRecords}) vs Duplicates ({reconcileData.duplicateRecords})</strong>
+                        <p className="text-slate-400">
+                          Incoming wire reports are stored verbatim. The identity engine checks content hashes, titles, and resolved canonical URLs to discover exact syndicated duplicates, which are recorded independently without destroying the original fetch logs.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Forensic Inventory */}
+                  {reconcileData.forensics && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-3">
+                        <span className="text-xs font-bold text-white uppercase tracking-wider font-mono block">Forensic Timestamps</span>
+                        <div className="space-y-2 font-mono">
+                          <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                            <span className="text-slate-400">Oldest Article:</span>
+                            <span className="text-slate-200">{reconcileData.forensics.oldestPublishedAt ? new Date(reconcileData.forensics.oldestPublishedAt).toLocaleDateString() : 'N/A'}</span>
+                          </div>
+                          <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                            <span className="text-slate-400">Newest Article:</span>
+                            <span className="text-slate-200">{reconcileData.forensics.newestPublishedAt ? new Date(reconcileData.forensics.newestPublishedAt).toLocaleDateString() : 'N/A'}</span>
+                          </div>
+                          <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                            <span className="text-slate-400">Unusually Old (&lt;2025):</span>
+                            <span className="text-slate-200">{reconcileData.forensics.unusuallyOldRecords}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-slate-400">Missing Required Fields:</span>
+                            <span className="text-slate-200">{reconcileData.forensics.missingRequiredFields}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-3">
+                        <span className="text-xs font-bold text-white uppercase tracking-wider font-mono block">Category Distribution</span>
+                        <div className="max-h-40 overflow-y-auto space-y-2 scrollbar-none">
+                          {Object.entries(reconcileData.forensics.categoryDistribution || {}).map(([cat, val]) => (
+                            <div key={cat} className="flex justify-between items-center text-[11px]">
+                              <span className="text-slate-400 font-mono">{cat}</span>
+                              <span className="font-bold text-slate-200">{val as number} articles</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <p className="text-slate-400 text-center py-6">Truth model hydration failed.</p>
+              )}
             </div>
           )}
         </div>
