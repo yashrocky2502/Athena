@@ -1,5 +1,65 @@
 [
   {
+    "id": "v2_4e87e64244ed85c6",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQWFBwM1A0X3paWGhRT3QyOW5QUzVFYUpSbG9feUxzeFh2dmZBT0NWQkxqbllnQ0tpdUNNRzM5cW5OVDB5cjJoZXZDMG5SZTdYOWIwR1BMYzRLZG1taVU0RFBuOFEyZGxxOHpvTmF4dW8ydG5tMUM4S1JMdXVmazRhNWgtczc4dVljX3gwZVlHV1Voak12VEdDMVNBUFR3UDE5dTk4VWVtaUNVUkVOcl9CanpVLWFqdDRxei1GclNVV3RBRXZjbHRBMmJR0gHPAUFVX3lxTE1oUUdxUlY0eFJhcFBJVVF3QkJKMGdTQ0ZqVi1QTEhqQWpJRmFzdXUxNWFoNG5LTDY1emdrdTlQMFJUTmFpRnNzOU5IN2ZTc2hKX1BlaDRHb2pYazVIV0EtTW9YajhTMGhtY1E0bnFhR3RDZU5XYmRmdm9KZEdmbXRUVGZsS0RRX3pJN2FmOXV1dG1wVWFkUWs2dGNHeEJaSWxoVEhHR2VhUHhPQ3dITnlEWjlEc1pid2tCN0tqWk9qZUdPdDRneThLVnJRaHRfRQ?oc=5",
+    "headline": "Aditya Birla Sun Life MF resumes fresh subscriptions in Gold Fund - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxQWFBwM1A0X3paWGhRT3QyOW5QUzVFYUpSbG9feUxzeFh2dmZBT0NWQkxqbllnQ0tpdUNNRzM5cW5OVDB5cjJoZXZDMG5SZTdYOWIwR1BMYzRLZG1taVU0RFBuOFEyZGxxOHpvTmF4dW8ydG5tMUM4S1JMdXVmazRhNWgtczc4dVljX3gwZVlHV1Voak12VEdDMVNBUFR3UDE5dTk4VWVtaUNVUkVOcl9CanpVLWFqdDRxei1GclNVV3RBRXZjbHRBMmJR0gHPAUFVX3lxTE1oUUdxUlY0eFJhcFBJVVF3QkJKMGdTQ0ZqVi1QTEhqQWpJRmFzdXUxNWFoNG5LTDY1emdrdTlQMFJUTmFpRnNzOU5IN2ZTc2hKX1BlaDRHb2pYazVIV0EtTW9YajhTMGhtY1E0bnFhR3RDZU5XYmRmdm9KZEdmbXRUVGZsS0RRX3pJN2FmOXV1dG1wVWFkUWs2dGNHeEJaSWxoVEhHR2VhUHhPQ3dITnlEWjlEc1pid2tCN0tqWk9qZUdPdDRneThLVnJRaHRfRQ?oc=5\" target=\"_blank\">Aditya Birla Sun Life MF resumes fresh subscriptions in Gold Fund</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQWFBwM1A0X3paWGhRT3QyOW5QUzVFYUpSbG9feUxzeFh2dmZBT0NWQkxqbllnQ0tpdUNNRzM5cW5OVDB5cjJoZXZDMG5SZTdYOWIwR1BMYzRLZG1taVU0RFBuOFEyZGxxOHpvTmF4dW8ydG5tMUM4S1JMdXVmazRhNWgtczc4dVljX3gwZVlHV1Voak12VEdDMVNBUFR3UDE5dTk4VWVtaUNVUkVOcl9CanpVLWFqdDRxei1GclNVV3RBRXZjbHRBMmJR0gHPAUFVX3lxTE1oUUdxUlY0eFJhcFBJVVF3QkJKMGdTQ0ZqVi1QTEhqQWpJRmFzdXUxNWFoNG5LTDY1emdrdTlQMFJUTmFpRnNzOU5IN2ZTc2hKX1BlaDRHb2pYazVIV0EtTW9YajhTMGhtY1E0bnFhR3RDZU5XYmRmdm9KZEdmbXRUVGZsS0RRX3pJN2FmOXV1dG1wVWFkUWs2dGNHeEJaSWxoVEhHR2VhUHhPQ3dITnlEWjlEc1pid2tCN0tqWk9qZUdPdDRneThLVnJRaHRfRQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:26:51.000Z",
+    "collectedAt": "2026-08-16T10:34:02.380Z",
+    "category": "Commodities",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Commodities",
+    "secondaryCategories": [],
+    "eventType": "COMMODITY",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Commodities] Commodity assets/futures matched in headline (1)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_1d8f9257c79a82e8",
+    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/foreign-trade/australian-regional-leader-to-visit-india-trade-investment-ties-in-focus/articleshow/133273160.cms",
+    "headline": "Australian regional leader to visit India; trade, investment ties in focus",
+    "body": "New South Wales Premier Chris Minns will lead an official delegation to New Delhi and Mumbai from August 31 to September 3 to deepen trade, investment, education and cultural ties with India. The visit will focus on sectors including clean energy, critical minerals, technology, tourism, agri-food and advanced industries.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/australian-regional-leader-to-visit-india-trade-investment-ties-in-focus/articleshow/133273160.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:09:26.000Z",
+    "collectedAt": "2026-08-16T10:27:12.902Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 100,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
     "id": "v2_9487b7e484929669",
     "canonicalUrl": "https://www.livemint.com/market/ipo/srk-sachin-tendulkar-madhuri-dixit-owned-purple-style-may-launch-660-crore-ipo-this-month-11786871581008.html",
     "headline": "SRK, Sachin Tendulkar, Madhuri Dixit-owned Purple Style may launch ₹660 crore IPO this month",
@@ -2030,6 +2090,48 @@
       "No explicit operational or financial risk factors identified in source text."
     ],
     "summaryConfidence": 80,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_ee76310154d67193",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQdUZEaWFjZU5XZ1JRVlBqdTA4UWM0a3pPVDlvTzJYTlYxWGxQWlhoc2FqTjBGakg4dGl5a1FlNnMySUNMcHdEeEdoSzAxbTBQaUZrVTZreEZWdDQxdll1NzBQRUk3QkNTZVQwNjRnbno0T1h1d215RDFPelNjb0tIRzI3Q0N4ellRb1VpTXBWMWxLUWk2OXNKdmtNWHMwVVpuQ1BLS3pEX1JEMEFBNV9Ha1BZLVZZdkJ1MXZ1cVZzWWczVmQtc1FxTXg0TFhISjE0MGNwXzRKTdIB3AFBVV95cUxQc0xzakRzb1l2NnJXYm92SkViZnBSUkdwd21LVmZrblRlYm0zOVJTLWpXc2RyY05WMDRRWUE3VFlTQ2FQQ2owRTREQUhwMW5nWTdWVTZYRDBxcmdMM2VMald3aDVUS0dSVm5SU3h3eVJ2bUdxRnIyUmpZZnV5MWlSRHVHNjJnaWhISzFDSWFFQW5TdUZGNWRxdXRJb2pocmZIaFJPLWxjZzhNZjIzQWFiRE80TjlkazZDVVJsbjNKVmlhX1J0TW1IRGRmb0xxQzhXczVONFdUYmhqWnNq?oc=5",
+    "headline": "Iran FM Araghchi says Oman talks and Strait of Hormuz reopening are separate issues - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi1wFBVV95cUxQdUZEaWFjZU5XZ1JRVlBqdTA4UWM0a3pPVDlvTzJYTlYxWGxQWlhoc2FqTjBGakg4dGl5a1FlNnMySUNMcHdEeEdoSzAxbTBQaUZrVTZreEZWdDQxdll1NzBQRUk3QkNTZVQwNjRnbno0T1h1d215RDFPelNjb0tIRzI3Q0N4ellRb1VpTXBWMWxLUWk2OXNKdmtNWHMwVVpuQ1BLS3pEX1JEMEFBNV9Ha1BZLVZZdkJ1MXZ1cVZzWWczVmQtc1FxTXg0TFhISjE0MGNwXzRKTdIB3AFBVV95cUxQc0xzakRzb1l2NnJXYm92SkViZnBSUkdwd21LVmZrblRlYm0zOVJTLWpXc2RyY05WMDRRWUE3VFlTQ2FQQ2owRTREQUhwMW5nWTdWVTZYRDBxcmdMM2VMald3aDVUS0dSVm5SU3h3eVJ2bUdxRnIyUmpZZnV5MWlSRHVHNjJnaWhISzFDSWFFQW5TdUZGNWRxdXRJb2pocmZIaFJPLWxjZzhNZjIzQWFiRE80TjlkazZDVVJsbjNKVmlhX1J0TW1IRGRmb0xxQzhXczVONFdUYmhqWnNq?oc=5\" target=\"_blank\">Iran FM Araghchi says Oman talks and Strait of Hormuz reopening are separate issues</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQdUZEaWFjZU5XZ1JRVlBqdTA4UWM0a3pPVDlvTzJYTlYxWGxQWlhoc2FqTjBGakg4dGl5a1FlNnMySUNMcHdEeEdoSzAxbTBQaUZrVTZreEZWdDQxdll1NzBQRUk3QkNTZVQwNjRnbno0T1h1d215RDFPelNjb0tIRzI3Q0N4ellRb1VpTXBWMWxLUWk2OXNKdmtNWHMwVVpuQ1BLS3pEX1JEMEFBNV9Ha1BZLVZZdkJ1MXZ1cVZzWWczVmQtc1FxTXg0TFhISjE0MGNwXzRKTdIB3AFBVV95cUxQc0xzakRzb1l2NnJXYm92SkViZnBSUkdwd21LVmZrblRlYm0zOVJTLWpXc2RyY05WMDRRWUE3VFlTQ2FQQ2owRTREQUhwMW5nWTdWVTZYRDBxcmdMM2VMald3aDVUS0dSVm5SU3h3eVJ2bUdxRnIyUmpZZnV5MWlSRHVHNjJnaWhISzFDSWFFQW5TdUZGNWRxdXRJb2pocmZIaFJPLWxjZzhNZjIzQWFiRE80TjlkazZDVVJsbjNKVmlhX1J0TW1IRGRmb0xxQzhXczVONFdUYmhqWnNq?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T03:40:42.000Z",
+    "collectedAt": "2026-08-16T10:15:40.251Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Iran FM Araghchi says Oman talks and Strait of Hormuz reopening are separate issues - Moneycontrol.com. <a href=\"https://news.google.com/rss/articles/CBMi1wFBVV95cUxQdUZEaWFjZU5XZ1JRVlBqdTA4UWM0a3pPVDlvTzJYTlYxWGxQWlhoc2FqTjBGakg4dGl5a1FlNnMySUNMcHdEeEdoSzAxbTBQaUZrVTZreEZWdDQxdll1NzBQRUk3QkNTZVQwNjRnbno0T1h1d215RDFPelNjb0tIRzI3Q0N4ellRb1VpTXBWMWxLUWk2OXNKdmtNWHMwVVpuQ1BLS3pEX1JEMEFBNV9Ha1BZLVZZdkJ1MXZ1cVZzWWczVmQtc1FxTXg0TFhISjE0MGNwXzRKTdIB3AFBVV95cUxQc0xzakRzb1l2NnJXYm92SkViZnBSUkdwd21LVmZrblRlYm0zOVJTLWpXc2RyY05WMDRRWUE3VFlTQ2FQQ2owRTREQUhwMW5nWTdWVTZYRDBxcmdMM2VMald3aDVUS0dSVm5SU3h3eVJ2bUdxRnIyUmpZZnV5MWlSRHVHNjJnaWhISzFDSWFFQW5TdUZGNWRxdXRJb2pocmZIaFJPLWxjZzhNZjIzQWFiRE80TjlkazZDVVJsbjNKVmlhX1J0TW1IRGRmb0xxQzhXczVONFdUYmhqWnNq?oc=5\" target=\"_blank\">Iran FM Araghchi says Oman talks and Strait of Hormuz reopening are separate issues</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "whatChanged": [
+      "Iran FM Araghchi says Oman talks and Strait of Hormuz reopening are separate issues - Moneycontrol.com"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
@@ -6453,6 +6555,48 @@
       "No explicit operational or financial risk factors identified in source text."
     ],
     "summaryConfidence": 95,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_d5c0746f0bab53fd",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5TVHFleXh6c1dGMWF0SlZBLWlTMVBWUTg1NElHWHlnc0YxVnNtWkVxNlNvUFVnemE5MXNQS1ZmVFZQNUhuejVmVGU2cVFzb3hRSVpRRHFkeklMSW1rRjhnN0h6Nl85ZUJkSS0w?oc=5",
+    "headline": "World Elephant Day - pib.gov.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE5TVHFleXh6c1dGMWF0SlZBLWlTMVBWUTg1NElHWHlnc0YxVnNtWkVxNlNvUFVnemE5MXNQS1ZmVFZQNUhuejVmVGU2cVFzb3hRSVpRRHFkeklMSW1rRjhnN0h6Nl85ZUJkSS0w?oc=5\" target=\"_blank\">World Elephant Day</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5TVHFleXh6c1dGMWF0SlZBLWlTMVBWUTg1NElHWHlnc0YxVnNtWkVxNlNvUFVnemE5MXNQS1ZmVFZQNUhuejVmVGU2cVFzb3hRSVpRRHFkeklMSW1rRjhnN0h6Nl85ZUJkSS0w?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-15T08:31:00.000Z",
+    "collectedAt": "2026-08-16T10:31:02.122Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "World Elephant Day - pib.gov.in. <a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE5TVHFleXh6c1dGMWF0SlZBLWlTMVBWUTg1NElHWHlnc0YxVnNtWkVxNlNvUFVnemE5MXNQS1ZmVFZQNUhuejVmVGU2cVFzb3hRSVpRRHFkeklMSW1rRjhnN0h6Nl85ZUJkSS0w?oc=5\" target=\"_blank\">World Elephant Day</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "whatChanged": [
+      "World Elephant Day - pib.gov.in"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
@@ -12310,6 +12454,36 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_543e3e666831cc1e",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQUGhFa1NhSnJfZFpESDJMZl9uNlhqd3JIYTktTVF0Z1g3aTJOT2FSSVVkVUNwVEJabnVOTU1udHJCNVo0MUNVUS0tSGtrZVJyUWU5VThsX1QwM3M4MGM0bWxNaV90RC1hZGd4MWcwUlNqVV91bndfak9acTVXTWZUb1dKU1RpYkNWTVZHbUVDMEdTNUF6dU9ncDN4enlrUzBwSWJJWmZzNXN0YVhXTGJOV2dmWkFTbEVHVGVuVGdHSzUzTlZqZjJNVWFwZ9IBzwFBVV95cUxPNFI1UUR4X1VNWUJxQTVhTWFzVHdob18zUWZHWDJmRkdaejNwa1laSGN3YUhNOTNIWHZHWFh2OEcxWUpXMEw3c2duTEdjTGxBY0Q5OTJMaTU5dkF0SEczdi1hNTZ5SmYxQmdHb0thREF6YlBaU3RKdHZrRXktMWo5Y3NCNkROUVltTDY2OG5WakRoM1NhZFZLUzF6Vmc2ZHFzSEN4SWJ4cXQyaDNSSlJyTV9uUC1TRm1GSWt5SFMzT000bUxGQjdFTjdFWk9fdzA?oc=5",
+    "headline": "Indian market regulator SEBI proposes fully digital KYC for NRIs, OCIs, foreign nationals - The Tribune",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiywFBVV95cUxQUGhFa1NhSnJfZFpESDJMZl9uNlhqd3JIYTktTVF0Z1g3aTJOT2FSSVVkVUNwVEJabnVOTU1udHJCNVo0MUNVUS0tSGtrZVJyUWU5VThsX1QwM3M4MGM0bWxNaV90RC1hZGd4MWcwUlNqVV91bndfak9acTVXTWZUb1dKU1RpYkNWTVZHbUVDMEdTNUF6dU9ncDN4enlrUzBwSWJJWmZzNXN0YVhXTGJOV2dmWkFTbEVHVGVuVGdHSzUzTlZqZjJNVWFwZ9IBzwFBVV95cUxPNFI1UUR4X1VNWUJxQTVhTWFzVHdob18zUWZHWDJmRkdaejNwa1laSGN3YUhNOTNIWHZHWFh2OEcxWUpXMEw3c2duTEdjTGxBY0Q5OTJMaTU5dkF0SEczdi1hNTZ5SmYxQmdHb0thREF6YlBaU3RKdHZrRXktMWo5Y3NCNkROUVltTDY2OG5WakRoM1NhZFZLUzF6Vmc2ZHFzSEN4SWJ4cXQyaDNSSlJyTV9uUC1TRm1GSWt5SFMzT000bUxGQjdFTjdFWk9fdzA?oc=5\" target=\"_blank\">Indian market regulator SEBI proposes fully digital KYC for NRIs, OCIs, foreign nationals</a> <font color=\"#6f6f6f\">The Tribune</font>",
+    "source": {
+      "publisher": "Google News Business",
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQUGhFa1NhSnJfZFpESDJMZl9uNlhqd3JIYTktTVF0Z1g3aTJOT2FSSVVkVUNwVEJabnVOTU1udHJCNVo0MUNVUS0tSGtrZVJyUWU5VThsX1QwM3M4MGM0bWxNaV90RC1hZGd4MWcwUlNqVV91bndfak9acTVXTWZUb1dKU1RpYkNWTVZHbUVDMEdTNUF6dU9ncDN4enlrUzBwSWJJWmZzNXN0YVhXTGJOV2dmWkFTbEVHVGVuVGdHSzUzTlZqZjJNVWFwZ9IBzwFBVV95cUxPNFI1UUR4X1VNWUJxQTVhTWFzVHdob18zUWZHWDJmRkdaejNwa1laSGN3YUhNOTNIWHZHWFh2OEcxWUpXMEw3c2duTEdjTGxBY0Q5OTJMaTU5dkF0SEczdi1hNTZ5SmYxQmdHb0thREF6YlBaU3RKdHZrRXktMWo5Y3NCNkROUVltTDY2OG5WakRoM1NhZFZLUzF6Vmc2ZHFzSEN4SWJ4cXQyaDNSSlJyTV9uUC1TRm1GSWt5SFMzT000bUxGQjdFTjdFWk9fdzA?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-14T14:58:44.000Z",
+    "collectedAt": "2026-08-16T10:27:12.902Z",
+    "category": "Economy",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Economy",
+    "secondaryCategories": [],
+    "eventType": "REGULATORY",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Economy] Economy/regulatory keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
     "id": "v2_eb347392d3989dad",
     "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/finance/indias-april-june-balance-of-payments-records-8-1-billion-deficit-june-turns-surplus/articleshow/133244572.cms",
     "headline": "India records $8.1 billion deficit in April-June balance of payments, June turns surplus",
@@ -15457,6 +15631,48 @@
       "decision": "EXCLUDE",
       "reason": "No canonical F&O entity identified in headline"
     }
+  },
+  {
+    "id": "v2_f54fa28c86f81ac7",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPanBreUNEVG80alBmNi1nV1g5c3hiY2Fnc0Z2SUV1Mk5NVFlJaXZSOTRaZjA0aXFJcTd5cEFzWm12MVFxNW1sTXRhbWgtQVJmbVhnMVU2akZHamt2dUJwdllCNHRlb3M4UmxiQXhRc2FTbnc4Q1ZTeFVXSU5rTVZoMkkxRTdoWTN6eEdOd2tIVWJ4WW81?oc=5",
+    "headline": "Sashakt Nari, Sashakt Bharat - pib.gov.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMilAFBVV95cUxPanBreUNEVG80alBmNi1nV1g5c3hiY2Fnc0Z2SUV1Mk5NVFlJaXZSOTRaZjA0aXFJcTd5cEFzWm12MVFxNW1sTXRhbWgtQVJmbVhnMVU2akZHamt2dUJwdllCNHRlb3M4UmxiQXhRc2FTbnc4Q1ZTeFVXSU5rTVZoMkkxRTdoWTN6eEdOd2tIVWJ4WW81?oc=5\" target=\"_blank\">Sashakt Nari, Sashakt Bharat</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPanBreUNEVG80alBmNi1nV1g5c3hiY2Fnc0Z2SUV1Mk5NVFlJaXZSOTRaZjA0aXFJcTd5cEFzWm12MVFxNW1sTXRhbWgtQVJmbVhnMVU2akZHamt2dUJwdllCNHRlb3M4UmxiQXhRc2FTbnc4Q1ZTeFVXSU5rTVZoMkkxRTdoWTN6eEdOd2tIVWJ4WW81?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-14T10:15:00.000Z",
+    "collectedAt": "2026-08-16T10:31:02.122Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Sashakt Nari, Sashakt Bharat - pib.gov.in. <a href=\"https://news.google.com/rss/articles/CBMilAFBVV95cUxPanBreUNEVG80alBmNi1nV1g5c3hiY2Fnc0Z2SUV1Mk5NVFlJaXZSOTRaZjA0aXFJcTd5cEFzWm12MVFxNW1sTXRhbWgtQVJmbVhnMVU2akZHamt2dUJwdllCNHRlb3M4UmxiQXhRc2FTbnc4Q1ZTeFVXSU5rTVZoMkkxRTdoWTN6eEdOd2tIVWJ4WW81?oc=5\" target=\"_blank\">Sashakt Nari, Sashakt Bharat</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "whatChanged": [
+      "Sashakt Nari, Sashakt Bharat - pib.gov.in"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
   },
   {
     "id": "v2_b0b888b7fe981fd6",
@@ -22418,6 +22634,48 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_54fb19582bdfd124",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMidEFVX3lxTE15T0hNaEVXMURrbEdPcUFrclVaWWtiNXZLSGtnSHdZM053dEo5cFZoYVRDSnFDdWVkdElpZGs0VWhEUTBNYkVOem9LNmk3bUxFMHNZUHl4VWpsMlN3OWdQOTNBSWVtMG56d3VJNXdOYVBTUkI5?oc=5",
+    "headline": "MMDR Amendment Bill, 2026 - pib.gov.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMidEFVX3lxTE15T0hNaEVXMURrbEdPcUFrclVaWWtiNXZLSGtnSHdZM053dEo5cFZoYVRDSnFDdWVkdElpZGs0VWhEUTBNYkVOem9LNmk3bUxFMHNZUHl4VWpsMlN3OWdQOTNBSWVtMG56d3VJNXdOYVBTUkI5?oc=5\" target=\"_blank\">MMDR Amendment Bill, 2026</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE15T0hNaEVXMURrbEdPcUFrclVaWWtiNXZLSGtnSHdZM053dEo5cFZoYVRDSnFDdWVkdElpZGs0VWhEUTBNYkVOem9LNmk3bUxFMHNZUHl4VWpsMlN3OWdQOTNBSWVtMG56d3VJNXdOYVBTUkI5?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-13T10:22:00.000Z",
+    "collectedAt": "2026-08-16T10:31:02.122Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "MMDR Amendment Bill, 2026 - pib.gov.in. <a href=\"https://news.google.com/rss/articles/CBMidEFVX3lxTE15T0hNaEVXMURrbEdPcUFrclVaWWtiNXZLSGtnSHdZM053dEo5cFZoYVRDSnFDdWVkdElpZGs0VWhEUTBNYkVOem9LNmk3bUxFMHNZUHl4VWpsMlN3OWdQOTNBSWVtMG56d3VJNXdOYVBTUkI5?oc=5\" target=\"_blank\">MMDR Amendment Bill, 2026</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "whatChanged": [
+      "MMDR Amendment Bill, 2026 - pib.gov.in"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_9417c01a08a045ef",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPRTJIZ2I2eTFoRWo0Q3RWRzh5VGYyUjRaR0o1Tkd1R1VxU0JsSVNrbDBFSm45UGpmN2M1RG5JbEUtUVlTeEozME5KZ3U4T0VEbGFZN0N3RW85UXotakpSVUZBaGtKdDBxYmtkYXAxRjZYalJIRGJEQlVidzFBNEc5OEhEandCUjJ6UEJDanMzMlBScmVWT3NhaFhtanc3aGtPN3BZMl90VXRvTmdRZENrLXluRHBHWF95OHJiLdIBwgFBVV95cUxQckZDVF9UOHN3MTdsSTdUX0tTaEZQR3hHMGFURTFpMDRSU2I1YkZpSW5VZDlBa2YzUWFmVW8yT3VLV3BMNVV0RDBwVzR6NDd1TGhMSUtQS183R2ZIY1RqYkN4TzZBbFlGMk04Q0pkbTFPV3llQVRUa19xMjFpdUgtcGdkSlY5a2VDN21mdmdZTmlOeHAySzNlUTRnNzhGTjIyVXdfX3prZzcyWVpVVmpSb0l3NWZKSWNqbE5nR1dSWC1SUQ?oc=5",
     "headline": "Sensex vs Nifty: Why did the two benchmarks end in opposite directions today? - CNBC TV18",
@@ -23519,6 +23777,48 @@
     ],
     "keyMetrics": [],
     "whyItMatters": "The IPO features subscription demand of 1.87x, reflecting primary market participation terms.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_247794dc07839dc8",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5pRm9Rc3NEWFY1M0dJNkhrQUN1Y1dqUTFKR1h1ZTJGUGF0aURTRVE4ekl4VF9IQ0JURW5nYU9KSjVNeHRZNUJRZ3FmbjFYbWtVVzZ0dnIyMWNjbzB4Q1RvY1R6Rmp1SHlERnRv?oc=5",
+    "headline": "Expanding the Development Horizon - pib.gov.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE5pRm9Rc3NEWFY1M0dJNkhrQUN1Y1dqUTFKR1h1ZTJGUGF0aURTRVE4ekl4VF9IQ0JURW5nYU9KSjVNeHRZNUJRZ3FmbjFYbWtVVzZ0dnIyMWNjbzB4Q1RvY1R6Rmp1SHlERnRv?oc=5\" target=\"_blank\">Expanding the Development Horizon</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5pRm9Rc3NEWFY1M0dJNkhrQUN1Y1dqUTFKR1h1ZTJGUGF0aURTRVE4ekl4VF9IQ0JURW5nYU9KSjVNeHRZNUJRZ3FmbjFYbWtVVzZ0dnIyMWNjbzB4Q1RvY1R6Rmp1SHlERnRv?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-13T06:57:00.000Z",
+    "collectedAt": "2026-08-16T10:31:02.122Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Expanding the Development Horizon - pib.gov.in. <a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE5pRm9Rc3NEWFY1M0dJNkhrQUN1Y1dqUTFKR1h1ZTJGUGF0aURTRVE4ekl4VF9IQ0JURW5nYU9KSjVNeHRZNUJRZ3FmbjFYbWtVVzZ0dnIyMWNjbzB4Q1RvY1R6Rmp1SHlERnRv?oc=5\" target=\"_blank\">Expanding the Development Horizon</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "whatChanged": [
+      "Expanding the Development Horizon - pib.gov.in"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
     "marketImpact": "No actionable F&O setup from this article alone.",
     "riskWatchpoints": [
       "No explicit operational or financial risk factors identified in source text."
@@ -25452,249 +25752,4 @@
       "symbol": null,
       "confidence": "NONE",
       "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Indian stock market correction may see the return of foreign investors - Asia Asset Management. <a href=\"https://news.google.com/rss/articles/CBMisgFBVV95cUxOejZTSFBzV2MxS2VLUVEtR1lJMThqWTlfLWJORXpuVGRjOV91NFkzZ3dRLTFnTlk1ZU0yMWNEd3RrSlEzZUdUeVNFaEk0NGREd2lHZGE5S05nWjJPRkZMQ2s2QVVZWmFtS2tPOHNKc0FOLU9DOTMtYWlQbFpxS3BxMVltaC1wWF9WQ0U4elJIVENCVlVTa2FZTzQwUVZtVXQ0cG9iUk55aDVGXzZkVTRMNmZR?oc=5\" target=\"_blank\">Indian stock market correction may see the return of foreign investors</a> <font color=\"#6f6f6f\">Asia Asset Management</font>",
-    "whatChanged": [
-      "Indian stock market correction may see the return of foreign investors - Asia Asset Management"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Leadership / management update: Indian stock market correction may see the return of foreign investors - Asia Asset Management.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_c0568aa0b05d7603",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQRGUyeFNzaV9CM016ZWJ0Nzg0eFp4MUVEcGQzbUpZQjFrMjdVdUVJbjU1SlNpSTNUWC1MVVJKVTVaRWhfMExNdjJxV25lWUZ0TUNpUVlOWDdEbERGcEtSaWxOTS16akRoQ2dFYmViQ2FhQ0VoOU90V0E3YXF6TGN0Q3NfU1lKVkR4dW9SLUE2VFZwSU5ueGZBVVdpcElNZ0thZ1g2S1NReks0eURaMFhJMzg5R2wyM3BfZ2lkOTRrSEg4NVJjME1GeThoMVlQd3o30gHWAUFVX3lxTE5PTXFqSXJUTkRYSjR6cFEyZnNrb3JYQnJpeFI5MXJkbHdiaVlOWHlnX1hCZXhOWnB0VHEzLXgwb0dsbzdQUWcwQ2Z6X0k4UUotcUtzb2NUcWIwci1VSG9rYVVFaDhJQWF1NFhZN2NBZmp5SV9aQlhjZVUtdVFodU5WRjBla0NVdl80ZlF5WWYxc1YxMHVndU04VGwwaVhDZllhY25vNzRZZWFYb2ZucDNiU1JLa1UwRVRMY1ZZbFB6V1FHa0Q2a1NxYVlKa0ZqT2Via1I5R3c?oc=5",
-    "headline": "Three shipbreaking firms set to list by October as India looks to bring 32 more to market - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMi0AFBVV95cUxQRGUyeFNzaV9CM016ZWJ0Nzg0eFp4MUVEcGQzbUpZQjFrMjdVdUVJbjU1SlNpSTNUWC1MVVJKVTVaRWhfMExNdjJxV25lWUZ0TUNpUVlOWDdEbERGcEtSaWxOTS16akRoQ2dFYmViQ2FhQ0VoOU90V0E3YXF6TGN0Q3NfU1lKVkR4dW9SLUE2VFZwSU5ueGZBVVdpcElNZ0thZ1g2S1NReks0eURaMFhJMzg5R2wyM3BfZ2lkOTRrSEg4NVJjME1GeThoMVlQd3o30gHWAUFVX3lxTE5PTXFqSXJUTkRYSjR6cFEyZnNrb3JYQnJpeFI5MXJkbHdiaVlOWHlnX1hCZXhOWnB0VHEzLXgwb0dsbzdQUWcwQ2Z6X0k4UUotcUtzb2NUcWIwci1VSG9rYVVFaDhJQWF1NFhZN2NBZmp5SV9aQlhjZVUtdVFodU5WRjBla0NVdl80ZlF5WWYxc1YxMHVndU04VGwwaVhDZllhY25vNzRZZWFYb2ZucDNiU1JLa1UwRVRMY1ZZbFB6V1FHa0Q2a1NxYVlKa0ZqT2Via1I5R3c?oc=5\" target=\"_blank\">Three shipbreaking firms set to list by October as India looks to bring 32 more to market</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQRGUyeFNzaV9CM016ZWJ0Nzg0eFp4MUVEcGQzbUpZQjFrMjdVdUVJbjU1SlNpSTNUWC1MVVJKVTVaRWhfMExNdjJxV25lWUZ0TUNpUVlOWDdEbERGcEtSaWxOTS16akRoQ2dFYmViQ2FhQ0VoOU90V0E3YXF6TGN0Q3NfU1lKVkR4dW9SLUE2VFZwSU5ueGZBVVdpcElNZ0thZ1g2S1NReks0eURaMFhJMzg5R2wyM3BfZ2lkOTRrSEg4NVJjME1GeThoMVlQd3o30gHWAUFVX3lxTE5PTXFqSXJUTkRYSjR6cFEyZnNrb3JYQnJpeFI5MXJkbHdiaVlOWHlnX1hCZXhOWnB0VHEzLXgwb0dsbzdQUWcwQ2Z6X0k4UUotcUtzb2NUcWIwci1VSG9rYVVFaDhJQWF1NFhZN2NBZmp5SV9aQlhjZVUtdVFodU5WRjBla0NVdl80ZlF5WWYxc1YxMHVndU04VGwwaVhDZllhY25vNzRZZWFYb2ZucDNiU1JLa1UwRVRMY1ZZbFB6V1FHa0Q2a1NxYVlKa0ZqT2Via1I5R3c?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T16:04:13.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Three shipbreaking firms set to list by October as India looks to bring 32 more to market - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMi0AFBVV95cUxQRGUyeFNzaV9CM016ZWJ0Nzg0eFp4MUVEcGQzbUpZQjFrMjdVdUVJbjU1SlNpSTNUWC1MVVJKVTVaRWhfMExNdjJxV25lWUZ0TUNpUVlOWDdEbERGcEtSaWxOTS16akRoQ2dFYmViQ2FhQ0VoOU90V0E3YXF6TGN0Q3NfU1lKVkR4dW9SLUE2VFZwSU5ueGZBVVdpcElNZ0thZ1g2S1NReks0eURaMFhJMzg5R2wyM3BfZ2lkOTRrSEg4NVJjME1GeThoMVlQd3o30gHWAUFVX3lxTE5PTXFqSXJUTkRYSjR6cFEyZnNrb3JYQnJpeFI5MXJkbHdiaVlOWHlnX1hCZXhOWnB0VHEzLXgwb0dsbzdQUWcwQ2Z6X0k4UUotcUtzb2NUcWIwci1VSG9rYVVFaDhJQWF1NFhZN2NBZmp5SV9aQlhjZVUtdVFodU5WRjBla0NVdl80ZlF5WWYxc1YxMHVndU04VGwwaVhDZllhY25vNzRZZWFYb2ZucDNiU1JLa1UwRVRMY1ZZbFB6V1FHa0Q2a1NxYVlKa0ZqT2Via1I5R3c?oc=5\" target=\"_blank\">Three shipbreaking firms set to list by October as India looks to bring 32 more to market</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "whatChanged": [
-      "Three shipbreaking firms set to list by October as India looks to bring 32 more to market - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_b387d1a78a8ee5ec",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxPcHAwUFJYSjFNVkctSnVWWDNYQlNyRUthZnhEOG51VHBpQkU4UmpvUFNHYld0VWJKS3RjZklYYlBWYUprMy1VeG5xVURrdUplNW5iZ252bGc1U1RURTY3eWQxMkc5TjJZc1AyaTlBVExBYkI0OEpyTlZkdnhYSzdvYkNzZ3QwblRXUmZ4V2hIVTctZEFpdmVHNnd4QlNqa21mSVBNYllpWmlDakJraXN1TFVHUktscUNSSW1lZjJNMXBwcWZVSDZzbnZZOTM5RWpmR25DWW1SNUNGUGgtVzFtOEROZVJXcnlGT2oyOHZ0Z1PSAfYBQVVfeXFMT2hIQ2xOeVBKLTRfVFRHTTFkbUx0cGhOY0JTM2hqd0Q5b0tNc1JzMnRkWGxaZGJ6UGp1N3QzWldEZmRHX2V2SXY3dFM5cVJwTFFjcG9YZldUV3RrYVRFNUxYMGhFYXpXTlJ2bHNCcjVORGhFNnVpSUduajdNMGs2Rl9qcGhxcjJSQVliYk9KaDdVMGN3RHFOTHM1RXhJY3dNYndsRFpnM0wzR3F0Q0wwM3Z2VWNxcUVLTnE2ekg1S1dzanRLc3d2WERIRDdfVk0wR0tva09MTWxyMVVndEdVdXhmLTByNFlJbmZkdHEyaG1FblFWOUtn?oc=5",
-    "headline": "Bank of America to acquire 50% stake in Jio Credit for ₹18,268 crore - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMi8AFBVV95cUxPcHAwUFJYSjFNVkctSnVWWDNYQlNyRUthZnhEOG51VHBpQkU4UmpvUFNHYld0VWJKS3RjZklYYlBWYUprMy1VeG5xVURrdUplNW5iZ252bGc1U1RURTY3eWQxMkc5TjJZc1AyaTlBVExBYkI0OEpyTlZkdnhYSzdvYkNzZ3QwblRXUmZ4V2hIVTctZEFpdmVHNnd4QlNqa21mSVBNYllpWmlDakJraXN1TFVHUktscUNSSW1lZjJNMXBwcWZVSDZzbnZZOTM5RWpmR25DWW1SNUNGUGgtVzFtOEROZVJXcnlGT2oyOHZ0Z1PSAfYBQVVfeXFMT2hIQ2xOeVBKLTRfVFRHTTFkbUx0cGhOY0JTM2hqd0Q5b0tNc1JzMnRkWGxaZGJ6UGp1N3QzWldEZmRHX2V2SXY3dFM5cVJwTFFjcG9YZldUV3RrYVRFNUxYMGhFYXpXTlJ2bHNCcjVORGhFNnVpSUduajdNMGs2Rl9qcGhxcjJSQVliYk9KaDdVMGN3RHFOTHM1RXhJY3dNYndsRFpnM0wzR3F0Q0wwM3Z2VWNxcUVLTnE2ekg1S1dzanRLc3d2WERIRDdfVk0wR0tva09MTWxyMVVndEdVdXhmLTByNFlJbmZkdHEyaG1FblFWOUtn?oc=5\" target=\"_blank\">Bank of America to acquire 50% stake in Jio Credit for ₹18,268 crore</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxPcHAwUFJYSjFNVkctSnVWWDNYQlNyRUthZnhEOG51VHBpQkU4UmpvUFNHYld0VWJKS3RjZklYYlBWYUprMy1VeG5xVURrdUplNW5iZ252bGc1U1RURTY3eWQxMkc5TjJZc1AyaTlBVExBYkI0OEpyTlZkdnhYSzdvYkNzZ3QwblRXUmZ4V2hIVTctZEFpdmVHNnd4QlNqa21mSVBNYllpWmlDakJraXN1TFVHUktscUNSSW1lZjJNMXBwcWZVSDZzbnZZOTM5RWpmR25DWW1SNUNGUGgtVzFtOEROZVJXcnlGT2oyOHZ0Z1PSAfYBQVVfeXFMT2hIQ2xOeVBKLTRfVFRHTTFkbUx0cGhOY0JTM2hqd0Q5b0tNc1JzMnRkWGxaZGJ6UGp1N3QzWldEZmRHX2V2SXY3dFM5cVJwTFFjcG9YZldUV3RrYVRFNUxYMGhFYXpXTlJ2bHNCcjVORGhFNnVpSUduajdNMGs2Rl9qcGhxcjJSQVliYk9KaDdVMGN3RHFOTHM1RXhJY3dNYndsRFpnM0wzR3F0Q0wwM3Z2VWNxcUVLTnE2ekg1S1dzanRLc3d2WERIRDdfVk0wR0tva09MTWxyMVVndEdVdXhmLTByNFlJbmZkdHEyaG1FblFWOUtn?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T15:47:14.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "Corporate",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Corporate",
-    "secondaryCategories": [],
-    "eventType": "ACQUISITION",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Corporate] Corporate action/order win keywords matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Bank of America to acquire 50% stake in Jio Credit for ₹18,268 crore - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMi8AFBVV95cUxPcHAwUFJYSjFNVkctSnVWWDNYQlNyRUthZnhEOG51VHBpQkU4UmpvUFNHYld0VWJKS3RjZklYYlBWYUprMy1VeG5xVURrdUplNW5iZ252bGc1U1RURTY3eWQxMkc5TjJZc1AyaTlBVExBYkI0OEpyTlZkdnhYSzdvYkNzZ3QwblRXUmZ4V2hIVTctZEFpdmVHNnd4QlNqa21mSVBNYllpWmlDakJraXN1TFVHUktscUNSSW1lZjJNMXBwcWZVSDZzbnZZOTM5RWpmR25DWW1SNUNGUGgtVzFtOEROZVJXcnlGT2oyOHZ0Z1PSAfYBQVVfeXFMT2hIQ2xOeVBKLTRfVFRHTTFkbUx0cGhOY0JTM2hqd0Q5b0tNc1JzMnRkWGxaZGJ6UGp1N3QzWldEZmRHX2V2SXY3dFM5cVJwTFFjcG9YZldUV3RrYVRFNUxYMGhFYXpXTlJ2bHNCcjVORGhFNnVpSUduajdNMGs2Rl9qcGhxcjJSQVliYk9KaDdVMGN3RHFOTHM1RXhJY3dNYndsRFpnM0wzR3F0Q0wwM3Z2VWNxcUVLTnE2ekg1S1dzanRLc3d2WERIRDdfVk0wR0tva09MTWxyMVVndEdVdXhmLTByNFlJbmZkdHEyaG1FblFWOUtn?oc=5\" target=\"_blank\">Bank of America to acquire 50% stake in Jio Credit for ₹18,268 crore</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "whatChanged": [
-      "Bank of America to acquire 50% stake in Jio Credit for ₹18,268 crore - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Strategic transaction where Bank of America acquires 50% stake in Jio Credit for Rs 18,268 crore.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 80,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_47f2aef803b88e13",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPMXNfRUpULXg0REVWR3BLamhvcktKSWJHR0RvSDRrQk0tcXk4cVAtNEc5cUJ5V3lMejRGd2Jrc2VIb2loYjFLdzhBY3BRTy0yb0tMN1BvV01hOEdrQ3NKclJxOFNtbmxTUWYzQk8wb0xsZjBJYmRYWk1ubHBsM0ZtZUxKcGMwRWNoOVJQQ0JhWTRaMzc3MkhPQVRSalNRVlV5cExPbE0zMmc5Zm5XSzVhbHo2TV9fcUJ2WGVBTDJrN3hxaHBJcnZqTFptVdIB0AFBVV95cUxQRXJxemd4MG56WkxsRmhWeThkRzFTZ0l2VnRFclJkVEN6LXFuZFhRU2k5NktyM3AyRU5vT29lRHdpc2JDYlNvN2I5LTBlMk43UDVuZHFoeWUtel9UaVVGbngzYlRoQzRTVUNIV0hzT1pRd2NjV3JHZGJxcEtIR205TFdfQjZuQUdmX1ZpUlpiM1FlcFlYaHJqUFc1NklLN0FRZHpYTGpoMkhJZXJJd0s2WVc1am9iN0lCSXFPQWRBSW0zZDh4YVdybm50dTcxbWkw?oc=5",
-    "headline": "IRCTC Q1 Results: Profit stays flat despite 18% revenue growth; margin contracts - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMiywFBVV95cUxPMXNfRUpULXg0REVWR3BLamhvcktKSWJHR0RvSDRrQk0tcXk4cVAtNEc5cUJ5V3lMejRGd2Jrc2VIb2loYjFLdzhBY3BRTy0yb0tMN1BvV01hOEdrQ3NKclJxOFNtbmxTUWYzQk8wb0xsZjBJYmRYWk1ubHBsM0ZtZUxKcGMwRWNoOVJQQ0JhWTRaMzc3MkhPQVRSalNRVlV5cExPbE0zMmc5Zm5XSzVhbHo2TV9fcUJ2WGVBTDJrN3hxaHBJcnZqTFptVdIB0AFBVV95cUxQRXJxemd4MG56WkxsRmhWeThkRzFTZ0l2VnRFclJkVEN6LXFuZFhRU2k5NktyM3AyRU5vT29lRHdpc2JDYlNvN2I5LTBlMk43UDVuZHFoeWUtel9UaVVGbngzYlRoQzRTVUNIV0hzT1pRd2NjV3JHZGJxcEtIR205TFdfQjZuQUdmX1ZpUlpiM1FlcFlYaHJqUFc1NklLN0FRZHpYTGpoMkhJZXJJd0s2WVc1am9iN0lCSXFPQWRBSW0zZDh4YVdybm50dTcxbWkw?oc=5\" target=\"_blank\">IRCTC Q1 Results: Profit stays flat despite 18% revenue growth; margin contracts</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPMXNfRUpULXg0REVWR3BLamhvcktKSWJHR0RvSDRrQk0tcXk4cVAtNEc5cUJ5V3lMejRGd2Jrc2VIb2loYjFLdzhBY3BRTy0yb0tMN1BvV01hOEdrQ3NKclJxOFNtbmxTUWYzQk8wb0xsZjBJYmRYWk1ubHBsM0ZtZUxKcGMwRWNoOVJQQ0JhWTRaMzc3MkhPQVRSalNRVlV5cExPbE0zMmc5Zm5XSzVhbHo2TV9fcUJ2WGVBTDJrN3hxaHBJcnZqTFptVdIB0AFBVV95cUxQRXJxemd4MG56WkxsRmhWeThkRzFTZ0l2VnRFclJkVEN6LXFuZFhRU2k5NktyM3AyRU5vT29lRHdpc2JDYlNvN2I5LTBlMk43UDVuZHFoeWUtel9UaVVGbngzYlRoQzRTVUNIV0hzT1pRd2NjV3JHZGJxcEtIR205TFdfQjZuQUdmX1ZpUlpiM1FlcFlYaHJqUFc1NklLN0FRZHpYTGpoMkhJZXJJd0s2WVc1am9iN0lCSXFPQWRBSW0zZDh4YVdybm50dTcxbWkw?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T15:36:03.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "Results",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Results",
-    "secondaryCategories": [
-      "F&O"
-    ],
-    "eventType": "EARNINGS",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Results] Financial results indicators matched in headline",
-      "[F&O] F&O Eligible Symbol: IRCTC"
-    ],
-    "fno": {
-      "eligible": true,
-      "symbol": "IRCTC",
-      "confidence": "HIGH",
-      "decision": "INCLUDE",
-      "reason": "Headline alias \"IRCTC\" matched IRCTC. Tier 2 Catalyst Match: \"profit\""
-    },
-    "summary": "Indian Railway Catering and Tourism reported revenue at  (increased 18%).",
-    "whatChanged": [
-      "+18%"
-    ],
-    "keyMetrics": [
-      {
-        "metricName": "Revenue",
-        "currentValue": null,
-        "previousValue": null,
-        "change": null,
-        "changePercent": 18,
-        "direction": "UP",
-        "unit": "Cr",
-        "sourceSentence": "IRCTC Q1 Results: Profit stays flat despite 18% revenue growth;",
-        "displayText": "+18%"
-      }
-    ],
-    "whyItMatters": "Quarterly financial performance: +18%. Informs earnings trajectory for the reported period.",
-    "marketImpact": "Earnings result event for IRCTC. Option sellers should note event-driven volatility risk surrounding the announcement.",
-    "riskWatchpoints": [
-      "Financial Metric Source: \"IRCTC Q1 Results: Profit stays flat despite 18% revenue growth;...\""
-    ],
-    "summaryConfidence": 100,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_7e2e57abee7749b8",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQQ2JIaWNubXFMMm5Nem56Z1FJVENrbGJIc2JITHpROXpmRlJtQmdrNzN0RDFSMlBlZVVLdEVpc0lnQzNXWTNZS0ZnczhnS1BOcE9TZTdQNWhSa2s2OEg1NmFWdF9SdmptR29GTlI0WHdkRmRXcFhZQnlaeEpPODZ1N19VemJxUkxfd3VuTE4wRk83bDUwbVBYOUctaWpvZmNPZElmdFRVQ0Nvc3dtQU5UellNRnpGNFM1WVNiOVl3MzNTN190UW53TU8zWW1lZmZNdjJr0gHYAUFVX3lxTE5RWXF3QWVzYlhTeWh6azFYVU1abGJiVS1POGJkR1QzMlNYazlmVFM1MlAxNF9sdEhXZTJpWE13ZG9kNXRPVk9rNk1LcjRoU0lEbFN4dnhQbmZJX3pzOEI1QWd5R3F3dEJqajJ3YXBUTnFLLVlxUEVXekVwQUY0UVQxcWpnSHM0WGxTeGV2WlQwdXZ3ZXY5UnRSU0lTRTVtcG1vaENaSVlvMWtNN085V2xNeFA1TVJjTUlxUXp3bzlYcDZRZEFrUS1xd1BSNXM3Q2JjUE12RnBXRw?oc=5",
-    "headline": "FIIs turn net sellers with ₹1,003 crore outflow, DIIs buy ₹5,842 crore; Nifty ends below 24,450 - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMi0wFBVV95cUxQQ2JIaWNubXFMMm5Nem56Z1FJVENrbGJIc2JITHpROXpmRlJtQmdrNzN0RDFSMlBlZVVLdEVpc0lnQzNXWTNZS0ZnczhnS1BOcE9TZTdQNWhSa2s2OEg1NmFWdF9SdmptR29GTlI0WHdkRmRXcFhZQnlaeEpPODZ1N19VemJxUkxfd3VuTE4wRk83bDUwbVBYOUctaWpvZmNPZElmdFRVQ0Nvc3dtQU5UellNRnpGNFM1WVNiOVl3MzNTN190UW53TU8zWW1lZmZNdjJr0gHYAUFVX3lxTE5RWXF3QWVzYlhTeWh6azFYVU1abGJiVS1POGJkR1QzMlNYazlmVFM1MlAxNF9sdEhXZTJpWE13ZG9kNXRPVk9rNk1LcjRoU0lEbFN4dnhQbmZJX3pzOEI1QWd5R3F3dEJqajJ3YXBUTnFLLVlxUEVXekVwQUY0UVQxcWpnSHM0WGxTeGV2WlQwdXZ3ZXY5UnRSU0lTRTVtcG1vaENaSVlvMWtNN085V2xNeFA1TVJjTUlxUXp3bzlYcDZRZEFrUS1xd1BSNXM3Q2JjUE12RnBXRw?oc=5\" target=\"_blank\">FIIs turn net sellers with ₹1,003 crore outflow, DIIs buy ₹5,842 crore; Nifty ends below 24,450</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQQ2JIaWNubXFMMm5Nem56Z1FJVENrbGJIc2JITHpROXpmRlJtQmdrNzN0RDFSMlBlZVVLdEVpc0lnQzNXWTNZS0ZnczhnS1BOcE9TZTdQNWhSa2s2OEg1NmFWdF9SdmptR29GTlI0WHdkRmRXcFhZQnlaeEpPODZ1N19VemJxUkxfd3VuTE4wRk83bDUwbVBYOUctaWpvZmNPZElmdFRVQ0Nvc3dtQU5UellNRnpGNFM1WVNiOVl3MzNTN190UW53TU8zWW1lZmZNdjJr0gHYAUFVX3lxTE5RWXF3QWVzYlhTeWh6azFYVU1abGJiVS1POGJkR1QzMlNYazlmVFM1MlAxNF9sdEhXZTJpWE13ZG9kNXRPVk9rNk1LcjRoU0lEbFN4dnhQbmZJX3pzOEI1QWd5R3F3dEJqajJ3YXBUTnFLLVlxUEVXekVwQUY0UVQxcWpnSHM0WGxTeGV2WlQwdXZ3ZXY5UnRSU0lTRTVtcG1vaENaSVlvMWtNN085V2xNeFA1TVJjTUlxUXp3bzlYcDZRZEFrUS1xd1BSNXM3Q2JjUE12RnBXRw?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T15:01:08.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "Market",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Market",
-    "secondaryCategories": [],
-    "eventType": "MARKET_MOVEMENT",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Market] Broad market commentary keywords matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": "NIFTY",
-      "confidence": "HIGH",
-      "decision": "EXCLUDE",
-      "reason": "Index symbol NIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
-    },
-    "summary": "FIIs turn net sellers with ₹1,003 crore outflow, DIIs buy ₹5,842 crore; Nifty ends below 24,450 - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMi0wFBVV95cUxQQ2JIaWNubXFMMm5Nem56Z1FJVENrbGJIc2JITHpROXpmRlJtQmdrNzN0RDFSMlBlZVVLdEVpc0lnQzNXWTNZS0ZnczhnS1BOcE9TZTdQNWhSa2s2OEg1NmFWdF9SdmptR29GTlI0WHdkRmRXcFhZQnlaeEpPODZ1N19VemJxUkxfd3VuTE4wRk83bDUwbVBYOUctaWpvZmNPZElmdFRVQ0Nvc3dtQU5UellNRnpGNFM1WVNiOVl3MzNTN190UW53TU8zWW1lZmZNdjJr0gHYAUFVX3lxTE5RWXF3QWVzYlhTeWh6azFYVU1abGJiVS1POGJkR1QzMlNYazlmVFM1MlAxNF9sdEhXZTJpWE13ZG9kNXRPVk9rNk1LcjRoU0lEbFN4dnhQbmZJX3pzOEI1QWd5R3F3dEJqajJ3YXBUTnFLLVlxUEVXekVwQUY0UVQxcWpnSHM0WGxTeGV2WlQwdXZ3ZXY5UnRSU0lTRTVtcG1vaENaSVlvMWtNN085V2xNeFA1TVJjTUlxUXp3bzlYcDZRZEFrUS1xd1BSNXM3Q2JjUE12RnBXRw?oc=5\" target=\"_blank\">FIIs turn net sellers with ₹1,003 crore outflow, DIIs buy ₹5,842 crore; Nifty ends below 24,450</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "whatChanged": [
-      "FIIs turn net sellers with ₹1,003 crore outflow, DIIs buy ₹5,842 crore; Nifty ends below 24,450 - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Market movement: FIIs turn net sellers with ₹1,003 crore outflow, DIIs buy ₹5,842 crore; Nifty ends below 24,450 - CNBC TV18.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 75,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_cadb42de7cb719d2",
-    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/indicators/inflation-likely-to-rise-from-here-as-food-prices-remain-key-risk-experts/articleshow/133185286.cms",
-    "headline": "Inflation likely to rise from here as food prices remain key risk: Experts",
-    "body": "Retail inflation in India is projected to increase in upcoming months. Food prices are the primary driver, though inflation should stay below six percent. Analysts anticipate the Reserve Bank of India will maintain its current policy stance. Supply-side factors like tomato and onion costs are influencing current price increases. Geopolitical easing could lead to inflation undershooting official projections.",
-    "source": {
-      "publisher": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/indicators/inflation-likely-to-rise-from-here-as-food-prices-remain-key-risk-experts/articleshow/133185286.cms",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T14:58:18.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Economy",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 100,
-    "primaryCategory": "Economy",
-    "secondaryCategories": [
-      "Global"
-    ],
-    "eventType": "MACRO",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Economy] Economy/regulatory keywords matched in headline",
-      "[Global] Global market/fed macro keywords matched in body"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "Inflation likely to rise from here as food prices remain key risk: Experts. Retail inflation in India is projected to increase in upcoming months.",
-    "whatChanged": [
-      "Inflation likely to rise from here as food prices remain key risk: Experts"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Macroeconomic update: Inflation likely to rise from here as food prices remain key risk: Experts.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 80,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_7c387c763ef2e422",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOaE5uMXdaR3Y0b2pMeVQxMk92R0F3Z1Q5TXNKbUVSYUdldU1LMlozRk5FQS1fS21WcVVWUzBwQzZaYmM3c0N4ZENUS1ZrSi1QZmlTSzE2VDhFRmFjWjlpRndULW53c2FRNW9UVzZBdDUxOWtQUW15RXplVVNGZnJtREdfdDRmZ3BVWG9PQXVwVXd3cTFDTGhadGlQZlRGV3pmR0REd1c4OTlWamN1UEhmMFc2emRHemlTN3ZwNXlQVDFMcXhtRTI4Q09nTk55QzI20gHWAUFVX3lxTFBwWDZBRW
+      "reason": "No canonical F

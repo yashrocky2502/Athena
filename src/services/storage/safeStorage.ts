@@ -27,14 +27,19 @@ class MemoryStorage {
   }
 }
 
-const isBrowser = typeof window !== "undefined" && typeof localStorage !== "undefined";
+let isBrowser = false;
+try {
+  isBrowser = typeof window !== "undefined" && typeof window.localStorage !== "undefined" && window.localStorage !== null;
+} catch (e) {
+  isBrowser = false;
+}
 const memoryStorageInstance = new MemoryStorage();
 
 export const safeLocalStorage = {
   getItem(key: string): string | null {
     if (isBrowser) {
       try {
-        return localStorage.getItem(key);
+        return window.localStorage.getItem(key);
       } catch (e) {
         return memoryStorageInstance.getItem(key);
       }
@@ -45,7 +50,7 @@ export const safeLocalStorage = {
   setItem(key: string, value: string): void {
     if (isBrowser) {
       try {
-        localStorage.setItem(key, value);
+        window.localStorage.setItem(key, value);
         return;
       } catch (e) {
         memoryStorageInstance.setItem(key, value);
@@ -58,7 +63,7 @@ export const safeLocalStorage = {
   removeItem(key: string): void {
     if (isBrowser) {
       try {
-        localStorage.removeItem(key);
+        window.localStorage.removeItem(key);
         return;
       } catch (e) {
         memoryStorageInstance.removeItem(key);
@@ -71,7 +76,7 @@ export const safeLocalStorage = {
   clear(): void {
     if (isBrowser) {
       try {
-        localStorage.clear();
+        window.localStorage.clear();
         return;
       } catch (e) {
         memoryStorageInstance.clear();
@@ -84,7 +89,7 @@ export const safeLocalStorage = {
   key(index: number): string | null {
     if (isBrowser) {
       try {
-        return localStorage.key(index);
+        return window.localStorage.key(index);
       } catch (e) {
         return memoryStorageInstance.key(index);
       }
@@ -95,7 +100,7 @@ export const safeLocalStorage = {
   get length(): number {
     if (isBrowser) {
       try {
-        return localStorage.length;
+        return window.localStorage.length;
       } catch (e) {
         return memoryStorageInstance.length;
       }
