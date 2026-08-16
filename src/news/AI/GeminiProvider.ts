@@ -10,7 +10,7 @@ export class GeminiProvider implements IAIProvider {
   private costTracker = CostTracker.getInstance();
 
   public getModelName(): string {
-    return process.env.GEMINI_FALLBACK_MODEL || 'gemini-3.6-flash';
+    return process.env.GEMINI_FALLBACK_MODEL || 'gemini-3.7-flash';
   }
 
   public isHealthy(): boolean {
@@ -29,7 +29,7 @@ export class GeminiProvider implements IAIProvider {
     }
 
     const primaryModel = this.getModelName();
-    const candidateModels = [primaryModel, 'gemini-3.7-flash', 'gemini-3.1-flash-lite'];
+    const candidateModels = Array.from(new Set([primaryModel, 'gemini-3.7-flash', 'gemini-3.1-flash-lite']));
     const maxRetries = 1;
     let attempt = 0;
     let lastError: any = null;

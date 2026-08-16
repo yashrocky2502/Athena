@@ -4,14 +4,16 @@ import { NewsCard } from './news/NewsCard';
 import { ArticleReader } from './news/ArticleReader';
 import { NewsSkeletonLoader } from './news/NewsSkeletonLoader';
 import { NewsDiagnosticsPanel, formatISTTime } from './NewsDiagnosticsPanel';
+import { FixedSectionNewsLayout } from './news/FixedSectionNewsLayout';
 import { safeLocalStorage } from '../services/storage/safeStorage';
 import { 
   Newspaper, RefreshCw, AlertCircle, 
   Search, Clock, X, Activity, CheckCircle2, AlertTriangle,
-  BookOpen, ExternalLink, Cpu, Radio, Sparkles
+  BookOpen, ExternalLink, Cpu, Radio, Sparkles, LayoutGrid, List
 } from 'lucide-react';
 
 type SentimentFilter = 'ALL' | 'BULLISH' | 'BEARISH' | 'NEUTRAL';
+type ViewMode = 'SECTIONS' | 'FEED';
 
 export type CategoryFeedState = {
   articles: any[];
@@ -30,6 +32,7 @@ const ALL_CATEGORIES: CategoryName[] = [
 ];
 
 export default function NewsPage({ developerMode = false }: { developerMode?: boolean }) {
+  const [viewMode, setViewMode] = useState<ViewMode>('SECTIONS');
   const [selectedCategory, setSelectedCategory] = useState<CategoryName>('All');
   const selectedCategoryRef = useRef<CategoryName>(selectedCategory);
   useEffect(() => {
@@ -569,6 +572,32 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          {/* View Mode Switcher */}
+          <div className="flex items-center gap-1 bg-slate-950/80 border border-slate-800 p-1 rounded-xl text-xs">
+            <button
+              onClick={() => setViewMode('SECTIONS')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                viewMode === 'SECTIONS'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <LayoutGrid className="w-3.5 h-3.5" />
+              <span>Fixed Sections</span>
+            </button>
+            <button
+              onClick={() => setViewMode('FEED')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                viewMode === 'FEED'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <List className="w-3.5 h-3.5" />
+              <span>Category Feed</span>
+            </button>
+          </div>
+
           {/* Manual Sync Button */}
           <button
             onClick={handleManualSync}
@@ -674,7 +703,12 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
       </div>
 
       {/* MAIN CONTENT AREA */}
-      {loading && targetCategoryArticles.length === 0 ? (
+      {viewMode === 'SECTIONS' ? (
+        <FixedSectionNewsLayout
+          onOpenArticle={handleOpenArticleContent}
+          developerMode={developerMode}
+        />
+      ) : loading && targetCategoryArticles.length === 0 ? (
         <NewsSkeletonLoader />
       ) : error && targetCategoryArticles.length === 0 ? (
         <div className="p-8 bg-rose-950/20 border border-rose-500/30 rounded-2xl text-center flex flex-col items-center gap-3">

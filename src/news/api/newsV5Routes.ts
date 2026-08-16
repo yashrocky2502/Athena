@@ -17,6 +17,10 @@ import { healthMonitor } from '../monitoring/HealthMonitor.ts';
 import { IngestionTelemetry } from '../monitoring/IngestionTelemetry.ts';
 
 
+import { getAllSectionDefinitions, NewsSectionId, isValidSectionId, normalizeSectionId } from '../types/NewsSection.ts';
+import { NewsSectionRouter } from '../intelligence/NewsSectionRouter.ts';
+import { NewsIntelligenceQualityService } from '../intelligence/NewsIntelligenceQualityService.ts';
+
 const router = Router();
 
 // Shared Singleton for Stage 2 isolated storage
@@ -648,6 +652,192 @@ router.get('/intelligence/benchmark', async (_req: Request, res: Response) => {
             status: 'success',
             totalTestCases: cases.length,
             benchmarkResults: results
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/sections
+ * Returns the stable, fixed news sections taxonomy with metadata.
+ */
+router.get('/sections', (_req: Request, res: Response) => {
+    try {
+        const sections = getAllSectionDefinitions();
+        res.json({
+            status: 'success',
+            count: sections.length,
+            sections
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/feed/section/:section
+ * Section-specific feed with ranking policies, pagination, symbol, and filter support.
+ */
+router.get('/feed/section/:section', async (req: Request, res: Response) => {
+    try {
+        const rawSection = req.params.section;
+        const normalized = normalizeSectionId(rawSection);
+        if (!normalized) {
+            return res.status(400).json({
+                status: 'error',
+                message: `Invalid section ID '${rawSection}'. Must be one of the fixed news sections.`
+            });
+        }
+
+        const page = parseInt(req.query.page as string, 10) || 1;
+        const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string, 10) || 20));
+        const symbol = (req.query.symbol as string) || undefined;
+        const search = (req.query.search as string) || (req.query.q as string) || undefined;
+        const impact = (req.query.impact as string) || undefined;
+        const fno = req.query.fno === 'true';
+
+        const allArticles = await stage2Store.getAll();
+        const feedResult = NewsSectionRouter.getSectionFeed(allArticles, normalized, {
+            page,
+            limit,
+            symbol,
+            search,
+            impact,
+            fno
+        });
+
+        res.json({
+            status: 'success',
+            version: 'V5-STAGE6-SECTION-FEED',
+            ...feedResult
+        });
+    } catch (err: any) {
+        console.error('[NewsV5] Section Feed error:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/sections/counts
+ * Returns section distribution metrics without double-counting canonical articles.
+ */
+router.get('/sections/counts', async (_req: Request, res: Response) => {
+    try {
+        const allArticles = await stage2Store.getAll();
+        const totalCanonicalCount = allArticles.length;
+
+        const primaryCounts: Record<string, number> = {};
+        const secondaryCounts: Record<string, number> = {};
+        let breakingCount = 0;
+        let freshCount = 0;
+        let highImpactCount = 0;
+
+        const now = Date.now();
+        const ONE_DAY = 24 * 60 * 60 * 1000;
+
+        for (const secId of Object.values(NewsSectionId)) {
+            primaryCounts[secId] = 0;
+            secondaryCounts[secId] = 0;
+        }
+
+        for (const article of allArticles) {
+            const artAny = article as any;
+            const routed = artAny.sectionRouting || NewsSectionRouter.routeArticle(article);
+            if (routed.primarySection && primaryCounts[routed.primarySection] !== undefined) {
+                primaryCounts[routed.primarySection]++;
+            }
+
+            for (const sec of routed.secondarySections || []) {
+                if (secondaryCounts[sec] !== undefined) {
+                    secondaryCounts[sec]++;
+                }
+            }
+
+            if (artAny.isBreaking || routed.primarySection === NewsSectionId.BREAKING || (routed.secondarySections || []).includes(NewsSectionId.BREAKING)) {
+                breakingCount++;
+            }
+
+            const pubDate = new Date(article.publishedAt || 0).getTime();
+            if (!isNaN(pubDate) && (now - pubDate) < ONE_DAY) {
+                freshCount++;
+            }
+
+            const enriched = artAny.intelligence || NewsIntelligenceQualityService.enrich(article);
+            if (enriched.marketImpact === 'HIGH' || enriched.alertPriority === 'P1_CRITICAL') {
+                highImpactCount++;
+            }
+        }
+
+        res.json({
+            status: 'success',
+            totalCanonicalArticles: totalCanonicalCount,
+            breakingCount,
+            freshCount,
+            highImpactCount,
+            primaryCounts,
+            secondaryCounts
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/sections/health
+ * Evaluates Stage 6 section routing integrity and distribution.
+ */
+router.get('/sections/health', async (_req: Request, res: Response) => {
+    try {
+        const allArticles = await stage2Store.getAll();
+        const canonicalCount = allArticles.length;
+
+        let articlesWithoutPrimary = 0;
+        let articlesWithInvalidSections = 0;
+        let duplicateMemberships = 0;
+        let routingFailures = 0;
+
+        const sectionDistribution: Record<string, { primary: number; secondary: number; total: number }> = {};
+        for (const secId of Object.values(NewsSectionId)) {
+            sectionDistribution[secId] = { primary: 0, secondary: 0, total: 0 };
+        }
+
+        for (const article of allArticles) {
+            try {
+                const artAny = article as any;
+                const routed = artAny.sectionRouting || NewsSectionRouter.routeArticle(article);
+                if (!routed.primarySection || !isValidSectionId(routed.primarySection)) {
+                    articlesWithoutPrimary++;
+                } else {
+                    sectionDistribution[routed.primarySection].primary++;
+                    sectionDistribution[routed.primarySection].total++;
+                }
+
+                for (const sec of routed.secondarySections || []) {
+                    if (!isValidSectionId(sec)) {
+                        articlesWithInvalidSections++;
+                    } else if (sec === routed.primarySection) {
+                        duplicateMemberships++;
+                    } else {
+                        sectionDistribution[sec].secondary++;
+                        sectionDistribution[sec].total++;
+                    }
+                }
+            } catch (err) {
+                routingFailures++;
+            }
+        }
+
+        res.json({
+            status: 'success',
+            canonicalCount,
+            articlesWithoutPrimary,
+            articlesWithInvalidSections,
+            sectionCount: Object.keys(NewsSectionId).length,
+            sectionDistribution,
+            routingFailures,
+            duplicateMemberships,
+            explanation: 'Note: Sum of section memberships exceeds canonical count due to intentional multi-section indexing for secondary topics.'
         });
     } catch (err: any) {
         res.status(500).json({ status: 'error', message: err.message });
