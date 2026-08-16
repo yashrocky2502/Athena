@@ -9,7 +9,7 @@ import { SectorIndexMapper } from '../intelligence/SectorIndexMapper';
 import { FOIntelligenceEngine } from '../intelligence/FOIntelligenceEngine';
 import { BreakingNewsDetector } from '../intelligence/BreakingNewsDetector';
 import { HallucinationGuard } from '../intelligence/HallucinationGuard';
-import { AIRouter } from '../AI/AIRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 
 describe('Stage 6.3: Real-World News Intelligence Validation & Section Accuracy', () => {
   let storeArticles: any[] = [];
@@ -263,10 +263,10 @@ describe('Stage 6.3: Real-World News Intelligence Validation & Section Accuracy'
   });
 
   it('9. AI Provider Hierarchy & Zero Deprecated Models', () => {
-    const router = AIRouter.getInstance();
-    expect(router.groqProvider).toBeDefined();
-    expect(router.geminiProvider).toBeDefined();
-    expect(router.localProvider).toBeDefined();
+    const router = NewsAIService.getInstance();
+    expect(router.router.groqProvider).toBeDefined();
+    expect(router.router.geminiProvider).toBeDefined();
+    expect(router.router.localProvider).toBeDefined();
 
     // Check production directory for deprecated gemini models
     function walkDir(dir: string): string[] {

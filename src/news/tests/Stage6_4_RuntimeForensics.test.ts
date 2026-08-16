@@ -4,7 +4,7 @@ import path from 'path';
 import crypto from 'crypto';
 import { NewsSectionRouter } from '../intelligence/NewsSectionRouter';
 import { NewsSectionId } from '../types/NewsSection';
-import { AIRouter } from '../AI/AIRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 import { GroqProvider } from '../AI/GroqProvider';
 import { GeminiProvider } from '../AI/GeminiProvider';
 
@@ -78,10 +78,10 @@ describe('Stage 6.4: Runtime Error Forensics & Production Safety Audit', () => {
   });
 
   it('3. AI Router Production Hierarchy: Groq Primary -> Gemini Secondary -> Local Fallback', () => {
-    const router = AIRouter.getInstance();
-    expect(router.groqProvider).toBeDefined();
-    expect(router.geminiProvider).toBeDefined();
-    expect(router.localProvider).toBeDefined();
+    const router = NewsAIService.getInstance();
+    expect(router.router.groqProvider).toBeDefined();
+    expect(router.router.geminiProvider).toBeDefined();
+    expect(router.router.localProvider).toBeDefined();
 
     const status = router.getStatus();
     expect(status.router.currentProvider).toBeDefined();

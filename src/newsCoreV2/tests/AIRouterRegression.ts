@@ -1,4 +1,4 @@
-import { AIRouter } from "../../news/AI/AIRouter";
+import { NewsAIService } from "../../news/AI/NewsAIService";
 import { ConfidenceEngine } from "../../news/AI/ConfidenceEngine";
 import { GoogleGenAI } from "@google/genai";
 import { TestResult, RegressionReport } from "./NewsCoreV2Regression";
@@ -15,7 +15,7 @@ export class AIRouterRegression {
     process.env.GEMINI_API_KEY = "mock-gemini-key";
     process.env.GROQ_API_KEY = "mock-groq-key";
 
-    const router = AIRouter.getInstance() as any;
+    const router = NewsAIService.getInstance() as any;
     const originalGroqIsHealthy = router.groqProvider.isHealthy;
     const originalGroqGenerate = router.groqProvider.generate;
     const originalGeminiIsHealthy = router.geminiProvider.isHealthy;
@@ -74,7 +74,7 @@ export class AIRouterRegression {
       // TEST 1: Groq success (Groq used; Gemini not called)
       // ------------------------------------------------------------------------
       resetMocks();
-      let response = await AIRouter.getInstance().generateSummary({
+      let response = await NewsAIService.getInstance().generateSummary({
         headline: "Tata Motors Q1 Net Profit Jumps 30%",
         body: "Tata Motors reported ₹5,400 Cr net profit.",
         forceRefresh: true
@@ -94,7 +94,7 @@ export class AIRouterRegression {
         throw new Error("Groq service is down");
       };
 
-      response = await AIRouter.getInstance().generateSummary({
+      response = await NewsAIService.getInstance().generateSummary({
         headline: "Tata Motors Q1 Net Profit Jumps 30%",
         body: "Tata Motors reported ₹5,400 Cr net profit.",
         facts: { issuerName: "TATA MOTORS" },
@@ -119,7 +119,7 @@ export class AIRouterRegression {
         throw new Error(`Model ${model} rate-limited 429`);
       };
 
-      response = await AIRouter.getInstance().generateSummary({
+      response = await NewsAIService.getInstance().generateSummary({
         headline: "Tata Motors Q1 Net Profit Jumps 30%",
         body: "Tata Motors reported ₹5,400 Cr net profit.",
         forceRefresh: true
@@ -158,7 +158,7 @@ export class AIRouterRegression {
         };
       };
 
-      response = await AIRouter.getInstance().generateSummary({
+      response = await NewsAIService.getInstance().generateSummary({
         headline: "Tata Motors Q1 Net Profit Jumps 30%",
         body: "Tata Motors reported ₹5,400 Cr net profit.",
         facts: { issuerName: "TATA MOTORS" },

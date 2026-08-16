@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ArticleContent, ArticleIntelligence } from './ArticleContent';
 import { SummaryCache } from './SummaryCache';
 import { FilingIntelligenceEngine } from './FilingIntelligenceEngine';
-import { AIRouter } from '../AI/AIRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 import { ProviderType } from '../AI/AIProvider';
 import { isExchangeArticle, getExchangeName, getExchangeDocumentType } from '../utils/ExchangeUtils';
 import { IntelligenceEngine } from './IntelligenceEngine';
@@ -140,7 +140,7 @@ Investor Takeaway
 4. You must include exactly 5 highlights bullets.
 5. Every financial metric value (e.g. ₹5533 crore or 31.6%) in the Executive Summary and Key Highlights sections must ALWAYS be prefixed by its corresponding label (e.g. 'Revenue ₹5533 crore', 'Net Profit ₹5533 crore', 'EBITDA ₹1650 crore', 'EBITDA Margin 31.6%', or 'EPS ₹15'). Never display raw numbers or currency values without their exact category labels.`;
 
-      const aiRouter = AIRouter.getInstance();
+      const aiRouter = NewsAIService.getInstance();
       const routerResult = await aiRouter.generateSummary({
         category: 'Corporate Filing',
         headline,
@@ -234,7 +234,7 @@ Investor Takeaway
     let fallbackUsed = false;
 
     try {
-      const aiRouter = AIRouter.getInstance();
+      const aiRouter = NewsAIService.getInstance();
       const routerResult = await aiRouter.generateSummary({
         category: 'News Summary',
         headline,
@@ -345,7 +345,7 @@ Investor Takeaway
 - Numbers: ${facts.numbers.join(', ') || 'None'}`;
 
       // Delegate to ATHENA V5 AIRouter (Grok -> Gemini -> Local)
-      const aiRouter = AIRouter.getInstance();
+      const aiRouter = NewsAIService.getInstance();
       const routerResult = await aiRouter.generateSummary({
         category: 'News Summary',
         headline,

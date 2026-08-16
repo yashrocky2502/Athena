@@ -3,14 +3,14 @@ import axios from 'axios';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import { AIRouter } from '../AI/AIRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 import { GroqProvider } from '../AI/GroqProvider';
 import { GeminiProvider } from '../AI/GeminiProvider';
 import { LocalProvider } from '../AI/LocalProvider';
 import { AIHealthMonitor } from '../AI/AIHealthMonitor';
 import { CostTracker } from '../AI/CostTracker';
 import { CacheManager } from '../AI/CacheManager';
-import { LLMRouter } from '../../services/LLMRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 
 vi.mock('axios');
 
@@ -20,7 +20,6 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
   beforeEach(() => {
     vi.clearAllMocks();
     CacheManager.getInstance().clear();
-    LLMRouter.isGroqUnavailable = false;
     delete process.env.GROQ_API_KEY;
     delete process.env.GEMINI_API_KEY;
   });
@@ -97,7 +96,7 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
         }
       });
 
-      const router = AIRouter.getInstance();
+      const router = NewsAIService.getInstance();
       const result = await router.generateSummary({
         headline: 'Tata Motors Reports 15% YoY Revenue Growth',
         body: 'Tata Motors reported a 15% surge in quarterly revenue driven by robust commercial vehicle sales and export growth.',
@@ -156,7 +155,7 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
       delete process.env.GROQ_API_KEY;
       delete process.env.GEMINI_API_KEY;
 
-      const router = AIRouter.getInstance();
+      const router = NewsAIService.getInstance();
       const result = await router.generateSummary({
         headline: 'Reliance Industries Announces Green Energy JV',
         body: 'Reliance Industries announced a new joint venture in solar manufacturing with global partners.',
@@ -223,11 +222,10 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
       expect(typeof res.latencyMs).toBe('number');
     });
 
-    it('should ensure LLMRouter returns consistent normalized schema across Groq, Gemini, and Local', async () => {
-      const llmRouter = LLMRouter.getInstance();
-      LLMRouter.isGroqUnavailable = true; // Force local fallback for deterministic schema test
+    it('should ensure AIRouter returns consistent normalized schema across Groq, Gemini, and Local', async () => {
+      const llmRouter = NewsAIService.getInstance();
 
-      const result = await llmRouter.summarize(
+      const result = await llmRouter.generateSummary(
         'State Bank of India reported net profit of Rs 18,331 Cr for Q3 FY26, a growth of 18% YoY. Asset quality improved with Gross NPA at 2.1%.',
         { headline: 'SBI Q3 Net Profit Jumps 18%', company: 'State Bank of India', symbol: 'SBIN' }
       );
@@ -268,7 +266,7 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
 
   describe('6. High-Volume Concurrency Simulation (1,000 Requests)', () => {
     it('should process 1,000 concurrent AI requests cleanly with zero unhandled exceptions or retry storms', async () => {
-      const router = AIRouter.getInstance();
+      const router = NewsAIService.getInstance();
       const totalRequests = 1000;
       const startTime = Date.now();
 

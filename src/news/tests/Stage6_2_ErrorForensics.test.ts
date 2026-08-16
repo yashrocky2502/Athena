@@ -4,7 +4,7 @@ import path from 'path';
 import crypto from 'crypto';
 import { NewsSectionRouter } from '../intelligence/NewsSectionRouter';
 import { NewsSectionId, getAllSectionDefinitions } from '../types/NewsSection';
-import { AIRouter } from '../AI/AIRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 
 describe('Stage 6.2: Runtime Error Forensics & Final Regression Gate', () => {
   it('should verify Error #1 (TypeScript Missing Imports/Linter Failure) resolution', () => {
@@ -28,10 +28,10 @@ describe('Stage 6.2: Runtime Error Forensics & Final Regression Gate', () => {
   });
 
   it('should confirm AI provider hierarchy: Groq Primary, Gemini Secondary, Local Fallback', () => {
-    const router = AIRouter.getInstance();
-    expect(router.groqProvider).toBeDefined();
-    expect(router.geminiProvider).toBeDefined();
-    expect(router.localProvider).toBeDefined();
+    const router = NewsAIService.getInstance();
+    expect(router.router.groqProvider).toBeDefined();
+    expect(router.router.geminiProvider).toBeDefined();
+    expect(router.router.localProvider).toBeDefined();
 
     const status = router.getStatus();
     expect(status.router.currentProvider).toBeDefined();

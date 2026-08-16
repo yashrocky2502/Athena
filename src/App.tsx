@@ -60,7 +60,12 @@ export default function App() {
 
   // Bottom Navigation state
   const [activeTab, setActiveTab] = useState<"home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar">((): "home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" => {
-    return (safeLocalStorage.getItem("athena-active-tab") as any) || "home";
+    try {
+      return (safeLocalStorage.getItem("athena-active-tab") as any) || "home";
+    } catch (err) {
+      console.warn("Storage failed during activeTab initialization:", err);
+      return "home";
+    }
   });
   
   const [highlightedMarketSymbol, setHighlightedMarketSymbol] = useState<string | undefined>(undefined);
@@ -73,11 +78,16 @@ export default function App() {
  
   // Developer mode & Theme states
   const [developerMode, setDeveloperMode] = useState<boolean>(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("dev") === "true" || params.get("developer") === "true") {
-      return true;
+    try {
+      const params = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+      if (params.get("dev") === "true" || params.get("developer") === "true") {
+        return true;
+      }
+      return safeLocalStorage.getItem("athena-dev-mode") === "true";
+    } catch (err) {
+      console.warn("Storage failed during developerMode initialization:", err);
+      return false;
     }
-    return safeLocalStorage.getItem("athena-dev-mode") === "true";
   });
  
   useEffect(() => {
@@ -86,7 +96,11 @@ export default function App() {
         e.preventDefault();
         setDeveloperMode(prev => {
           const next = !prev;
-          safeLocalStorage.setItem("athena-dev-mode", String(next));
+          try {
+            safeLocalStorage.setItem("athena-dev-mode", String(next));
+          } catch (err) {
+            console.warn("Storage failed during developerMode update:", err);
+          }
           return next;
         });
       }
@@ -95,7 +109,12 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
   const [theme, setTheme] = useState<"dark" | "light" | "system">(() => {
-    return (safeLocalStorage.getItem("athena-theme") as any) || "dark";
+    try {
+      return (safeLocalStorage.getItem("athena-theme") as any) || "dark";
+    } catch (err) {
+      console.warn("Storage failed during theme initialization:", err);
+      return "dark";
+    }
   });
   const [showStoryEngineAdmin, setShowStoryEngineAdmin] = useState(false);
   const [showAlertsModal, setShowAlertsModal] = useState(false);
@@ -191,17 +210,29 @@ export default function App() {
 
   // Sync active tab
   useEffect(() => {
-    safeLocalStorage.setItem("athena-active-tab", activeTab);
+    try {
+      safeLocalStorage.setItem("athena-active-tab", activeTab);
+    } catch (err) {
+      console.warn("Storage failed to sync activeTab:", err);
+    }
   }, [activeTab]);
 
   // Sync developer mode state
   useEffect(() => {
-    safeLocalStorage.setItem("athena-dev-mode", developerMode ? "true" : "false");
+    try {
+      safeLocalStorage.setItem("athena-dev-mode", developerMode ? "true" : "false");
+    } catch (err) {
+      console.warn("Storage failed to sync developerMode:", err);
+    }
   }, [developerMode]);
 
   // Sync and Apply Theme
   useEffect(() => {
-    safeLocalStorage.setItem("athena-theme", theme);
+    try {
+      safeLocalStorage.setItem("athena-theme", theme);
+    } catch (err) {
+      console.warn("Storage failed to sync theme:", err);
+    }
     const applyTheme = (currentTheme: "dark" | "light" | "system") => {
       const root = document.documentElement;
       root.classList.remove("light", "dark");

@@ -44,7 +44,7 @@ import { ParserRegistry } from '../parsers/ParserRegistry';
 import { MetricsEngine } from '../metrics/MetricsEngine';
 import { FNORegistryService } from '../../registry/FNORegistry';
 import { MarketImpactScore } from '../classification/types/ClassificationTypes';
-import { AIRouter } from '../../AI/AIRouter';
+import { NewsAIService } from "../../AI/NewsAIService";
 import { IngestionFailureRegistry } from '../observability/IngestionFailureRegistry';
 
 export class NewsEngineV3 {
@@ -386,7 +386,7 @@ export class NewsEngineV3 {
 
     let institutionalSummary = '';
     try {
-      const aiResponse = await AIRouter.getInstance().generateSummary({
+      const aiResponse = await NewsAIService.getInstance().generateSummary({
         category: categoryName,
         headline: doc.title,
         body: doc.plainText,

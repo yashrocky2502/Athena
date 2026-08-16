@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { GroqProvider } from '../AI/GroqProvider';
 import { GeminiProvider } from '../AI/GeminiProvider';
-import { AIRouter } from '../AI/AIRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 
 describe('Stage 6.6: AI Model Reference Purge & Configuration Gate', () => {
   let originalGroqPrimary: string | undefined;
@@ -117,11 +117,11 @@ describe('Stage 6.6: AI Model Reference Purge & Configuration Gate', () => {
   });
 
   it('Test H: Failover behavior from Groq to Gemini works seamlessly under mock exceptions', async () => {
-    const router = AIRouter.getInstance() as any;
+    const router = NewsAIService.getInstance() as any;
 
     // Mock GroqProvider.generate to fail (throw 429)
-    const originalGroqGenerate = router.groqProvider.generate;
-    router.groqProvider.generate = vi.fn().mockRejectedValue(new Error('Groq 429 Rate Limit Exceeded'));
+    const originalGroqGenerate = router.router.groqProvider.generate;
+    router.router.groqProvider.generate = vi.fn().mockRejectedValue(new Error('Groq 429 Rate Limit Exceeded'));
 
     // Mock GeminiProvider.generate to succeed
     const originalGeminiGenerate = router.geminiProvider.generate;
@@ -147,21 +147,21 @@ describe('Stage 6.6: AI Model Reference Purge & Configuration Gate', () => {
     };
     router.geminiProvider.generate = vi.fn().mockResolvedValue(mockGeminiResponse);
 
-    const result = await AIRouter.getInstance().generateSummary({
+    const result = await NewsAIService.getInstance().generateSummary({
       headline: 'Mock Headline',
       body: 'Mock Body content for testing failover logic from Groq to Gemini fallback.',
       forceRefresh: true
     });
 
     // Verify Groq was called and failed, then Gemini succeeded
-    expect(router.groqProvider.generate).toHaveBeenCalled();
+    expect(router.router.groqProvider.generate).toHaveBeenCalled();
     expect(router.geminiProvider.generate).toHaveBeenCalled();
     expect(result.provider).toBe('gemini');
     const parsedText = JSON.parse(result.text);
     expect(parsedText.executiveSummary).toBe('This is a test summary from Gemini.');
 
     // Restore original methods
-    router.groqProvider.generate = originalGroqGenerate;
+    router.router.groqProvider.generate = originalGroqGenerate;
     router.geminiProvider.generate = originalGeminiGenerate;
   });
 });

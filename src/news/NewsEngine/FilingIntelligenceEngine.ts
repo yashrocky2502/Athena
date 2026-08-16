@@ -2,7 +2,7 @@ import { GoogleGenAI } from '@google/genai';
 import { ArticleContent, ArticleIntelligence } from './ArticleContent';
 import { FilingDocumentParser, type DocumentRegions } from './FilingDocumentParser';
 import { CompanyMasterResolver } from './CompanyMasterResolver';
-import { AIRouter } from '../AI/AIRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 
 export { FilingDocumentParser, CompanyMasterResolver };
 export type { DocumentRegions };
@@ -217,7 +217,7 @@ export class FilingIntelligenceEngine {
     let cached = false;
 
     try {
-      const aiRouter = AIRouter.getInstance();
+      const aiRouter = NewsAIService.getInstance();
       const routerResult = await aiRouter.generateSummary({
         category: 'Corporate Filing',
         headline: content.headline || content.title,

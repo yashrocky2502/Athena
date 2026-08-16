@@ -2,13 +2,13 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-import { AIRouter } from '../AI/AIRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 import { GroqProvider } from '../AI/GroqProvider';
 import { GeminiProvider } from '../AI/GeminiProvider';
 import { LocalProvider } from '../AI/LocalProvider';
 import { AIHealthMonitor } from '../AI/AIHealthMonitor';
 import { CostTracker } from '../AI/CostTracker';
-import { LLMRouter } from '../../services/LLMRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 
 describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', () => {
   const stage2StorePath = path.join(process.cwd(), 'data', 'news_stage2_store.json');
@@ -40,7 +40,7 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
 
   describe('1. Authoritative Provider Hierarchy: Groq Primary -> Gemini 3.6 Flash Fallback -> Local Net', () => {
     it('should dispatch to Groq as primary provider when Groq is healthy', async () => {
-      const router = AIRouter.getInstance();
+      const router = NewsAIService.getInstance();
       const originalGroqGen = router.groqProvider.generate;
       const originalGroqHealth = router.groqProvider.isHealthy;
       const originalGeminiGen = router.geminiProvider.generate;
@@ -90,7 +90,7 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
     });
 
     it('should cleanly fallback to Gemini 3.6 Flash when Groq fails', async () => {
-      const router = AIRouter.getInstance();
+      const router = NewsAIService.getInstance();
       const originalGroqGen = router.groqProvider.generate;
       const originalGroqHealth = router.groqProvider.isHealthy;
       const originalGeminiGen = router.geminiProvider.generate;
@@ -142,7 +142,7 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
     });
 
     it('should engage Athena Local Engine when both Groq and Gemini are unavailable', async () => {
-      const router = AIRouter.getInstance();
+      const router = NewsAIService.getInstance();
       const originalGroqGen = router.groqProvider.generate;
       const originalGroqHealth = router.groqProvider.isHealthy;
       const originalGeminiGen = router.geminiProvider.generate;
@@ -172,9 +172,9 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
     });
   });
 
-  describe('2. LLMRouter Dual-Track Architecture Migration', () => {
-    it('should use Groq as primary and fallback to Gemini 3.6 Flash in LLMRouter.summarize', async () => {
-      const llmRouter = LLMRouter.getInstance();
+  describe('2. AIRouter Dual-Track Architecture Migration', () => {
+    it('should use Groq as primary and fallback to Gemini 3.6 Flash in AIRouter.summarize', async () => {
+      const llmRouter = NewsAIService.getInstance();
       
       const originalGroqKey = process.env.GROQ_API_KEY;
       const originalGeminiKey = process.env.GEMINI_API_KEY;
@@ -183,9 +183,8 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
       process.env.GEMINI_API_KEY = 'mock_gemini_key';
 
       // Test local fallback synthesizer when external network calls fail safely
-      LLMRouter.isGroqUnavailable = true;
 
-      const result = await llmRouter.summarize(
+      const result = await llmRouter.generateSummary(
         'HDFC Bank reported net profit of ₹16,821 Cr for the quarter ended December 31, representing YoY growth of 33%. Net interest income grew 24% to ₹28,470 Cr.',
         { headline: 'HDFC Bank Q3 Net Profit Rises 33%', company: 'HDFC Bank', symbol: 'HDFCBANK' }
       );
@@ -196,16 +195,14 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
       expect(['Local Fallback', 'Gemini', 'Groq']).toContain(result.providerUsed);
 
       // Restore
-      LLMRouter.isGroqUnavailable = false;
       process.env.GROQ_API_KEY = originalGroqKey;
       process.env.GEMINI_API_KEY = originalGeminiKey;
     });
 
     it('should generate structured Athena Intelligence via Local fallback safely', async () => {
-      const llmRouter = LLMRouter.getInstance();
-      LLMRouter.isGroqUnavailable = true;
+      const llmRouter = NewsAIService.getInstance();
 
-      const result = await llmRouter.generateAthenaIntelligence(
+      const result = await llmRouter.generateSummary(
         'Structured Data: {"metadata":{"headline":"L&T Wins ₹7500 Cr Order"},"structuredMetrics":[{"metric":"Order Value","value":"₹7500 Cr"}]}',
         { headline: 'L&T Wins ₹7500 Cr Order', company: 'Larsen & Toubro', symbol: 'LT' }
       );
@@ -215,7 +212,6 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
       expect(result.intelligence.confidenceScore).toBeGreaterThan(0.7);
       expect(result.intelligence.companiesAffected.length).toBeGreaterThan(0);
 
-      LLMRouter.isGroqUnavailable = false;
     });
   });
 
@@ -304,7 +300,7 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
     });
 
     it('should return complete observability metrics in AIRouter.getStatus()', () => {
-      const router = AIRouter.getInstance();
+      const router = NewsAIService.getInstance();
       const status = router.getStatus();
 
       expect(status.timestamp).toBeDefined();

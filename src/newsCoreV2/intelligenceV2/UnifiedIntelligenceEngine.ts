@@ -522,8 +522,8 @@ export class UnifiedIntelligenceEngine {
     if (cached) return cached;
 
     try {
-      const { AIRouter } = await import("../../news/AI/AIRouter.ts");
-      const router = AIRouter.getInstance();
+      const { NewsAIService } = await import("../../news/AI/NewsAIService.ts");
+      const router = NewsAIService.getInstance();
       
       const metricsList = record.financialMetrics.map(m => m.name + ": " + m.displayText).join(" | ");
       const body = article.body || "";

@@ -1,7 +1,7 @@
 import assert from "assert";
 import { UnifiedIntelligenceEngine } from "../intelligenceV2/UnifiedIntelligenceEngine.ts";
 import { NewsArticleV2 } from "../domain/NewsArticle.ts";
-import { AIRouter } from "../../news/AI/AIRouter.ts";
+import { NewsAIService } from "../../news/AI/NewsAIService.ts";
 
 export async function runPhase23_6RegressionSuite() {
   let passed = 0;
@@ -36,7 +36,7 @@ export async function runPhase23_6RegressionSuite() {
   // TEST 85: Grok + Gemini failure -> LocalProvider.
   // Tested naturally via AIRouter implementation. We check router logic.
   try {
-     const router = AIRouter.getInstance();
+     const router = NewsAIService.getInstance();
      assert.ok(typeof router.generateSummary === "function", "TEST 83-85: AIRouter exports generateSummary with fallback logic");
      passed += 3;
   } catch(e) { console.error("TEST 83-85 FAILED:", e); failed += 3; }

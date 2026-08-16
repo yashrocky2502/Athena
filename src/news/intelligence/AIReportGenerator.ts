@@ -1,4 +1,4 @@
-import { AIRouter } from '../AI/AIRouter';
+import { NewsAIService } from "../AI/NewsAIService";
 import { SymbolExtractor, ExtractedEntity } from './SymbolExtractor';
 import { SectorIndexMapper } from './SectorIndexMapper';
 import { FOIntelligenceEngine, DirectionalBias } from './FOIntelligenceEngine';
@@ -31,7 +31,7 @@ export interface AIIntelligenceReport {
 }
 
 export class AIReportGenerator {
-  private static aiRouter = AIRouter.getInstance();
+  private static aiRouter = NewsAIService.getInstance();
 
   public static async generateReport(
     title: string,

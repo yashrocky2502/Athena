@@ -8,7 +8,6 @@ import { TelegramMultiChannelRouter } from '../NewsEngineV3/distribution/telegra
 import { IngestionFailureRegistry } from '../NewsEngineV3/observability/IngestionFailureRegistry';
 import { mapV3StoryToNewsArticle } from '../models/mapV3Story';
 import { NewsArticle } from '../models/NewsArticle';
-import { LLMRouter } from '../../services/LLMRouter';
 
 export const v3Router = Router();
 
