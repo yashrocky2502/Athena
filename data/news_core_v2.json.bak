@@ -1,5 +1,197 @@
 [
   {
+    "id": "v2_9487b7e484929669",
+    "canonicalUrl": "https://www.livemint.com/market/ipo/srk-sachin-tendulkar-madhuri-dixit-owned-purple-style-may-launch-660-crore-ipo-this-month-11786871581008.html",
+    "headline": "SRK, Sachin Tendulkar, Madhuri Dixit-owned Purple Style may launch ₹660 crore IPO this month",
+    "body": "Upcoming IPO: According to the DRHP, the proposed Purple Style IPO will comprise a fresh issue of up to ₹660 crore, with no offer-for-sale component.",
+    "source": {
+      "publisher": "LiveMint",
+      "url": "https://www.livemint.com/market/ipo/srk-sachin-tendulkar-madhuri-dixit-owned-purple-style-may-launch-660-crore-ipo-this-month-11786871581008.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T10:02:23.000Z",
+    "collectedAt": "2026-08-16T10:07:09.568Z",
+    "category": "IPO",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "IPO",
+    "secondaryCategories": [],
+    "eventType": "IPO",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[IPO] IPO indicators matched in headline (1)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_a5c3baa4f499da57",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNM2YyTkZOMWpGMUhCYTRqU0d2REI0NFl6N1UxZXljZlRCVDk2NVVqOVVZb280Wm9FOHBRNGRkVTNKZVA4SmU3R3pMbUtjRm1jNnZVSlg0Snd0bFUxVzRFRUZVTzB3ZUhwN2dwd0Z1RWY4S0hMa0FoZW11NnJWREFoREVwNlpHVXZqT0xGajFDRFRWcWpmTGhwd3ptLXBiLVV3VHVxNTV3eVpDMHJtaDVEN3JnWWVJVTVpVkU5N3lGSmxqbmoyb1NNY1NSVlJVVXgza2VaWWQ1TFUweWtpaW45Q9IB4AFBVV95cUxNM2YyTkZOMWpGMUhCYTRqU0d2REI0NFl6N1UxZXljZlRCVDk2NVVqOVVZb280Wm9FOHBRNGRkVTNKZVA4SmU3R3pMbUtjRm1jNnZVSlg0Snd0bFUxVzRFRUZVTzB3ZUhwN2dwd0Z1RWY4S0hMa0FoZW11NnJWREFoREVwNlpHVXZqT0xGajFDRFRWcWpmTGhwd3ptLXBiLVV3VHVxNTV3eVpDMHJtaDVEN3JnWWVJVTVpVkU5N3lGSmxqbmoyb1NNY1NSVlJVVXgza2VaWWQ1TFUweWtpaW45Qw?oc=5",
+    "headline": "Delhi HC to hear on Monday CBI's challenge to discharge of Arvind Kejriwal in excise case - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi4AFBVV95cUxNM2YyTkZOMWpGMUhCYTRqU0d2REI0NFl6N1UxZXljZlRCVDk2NVVqOVVZb280Wm9FOHBRNGRkVTNKZVA4SmU3R3pMbUtjRm1jNnZVSlg0Snd0bFUxVzRFRUZVTzB3ZUhwN2dwd0Z1RWY4S0hMa0FoZW11NnJWREFoREVwNlpHVXZqT0xGajFDRFRWcWpmTGhwd3ptLXBiLVV3VHVxNTV3eVpDMHJtaDVEN3JnWWVJVTVpVkU5N3lGSmxqbmoyb1NNY1NSVlJVVXgza2VaWWQ1TFUweWtpaW45Q9IB4AFBVV95cUxNM2YyTkZOMWpGMUhCYTRqU0d2REI0NFl6N1UxZXljZlRCVDk2NVVqOVVZb280Wm9FOHBRNGRkVTNKZVA4SmU3R3pMbUtjRm1jNnZVSlg0Snd0bFUxVzRFRUZVTzB3ZUhwN2dwd0Z1RWY4S0hMa0FoZW11NnJWREFoREVwNlpHVXZqT0xGajFDRFRWcWpmTGhwd3ptLXBiLVV3VHVxNTV3eVpDMHJtaDVEN3JnWWVJVTVpVkU5N3lGSmxqbmoyb1NNY1NSVlJVVXgza2VaWWQ1TFUweWtpaW45Qw?oc=5\" target=\"_blank\">Delhi HC to hear on Monday CBI's challenge to discharge of Arvind Kejriwal in excise case</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNM2YyTkZOMWpGMUhCYTRqU0d2REI0NFl6N1UxZXljZlRCVDk2NVVqOVVZb280Wm9FOHBRNGRkVTNKZVA4SmU3R3pMbUtjRm1jNnZVSlg0Snd0bFUxVzRFRUZVTzB3ZUhwN2dwd0Z1RWY4S0hMa0FoZW11NnJWREFoREVwNlpHVXZqT0xGajFDRFRWcWpmTGhwd3ptLXBiLVV3VHVxNTV3eVpDMHJtaDVEN3JnWWVJVTVpVkU5N3lGSmxqbmoyb1NNY1NSVlJVVXgza2VaWWQ1TFUweWtpaW45Q9IB4AFBVV95cUxNM2YyTkZOMWpGMUhCYTRqU0d2REI0NFl6N1UxZXljZlRCVDk2NVVqOVVZb280Wm9FOHBRNGRkVTNKZVA4SmU3R3pMbUtjRm1jNnZVSlg0Snd0bFUxVzRFRUZVTzB3ZUhwN2dwd0Z1RWY4S0hMa0FoZW11NnJWREFoREVwNlpHVXZqT0xGajFDRFRWcWpmTGhwd3ptLXBiLVV3VHVxNTV3eVpDMHJtaDVEN3JnWWVJVTVpVkU5N3lGSmxqbmoyb1NNY1NSVlJVVXgza2VaWWQ1TFUweWtpaW45Qw?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T09:49:35.000Z",
+    "collectedAt": "2026-08-16T09:55:53.651Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_a23a7642a876f89e",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxOYWphVDJ0TmlWYXE2OVZka2t4U3gtTmhfa0xRU3A0Sml2N2E5ZXdaWkNJLVFuWExwQk1CMEZ6UE84ajJZZElwQXlTUzRSdTBvdGRBbHBESkdoRjJWQ3RoZ18ta01PQ1JpNkRLMlJBX2J2S1JzMldramV5RDNNUGVSUmwwY1VkWlZjWTkxaTJVZFdxZ0ttV1Y3Y1pDeVhSMFFpSHNJdVNVVmJ6VDRfZnpQSkUtc2tlUmVXcU4zMGgtS01STlBPYy1FOXQyaEtYQmpRVHNwYXFiYloycnBnakNlQVQ4SHLSAeoBQVVfeXFMUGJPUUlheUllZjdXUVlKUWM0Y3Fid2c0aEI3X2ZkT0NwRGl1Yk1hZWpPTEdRTmVMRWZUQVMxTmZIcUtQRXNwUXJQOTFGaV9NU1dmelN6ZFVlaWt3TTdpOEh1ZkRvd3lJNFMxNG9lb0xzeGNlUnY5aFlRSWx4NGNkR1Z6a1ZiUkp6eGpfZ1ZsQTZTdDl4THdFM3ZzNlRTRG9ULTEwWk1qTERrX0lqMkZjcUNYSnJfXzdFY1B6bk9JWkhXMFBPRlRySVF6QkFQTENwejNqTXktaVpGemR2SnRLbWRRbTgwWHNrOXVB?oc=5",
+    "headline": "Govt departments setting up quick response teams to counter misleading, fake social media content - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi5AFBVV95cUxOYWphVDJ0TmlWYXE2OVZka2t4U3gtTmhfa0xRU3A0Sml2N2E5ZXdaWkNJLVFuWExwQk1CMEZ6UE84ajJZZElwQXlTUzRSdTBvdGRBbHBESkdoRjJWQ3RoZ18ta01PQ1JpNkRLMlJBX2J2S1JzMldramV5RDNNUGVSUmwwY1VkWlZjWTkxaTJVZFdxZ0ttV1Y3Y1pDeVhSMFFpSHNJdVNVVmJ6VDRfZnpQSkUtc2tlUmVXcU4zMGgtS01STlBPYy1FOXQyaEtYQmpRVHNwYXFiYloycnBnakNlQVQ4SHLSAeoBQVVfeXFMUGJPUUlheUllZjdXUVlKUWM0Y3Fid2c0aEI3X2ZkT0NwRGl1Yk1hZWpPTEdRTmVMRWZUQVMxTmZIcUtQRXNwUXJQOTFGaV9NU1dmelN6ZFVlaWt3TTdpOEh1ZkRvd3lJNFMxNG9lb0xzeGNlUnY5aFlRSWx4NGNkR1Z6a1ZiUkp6eGpfZ1ZsQTZTdDl4THdFM3ZzNlRTRG9ULTEwWk1qTERrX0lqMkZjcUNYSnJfXzdFY1B6bk9JWkhXMFBPRlRySVF6QkFQTENwejNqTXktaVpGemR2SnRLbWRRbTgwWHNrOXVB?oc=5\" target=\"_blank\">Govt departments setting up quick response teams to counter misleading, fake social media content</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxOYWphVDJ0TmlWYXE2OVZka2t4U3gtTmhfa0xRU3A0Sml2N2E5ZXdaWkNJLVFuWExwQk1CMEZ6UE84ajJZZElwQXlTUzRSdTBvdGRBbHBESkdoRjJWQ3RoZ18ta01PQ1JpNkRLMlJBX2J2S1JzMldramV5RDNNUGVSUmwwY1VkWlZjWTkxaTJVZFdxZ0ttV1Y3Y1pDeVhSMFFpSHNJdVNVVmJ6VDRfZnpQSkUtc2tlUmVXcU4zMGgtS01STlBPYy1FOXQyaEtYQmpRVHNwYXFiYloycnBnakNlQVQ4SHLSAeoBQVVfeXFMUGJPUUlheUllZjdXUVlKUWM0Y3Fid2c0aEI3X2ZkT0NwRGl1Yk1hZWpPTEdRTmVMRWZUQVMxTmZIcUtQRXNwUXJQOTFGaV9NU1dmelN6ZFVlaWt3TTdpOEh1ZkRvd3lJNFMxNG9lb0xzeGNlUnY5aFlRSWx4NGNkR1Z6a1ZiUkp6eGpfZ1ZsQTZTdDl4THdFM3ZzNlRTRG9ULTEwWk1qTERrX0lqMkZjcUNYSnJfXzdFY1B6bk9JWkhXMFBPRlRySVF6QkFQTENwejNqTXktaVpGemR2SnRLbWRRbTgwWHNrOXVB?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T09:40:38.000Z",
+    "collectedAt": "2026-08-16T09:50:53.739Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Govt departments setting up quick response teams to counter misleading, fake social media content - Moneycontrol.com. <a href=\"https://news.google.com/rss/articles/CBMi5AFBVV95cUxOYWphVDJ0TmlWYXE2OVZka2t4U3gtTmhfa0xRU3A0Sml2N2E5ZXdaWkNJLVFuWExwQk1CMEZ6UE84ajJZZElwQXlTUzRSdTBvdGRBbHBESkdoRjJWQ3RoZ18ta01PQ1JpNkRLMlJBX2J2S1JzMldramV5RDNNUGVSUmwwY1VkWlZjWTkxaTJVZFdxZ0ttV1Y3Y1pDeVhSMFFpSHNJdVNVVmJ6VDRfZnpQSkUtc2tlUmVXcU4zMGgtS01STlBPYy1FOXQyaEtYQmpRVHNwYXFiYloycnBnakNlQVQ4SHLSAeoBQVVfeXFMUGJPUUlheUllZjdXUVlKUWM0Y3Fid2c0aEI3X2ZkT0NwRGl1Yk1hZWpPTEdRTmVMRWZUQVMxTmZIcUtQRXNwUXJQOTFGaV9NU1dmelN6ZFVlaWt3TTdpOEh1ZkRvd3lJNFMxNG9lb0xzeGNlUnY5aFlRSWx4NGNkR1Z6a1ZiUkp6eGpfZ1ZsQTZTdDl4THdFM3ZzNlRTRG9ULTEwWk1qTERrX0lqMkZjcUNYSnJfXzdFY1B6bk9JWkhXMFBPRlRySVF6QkFQTENwejNqTXktaVpGemR2SnRLbWRRbTgwWHNrOXVB?oc=5\" target=\"_blank\">Govt departments setting up quick response teams to counter misleading, fake social media content</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "whatChanged": [
+      "Govt departments setting up quick response teams to counter misleading, fake social media content - Moneycontrol.com"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_0ee1c073e4fcb6ae",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNaTluTDlQYndITDIweFBHZnVuUC15OUlIZlJpd3lFX0dwcDJwYXdxeF9SMUsya1JiZDJ5aXBHcnNEMFdZQ3lEc29STFo0N1FEMHdJV2g3eDVzbkUzTjhLbzZaSjIzY2FGWU9uaVp4OVpfTHRaZGpaTDh0ZVFMRXVrbUI2LTBabFVuR29ZMFNOS09vc0UzU3lmc0JIc0VrNG9mekxMVnRUZmNVSXlRRVgzOTVVTHRXczdVQng5RUk0YUhkVE1OamxnbExEeDQ1enVORk1wdVBDNTNtZ0ZZT0JCStIB5gFBVV95cUxQOGtQRTBpNEpfN0EtN0JBSGNja3N2bGp3clBsZlhadlVXMzhTX2puY2JFdDl1aGJlR0s3V1RZNVVuVmluTVp4aE04UEJELUFqb1RRTl9QY0VQSWJTcW1DWFZ3UnRIMW4tdXFmNlVVaXRXei1oWFh4QVpFckRVZVpqM2FfQldyeG9Rejh1NEpYeldkazI3LS1lRFJxWGhfMmxxT0h3V3ZRUWl1aER6MjNta3ZXZWI3TVdKUnc2cXgwaUI5N0NOUnkwVmVMZXpXU3R6c2FtclRvR1h0Z0JQTEZxQkFFTWpKdw?oc=5",
+    "headline": "Indian-origin billionaire CEO wakes at 4.30 am, works on Sundays: 'I was kind of built that way' - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi4AFBVV95cUxNaTluTDlQYndITDIweFBHZnVuUC15OUlIZlJpd3lFX0dwcDJwYXdxeF9SMUsya1JiZDJ5aXBHcnNEMFdZQ3lEc29STFo0N1FEMHdJV2g3eDVzbkUzTjhLbzZaSjIzY2FGWU9uaVp4OVpfTHRaZGpaTDh0ZVFMRXVrbUI2LTBabFVuR29ZMFNOS09vc0UzU3lmc0JIc0VrNG9mekxMVnRUZmNVSXlRRVgzOTVVTHRXczdVQng5RUk0YUhkVE1OamxnbExEeDQ1enVORk1wdVBDNTNtZ0ZZT0JCStIB5gFBVV95cUxQOGtQRTBpNEpfN0EtN0JBSGNja3N2bGp3clBsZlhadlVXMzhTX2puY2JFdDl1aGJlR0s3V1RZNVVuVmluTVp4aE04UEJELUFqb1RRTl9QY0VQSWJTcW1DWFZ3UnRIMW4tdXFmNlVVaXRXei1oWFh4QVpFckRVZVpqM2FfQldyeG9Rejh1NEpYeldkazI3LS1lRFJxWGhfMmxxT0h3V3ZRUWl1aER6MjNta3ZXZWI3TVdKUnc2cXgwaUI5N0NOUnkwVmVMZXpXU3R6c2FtclRvR1h0Z0JQTEZxQkFFTWpKdw?oc=5\" target=\"_blank\">Indian-origin billionaire CEO wakes at 4.30 am, works on Sundays: 'I was kind of built that way'</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNaTluTDlQYndITDIweFBHZnVuUC15OUlIZlJpd3lFX0dwcDJwYXdxeF9SMUsya1JiZDJ5aXBHcnNEMFdZQ3lEc29STFo0N1FEMHdJV2g3eDVzbkUzTjhLbzZaSjIzY2FGWU9uaVp4OVpfTHRaZGpaTDh0ZVFMRXVrbUI2LTBabFVuR29ZMFNOS09vc0UzU3lmc0JIc0VrNG9mekxMVnRUZmNVSXlRRVgzOTVVTHRXczdVQng5RUk0YUhkVE1OamxnbExEeDQ1enVORk1wdVBDNTNtZ0ZZT0JCStIB5gFBVV95cUxQOGtQRTBpNEpfN0EtN0JBSGNja3N2bGp3clBsZlhadlVXMzhTX2puY2JFdDl1aGJlR0s3V1RZNVVuVmluTVp4aE04UEJELUFqb1RRTl9QY0VQSWJTcW1DWFZ3UnRIMW4tdXFmNlVVaXRXei1oWFh4QVpFckRVZVpqM2FfQldyeG9Rejh1NEpYeldkazI3LS1lRFJxWGhfMmxxT0h3V3ZRUWl1aER6MjNta3ZXZWI3TVdKUnc2cXgwaUI5N0NOUnkwVmVMZXpXU3R6c2FtclRvR1h0Z0JQTEZxQkFFTWpKdw?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T09:33:20.000Z",
+    "collectedAt": "2026-08-16T09:44:11.311Z",
+    "category": "Corporate",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Corporate",
+    "secondaryCategories": [],
+    "eventType": "MANAGEMENT_COMMENTARY",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Corporate] Corporate action/order win keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_630e81a353f51493",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOSF8wOEQ0RmRobkNjbmI4MEFvVm9BQUhfcjRfOExSTXktb09RWEVOOFVLN3lVdU5TNElZY3Fma2NPSEplMHZqeDVxY0ljM1g4UWtMdEJNS1RHNkhfQVVhV0Z5OWhJdElfNF8wWkFDU3puMUVjTmZ2d2k1V21qYzNYM2xqTkJvd05fbGR2cEhyRDhnSm1kZ0Zady1zQ3lHNXlLVUhOaC1vQjh0aTlkQzd4bWhuYVBhaUc1SFpJemczM1FiWE9MY0IyV0F6NFTSAdIBQVVfeXFMUENZRzZ0U0xCMU4zNVlzblBMRHBxYXdKVHV0MnplMHAtUENpamhhOUgyODA1QThZUUZZTWNReHNMaVYtTTk1dW1XbzVLcm1WazVYbE5MNGsxaXFpdDdPVk9kem4xVGZ1aGUxSzJUZnhUZVJadXQ3YjV3ZXAwNWlZWTJsZFJKeV9IWWpsTUdnLW5QVW5jd3JydDVpNmtONTN3RzFkS1FHaENqbzBQRm5JMDFUYnE4NzgzN1l2Y3d0QnZ3a3p6TDZXS3lQblhGbnppRDlR?oc=5",
+    "headline": "Amit Shah slams Sonia Gandhi over Vande Mataram row, says 'sin won't be forgiven' - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMizAFBVV95cUxOSF8wOEQ0RmRobkNjbmI4MEFvVm9BQUhfcjRfOExSTXktb09RWEVOOFVLN3lVdU5TNElZY3Fma2NPSEplMHZqeDVxY0ljM1g4UWtMdEJNS1RHNkhfQVVhV0Z5OWhJdElfNF8wWkFDU3puMUVjTmZ2d2k1V21qYzNYM2xqTkJvd05fbGR2cEhyRDhnSm1kZ0Zady1zQ3lHNXlLVUhOaC1vQjh0aTlkQzd4bWhuYVBhaUc1SFpJemczM1FiWE9MY0IyV0F6NFTSAdIBQVVfeXFMUENZRzZ0U0xCMU4zNVlzblBMRHBxYXdKVHV0MnplMHAtUENpamhhOUgyODA1QThZUUZZTWNReHNMaVYtTTk1dW1XbzVLcm1WazVYbE5MNGsxaXFpdDdPVk9kem4xVGZ1aGUxSzJUZnhUZVJadXQ3YjV3ZXAwNWlZWTJsZFJKeV9IWWpsTUdnLW5QVW5jd3JydDVpNmtONTN3RzFkS1FHaENqbzBQRm5JMDFUYnE4NzgzN1l2Y3d0QnZ3a3p6TDZXS3lQblhGbnppRDlR?oc=5\" target=\"_blank\">Amit Shah slams Sonia Gandhi over Vande Mataram row, says 'sin won't be forgiven'</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOSF8wOEQ0RmRobkNjbmI4MEFvVm9BQUhfcjRfOExSTXktb09RWEVOOFVLN3lVdU5TNElZY3Fma2NPSEplMHZqeDVxY0ljM1g4UWtMdEJNS1RHNkhfQVVhV0Z5OWhJdElfNF8wWkFDU3puMUVjTmZ2d2k1V21qYzNYM2xqTkJvd05fbGR2cEhyRDhnSm1kZ0Zady1zQ3lHNXlLVUhOaC1vQjh0aTlkQzd4bWhuYVBhaUc1SFpJemczM1FiWE9MY0IyV0F6NFTSAdIBQVVfeXFMUENZRzZ0U0xCMU4zNVlzblBMRHBxYXdKVHV0MnplMHAtUENpamhhOUgyODA1QThZUUZZTWNReHNMaVYtTTk1dW1XbzVLcm1WazVYbE5MNGsxaXFpdDdPVk9kem4xVGZ1aGUxSzJUZnhUZVJadXQ3YjV3ZXAwNWlZWTJsZFJKeV9IWWpsTUdnLW5QVW5jd3JydDVpNmtONTN3RzFkS1FHaENqbzBQRm5JMDFUYnE4NzgzN1l2Y3d0QnZ3a3p6TDZXS3lQblhGbnppRDlR?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T09:15:41.000Z",
+    "collectedAt": "2026-08-16T09:23:28.673Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_75daefff95c575d1",
+    "canonicalUrl": "https://www.livemint.com/market/ipo/upcoming-ipos-lalithaa-jewellery-mart-ipo-horizon-industrial-parks-ipo-among-8-new-issues-to-open-next-week-11786867799412.html",
+    "headline": "Upcoming IPOs: Lalithaa Jewellery Mart IPO, Horizon Industrial Parks IPO among 8 new issues to open next week",
+    "body": "Among mainboard segment - Lalithaa Jewellery Mart IPO, Horizon Industrial Parks IPO, Sunshine Pictures IPO are among the six companies to raise over ₹5,499 crore via IPO next week.",
+    "source": {
+      "publisher": "LiveMint",
+      "url": "https://www.livemint.com/market/ipo/upcoming-ipos-lalithaa-jewellery-mart-ipo-horizon-industrial-parks-ipo-among-8-new-issues-to-open-next-week-11786867799412.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T08:59:59.000Z",
+    "collectedAt": "2026-08-16T09:04:44.488Z",
+    "category": "IPO",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "IPO",
+    "secondaryCategories": [],
+    "eventType": "IPO",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[IPO] IPO indicators matched in headline (1)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
     "id": "v2_0e64e0eab0455d94",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMizwFBVV95cUxObTFtOW84NlhaakRNazBhZG5GdzZVdnBWcE5IMFI2YklkZEhITkg3TFV1bjI2M21WSFlZaGRPRDlUbEhHcWl0dDhfeVZsQzN6VzMwenZ4Z2RfMlhSM2FYM2xlcTFuSTRYb1UtVDAxTHFVUW9mYjR1enhOQ29Pb3lnNWd3TGNVMjFnamU3RGNMMFBoZFRNM2RXR3dteXlkeUp0WEpPREpmU0hCOEJiSWZyak4za2xwVFV4TDdRR0hlcTlTVmRTZEdMOG13eVpMd1nSAdQBQVVfeXFMT19YcVVzWjcwOGdqbmdxVGE0cWNpQi1XSDNlZEd4ZUhwOEh6S0ZBTWlBVGRNY0N3aFgxUFZtTXBzRURjQ1RmcVZzTXd3N2JvaFh5bzluLWo4V1RFRmFyOGRjSWhvLUFmZm9kcFVoWFVHS0VXM1QwQ0NDVFczbE91bjVoWFlUMjdpZ2VZQnpvMGhEX3pZMzJXOUNMSFctdHhWVTNWSEdNV1NqZDk1ZUFoVDdOZV80NlJyRENmWjY0aTJxcG9WZzMtV3FQVnlrNHFGVHRZRFk?oc=5",
     "headline": "Nifty Outlook for August 17: Weakness persists after four-day fall; 24,200-24,250 key support - CNBC TV18",
@@ -1925,6 +2117,48 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_9c8af9d6368b6b05",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPQVZOay16N1phQXBRT1hRQWd5eWZZbTNPcmlJQk41VDZoZWxHb0NUb1FySlNWSERyWG40TVZOWXJLclA4bUV4OVJITzlEZDlEMWlHbGJnME4tcEhNYzJEcmtaRHh5YVhoR01YcGJCaW5kbnhSamE2NGpRVllFVVhwMG5ENzFHcm0zS3BSU3N1b1VSZ3phbWZZS0MtZHpKZW5tMjE3NjFhNENXeE8ycktNWWRNc1NYU2VoOThGM0N0OE9DZi1aVFpPVDFn0gHPAUFVX3lxTE5KODFZdUlQcXNqNkUtNHlvRUNIZkFMRnJqNjZzM2JEV21CV0Iyam53VkJFNmFINHpSM3JVWkJrSG00UGtNbXp3YkdFRk9sODg3RW5aTkhwWWlSODdZSEd6VUg4eXBpMHM0WHVnRW5LMHJFaUN2LUtjVEtsd05heklmWDhGNGl6X2tVMWZtaURPUzA0MXFzR05ab19Nc3BGTUN0MGEwaXBCbFpCMk9qQzI2ZWRuZnZ3cFFodVJYQjJKb0dCOGJqS3ZxSFJSTExyYw?oc=5",
+    "headline": "Hopes fade in Colombia as more bodies recovered days after powerful quake - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxPQVZOay16N1phQXBRT1hRQWd5eWZZbTNPcmlJQk41VDZoZWxHb0NUb1FySlNWSERyWG40TVZOWXJLclA4bUV4OVJITzlEZDlEMWlHbGJnME4tcEhNYzJEcmtaRHh5YVhoR01YcGJCaW5kbnhSamE2NGpRVllFVVhwMG5ENzFHcm0zS3BSU3N1b1VSZ3phbWZZS0MtZHpKZW5tMjE3NjFhNENXeE8ycktNWWRNc1NYU2VoOThGM0N0OE9DZi1aVFpPVDFn0gHPAUFVX3lxTE5KODFZdUlQcXNqNkUtNHlvRUNIZkFMRnJqNjZzM2JEV21CV0Iyam53VkJFNmFINHpSM3JVWkJrSG00UGtNbXp3YkdFRk9sODg3RW5aTkhwWWlSODdZSEd6VUg4eXBpMHM0WHVnRW5LMHJFaUN2LUtjVEtsd05heklmWDhGNGl6X2tVMWZtaURPUzA0MXFzR05ab19Nc3BGTUN0MGEwaXBCbFpCMk9qQzI2ZWRuZnZ3cFFodVJYQjJKb0dCOGJqS3ZxSFJSTExyYw?oc=5\" target=\"_blank\">Hopes fade in Colombia as more bodies recovered days after powerful quake</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPQVZOay16N1phQXBRT1hRQWd5eWZZbTNPcmlJQk41VDZoZWxHb0NUb1FySlNWSERyWG40TVZOWXJLclA4bUV4OVJITzlEZDlEMWlHbGJnME4tcEhNYzJEcmtaRHh5YVhoR01YcGJCaW5kbnhSamE2NGpRVllFVVhwMG5ENzFHcm0zS3BSU3N1b1VSZ3phbWZZS0MtZHpKZW5tMjE3NjFhNENXeE8ycktNWWRNc1NYU2VoOThGM0N0OE9DZi1aVFpPVDFn0gHPAUFVX3lxTE5KODFZdUlQcXNqNkUtNHlvRUNIZkFMRnJqNjZzM2JEV21CV0Iyam53VkJFNmFINHpSM3JVWkJrSG00UGtNbXp3YkdFRk9sODg3RW5aTkhwWWlSODdZSEd6VUg4eXBpMHM0WHVnRW5LMHJFaUN2LUtjVEtsd05heklmWDhGNGl6X2tVMWZtaURPUzA0MXFzR05ab19Nc3BGTUN0MGEwaXBCbFpCMk9qQzI2ZWRuZnZ3cFFodVJYQjJKb0dCOGJqS3ZxSFJSTExyYw?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-16T03:22:12.000Z",
+    "collectedAt": "2026-08-16T10:06:11.049Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Hopes fade in Colombia as more bodies recovered days after powerful quake - Moneycontrol.com. <a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxPQVZOay16N1phQXBRT1hRQWd5eWZZbTNPcmlJQk41VDZoZWxHb0NUb1FySlNWSERyWG40TVZOWXJLclA4bUV4OVJITzlEZDlEMWlHbGJnME4tcEhNYzJEcmtaRHh5YVhoR01YcGJCaW5kbnhSamE2NGpRVllFVVhwMG5ENzFHcm0zS3BSU3N1b1VSZ3phbWZZS0MtZHpKZW5tMjE3NjFhNENXeE8ycktNWWRNc1NYU2VoOThGM0N0OE9DZi1aVFpPVDFn0gHPAUFVX3lxTE5KODFZdUlQcXNqNkUtNHlvRUNIZkFMRnJqNjZzM2JEV21CV0Iyam53VkJFNmFINHpSM3JVWkJrSG00UGtNbXp3YkdFRk9sODg3RW5aTkhwWWlSODdZSEd6VUg4eXBpMHM0WHVnRW5LMHJFaUN2LUtjVEtsd05heklmWDhGNGl6X2tVMWZtaURPUzA0MXFzR05ab19Nc3BGTUN0MGEwaXBCbFpCMk9qQzI2ZWRuZnZ3cFFodVJYQjJKb0dCOGJqS3ZxSFJSTExyYw?oc=5\" target=\"_blank\">Hopes fade in Colombia as more bodies recovered days after powerful quake</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "whatChanged": [
+      "Hopes fade in Colombia as more bodies recovered days after powerful quake - Moneycontrol.com"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_ef4e2a6e4f8b4be6",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQQ1pYMDNTd0g5RmZfNkJ3cUVTejZyUF9YR2ZEZkNWbGhPTm9jcXJ0ZGpSRjJUVmJuNV9ZeWZjb2U3ZWE0aXlwSmRKQmhPa1JjR1FsQVBLWWhZb19QMTVzTkxiNjNtQmNOMnhLSlVDZ0JwdTNyQ2JaZllvNFktUmR0Ym5hdjQ5bmZUQ2VfR3RZMHZzVlhhSWdDNnhuYk1pN19wXzdncVFlU3k4OXFoa1lTUmtrRWUyaGVic1BXejhjOGxJbU5JWHNr0gHMAUFVX3lxTE44bmp3eTRJelNyVm8wV2E5ZS1Ua3I2NmhBVElrM3J1QlM0VnJfd19GUTBDVzlKSFlJc1ExcEpDUHRBTmtCTHlHUnZCV19xVnpTUTVoTVB6NW5WdHNkUGZ3bGlodGowQm9pM3JDRXVvX3Y0LWtXSFpzQmtmNEw2VGVXaThOX1pKaFpMTWRsZE0yb0hCZ3hTeWotdVB6cTlRaFRaeERVWnVPeDJCT2x1RzA0LXhQYk1pVG9heDhJRlpMbFBHRk9NZ0JfaWpYag?oc=5",
     "headline": "North Korea's Kim, Russia's Putin reaffirm ties on Korean Liberation Day - Moneycontrol.com",
@@ -2460,6 +2694,36 @@
     ],
     "summaryConfidence": 60,
     "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_15b66bc74b49e32b",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMifkFVX3lxTE44UnVBVGtzdXY2b3FoVU5RYURyUnN4bWE3NGFMcGcyaGZVR2lPRmJ2QjJDVkZOU09Qenl6SlNSSnBPeGg0eEdwWEJtUUhWY2J0Y0xjQzJfbUhIRHYzbXpJZGdiU2ZPZkRoU2VmZVRWQ2x1b0NxeEJlZ0RwV3g1dw?oc=5",
+    "headline": "From 25 crore to 100 crore in a decade: Prime Minister Narendra Modi highlights India's record social security expansion - PIB",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMifkFVX3lxTE44UnVBVGtzdXY2b3FoVU5RYURyUnN4bWE3NGFMcGcyaGZVR2lPRmJ2QjJDVkZOU09Qenl6SlNSSnBPeGg0eEdwWEJtUUhWY2J0Y0xjQzJfbUhIRHYzbXpJZGdiU2ZPZkRoU2VmZVRWQ2x1b0NxeEJlZ0RwV3g1dw?oc=5\" target=\"_blank\">From 25 crore to 100 crore in a decade: Prime Minister Narendra Modi highlights India's record social security expansion</a> <font color=\"#6f6f6f\">PIB</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE44UnVBVGtzdXY2b3FoVU5RYURyUnN4bWE3NGFMcGcyaGZVR2lPRmJ2QjJDVkZOU09Qenl6SlNSSnBPeGg0eEdwWEJtUUhWY2J0Y0xjQzJfbUhIRHYzbXpJZGdiU2ZPZkRoU2VmZVRWQ2x1b0NxeEJlZ0RwV3g1dw?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-15T16:33:00.000Z",
+    "collectedAt": "2026-08-16T09:30:58.619Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 50,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
   },
   {
     "id": "v2_8985b161712bf1ec",
@@ -14645,6 +14909,48 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_f667479300868644",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5VdmJGNmE0YjlPWkdCUU85YXhnYTZNUExUekhrdE96NEY2M0xDMXFjZU9BNEdEcWZWWlZqSEY3bGhmdlZyQVR0T0o4dkJtQ010bVgxT0U5OENTZFZEQ1NXLWxnZU93b3EwOVI5eFg1OW1xQm9wNjRoUmRaeGFtQQ?oc=5",
+    "headline": "LIST OF IAF HONORARY RANKS AWARDED ON THE OCCASION OF INDEPENDENCE DAY 2026 - PIB",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMifkFVX3lxTE5VdmJGNmE0YjlPWkdCUU85YXhnYTZNUExUekhrdE96NEY2M0xDMXFjZU9BNEdEcWZWWlZqSEY3bGhmdlZyQVR0T0o4dkJtQ010bVgxT0U5OENTZFZEQ1NXLWxnZU93b3EwOVI5eFg1OW1xQm9wNjRoUmRaeGFtQQ?oc=5\" target=\"_blank\">LIST OF IAF HONORARY RANKS AWARDED ON THE OCCASION OF INDEPENDENCE DAY 2026</a> <font color=\"#6f6f6f\">PIB</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5VdmJGNmE0YjlPWkdCUU85YXhnYTZNUExUekhrdE96NEY2M0xDMXFjZU9BNEdEcWZWWlZqSEY3bGhmdlZyQVR0T0o4dkJtQ010bVgxT0U5OENTZFZEQ1NXLWxnZU93b3EwOVI5eFg1OW1xQm9wNjRoUmRaeGFtQQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-08-14T11:01:00.000Z",
+    "collectedAt": "2026-08-16T08:58:10.379Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "LIST OF IAF HONORARY RANKS AWARDED ON THE OCCASION OF INDEPENDENCE DAY 2026 - PIB. <a href=\"https://news.google.com/rss/articles/CBMifkFVX3lxTE5VdmJGNmE0YjlPWkdCUU85YXhnYTZNUExUekhrdE96NEY2M0xDMXFjZU9BNEdEcWZWWlZqSEY3bGhmdlZyQVR0T0o4dkJtQ010bVgxT0U5OENTZFZEQ1NXLWxnZU93b3EwOVI5eFg1OW1xQm9wNjRoUmRaeGFtQQ?oc=5\" target=\"_blank\">LIST OF IAF HONORARY RANKS AWARDED ON THE OCCASION OF INDEPENDENCE DAY 2026</a> <font color=\"#6f6f6f\">PIB</font>",
+    "whatChanged": [
+      "LIST OF IAF HONORARY RANKS AWARDED ON THE OCCASION OF INDEPENDENCE DAY 2026 - PIB"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_2191be173ba70b94",
     "canonicalUrl": "https://www.livemint.com/market/stock-market-news/bharat-dynamics-q1-results-2026-profit-sees-sixfold-increase-revenue-surges-131-yoy-11786705115010.html",
     "headline": "Bharat Dynamics Q1 results: Profit sees sixfold increase, revenue surges 131% YoY",
@@ -25374,333 +25680,4 @@
       "symbol": "NIFTY",
       "confidence": "HIGH",
       "decision": "EXCLUDE",
-      "reason": "Index symbol NIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
-    },
-    "summary": "Nifty Outlook for August 13: Index holds 24,400, but crude and rupee weakness cap upside - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMi0AFBVV95cUxOaE5uMXdaR3Y0b2pMeVQxMk92R0F3Z1Q5TXNKbUVSYUdldU1LMlozRk5FQS1fS21WcVVWUzBwQzZaYmM3c0N4ZENUS1ZrSi1QZmlTSzE2VDhFRmFjWjlpRndULW53c2FRNW9UVzZBdDUxOWtQUW15RXplVVNGZnJtREdfdDRmZ3BVWG9PQXVwVXd3cTFDTGhadGlQZlRGV3pmR0REd1c4OTlWamN1UEhmMFc2emRHemlTN3ZwNXlQVDFMcXhtRTI4Q09nTk55QzI20gHWAUFVX3lxTFBwWDZBRWJMejZKRjE5Q2Z0SE5LdW5uUEh6dTZEdVhDXzQ3VjM1MzBoVHQ5X1UxeU15OXFvSHpBakxCelYwMUhWeW1UV1lZX1VobWkwaXhSSkFqUVNqVDZTbjlHSFdia3ROaG9weTdEMHJQeTllS0xWR0YzZTYzcm9IQ0NDNXRQWWRaNFBDeEYwWnU0ZGpzWFJyWHpDTjlOVmdUNG16ZXUzb3NsYUdrWUFlVUtnSlVzME9ic2V3R2M0N3ZBRzI4anpnWFctWjM3WXl1Q2c5Qmc?oc=5\" target=\"_blank\">Nifty Outlook for August 13: Index holds 24,400, but crude and rupee weakness cap upside</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "whatChanged": [
-      "Nifty Outlook for August 13: Index holds 24,400, but crude and rupee weakness cap upside - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Forward management guidance: Nifty Outlook for August 13: Index holds 24,400, but crude and rupee weakness cap upside - CNBC TV18.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 75,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_3838772c4f5e35b8",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdi1MVFp0V1JoalRheEJRbkwtRG90Rm90bUVVV1Ztc3oxdnFiNTFmOHFya2p0d1RPVGpjM0F1dG5TYkRWQXFFX0I5aHNybi1ycF9OZGpyaFpsVm9fQXhVS2htRk45MW5FYlp4Q1hneGxydGVnYVJaSHVkOUxmUFpaejJwUmlwVEI5SWFwQWNtS01nbm92bXRZN2UtcXBIYkg4d19QR2RaU1NtelVPYVRSZ2QxWUdJZG5hUnfSAb8BQVVfeXFMTWw4UjJxUmFVUGhsQVhGSVAxQkxpVGhSdlVLRkQza1NNSXl2TFpJblJBQzlEalJ1NTlNMXM4TUlfWjN1MVprU0pLRy1vaHFCV2x6U3I4YUd1ZzJfc0wybWJ1VVB0dWdjR2pQeGZneDl2VEdVM21Sc0wzYWFqNlBuQlk2MUptRG0xVm5XU282VEppSWxxQVNyd01EQzVtaUpiN0JhZWRVYmVmSFJFS3Nib2FRN0VVYUZlYUxMYWZicGs?oc=5",
-    "headline": "Earnings Central: Tata Motors, HAL, Grasim and Lenskart lead a mixed Wednesday - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMiugFBVV95cUxNdi1MVFp0V1JoalRheEJRbkwtRG90Rm90bUVVV1Ztc3oxdnFiNTFmOHFya2p0d1RPVGpjM0F1dG5TYkRWQXFFX0I5aHNybi1ycF9OZGpyaFpsVm9fQXhVS2htRk45MW5FYlp4Q1hneGxydGVnYVJaSHVkOUxmUFpaejJwUmlwVEI5SWFwQWNtS01nbm92bXRZN2UtcXBIYkg4d19QR2RaU1NtelVPYVRSZ2QxWUdJZG5hUnfSAb8BQVVfeXFMTWw4UjJxUmFVUGhsQVhGSVAxQkxpVGhSdlVLRkQza1NNSXl2TFpJblJBQzlEalJ1NTlNMXM4TUlfWjN1MVprU0pLRy1vaHFCV2x6U3I4YUd1ZzJfc0wybWJ1VVB0dWdjR2pQeGZneDl2VEdVM21Sc0wzYWFqNlBuQlk2MUptRG0xVm5XU282VEppSWxxQVNyd01EQzVtaUpiN0JhZWRVYmVmSFJFS3Nib2FRN0VVYUZlYUxMYWZicGs?oc=5\" target=\"_blank\">Earnings Central: Tata Motors, HAL, Grasim and Lenskart lead a mixed Wednesday</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdi1MVFp0V1JoalRheEJRbkwtRG90Rm90bUVVV1Ztc3oxdnFiNTFmOHFya2p0d1RPVGpjM0F1dG5TYkRWQXFFX0I5aHNybi1ycF9OZGpyaFpsVm9fQXhVS2htRk45MW5FYlp4Q1hneGxydGVnYVJaSHVkOUxmUFpaejJwUmlwVEI5SWFwQWNtS01nbm92bXRZN2UtcXBIYkg4d19QR2RaU1NtelVPYVRSZ2QxWUdJZG5hUnfSAb8BQVVfeXFMTWw4UjJxUmFVUGhsQVhGSVAxQkxpVGhSdlVLRkQza1NNSXl2TFpJblJBQzlEalJ1NTlNMXM4TUlfWjN1MVprU0pLRy1vaHFCV2x6U3I4YUd1ZzJfc0wybWJ1VVB0dWdjR2pQeGZneDl2VEdVM21Sc0wzYWFqNlBuQlk2MUptRG0xVm5XU282VEppSWxxQVNyd01EQzVtaUpiN0JhZWRVYmVmSFJFS3Nib2FRN0VVYUZlYUxMYWZicGs?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T14:30:33.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "F&O",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "F&O",
-    "secondaryCategories": [],
-    "eventType": "DERIVATIVE_VOLATILITY",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[F&O] F&O Eligible Symbol: TATAMOTORS"
-    ],
-    "fno": {
-      "eligible": true,
-      "symbol": "TATAMOTORS",
-      "confidence": "HIGH",
-      "decision": "INCLUDE",
-      "reason": "Headline alias \"Tata Motors\" matched TATAMOTORS. Tier 2 Catalyst Match: \"earnings\""
-    },
-    "summary": "Earnings Central: Tata Motors, HAL, Grasim and Lenskart lead a mixed Wednesday - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMiugFBVV95cUxNdi1MVFp0V1JoalRheEJRbkwtRG90Rm90bUVVV1Ztc3oxdnFiNTFmOHFya2p0d1RPVGpjM0F1dG5TYkRWQXFFX0I5aHNybi1ycF9OZGpyaFpsVm9fQXhVS2htRk45MW5FYlp4Q1hneGxydGVnYVJaSHVkOUxmUFpaejJwUmlwVEI5SWFwQWNtS01nbm92bXRZN2UtcXBIYkg4d19QR2RaU1NtelVPYVRSZ2QxWUdJZG5hUnfSAb8BQVVfeXFMTWw4UjJxUmFVUGhsQVhGSVAxQkxpVGhSdlVLRkQza1NNSXl2TFpJblJBQzlEalJ1NTlNMXM4TUlfWjN1MVprU0pLRy1vaHFCV2x6U3I4YUd1ZzJfc0wybWJ1VVB0dWdjR2pQeGZneDl2VEdVM21Sc0wzYWFqNlBuQlk2MUptRG0xVm5XU282VEppSWxxQVNyd01EQzVtaUpiN0JhZWRVYmVmSFJFS3Nib2FRN0VVYUZlYUxMYWZicGs?oc=5\" target=\"_blank\">Earnings Central: Tata Motors, HAL, Grasim and Lenskart lead a mixed Wednesday</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "whatChanged": [
-      "Earnings Central: Tata Motors, HAL, Grasim and Lenskart lead a mixed Wednesday - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 75,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_58dca16bd3e20c13",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE44UlRzbURsdWYxYWVaZGhHTXVoRXpHUnNwM0tMUDllcmNrZG13VXBDY0g2d3pFWmJ0UjctUFhaRGFWQWlLSzZKczVyTzV0aEQxcTB0MlhRcGsxUG13VjVuZURjTjBPTnc?oc=5",
-    "headline": "SAIL Share Price Today - Steel Authority of India on NSE/BSE - scanx.trade",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE44UlRzbURsdWYxYWVaZGhHTXVoRXpHUnNwM0tMUDllcmNrZG13VXBDY0g2d3pFWmJ0UjctUFhaRGFWQWlLSzZKczVyTzV0aEQxcTB0MlhRcGsxUG13VjVuZURjTjBPTnc?oc=5\" target=\"_blank\">SAIL Share Price Today - Steel Authority of India on NSE/BSE</a> <font color=\"#6f6f6f\">scanx.trade</font>",
-    "source": {
-      "publisher": "NSE",
-      "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE44UlRzbURsdWYxYWVaZGhHTXVoRXpHUnNwM0tMUDllcmNrZG13VXBDY0g2d3pFWmJ0UjctUFhaRGFWQWlLSzZKczVyTzV0aEQxcTB0MlhRcGsxUG13VjVuZURjTjBPTnc?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T14:17:53.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Exchange",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 85,
-    "primaryCategory": "Exchange",
-    "secondaryCategories": [],
-    "eventType": "EXCHANGE_NOTICE",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Exchange] Exchange regulatory/circular indicators matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": "SAIL",
-      "confidence": "HIGH",
-      "decision": "EXCLUDE",
-      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
-    },
-    "summary": "SAIL Share Price Today - Steel Authority of India on NSE/BSE - scanx.trade. <a href=\"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE44UlRzbURsdWYxYWVaZGhHTXVoRXpHUnNwM0tMUDllcmNrZG13VXBDY0g2d3pFWmJ0UjctUFhaRGFWQWlLSzZKczVyTzV0aEQxcTB0MlhRcGsxUG13VjVuZURjTjBPTnc?oc=5\" target=\"_blank\">SAIL Share Price Today - Steel Authority of India on NSE/BSE</a> <font color=\"#6f6f6f\">scanx.trade</font>",
-    "whatChanged": [
-      "SAIL Share Price Today - Steel Authority of India on NSE/BSE - scanx.trade"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Exchange notice: SAIL Share Price Today - Steel Authority of India on NSE/BSE - scanx.trade.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 75,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_ff577bb67c23f9dc",
-    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-sacu-sign-terms-of-reference-to-launch-trade-talks-south-africa-namibia-botswana-eswatini-lesotho/articleshow/133185222.cms",
-    "headline": "India sets sail to add more trade muscle as it signs PTA terms with SACU",
-    "body": "India and the Southern African Customs Union signed terms to start trade negotiations. This move revives talks after previous rounds stalled between 2002 and 2010. New Delhi seeks tariff relief for key export sectors like automobiles and pharmaceuticals. The union comprises South Africa, Botswana, Namibia, Lesotho, and Eswatini. These renewed discussions aim to boost bilateral trade and economic ties.",
-    "source": {
-      "publisher": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/foreign-trade/india-sacu-sign-terms-of-reference-to-launch-trade-talks-south-africa-namibia-botswana-eswatini-lesotho/articleshow/133185222.cms",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T14:08:35.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 100,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": "SAIL",
-      "confidence": "HIGH",
-      "decision": "EXCLUDE",
-      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
-    },
-    "summary": "India sets sail to add more trade muscle as it signs PTA terms with SACU. India and the Southern African Customs Union signed terms to start trade negotiations.",
-    "whatChanged": [
-      "India sets sail to add more trade muscle as it signs PTA terms with SACU"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 75,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_5e63a6fbdda45fee",
-    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/finance/india-needs-to-step-up-public-investment-to-attract-private-investments-working-paper-by-eac-pm/articleshow/133184575.cms",
-    "headline": "India needs to step up public investment to attract private investments: Working paper by EAC-PM",
-    "body": "Corporate profits and investments in India have recovered after the pandemic. Investment recovery has been slower due to limited innovative firms and profitability pressures. Targeted policy support is needed to encourage private sector investments. Intensifying public infrastructure and R&D spending can boost business confidence. Improving contract enforcement will also reduce overall business uncertainty.",
-    "source": {
-      "publisher": "Economic Times",
-      "url": "https://economictimes.indiatimes.com/news/economy/finance/india-needs-to-step-up-public-investment-to-attract-private-investments-working-paper-by-eac-pm/articleshow/133184575.cms",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T13:52:10.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Corporate",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 100,
-    "primaryCategory": "Corporate",
-    "secondaryCategories": [],
-    "eventType": "CORPORATE_ACTION",
-    "categoryConfidence": "MEDIUM",
-    "classificationEvidence": [
-      "[Corporate] Corporate action/order win keywords matched in body"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "India needs to step up public investment to attract private investments: Working paper by EAC-PM. Corporate profits and investments in India have recovered after the pandemic.",
-    "whatChanged": [
-      "India needs to step up public investment to attract private investments: Working paper by EAC-PM"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Corporate action update: India needs to step up public investment to attract private investments: Working paper by EAC-PM.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_06a76b789671ba29",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1kNVJJbHVDbnBwQXYzWjZINGZiQm9LRDJkYzVxekNJbmVTcFVKMUlKQWlKc1cwdnpiazBEanhJblFZbmJWaU95c0FjSHp0Y0I1Vjd5NUJwOXNHT0dHQ01hcUN6NDFWOUNFZ1BPcmY2bXc5V2h5TTB1b3VPOA?oc=5",
-    "headline": "The Government of India to launch the Central Bank Digital Currency (CBDC)-based Direct Benefit Transfer (DBT) in the Union Territories of Chandigarh and Dadra & Nagar Haveli - PIB",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1kNVJJbHVDbnBwQXYzWjZINGZiQm9LRDJkYzVxekNJbmVTcFVKMUlKQWlKc1cwdnpiazBEanhJblFZbmJWaU95c0FjSHp0Y0I1Vjd5NUJwOXNHT0dHQ01hcUN6NDFWOUNFZ1BPcmY2bXc5V2h5TTB1b3VPOA?oc=5\" target=\"_blank\">The Government of India to launch the Central Bank Digital Currency (CBDC)-based Direct Benefit Transfer (DBT) in the Union Territories of Chandigarh and Dadra & Nagar Haveli</a> <font color=\"#6f6f6f\">PIB</font>",
-    "source": {
-      "publisher": "Press Information Bureau",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1kNVJJbHVDbnBwQXYzWjZINGZiQm9LRDJkYzVxekNJbmVTcFVKMUlKQWlKc1cwdnpiazBEanhJblFZbmJWaU95c0FjSHp0Y0I1Vjd5NUJwOXNHT0dHQ01hcUN6NDFWOUNFZ1BPcmY2bXc5V2h5TTB1b3VPOA?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T13:37:00.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Economy",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 50,
-    "primaryCategory": "Economy",
-    "secondaryCategories": [],
-    "eventType": "MACRO",
-    "categoryConfidence": "HIGH",
-    "classificationEvidence": [
-      "[Economy] Economy/regulatory keywords matched in headline"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "The Government of India to launch the Central Bank Digital Currency (CBDC)-based Direct Benefit Transfer (DBT) in the Union Territories of Chandigarh and Dadra & Nagar Haveli - PIB. <a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1kNVJJbHVDbnBwQXYzWjZINGZiQm9LRDJkYzVxekNJbmVTcFVKMUlKQWlKc1cwdnpiazBEanhJblFZbmJWaU95c0FjSHp0Y0I1Vjd5NUJwOXNHT0dHQ01hcUN6NDFWOUNFZ1BPcmY2bXc5V2h5TTB1b3VPOA?oc=5\" target=\"_blank\">The Government of India to launch the Central Bank Digital Currency (CBDC)-based Direct Benefit Transfer (DBT) in the Union Territories of Chandigarh and Dadra & Nagar Haveli</a> <font color=\"#6f6f6f\">PIB</font>",
-    "whatChanged": [
-      "The Government of India to launch the Central Bank Digital Currency (CBDC)-based Direct Benefit Transfer (DBT) in the Union Territories of Chandigarh and Dadra & Nagar Haveli - PIB"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Macroeconomic update: The Government of India to launch the Central Bank Digital Currency (CBDC)-based Direct Benefit Transfer (DBT) in the Union Territories of Chandigarh and Dadra & Nagar Haveli - PIB.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 80,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_633f899ce9605730",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5XQUtvQ04xRld3dUM2YjJPQWJhSERpUHhVZUp4eDVpTU1HNl93Vkd2dHJCaGNBcnprUUpqQWJveU80aVA0V1JBNWVrVDdLUjdaUDBUc3hvNTNUaGRINmZpR1ZtRU9DSFZyTHRKZmxFekdFc1JQTUVYUExTOA?oc=5",
-    "headline": "India’s Infrastructure Transformation: From Connectivity to Capacity - PIB",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE5XQUtvQ04xRld3dUM2YjJPQWJhSERpUHhVZUp4eDVpTU1HNl93Vkd2dHJCaGNBcnprUUpqQWJveU80aVA0V1JBNWVrVDdLUjdaUDBUc3hvNTNUaGRINmZpR1ZtRU9DSFZyTHRKZmxFekdFc1JQTUVYUExTOA?oc=5\" target=\"_blank\">India’s Infrastructure Transformation: From Connectivity to Capacity</a> <font color=\"#6f6f6f\">PIB</font>",
-    "source": {
-      "publisher": "Press Information Bureau",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5XQUtvQ04xRld3dUM2YjJPQWJhSERpUHhVZUp4eDVpTU1HNl93Vkd2dHJCaGNBcnprUUpqQWJveU80aVA0V1JBNWVrVDdLUjdaUDBUc3hvNTNUaGRINmZpR1ZtRU9DSFZyTHRKZmxFekdFc1JQTUVYUExTOA?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T13:18:00.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": null,
-      "confidence": "NONE",
-      "decision": "EXCLUDE",
-      "reason": "No canonical F&O entity identified in headline"
-    },
-    "summary": "India’s Infrastructure Transformation: From Connectivity to Capacity - PIB. <a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE5XQUtvQ04xRld3dUM2YjJPQWJhSERpUHhVZUp4eDVpTU1HNl93Vkd2dHJCaGNBcnprUUpqQWJveU80aVA0V1JBNWVrVDdLUjdaUDBUc3hvNTNUaGRINmZpR1ZtRU9DSFZyTHRKZmxFekdFc1JQTUVYUExTOA?oc=5\" target=\"_blank\">India’s Infrastructure Transformation: From Connectivity to Capacity</a> <font color=\"#6f6f6f\">PIB</font>",
-    "whatChanged": [
-      "India’s Infrastructure Transformation: From Connectivity to Capacity - PIB"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 60,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_5e81836598fe662a",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOTzkzbXN1TU9yTlZQaG9oV0oxRndwZ1p6dkN1bXJLQkVoNFJUQ1MyU0VDMlQ3UlRBTTJCOVRJb3JMcWZ5ZzlnUGVYWmMwN3NwODV4dzIyZkVSU0JKRlhzUlNaakN6eVRhUWNSZVVlQm1sVGctMnJ6WDZhT1BOMnM0aTMxUmRta184Ni02ZWlEUDhrUktrUjVvNGpXS3JiU3hXQ01LMWdBb1c2NDFici1DMnRrTm04MnJNWUFjU2hvV3BRbTBUeTN1NElSX29UaGtnTmduM2hUQ19NZll5ODZ4MXNQVVVZeWJBQ0ZHcDdn0gHzAUFVX3lxTE55UjNWVmIwWEJNdk0tZFJnc0ZrM1BpME9aUFpsR1dOTDBmWkVMU1JUSmZCUklfNmlpREVtRmhsc1JEM1JFUmVQZE1PQkkxNlVsMklzVHkxb2NOV1lRRElrTS1jZDNvcmRLMXJhU1h6VmhUbk1IQWxzdm0wRnBOalFIa1RZXzBvdHFCdlpQVjNhcTFZYzZveDVzTXFXOEJBVVhiY1dZVk5pdWtzcW85ZDZOUFY1SzYtNEg4NXJUalJxNDhRT01hZWYtanhIUWo2aW12dWJfUnFSWVUxTmk4b2Q3Z0wxcV9yV1RXZ1llMGhoWHN1SQ?oc=5",
-    "headline": "UltraTech Block Deal: Pilani Investment likely to sell 17 lakh shares for ₹1,909 crore - CNBC TV18",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMi7gFBVV95cUxOTzkzbXN1TU9yTlZQaG9oV0oxRndwZ1p6dkN1bXJLQkVoNFJUQ1MyU0VDMlQ3UlRBTTJCOVRJb3JMcWZ5ZzlnUGVYWmMwN3NwODV4dzIyZkVSU0JKRlhzUlNaakN6eVRhUWNSZVVlQm1sVGctMnJ6WDZhT1BOMnM0aTMxUmRta184Ni02ZWlEUDhrUktrUjVvNGpXS3JiU3hXQ01LMWdBb1c2NDFici1DMnRrTm04MnJNWUFjU2hvV3BRbTBUeTN1NElSX29UaGtnTmduM2hUQ19NZll5ODZ4MXNQVVVZeWJBQ0ZHcDdn0gHzAUFVX3lxTE55UjNWVmIwWEJNdk0tZFJnc0ZrM1BpME9aUFpsR1dOTDBmWkVMU1JUSmZCUklfNmlpREVtRmhsc1JEM1JFUmVQZE1PQkkxNlVsMklzVHkxb2NOV1lRRElrTS1jZDNvcmRLMXJhU1h6VmhUbk1IQWxzdm0wRnBOalFIa1RZXzBvdHFCdlpQVjNhcTFZYzZveDVzTXFXOEJBVVhiY1dZVk5pdWtzcW85ZDZOUFY1SzYtNEg4NXJUalJxNDhRT01hZWYtanhIUWo2aW12dWJfUnFSWVUxTmk4b2Q3Z0wxcV9yV1RXZ1llMGhoWHN1SQ?oc=5\" target=\"_blank\">UltraTech Block Deal: Pilani Investment likely to sell 17 lakh shares for ₹1,909 crore</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "source": {
-      "publisher": "CNBC TV18",
-      "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOTzkzbXN1TU9yTlZQaG9oV0oxRndwZ1p6dkN1bXJLQkVoNFJUQ1MyU0VDMlQ3UlRBTTJCOVRJb3JMcWZ5ZzlnUGVYWmMwN3NwODV4dzIyZkVSU0JKRlhzUlNaakN6eVRhUWNSZVVlQm1sVGctMnJ6WDZhT1BOMnM0aTMxUmRta184Ni02ZWlEUDhrUktrUjVvNGpXS3JiU3hXQ01LMWdBb1c2NDFici1DMnRrTm04MnJNWUFjU2hvV3BRbTBUeTN1NElSX29UaGtnTmduM2hUQ19NZll5ODZ4MXNQVVVZeWJBQ0ZHcDdn0gHzAUFVX3lxTE55UjNWVmIwWEJNdk0tZFJnc0ZrM1BpME9aUFpsR1dOTDBmWkVMU1JUSmZCUklfNmlpREVtRmhsc1JEM1JFUmVQZE1PQkkxNlVsMklzVHkxb2NOV1lRRElrTS1jZDNvcmRLMXJhU1h6VmhUbk1IQWxzdm0wRnBOalFIa1RZXzBvdHFCdlpQVjNhcTFZYzZveDVzTXFXOEJBVVhiY1dZVk5pdWtzcW85ZDZOUFY1SzYtNEg4NXJUalJxNDhRT01hZWYtanhIUWo2aW12dWJfUnFSWVUxTmk4b2Q3Z0wxcV9yV1RXZ1llMGhoWHN1SQ?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T12:50:49.000Z",
-    "collectedAt": "2026-08-16T06:58:30.069Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-      "Default fallback classification for general news story"
-    ],
-    "fno": {
-      "eligible": false,
-      "symbol": "ULTRACETECH",
-      "confidence": "HIGH",
-      "decision": "EXCLUDE",
-      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
-    },
-    "summary": "UltraTech Block Deal: Pilani Investment likely to sell 17 lakh shares for ₹1,909 crore - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMi7gFBVV95cUxOTzkzbXN1TU9yTlZQaG9oV0oxRndwZ1p6dkN1bXJLQkVoNFJUQ1MyU0VDMlQ3UlRBTTJCOVRJb3JMcWZ5ZzlnUGVYWmMwN3NwODV4dzIyZkVSU0JKRlhzUlNaakN6eVRhUWNSZVVlQm1sVGctMnJ6WDZhT1BOMnM0aTMxUmRta184Ni02ZWlEUDhrUktrUjVvNGpXS3JiU3hXQ01LMWdBb1c2NDFici1DMnRrTm04MnJNWUFjU2hvV3BRbTBUeTN1NElSX29UaGtnTmduM2hUQ19NZll5ODZ4MXNQVVVZeWJBQ0ZHcDdn0gHzAUFVX3lxTE55UjNWVmIwWEJNdk0tZFJnc0ZrM1BpME9aUFpsR1dOTDBmWkVMU1JUSmZCUklfNmlpREVtRmhsc1JEM1JFUmVQZE1PQkkxNlVsMklzVHkxb2NOV1lRRElrTS1jZDNvcmRLMXJhU1h6VmhUbk1IQWxzdm0wRnBOalFIa1RZXzBvdHFCdlpQVjNhcTFZYzZveDVzTXFXOEJBVVhiY1dZVk5pdWtzcW85ZDZOUFY1SzYtNEg4NXJUalJxNDhRT01hZWYtanhIUWo2aW12dWJfUnFSWVUxTmk4b2Q3Z0wxcV9yV1RXZ1llMGhoWHN1SQ?oc=5\" target=\"_blank\">UltraTech Block Deal: Pilani Investment likely to sell 17 lakh shares for ₹1,909 crore</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
-    "whatChanged": [
-      "UltraTech Block Deal: Pilani Investment likely to sell 17 lakh shares for ₹1,909 crore - CNBC TV18"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 75,
-    "summaryProcessingMode": "DETERMINISTIC"
-  },
-  {
-    "id": "v2_8170e34aa59e3227",
-    "canonicalUrl": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1yWnZ5X0VGRXVVblM2OENLTWZWUGVvckhGYWUtc0pPX3BTSWNBMjFreFExLTZ5NFRYMmlBREFfNjgzcEJ1WnRpaHRqZERfSGh3SHV6RlhXNkczMGVjZEktWXdEMnU5VkpHNDctRk5KdEhQaDlVOS1LNmtXUQ?oc=5",
-    "headline": "Empowering Governance through Digital Infrastructure - PIB",
-    "body": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1yWnZ5X0VGRXVVblM2OENLTWZWUGVvckhGYWUtc0pPX3BTSWNBMjFreFExLTZ5NFRYMmlBREFfNjgzcEJ1WnRpaHRqZERfSGh3SHV6RlhXNkczMGVjZEktWXdEMnU5VkpHNDctRk5KdEhQaDlVOS1LNmtXUQ?oc=5\" target=\"_blank\">Empowering Governance through Digital Infrastructure</a> <font color=\"#6f6f6f\">PIB</font>",
-    "source": {
-      "publisher": "Press Information Bureau",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1yWnZ5X0VGRXVVblM2OENLTWZWUGVvckhGYWUtc0pPX3BTSWNBMjFreFExLTZ5NFRYMmlBREFfNjgzcEJ1WnRpaHRqZERfSGh3SHV6RlhXNkczMGVjZEktWXdEMnU5VkpHNDctRk5KdEhQaDlVOS1LNmtXUQ?oc=5",
-      "collectionMethod": "RSS"
-    },
-    "publishedAt": "2026-08-12T12:50:00.000Z",
-    "collectedAt": "2026-08-16T05:20:04.347Z",
-    "category": "Other",
-    "sentiment": "NEUTRAL",
-    "relevanceScore": 65,
-    "primaryCategory": "Other",
-    "secondaryCategories": [],
-    "eventType": "OTHER",
-    "categoryConfidence": "LOW",
-    "classificationEvidence": [
-    
+      "reason": "Index symbo

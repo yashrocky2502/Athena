@@ -180,9 +180,9 @@ export class NewsSectionRouter {
     }
 
     // 6. ECONOMY
-    if (categoryLower === 'economy' || categoryLower === 'macro') {
-      scores[NewsSectionId.ECONOMY] += 75;
-      reasons[NewsSectionId.ECONOMY].push('Category matched Economy/Macro');
+    if (categoryLower === 'economy') {
+      scores[NewsSectionId.ECONOMY] += 80;
+      reasons[NewsSectionId.ECONOMY].push('Category matched Economy');
     }
     if (/\b(rbi|pib|mospi)\b/.test(publisherLower)) {
       scores[NewsSectionId.ECONOMY] += 40;
@@ -308,7 +308,11 @@ export class NewsSectionRouter {
     }
 
     // 16. MACRO
-    if (/\b(us dollar|dxy|inr|rupee|sovereign rating|yield curve|bond yields|forex reserves|trade deficit|central bank policy)\b/.test(text)) {
+    if (categoryLower === 'macro' || categoryLower === 'forex' || categoryLower === 'global macro') {
+      scores[NewsSectionId.MACRO] += 80;
+      reasons[NewsSectionId.MACRO].push('Category matched Macro');
+    }
+    if (/\b(us dollar|dxy|inr|rupee|sovereign rating|yield curve|bond yields|forex reserves|trade deficit|central bank policy|fed|treasury|us treasury)\b/.test(text)) {
       scores[NewsSectionId.MACRO] += 55;
       reasons[NewsSectionId.MACRO].push('Macro structural indicator terms detected');
     }

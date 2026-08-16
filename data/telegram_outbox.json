@@ -1,21 +1,21 @@
 [
   {
-    "articleId": "v2_7b90b68887d14d3a",
+    "articleId": "v2_056f6af37bb93168",
     "payload": {
-      "id": "v2_7b90b68887d14d3a",
-      "canonicalUrl": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1rOVpXNkxNSmp5T0NUR0g0M0dyWHd6TWRic0hjcDNPa19lWGFsNk0tT2wycnltQk9aU2M0Qy10WFFHb0kwaWZPeXpkOU40bk5fdDc4R2lOaDAzOEJILV9XcEpBUjh6LVQzZFZSQTRPQnRYS0puY3l2dkdPZw?oc=5",
-      "headline": "National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector - PIB",
-      "body": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1rOVpXNkxNSmp5T0NUR0g0M0dyWHd6TWRic0hjcDNPa19lWGFsNk0tT2wycnltQk9aU2M0Qy10WFFHb0kwaWZPeXpkOU40bk5fdDc4R2lOaDAzOEJILV9XcEpBUjh6LVQzZFZSQTRPQnRYS0puY3l2dkdPZw?oc=5\" target=\"_blank\">National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector</a> <font color=\"#6f6f6f\">PIB</font>",
+      "id": "v2_056f6af37bb93168",
+      "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/news/still-holding-cash-at-home-warren-buffett-calls-it-oxygen-but-says-its-not-good-as-an-asset/articleshow/133272964.cms",
+      "headline": "Still holding cash at home? Warren Buffett calls it oxygen, but says it’s not good as an asset",
+      "body": "Berkshire Hathaway's successor Greg Abel is deploying its large cash reserves. The firm recently bought back shares and invested heavily in equities. Alphabet stock saw a significant purchase, becoming a major holding. Berkshire's cash pile decreased after these strategic acquisitions. The company reported strong quarterly operating profit and net income increases.",
       "source": {
-        "publisher": "Press Information Bureau",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1rOVpXNkxNSmp5T0NUR0g0M0dyWHd6TWRic0hjcDNPa19lWGFsNk0tT2wycnltQk9aU2M0Qy10WFFHb0kwaWZPeXpkOU40bk5fdDc4R2lOaDAzOEJILV9XcEpBUjh6LVQzZFZSQTRPQnRYS0puY3l2dkdPZw?oc=5",
+        "publisher": "Economic Times",
+        "url": "https://economictimes.indiatimes.com/markets/stocks/news/still-holding-cash-at-home-warren-buffett-calls-it-oxygen-but-says-its-not-good-as-an-asset/articleshow/133272964.cms",
         "collectionMethod": "RSS"
       },
-      "publishedAt": "2026-08-11T09:40:00.000Z",
-      "collectedAt": "2026-08-16T08:59:12.507Z",
+      "publishedAt": "2026-08-16T09:47:37.000Z",
+      "collectedAt": "2026-08-16T10:10:14.615Z",
       "category": "Other",
       "sentiment": "NEUTRAL",
-      "relevanceScore": 65,
+      "relevanceScore": 100,
       "primaryCategory": "Other",
       "secondaryCategories": [],
       "eventType": "OTHER",
@@ -30,9 +30,9 @@
         "decision": "EXCLUDE",
         "reason": "No canonical F&O entity identified in headline"
       },
-      "summary": "National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector - PIB. <a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE1rOVpXNkxNSmp5T0NUR0g0M0dyWHd6TWRic0hjcDNPa19lWGFsNk0tT2wycnltQk9aU2M0Qy10WFFHb0kwaWZPeXpkOU40bk5fdDc4R2lOaDAzOEJILV9XcEpBUjh6LVQzZFZSQTRPQnRYS0puY3l2dkdPZw?oc=5\" target=\"_blank\">National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector</a> <font color=\"#6f6f6f\">PIB</font>",
+      "summary": "Still holding cash at home? Warren Buffett calls it oxygen, but says it’s not good as an asset. Berkshire Hathaway's successor Greg Abel is deploying its large cash reserves.",
       "whatChanged": [
-        "National Green Hydrogen Mission Advances Green Hydrogen Adoption in Petroleum and Refining Sector - PIB"
+        "The company reported strong quarterly operating profit and net income increases."
       ],
       "keyMetrics": [],
       "whyItMatters": "ATHENA could not establish a sufficiently specific financial implication from the available evidence.",
@@ -40,7 +40,7 @@
       "riskWatchpoints": [
         "No explicit operational or financial risk factors identified in source text."
       ],
-      "summaryConfidence": 60,
+      "summaryConfidence": 80,
       "summaryProcessingMode": "DETERMINISTIC"
     },
     "attempts": 0
