@@ -1,5 +1,5 @@
 import { AIRequestOptions, AIResponse, ProviderType } from './AIProvider';
-import { GrokProvider } from './GrokProvider';
+import { GroqProvider } from './GroqProvider';
 import { GeminiProvider } from './GeminiProvider';
 import { LocalProvider } from './LocalProvider';
 import { PromptBuilder, PromptBuildInput } from './PromptBuilder';
@@ -19,9 +19,17 @@ export interface RouterRequestInput extends PromptBuildInput {
 export class AIRouter {
   private static instance: AIRouter;
 
-  private grokProvider = new GrokProvider();
-  private geminiProvider = new GeminiProvider();
-  private localProvider = new LocalProvider();
+  public groqProvider = new GroqProvider();
+  public geminiProvider = new GeminiProvider();
+  public localProvider = new LocalProvider();
+
+  // Backward compatibility accessor for legacy tests/references
+  public get grokProvider(): GroqProvider {
+    return this.groqProvider;
+  }
+  public set grokProvider(provider: GroqProvider) {
+    this.groqProvider = provider;
+  }
 
   private cacheManager = CacheManager.getInstance();
   private costTracker = CostTracker.getInstance();
@@ -88,35 +96,35 @@ export class AIRouter {
     let response: AIResponse | null = null;
     let fallbackUsed = false;
 
-    // 2. Try Primary: Grok
-    if (this.grokProvider.isHealthy()) {
+    // 2. Try Primary: Groq (Llama 3.3 70B / Llama 3.1 8B)
+    if (this.groqProvider.isHealthy()) {
       try {
-        console.log('[AI Router] Dispatching request to Primary Provider: Grok');
-        const grokResp = await this.grokProvider.generate(requestOptions);
-        const evalResult = ConfidenceEngine.evaluate(grokResp.text, requestOptions.facts, input.body);
+        console.log('[AI Router] Dispatching request to Primary Provider: Groq');
+        const groqResp = await this.groqProvider.generate(requestOptions);
+        const evalResult = ConfidenceEngine.evaluate(groqResp.text, requestOptions.facts, input.body);
 
         if (evalResult.passed) {
           response = {
-            ...grokResp,
+            ...groqResp,
             confidence: evalResult.score
           };
         } else {
-          console.warn(`[AI Router] Grok confidence score low (${evalResult.score}/100): ${evalResult.issues.join('; ')}. Failing over to Gemini.`);
+          console.warn(`[AI Router] Groq confidence score low (${evalResult.score}/100): ${evalResult.issues.join('; ')}. Failing over to Gemini 3.6 Flash.`);
           fallbackUsed = true;
         }
       } catch (err: any) {
-        console.warn(`[AI Router] Grok Provider failed: ${err.message}. Failing over to Gemini.`);
+        console.warn(`[AI Router] Groq Provider failed: ${err.message}. Failing over to Gemini 3.6 Flash.`);
         fallbackUsed = true;
       }
     } else {
-      console.log('[AI Router] Grok Provider unhealthy or unconfigured. Failing over to Gemini.');
+      console.log('[AI Router] Groq Provider unhealthy or unconfigured. Failing over to Gemini 3.6 Flash.');
       fallbackUsed = true;
     }
 
-    // 3. Try Backup: Gemini
+    // 3. Try Emergency Fallback: Gemini 3.6 Flash
     if (!response && this.geminiProvider.isHealthy()) {
       try {
-        console.log('[AI Router] Dispatching request to Backup Provider: Gemini');
+        console.log('[AI Router] Dispatching request to Emergency Fallback Provider: Gemini 3.6 Flash');
         const geminiResp = await this.geminiProvider.generate(requestOptions);
         const evalResult = ConfidenceEngine.evaluate(geminiResp.text, requestOptions.facts, input.body);
 
@@ -134,7 +142,7 @@ export class AIRouter {
       }
     }
 
-    // 4. Final Fallback: Local Engine (ALWAYS SUCCEEDS)
+    // 4. Final Deterministic Fallback: Athena Local Intelligence Engine (ALWAYS SUCCEEDS)
     if (!response) {
       console.log('[AI Router] Dispatching request to Final Fallback: Athena Local Intelligence Engine');
       const localResp = await this.localProvider.generate(requestOptions);
@@ -158,11 +166,11 @@ export class AIRouter {
     const costs = this.costTracker.getSummary();
     const cache = this.cacheManager.getStats();
 
-    const currentProvider: ProviderType = this.grokProvider.isHealthy()
-      ? 'grok'
+    const currentProvider: ProviderType = this.groqProvider.isHealthy()
+      ? 'groq'
       : (this.geminiProvider.isHealthy() ? 'gemini' : 'local');
 
-    const fallbackProvider: ProviderType = currentProvider === 'grok'
+    const fallbackProvider: ProviderType = currentProvider === 'groq'
       ? (this.geminiProvider.isHealthy() ? 'gemini' : 'local')
       : 'local';
 

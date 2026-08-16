@@ -1,4 +1,4 @@
-export type ProviderType = 'grok' | 'gemini' | 'local';
+export type ProviderType = 'groq' | 'gemini' | 'local' | 'grok';
 
 export interface AIRequestOptions {
   prompt: string;
@@ -11,6 +11,7 @@ export interface AIRequestOptions {
   facts?: Record<string, any>;
   temperature?: number;
   maxTokens?: number;
+  responseFormat?: 'text' | 'json';
   streamingCallback?: (stage: 'thinking' | 'generating' | 'final', token: string) => void;
 }
 

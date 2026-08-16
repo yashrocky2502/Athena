@@ -17,7 +17,7 @@ export interface CostSummary {
   totalTokens: number;
   totalEstimatedCostUSD: number;
   averageLatencyMs: number;
-  providerBreakdown: Record<ProviderType, {
+  providerBreakdown: Record<string, {
     requests: number;
     tokens: number;
     costUSD: number;
@@ -30,9 +30,10 @@ export class CostTracker {
   private records: TokenUsageRecord[] = [];
 
   // Estimated pricing per 1k tokens (USD)
-  private readonly PRICING: Record<ProviderType, { prompt: number; completion: number }> = {
-    grok: { prompt: 0.005, completion: 0.015 },      // Grok-beta
-    gemini: { prompt: 0.000075, completion: 0.0003 }, // Gemini 3.7 Flash
+  private readonly PRICING: Record<string, { prompt: number; completion: number }> = {
+    groq: { prompt: 0.00059, completion: 0.00079 },   // Groq Llama-3.3-70b-versatile
+    grok: { prompt: 0.00059, completion: 0.00079 },   // Backward compat
+    gemini: { prompt: 0.000075, completion: 0.0003 }, // Gemini 3.6 Flash
     local: { prompt: 0.0, completion: 0.0 }           // Local deterministic
   };
 
@@ -70,53 +71,66 @@ export class CostTracker {
       this.records.shift(); // keep sliding window
     }
 
-    return costEstimateUSD;
+    return Math.round(costEstimateUSD * 100000) / 100000;
   }
 
   public getSummary(): CostSummary {
-    const summary: CostSummary = {
-      totalRequests: this.records.length,
-      totalPromptTokens: 0,
-      totalCompletionTokens: 0,
-      totalTokens: 0,
-      totalEstimatedCostUSD: 0,
-      averageLatencyMs: 0,
-      providerBreakdown: {
-        grok: { requests: 0, tokens: 0, costUSD: 0, avgLatencyMs: 0 },
-        gemini: { requests: 0, tokens: 0, costUSD: 0, avgLatencyMs: 0 },
-        local: { requests: 0, tokens: 0, costUSD: 0, avgLatencyMs: 0 }
-      }
+    const totalRequests = this.records.length;
+    let totalPromptTokens = 0;
+    let totalCompletionTokens = 0;
+    let totalTokens = 0;
+    let totalEstimatedCostUSD = 0;
+    let totalLatencyMs = 0;
+
+    const breakdown: Record<string, { requests: number; tokens: number; costUSD: number; totalLatencyMs: number }> = {
+      groq: { requests: 0, tokens: 0, costUSD: 0, totalLatencyMs: 0 },
+      gemini: { requests: 0, tokens: 0, costUSD: 0, totalLatencyMs: 0 },
+      local: { requests: 0, tokens: 0, costUSD: 0, totalLatencyMs: 0 }
     };
 
-    let totalLatencySum = 0;
+    for (const rec of this.records) {
+      totalPromptTokens += rec.promptTokens;
+      totalCompletionTokens += rec.completionTokens;
+      totalTokens += rec.totalTokens;
+      totalEstimatedCostUSD += rec.costEstimateUSD;
+      totalLatencyMs += rec.latencyMs;
 
-    for (const r of this.records) {
-      summary.totalPromptTokens += r.promptTokens;
-      summary.totalCompletionTokens += r.completionTokens;
-      summary.totalTokens += r.totalTokens;
-      summary.totalEstimatedCostUSD += r.costEstimateUSD;
-      totalLatencySum += r.latencyMs;
-
-      const p = summary.providerBreakdown[r.provider];
-      if (p) {
-        p.requests++;
-        p.tokens += r.totalTokens;
-        p.costUSD += r.costEstimateUSD;
-        p.avgLatencyMs += r.latencyMs;
+      const normProvider = rec.provider === 'grok' ? 'groq' : rec.provider;
+      if (!breakdown[normProvider]) {
+        breakdown[normProvider] = { requests: 0, tokens: 0, costUSD: 0, totalLatencyMs: 0 };
       }
+
+      breakdown[normProvider].requests++;
+      breakdown[normProvider].tokens += rec.totalTokens;
+      breakdown[normProvider].costUSD += rec.costEstimateUSD;
+      breakdown[normProvider].totalLatencyMs += rec.latencyMs;
     }
 
-    if (summary.totalRequests > 0) {
-      summary.averageLatencyMs = Math.round(totalLatencySum / summary.totalRequests);
+    const providerBreakdown: Record<string, { requests: number; tokens: number; costUSD: number; avgLatencyMs: number }> = {};
+    for (const key of ['groq', 'gemini', 'local']) {
+      const item = breakdown[key] || { requests: 0, tokens: 0, costUSD: 0, totalLatencyMs: 0 };
+      providerBreakdown[key] = {
+        requests: item.requests,
+        tokens: item.tokens,
+        costUSD: Math.round(item.costUSD * 10000) / 10000,
+        avgLatencyMs: item.requests > 0 ? Math.round(item.totalLatencyMs / item.requests) : 0
+      };
     }
+    // Backward compat alias
+    providerBreakdown.grok = providerBreakdown.groq;
 
-    for (const key of ['grok', 'gemini', 'local'] as ProviderType[]) {
-      const p = summary.providerBreakdown[key];
-      if (p && p.requests > 0) {
-        p.avgLatencyMs = Math.round(p.avgLatencyMs / p.requests);
-      }
-    }
+    return {
+      totalRequests,
+      totalPromptTokens,
+      totalCompletionTokens,
+      totalTokens,
+      totalEstimatedCostUSD: Math.round(totalEstimatedCostUSD * 10000) / 10000,
+      averageLatencyMs: totalRequests > 0 ? Math.round(totalLatencyMs / totalRequests) : 0,
+      providerBreakdown
+    };
+  }
 
-    return summary;
+  public clear(): void {
+    this.records = [];
   }
 }

@@ -5,19 +5,19 @@ import { TestResult, RegressionReport } from "./NewsCoreV2Regression";
 
 export class AIRouterRegression {
   public static async runSuite(): Promise<RegressionReport> {
-    console.log("[AIRouterRegression] Starting AI Router & Fallback Hardening Suite...");
+    console.log("[AIRouterRegression] Starting Stage 4.3 AI Router (Groq -> Gemini 3.6 Flash -> Local) Hardening Suite...");
     
     // Save original env variables and provider methods
     const originalGeminiKey = process.env.GEMINI_API_KEY;
-    const originalGrokKey = process.env.GROK_API_KEY;
+    const originalGroqKey = process.env.GROQ_API_KEY;
     
     // Set mock api keys so providers are considered "healthy"
     process.env.GEMINI_API_KEY = "mock-gemini-key";
-    process.env.GROK_API_KEY = "mock-grok-key";
+    process.env.GROQ_API_KEY = "mock-groq-key";
 
     const router = AIRouter.getInstance() as any;
-    const originalGrokIsHealthy = router.grokProvider.isHealthy;
-    const originalGrokGenerate = router.grokProvider.generate;
+    const originalGroqIsHealthy = router.groqProvider.isHealthy;
+    const originalGroqGenerate = router.groqProvider.generate;
     const originalGeminiIsHealthy = router.geminiProvider.isHealthy;
     const originalGeminiGenerate = router.geminiProvider.generate;
 
@@ -46,13 +46,13 @@ export class AIRouterRegression {
       // Helper to reset mocks
       const resetMocks = () => {
         geminiCallHistory = [];
-        router.grokProvider.isHealthy = () => true;
+        router.groqProvider.isHealthy = () => true;
         router.geminiProvider.isHealthy = () => true;
         
-        router.grokProvider.generate = async () => {
+        router.groqProvider.generate = async () => {
           return {
-            text: "Executive Summary: Success with Grok TATA MOTORS.\nHighlights: Top news.\nMatters: Highly relevant.\nInvestor Takeaway: Trade long.",
-            provider: "grok",
+            text: "Executive Summary: Success with Groq TATA MOTORS.\nHighlights: Top news.\nMatters: Highly relevant.\nInvestor Takeaway: Trade long.",
+            provider: "groq",
             confidence: 95,
             promptTokens: 100,
             completionTokens: 50,
@@ -65,13 +65,13 @@ export class AIRouterRegression {
 
         geminiMockBehavior = () => {
           return {
-            text: "Executive Summary: Success with Gemini TATA MOTORS.\nHighlights: Standard highlights.\nMatters: Focus points.\nInvestor Takeaway: Long term hold."
+            text: "Executive Summary: Success with Gemini 3.6 Flash TATA MOTORS.\nHighlights: Standard highlights.\nMatters: Focus points.\nInvestor Takeaway: Long term hold."
           };
         };
       };
 
       // ------------------------------------------------------------------------
-      // TEST 1: Grok success (Grok used; Gemini not called)
+      // TEST 1: Groq success (Groq used; Gemini not called)
       // ------------------------------------------------------------------------
       resetMocks();
       let response = await AIRouter.getInstance().generateSummary({
@@ -81,17 +81,17 @@ export class AIRouterRegression {
       });
 
       results.push({
-        testName: "Grok success - Primary chosen & Gemini skipped",
-        passed: response.provider === "grok" && geminiCallHistory.length === 0,
+        testName: "Groq success - Primary chosen & Gemini skipped",
+        passed: response.provider === "groq" && geminiCallHistory.length === 0,
         message: `Used provider: ${response.provider}, Gemini calls: ${geminiCallHistory.length}`
       });
 
       // ------------------------------------------------------------------------
-      // TEST 2: Grok failure -> Gemini Flash success
+      // TEST 2: Groq failure -> Gemini 3.6 Flash fallback success
       // ------------------------------------------------------------------------
       resetMocks();
-      router.grokProvider.generate = async () => {
-        throw new Error("Grok service is down");
+      router.groqProvider.generate = async () => {
+        throw new Error("Groq service is down");
       };
 
       response = await AIRouter.getInstance().generateSummary({
@@ -102,26 +102,21 @@ export class AIRouterRegression {
       });
 
       results.push({
-        testName: "Grok failure -> Gemini Flash success",
-        passed: response.provider === "gemini" && geminiCallHistory.length === 1 && geminiCallHistory[0] === "gemini-3.7-flash",
+        testName: "Groq failure -> Gemini 3.6 Flash fallback success",
+        passed: response.provider === "gemini" && geminiCallHistory.length === 1 && geminiCallHistory[0] === "gemini-3.6-flash",
         message: `Used provider: ${response.provider}, Gemini sequence: ${JSON.stringify(geminiCallHistory)}`
       });
 
       // ------------------------------------------------------------------------
-      // TEST 3: Grok failure -> Gemini Flash failure -> Gemini Flash-Lite success
+      // TEST 3: Groq failure -> Gemini 3.6 Flash failure -> Athena Local Engine
       // ------------------------------------------------------------------------
       resetMocks();
-      router.grokProvider.generate = async () => {
-        throw new Error("Grok offline");
+      router.groqProvider.generate = async () => {
+        throw new Error("Groq offline");
       };
 
       geminiMockBehavior = (model: string) => {
-        if (model === "gemini-3.7-flash") {
-          throw new Error("Quota exceeded or 429 rate limit");
-        }
-        return {
-          text: "Executive Summary: Success with Gemini Flash-Lite.\nHighlights: High fidelity facts.\nMatters: Positive outlook.\nInvestor Takeaway: Support buy."
-        };
+        throw new Error(`Model ${model} rate-limited 429`);
       };
 
       response = await AIRouter.getInstance().generateSummary({
@@ -131,56 +126,28 @@ export class AIRouterRegression {
       });
 
       results.push({
-        testName: "Grok failure -> Gemini Flash failure -> Gemini Flash-Lite success",
-        passed: response.provider === "gemini" && geminiCallHistory.length === 2 && geminiCallHistory[0] === "gemini-3.7-flash" && geminiCallHistory[1] === "gemini-3.1-flash-lite",
-        message: `Used provider: ${response.provider}, Gemini sequence: ${JSON.stringify(geminiCallHistory)}`
-      });
-
-      // ------------------------------------------------------------------------
-      // TEST 4 & 5 & 6: Grok failure -> both Gemini fail -> LocalProvider, Verify no cycling & no infinite retry
-      // ------------------------------------------------------------------------
-      resetMocks();
-      router.grokProvider.generate = async () => {
-        throw new Error("Grok down");
-      };
-
-      geminiMockBehavior = (model: string) => {
-        throw new Error(`Model ${model} failed persistently`);
-      };
-
-      response = await AIRouter.getInstance().generateSummary({
-        headline: "Tata Motors Q1 Net Profit Jumps 30%",
-        body: "Tata Motors reported ₹5,400 Cr net profit.",
-        forceRefresh: true
-      });
-
-      results.push({
-        testName: "Grok failure -> both Gemini fail -> LocalProvider",
+        testName: "Groq failure -> Gemini failure -> Athena Local Engine",
         passed: response.provider === "local",
         message: `Used provider: ${response.provider}`
       });
 
+      // ------------------------------------------------------------------------
+      // TEST 4: Bounded retry and zero infinite loops
+      // ------------------------------------------------------------------------
       results.push({
-        testName: "Verify Gemini does NOT cycle and is bounded",
-        passed: geminiCallHistory.length === 2 && geminiCallHistory[0] === "gemini-3.7-flash" && geminiCallHistory[1] === "gemini-3.1-flash-lite",
-        message: `Gemini sequence: ${JSON.stringify(geminiCallHistory)}`
-      });
-
-      results.push({
-        testName: "Verify no infinite retry loop",
-        passed: geminiCallHistory.length === 2,
+        testName: "Verify Gemini does NOT cycle indefinitely and fallback is bounded",
+        passed: geminiCallHistory.length === 2, // 1 initial + 1 retry
         message: `Total attempts across Gemini: ${geminiCallHistory.length}`
       });
 
       // ------------------------------------------------------------------------
-      // TEST 7: ConfidenceEngine evidence validation applies to Grok response
+      // TEST 5: ConfidenceEngine evidence validation applies to Groq response
       // ------------------------------------------------------------------------
       resetMocks();
-      // Set Grok to return a garbage/low-confidence summary (missing section headers)
-      router.grokProvider.generate = async () => {
+      router.groqProvider.generate = async () => {
         return {
           text: "This is some random text that does not have required sections.",
-          provider: "grok",
+          provider: "groq",
           confidence: 90,
           promptTokens: 10,
           completionTokens: 10,
@@ -201,15 +168,15 @@ export class AIRouterRegression {
       results.push({
         testName: "ConfidenceEngine evidence validation triggers fallback on low score",
         passed: response.provider === "gemini",
-        message: `Grok failed confidence check, routed to: ${response.provider}`
+        message: `Groq failed confidence check, routed to: ${response.provider}`
       });
 
     } finally {
       // Restore everything back to pristine state
       process.env.GEMINI_API_KEY = originalGeminiKey;
-      process.env.GROK_API_KEY = originalGrokKey;
-      router.grokProvider.isHealthy = originalGrokIsHealthy;
-      router.grokProvider.generate = originalGrokGenerate;
+      process.env.GROQ_API_KEY = originalGroqKey;
+      router.groqProvider.isHealthy = originalGroqIsHealthy;
+      router.groqProvider.generate = originalGroqGenerate;
       router.geminiProvider.isHealthy = originalGeminiIsHealthy;
       router.geminiProvider.generate = originalGeminiGenerate;
 

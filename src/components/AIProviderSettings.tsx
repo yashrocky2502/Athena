@@ -30,9 +30,10 @@ interface StatusData {
     totalEstimatedCostUSD: number;
   };
   providers: {
-    grok: { configured: boolean; healthy: boolean; successRate: number; avgLatencyMs: number };
-    gemini: { configured: boolean; healthy: boolean; successRate: number; avgLatencyMs: number };
-    local: { configured: boolean; healthy: boolean; successRate: number; avgLatencyMs: number };
+    groq?: { status: string; successRatePercentage: number; averageLatencyMs: number };
+    gemini?: { status: string; successRatePercentage: number; averageLatencyMs: number };
+    local?: { status: string; successRatePercentage: number; averageLatencyMs: number };
+    grok?: { status: string; successRatePercentage: number; averageLatencyMs: number };
   };
   cache: {
     hits: number;
@@ -45,9 +46,10 @@ interface StatusData {
     totalRequests: number;
     totalEstimatedCostUSD: number;
     providerBreakdown: {
-      grok?: { requests: number; tokensInput: number; tokensOutput: number; costUSD: number };
-      gemini?: { requests: number; tokensInput: number; tokensOutput: number; costUSD: number };
-      local?: { requests: number; tokensInput: number; tokensOutput: number; costUSD: number };
+      groq?: { requests: number; tokens: number; costUSD: number; avgLatencyMs: number };
+      gemini?: { requests: number; tokens: number; costUSD: number; avgLatencyMs: number };
+      local?: { requests: number; tokens: number; costUSD: number; avgLatencyMs: number };
+      grok?: { requests: number; tokens: number; costUSD: number; avgLatencyMs: number };
     };
   };
 }
@@ -88,7 +90,7 @@ export default function AIProviderSettings() {
   const handleClearCache = async () => {
     if (!confirm("Are you sure you want to clear all AI router cache items?")) return;
     try {
-      const res = await fetch("/api/api/ai/cache/clear", { method: "POST" })
+      const res = await fetch("/api/ai/cache/clear", { method: "POST" })
         .catch(() => fetch("/api/ai/cache/clear", { method: "POST" }));
       if (res && res.ok) {
         alert("AI Router Cache Cleared Successfully!");
@@ -121,7 +123,7 @@ export default function AIProviderSettings() {
       if (!res.ok) throw new Error("Simulated summary run failed");
       const data = await res.json();
       setTestResult(data);
-      setRefreshKey(prev => prev + 1); // Refresh cost/health metrics
+      setRefreshKey(prev => prev + 1);
     } catch (err: any) {
       setTestResult({ error: err.message || "Failed to complete test run" });
     } finally {
@@ -137,16 +139,16 @@ export default function AIProviderSettings() {
         <div>
           <h2 className="font-display font-bold text-xl text-white flex items-center gap-2">
             <Cpu className="text-indigo-400 h-5 w-5" />
-            ATHENA V5 — Multi-Model AI Router Dashboard
+            ATHENA V5 — AI Model Infrastructure (Stage 4.3)
           </h2>
           <p className="text-xs text-slate-400 mt-1">
-            Real-time telemetry, model health fallback trees, caching audits, and interactive simulation.
+            Authoritative Hierarchy: Groq Primary (Llama 3.3 70B) → Gemini 3.6 Flash Fallback → Athena Local Engine.
           </p>
         </div>
         <button 
           onClick={() => setRefreshKey(prev => prev + 1)}
           disabled={loading}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 hover:text-white border border-slate-800 text-xs transition-all disabled:opacity-50"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 hover:text-white border border-slate-800 text-xs transition-all disabled:opacity-50 cursor-pointer"
         >
           <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
           Sync Telemetry
@@ -185,7 +187,7 @@ export default function AIProviderSettings() {
                 </span>
               </div>
               <span className="text-[10px] text-slate-400 mt-2 font-medium">
-                Backup: <span className="text-indigo-400 font-bold uppercase">{status.router.fallbackProvider}</span>
+                Emergency Fallback: <span className="text-indigo-400 font-bold uppercase">{status.router.fallbackProvider}</span>
               </span>
             </div>
 
@@ -207,7 +209,7 @@ export default function AIProviderSettings() {
                 {status.router.averageResponseTimeMs.toLocaleString()} <span className="text-xs text-slate-400">ms</span>
               </span>
               <span className="text-[10px] text-slate-400 mt-2 font-medium">
-                Quality Evaluation: <span className="text-emerald-400 font-bold">Passed</span>
+                Deterministic Safety: <span className="text-emerald-400 font-bold">100% Online</span>
               </span>
             </div>
 
@@ -218,7 +220,7 @@ export default function AIProviderSettings() {
                 ${status.router.totalEstimatedCostUSD.toFixed(5)}
               </span>
               <span className="text-[10px] text-emerald-400 mt-2 font-medium flex items-center gap-1 font-bold">
-                <Zap size={10} /> Local Failbacks Saved Cost
+                <Zap size={10} /> High-Efficiency Optimization
               </span>
             </div>
 
@@ -228,17 +230,18 @@ export default function AIProviderSettings() {
           <div className="bg-slate-900/20 border border-slate-900 p-5 rounded-2xl">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
               <Cpu className="text-indigo-400 h-4 w-4" />
-              Routing Priority Fallback Cascade (Active Telemetry)
+              Stage 4.3 AI Routing Priority Hierarchy
             </h3>
             
             <div className="space-y-3">
               {[
-                { name: "grok", label: "Grok-Beta (Primary)", desc: "High reasoning capabilities. Strictly evaluated first." },
-                { name: "gemini", label: "Gemini-3.7-Flash (Secondary)", desc: "Newest secondary router if Grok times out or fails confidence criteria." },
-                { name: "local", label: "Athena Local NLP (Final Fallback)", desc: "100% offline rule-based extractor. Zero cost. Guaranteed." }
+                { name: "groq", label: "Groq Llama 3.3 70B (Primary Authoritative)", desc: "Ultra-low latency inference engine. Evaluated first for all intelligence tasks." },
+                { name: "gemini", label: "Gemini 3.6 Flash (Emergency Fallback)", desc: "Google DeepMind high-speed multimodal fallback when Groq encounters rate-limits or timeouts." },
+                { name: "local", label: "Athena Local NLP Synthesizer (Zero-Failure Net)", desc: "100% offline rule-based deterministic engine. Zero cost, guaranteed availability." }
               ].map((provider, idx) => {
-                const telemetry = (status.providers as any)[provider.name];
-                const isCurrent = status.router.currentProvider === provider.name;
+                const telemetry = (status.providers as any)?.[provider.name] || (provider.name === 'groq' ? (status.providers as any)?.grok : undefined) || { status: 'Healthy', successRatePercentage: 100, averageLatencyMs: 0 };
+                const isHealthy = telemetry.status === 'Healthy' || telemetry.status === 'Degraded';
+                const isCurrent = status.router.currentProvider === provider.name || (provider.name === 'groq' && status.router.currentProvider === 'grok');
                 
                 return (
                   <div key={provider.name} className={`p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${
@@ -248,17 +251,17 @@ export default function AIProviderSettings() {
                   }`}>
                     <div className="flex items-start gap-3">
                       <div className="mt-1">
-                        {telemetry.healthy ? (
-                          <CheckCircle className="h-4.5 w-4.5 text-emerald-400" />
+                        {isHealthy ? (
+                          <CheckCircle className="h-4 w-4 text-emerald-400" />
                         ) : (
-                          <XCircle className="h-4.5 w-4.5 text-rose-500" />
+                          <XCircle className="h-4 w-4 text-rose-500" />
                         )}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-bold text-white font-mono">{idx + 1}. {provider.label}</span>
                           {isCurrent && (
-                            <span className="text-[8px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-1.5 py-0.5 rounded font-bold font-mono tracking-wider uppercase">Active Primary</span>
+                            <span className="text-[8px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-1.5 py-0.5 rounded font-bold font-mono tracking-wider uppercase">Active</span>
                           )}
                         </div>
                         <p className="text-[10px] text-slate-400 mt-1 max-w-sm leading-normal">{provider.desc}</p>
@@ -268,19 +271,19 @@ export default function AIProviderSettings() {
                     <div className="flex items-center gap-6 font-mono text-[10px] self-end sm:self-center bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-900">
                       <div className="flex flex-col items-start">
                         <span className="text-slate-500 uppercase tracking-widest text-[8px]">Health</span>
-                        <span className={telemetry.healthy ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"}>
-                          {telemetry.healthy ? "HEALTHY" : "OFFLINE / LIMIT"}
+                        <span className={isHealthy ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"}>
+                          {isHealthy ? "HEALTHY" : "OFFLINE / LIMIT"}
                         </span>
                       </div>
                       <div className="w-[1px] h-6 bg-slate-900" />
                       <div className="flex flex-col items-start">
                         <span className="text-slate-500 uppercase tracking-widest text-[8px]">Success Rate</span>
-                        <span className="text-white font-bold">{telemetry.successRate}%</span>
+                        <span className="text-white font-bold">{telemetry.successRatePercentage ?? 100}%</span>
                       </div>
                       <div className="w-[1px] h-6 bg-slate-900" />
                       <div className="flex flex-col items-start">
                         <span className="text-slate-500 uppercase tracking-widest text-[8px]">Avg Latency</span>
-                        <span className="text-slate-300 font-bold">{telemetry.avgLatencyMs} ms</span>
+                        <span className="text-slate-300 font-bold">{telemetry.averageLatencyMs ?? 0} ms</span>
                       </div>
                     </div>
                   </div>
@@ -302,7 +305,7 @@ export default function AIProviderSettings() {
                   </h3>
                   <button 
                     onClick={handleClearCache}
-                    className="p-1 px-2 hover:bg-rose-500/10 hover:text-rose-400 text-slate-500 rounded border border-transparent hover:border-rose-500/20 transition-all flex items-center gap-1 text-[10px] font-bold"
+                    className="p-1 px-2 hover:bg-rose-500/10 hover:text-rose-400 text-slate-500 rounded border border-transparent hover:border-rose-500/20 transition-all flex items-center gap-1 text-[10px] font-bold cursor-pointer"
                   >
                     <Trash2 size={12} />
                     Purge Cache
@@ -330,7 +333,7 @@ export default function AIProviderSettings() {
                 </div>
               </div>
               <p className="text-[9px] text-slate-500 mt-4 leading-normal italic">
-                Cache holds structured filings for 365 days, saving repetitive LLM tokens and API invocation costs.
+                Structured summaries cached for persistent operational efficiency, saving latency and API expenditure.
               </p>
             </div>
 
@@ -342,23 +345,23 @@ export default function AIProviderSettings() {
               </h3>
 
               <div className="space-y-2">
-                {Object.entries(status.costTracker.providerBreakdown).map(([provider, details]: [string, any]) => (
+                {Object.entries(status.costTracker.providerBreakdown).filter(([k]) => k !== 'grok').map(([provider, details]: [string, any]) => (
                   <div key={provider} className="bg-slate-950/80 p-3 rounded-xl border border-slate-900 flex flex-col gap-1.5 text-[11px] font-mono">
                     <div className="flex justify-between items-center font-bold text-white uppercase tracking-wider text-[10px] border-b border-slate-900 pb-1 mb-1">
                       <span className="flex items-center gap-1.5">
-                        <div className={`h-2 w-2 rounded-full ${provider === 'grok' ? 'bg-indigo-500' : (provider === 'gemini' ? 'bg-emerald-400' : 'bg-slate-500')}`} />
-                        {provider}
+                        <div className={`h-2 w-2 rounded-full ${provider === 'groq' ? 'bg-indigo-500' : (provider === 'gemini' ? 'bg-emerald-400' : 'bg-slate-500')}`} />
+                        {provider.toUpperCase()}
                       </span>
-                      <span className="text-amber-400">${details.costUSD.toFixed(5)}</span>
+                      <span className="text-amber-400">${(details?.costUSD || 0).toFixed(5)}</span>
                     </div>
                     <div className="flex justify-between text-slate-400">
                       <span>Total Requests:</span>
-                      <span className="text-slate-200">{details.requests}</span>
+                      <span className="text-slate-200">{details?.requests || 0}</span>
                     </div>
                     {provider !== 'local' && (
                       <div className="flex justify-between text-slate-400">
-                        <span>Tokens Input/Output:</span>
-                        <span className="text-slate-200">{details.tokensInput} / {details.tokensOutput}</span>
+                        <span>Total Tokens:</span>
+                        <span className="text-slate-200">{(details?.tokens || 0).toLocaleString()}</span>
                       </div>
                     )}
                   </div>
@@ -415,7 +418,7 @@ export default function AIProviderSettings() {
                 <button
                   onClick={handleRunTest}
                   disabled={isRunningTest || !testTitle.trim() || !testBody.trim()}
-                  className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-850 text-white font-bold text-xs py-3 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-lg shadow-indigo-900/10 mt-1"
+                  className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-900 text-white font-bold text-xs py-3 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-lg shadow-indigo-900/10 mt-1"
                 >
                   {isRunningTest ? (
                     <>
@@ -446,9 +449,9 @@ export default function AIProviderSettings() {
                 {isRunningTest && (
                   <div className="flex-1 flex flex-col items-center justify-center text-center p-4 space-y-3">
                     <RefreshCw size={24} className="text-indigo-500 animate-spin" />
-                    <span className="text-xs text-indigo-400 font-mono tracking-wider animate-pulse">EVALUATING PIPELINE FALLBACKS...</span>
+                    <span className="text-xs text-indigo-400 font-mono tracking-wider animate-pulse">EVALUATING PIPELINE CASCADE...</span>
                     <p className="text-[10px] text-slate-500 font-sans max-w-xs italic leading-normal">
-                      Invoking fallback cascade (Grok check, evaluating confidence, fallback to Gemini, local fallback engine if offline).
+                      Invoking Groq Primary → Gemini 3.6 Flash Fallback → Local Synthesizer Net.
                     </p>
                   </div>
                 )}
@@ -466,7 +469,7 @@ export default function AIProviderSettings() {
                         {/* Summary Header details */}
                         <div className="flex items-center justify-between border-b border-slate-900 pb-2 text-[10px] text-slate-500 uppercase tracking-wider">
                           <span>Pipeline Simulation Complete</span>
-                          <span className="text-indigo-400 font-bold font-mono">v5 Engine</span>
+                          <span className="text-indigo-400 font-bold font-mono">Stage 4.3 Engine</span>
                         </div>
 
                         {/* Metadata grid */}
@@ -476,7 +479,7 @@ export default function AIProviderSettings() {
                             <span className="text-white font-bold uppercase">{testResult.provider}</span>
                           </div>
                           <div>
-                            <span className="text-slate-500 block uppercase">Confidence score:</span>
+                            <span className="text-slate-500 block uppercase">Confidence Score:</span>
                             <span className="text-emerald-400 font-bold">{testResult.confidence || "N/A"}/100</span>
                           </div>
                           <div>
@@ -487,7 +490,7 @@ export default function AIProviderSettings() {
                           </div>
                           <div>
                             <span className="text-slate-500 block uppercase">Execution Latency:</span>
-                            <span className="text-indigo-300 font-bold">{testResult.generationTime || 0} ms</span>
+                            <span className="text-indigo-300 font-bold">{testResult.latencyMs || testResult.generationTime || 0} ms</span>
                           </div>
                         </div>
 

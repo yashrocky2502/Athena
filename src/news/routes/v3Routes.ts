@@ -338,8 +338,9 @@ const handleProductionSnapshot = async (req: Request, res: Response) => {
       },
       categoryCounts,
       aiAvailability: {
-        grok: "AVAILABLE_INDEPENDENT",
+        groq: "AVAILABLE_INDEPENDENT",
         gemini: "AVAILABLE_INDEPENDENT",
+        grok: "AVAILABLE_INDEPENDENT",
         isolated: true
       },
       telegramHealth: {

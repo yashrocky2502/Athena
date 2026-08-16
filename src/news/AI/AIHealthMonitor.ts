@@ -19,9 +19,9 @@ export interface ProviderHealth {
 export class AIHealthMonitor {
   private static instance: AIHealthMonitor;
 
-  private healthState: Record<ProviderType, ProviderHealth> = {
-    grok: {
-      provider: 'grok',
+  private healthState: Record<string, ProviderHealth> = {
+    groq: {
+      provider: 'groq',
       status: 'Healthy',
       averageLatencyMs: 0,
       totalCalls: 0,
@@ -64,8 +64,13 @@ export class AIHealthMonitor {
     return AIHealthMonitor.instance;
   }
 
+  private normalizeProvider(provider: ProviderType | string): string {
+    return provider === 'grok' ? 'groq' : provider;
+  }
+
   public recordSuccess(provider: ProviderType, latencyMs: number, tokens: number): void {
-    const p = this.healthState[provider];
+    const key = this.normalizeProvider(provider);
+    const p = this.healthState[key];
     if (!p) return;
 
     p.totalCalls++;
@@ -89,7 +94,8 @@ export class AIHealthMonitor {
   }
 
   public recordFailure(provider: ProviderType, errorReason?: string): void {
-    const p = this.healthState[provider];
+    const key = this.normalizeProvider(provider);
+    const p = this.healthState[key];
     if (!p) return;
 
     p.totalCalls++;
@@ -107,7 +113,8 @@ export class AIHealthMonitor {
   }
 
   public recordQuotaExceeded(provider: ProviderType): void {
-    const p = this.healthState[provider];
+    const key = this.normalizeProvider(provider);
+    const p = this.healthState[key];
     if (!p) return;
     p.totalCalls++;
     p.errorCount++;
@@ -118,7 +125,8 @@ export class AIHealthMonitor {
 
   public isProviderHealthy(provider: ProviderType): boolean {
     if (provider === 'local') return true; // Local is always available
-    const p = this.healthState[provider];
+    const key = this.normalizeProvider(provider);
+    const p = this.healthState[key];
     if (!p) return false;
 
     // Auto-recover after 3 minutes if it was marked unhealthy due to temporary rate limits
@@ -135,9 +143,11 @@ export class AIHealthMonitor {
 
   public getHealthSummary() {
     return {
-      grok: { ...this.healthState.grok },
+      groq: { ...this.healthState.groq },
       gemini: { ...this.healthState.gemini },
-      local: { ...this.healthState.local }
+      local: { ...this.healthState.local },
+      // Backward compatibility mirror
+      grok: { ...this.healthState.groq }
     };
   }
 }

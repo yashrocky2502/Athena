@@ -5,12 +5,13 @@ import { ArticleContent, ArticleIntelligence } from './ArticleContent';
 import { SummaryCache } from './SummaryCache';
 import { FilingIntelligenceEngine } from './FilingIntelligenceEngine';
 import { AIRouter } from '../AI/AIRouter';
+import { ProviderType } from '../AI/AIProvider';
 import { isExchangeArticle, getExchangeName, getExchangeDocumentType } from '../utils/ExchangeUtils';
 import { IntelligenceEngine } from './IntelligenceEngine';
 
 export interface SummaryResult {
   summary: string;
-  provider: 'grok' | 'gemini' | 'local' | 'Official Exchange Filing' | string;
+  provider: ProviderType | 'Official Exchange Filing' | string;
   generationTime: number;
   cached: boolean;
   fallbackUsed: boolean;
@@ -106,7 +107,7 @@ export class SummaryService {
     const companyName = content.knowledge?.companies?.[0]?.name || 'the company';
 
     let summaryText = '';
-    let provider: 'grok' | 'gemini' | 'local' = 'local';
+    let provider: ProviderType = 'local';
     let fallbackUsed = false;
 
     // 2. Try LLM (via AIRouter) with a highly specific prompt
@@ -229,7 +230,7 @@ Investor Takeaway
     const body = content.body || content.cleanText || content.cleanedText || content.articleBody || '';
 
     let summaryText = '';
-    let provider: 'grok' | 'gemini' | 'local' = 'local';
+    let provider: ProviderType = 'local';
     let fallbackUsed = false;
 
     try {
@@ -325,7 +326,7 @@ Investor Takeaway
     const jobPromise = (async (): Promise<SummaryResult> => {
       const startTime = Date.now();
       let summaryText = '';
-      let provider: 'grok' | 'gemini' | 'local' = 'local';
+      let provider: ProviderType = 'local';
       let fallbackUsed = false;
 
       const headline = content.headline || content.title || '';

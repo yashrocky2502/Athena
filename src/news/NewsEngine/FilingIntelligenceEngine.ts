@@ -196,7 +196,7 @@ export class FilingIntelligenceEngine {
    */
   public async processFiling(content: ArticleContent): Promise<{
     summary: string;
-    provider: 'local' | 'gemini' | 'grok';
+    provider: 'local' | 'gemini' | 'groq' | 'grok';
     generationTime: number;
     cached: boolean;
     fallbackUsed: boolean;
@@ -212,7 +212,7 @@ export class FilingIntelligenceEngine {
     let facts = this.extractFilingFacts(content);
 
     let summaryText = '';
-    let provider: 'local' | 'gemini' | 'grok' = 'local';
+    let provider: 'local' | 'gemini' | 'groq' | 'grok' = 'local';
     let fallbackUsed = true;
     let cached = false;
 
