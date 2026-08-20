@@ -30,6 +30,14 @@ export interface NewsArticle extends NewsItem {
   collectionUrl?: string;
   collectionMethod?: 'DIRECT' | 'GOOGLE_RSS_FALLBACK';
   
+  // Backward compatibility & extra fields
+  content?: string;
+  raw_text?: string;
+  link?: string;
+  primaryCategory?: string;
+  isFno?: boolean;
+  publisher?: string;
+  
   // Developer Audit fields
   isFO?: boolean;
   isFnO?: boolean;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertCircle } from 'lucide-react';
 import { NewsArticle } from '../../news/models/NewsArticle';
-import { AthenaSummaryPage } from './AthenaSummaryPage';
+import { TraderArticleDossier } from './TraderArticleDossier';
 
 interface ArticleReaderProps {
   article: NewsArticle;
@@ -68,10 +68,8 @@ export function ArticleReader({
   if (!activeArticleContent && !article) return null;
 
   return (
-    <AthenaSummaryPage
+    <TraderArticleDossier
       article={article}
-      activeArticleContent={activeArticleContent}
-      activeSummary={activeSummary}
       onClose={onClose}
       onOpenOriginal={() => {
         const url = activeArticleContent?.finalUrl || activeArticleContent?.url || article?.url;

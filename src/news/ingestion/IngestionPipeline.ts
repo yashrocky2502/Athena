@@ -7,6 +7,8 @@ import { NewsArticle } from '../types/Article.ts';
 import { CanonicalArticleValidator } from '../validation/CanonicalArticleValidator.ts';
 import { IngestionTelemetry } from '../monitoring/IngestionTelemetry.ts';
 import { collectorHealthMonitor } from '../monitoring/CollectorHealthMonitor.ts';
+import { TraderImpactEngine } from '../intelligence/TraderImpactEngine.ts';
+import { TraderIntelligenceCache } from '../cache/TraderIntelligenceCache.ts';
 
 export interface IngestionResult {
     processed: number;
@@ -65,9 +67,25 @@ export class IngestionPipeline {
                     continue;
                 }
 
-                // 6. Storage
+                // 6. Storage (Summary-first for canonical article store)
                 await this.store.insert(article);
                 result.saved++;
+
+                // 7. Stage 7.3 Exception: Auto-generate & cache full intelligence for F&O articles ONLY
+                const fullText = `${(article as any).headline || (article as any).title || ''} ${(article as any).summary || (article as any).content || ''}`.toLowerCase();
+                const isFnoArticle = (article as any).isFno ||
+                    (article as any).category === 'FNO' ||
+                    (article as any).primaryCategory === 'FNO' ||
+                    /options|futures|strike|open interest|\boi\b|pcr|implied volatility|\biv\b|call option|put option|futures basis|rollover/i.test(fullText);
+
+                if (isFnoArticle) {
+                    try {
+                        const fnoIntel = TraderImpactEngine.transform(article as any);
+                        TraderIntelligenceCache.getInstance().set(article.id, fnoIntel, 'v7_3');
+                    } catch (fnoErr) {
+                        console.warn(`[IngestionPipeline] F&O auto-intelligence pre-cache failed for ${article.id}:`, fnoErr);
+                    }
+                }
                 
                 // Add to temporary existing for intra-batch deduplication
                 existingArticles.push(article);

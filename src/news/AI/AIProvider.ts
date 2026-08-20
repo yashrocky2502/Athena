@@ -18,6 +18,7 @@ export interface AIRequestOptions {
 export interface AIResponse {
   text: string;
   provider: ProviderType;
+  model?: string;
   confidence: number;
   promptTokens: number;
   completionTokens: number;

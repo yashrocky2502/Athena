@@ -36,16 +36,16 @@ describe('Stage 6.6: AI Model Reference Purge & Configuration Gate', () => {
     }
   });
 
-  it('Test A: Primary model defaults to openai/gpt-oss-120b when env is clear', () => {
+  it('Test A: Primary model defaults to llama-3.3-70b-versatile when env is clear', () => {
     delete process.env.GROQ_PRIMARY_MODEL;
     const groq = new GroqProvider();
-    expect(groq.getPrimaryModel()).toBe('openai/gpt-oss-120b');
+    expect(groq.getPrimaryModel()).toBe('llama-3.3-70b-versatile');
   });
 
-  it('Test B: Groq fallback model defaults to llama-3.3-70b-versatile when env is clear', () => {
+  it('Test B: Groq fallback model defaults to llama-3.1-8b-instant when env is clear', () => {
     delete process.env.GROQ_FALLBACK_MODEL;
     const groq = new GroqProvider();
-    expect(groq.getFallbackModel()).toBe('llama-3.3-70b-versatile');
+    expect(groq.getFallbackModel()).toBe('llama-3.1-8b-instant');
   });
 
   it('Test C: Gemini fallback model defaults to gemini-3.7-flash when env is clear', () => {
@@ -62,12 +62,25 @@ describe('Stage 6.6: AI Model Reference Purge & Configuration Gate', () => {
     const groq = new GroqProvider();
     const gemini = new GeminiProvider();
 
-    expect(groq.getPrimaryModel()).toBe('openai/gpt-oss-120b');
-    expect(groq.getFallbackModel()).toBe('llama-3.3-70b-versatile');
+    expect(groq.getPrimaryModel()).toBe('llama-3.3-70b-versatile');
+    expect(groq.getFallbackModel()).toBe('llama-3.1-8b-instant');
     expect(gemini.getModelName()).toBe('gemini-3.7-flash');
   });
 
-  it('Test E: Non-default configurations are correctly respected if explicitly set', () => {
+  it('Test E: Non-default configurations are correctly respected if explicitly set and valid', () => {
+    process.env.GROQ_PRIMARY_MODEL = 'llama-3.1-8b-instant';
+    process.env.GROQ_FALLBACK_MODEL = 'llama-3.3-70b-versatile';
+    process.env.GEMINI_FALLBACK_MODEL = 'gemini-3.1-flash-lite';
+
+    const groq = new GroqProvider();
+    const gemini = new GeminiProvider();
+
+    expect(groq.getPrimaryModel()).toBe('llama-3.1-8b-instant');
+    expect(groq.getFallbackModel()).toBe('llama-3.3-70b-versatile');
+    expect(gemini.getModelName()).toBe('gemini-3.1-flash-lite');
+  });
+
+  it('Test F: Invalid env models are ignored and fallback to defaults', () => {
     process.env.GROQ_PRIMARY_MODEL = 'custom-groq-primary';
     process.env.GROQ_FALLBACK_MODEL = 'custom-groq-fallback';
     process.env.GEMINI_FALLBACK_MODEL = 'custom-gemini-fallback';
@@ -75,9 +88,9 @@ describe('Stage 6.6: AI Model Reference Purge & Configuration Gate', () => {
     const groq = new GroqProvider();
     const gemini = new GeminiProvider();
 
-    expect(groq.getPrimaryModel()).toBe('custom-groq-primary');
-    expect(groq.getFallbackModel()).toBe('custom-groq-fallback');
-    expect(gemini.getModelName()).toBe('custom-gemini-fallback');
+    expect(groq.getPrimaryModel()).toBe('llama-3.3-70b-versatile');
+    expect(groq.getFallbackModel()).toBe('llama-3.1-8b-instant');
+    expect(gemini.getModelName()).toBe('gemini-3.7-flash');
   });
 
   it('Test F: All active configurations parse correctly and validate expected output properties', () => {

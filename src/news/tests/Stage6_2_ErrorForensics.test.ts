@@ -33,7 +33,7 @@ describe('Stage 6.2: Runtime Error Forensics & Final Regression Gate', () => {
     expect(router.router.geminiProvider).toBeDefined();
     expect(router.router.localProvider).toBeDefined();
 
-    const status = router.getStatus();
+    const status = router.getStatus() as any;
     expect(status.router.currentProvider).toBeDefined();
   });
 
@@ -80,6 +80,11 @@ describe('Stage 6.2: Runtime Error Forensics & Final Regression Gate', () => {
       tickers: ['TCS'],
       publishedAt: new Date().toISOString()
     };
+
+    // Warm-up to avoid JIT compilation jitter during heavy multi-suite parallel test runs
+    for (let i = 0; i < 20; i++) {
+      NewsSectionRouter.routeArticle(testArticle);
+    }
 
     const latencies: number[] = [];
     for (let i = 0; i < 100; i++) {

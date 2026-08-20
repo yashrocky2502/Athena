@@ -69,5 +69,452 @@
     "telegramMessageId": 9999685,
     "deduplicationKey": "v2_fresh_1786631218274:1670403316:FO_INTEL",
     "attemptCount": 1
+  },
+  {
+    "articleId": "v2_47cd443e4dd87987",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_47cd443e4dd87987:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_672f071036e6edc9",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_672f071036e6edc9:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_4e3f90e604592e0b",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_4e3f90e604592e0b:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_b6bb8d0dab623c58",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_b6bb8d0dab623c58:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_bbb807999870428b",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_bbb807999870428b:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_1c87dcca03909820",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_1c87dcca03909820:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_58c86ff7d6e31fac",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "SUPPRESSED",
+    "status": "SUPPRESSED",
+    "deduplicationKey": "v2_58c86ff7d6e31fac:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_218f2f00b9827cdd",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_218f2f00b9827cdd:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_e365e4b4f2cdf4fc",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_e365e4b4f2cdf4fc:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_3d2875df2cb7137a",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_3d2875df2cb7137a:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_ad365487d85b490b",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_ad365487d85b490b:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_843e7a7dd72d4f3b",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "SUPPRESSED",
+    "status": "SUPPRESSED",
+    "deduplicationKey": "v2_843e7a7dd72d4f3b:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_1babfbc2a3157ca5",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_1babfbc2a3157ca5:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_2b360287bdd3a55f",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_2b360287bdd3a55f:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_679a43659bf33d8c",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "SUPPRESSED",
+    "status": "SUPPRESSED",
+    "deduplicationKey": "v2_679a43659bf33d8c:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_63a6ef453f8cb5b8",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "SUPPRESSED",
+    "status": "SUPPRESSED",
+    "deduplicationKey": "v2_63a6ef453f8cb5b8:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_39b3fa4c71829a15",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_39b3fa4c71829a15:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_ccc968eb4b1f6bf6",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_ccc968eb4b1f6bf6:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_d4d66e105969b768",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-08-20T08:32:37.102Z",
+    "telegramMessageId": 9999152,
+    "deduplicationKey": "v2_d4d66e105969b768:1670403316:FO_INTEL",
+    "attemptCount": 1
+  },
+  {
+    "articleId": "v2_d413d816091cdd07",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-08-20T08:32:37.130Z",
+    "telegramMessageId": 9999437,
+    "deduplicationKey": "v2_d413d816091cdd07:1670403316:FO_INTEL",
+    "attemptCount": 1
+  },
+  {
+    "articleId": "v2_2068c9968b252ded",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-08-20T08:32:37.333Z",
+    "telegramMessageId": 9999582,
+    "deduplicationKey": "v2_2068c9968b252ded:1670403316:FO_INTEL",
+    "attemptCount": 1
+  },
+  {
+    "articleId": "v2_235e60aaa99a8d60",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_235e60aaa99a8d60:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_b0fa4dbf1cb38bec",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_b0fa4dbf1cb38bec:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_4868407ab247419f",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_4868407ab247419f:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_494a4c1cca0f7d08",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_494a4c1cca0f7d08:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_fd1d3ee5b0c22ca3",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_fd1d3ee5b0c22ca3:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_5df99c3e7b639fa2",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_5df99c3e7b639fa2:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_8e0c716c6bfdc39c",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_8e0c716c6bfdc39c:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_5cbc9d36b9b44dcf",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_5cbc9d36b9b44dcf:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_2c38e95632f3b268",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_2c38e95632f3b268:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_ca55146e9b8e667e",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_ca55146e9b8e667e:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_5661fb0038a6c4ef",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_5661fb0038a6c4ef:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_16e8b4c28099c205",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_16e8b4c28099c205:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_98e213286ffd5adc",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_98e213286ffd5adc:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_e812a986ca1ddf21",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_e812a986ca1ddf21:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_d4d44bd30ceabe9f",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_d4d44bd30ceabe9f:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_d40bda9b935b751f",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_d40bda9b935b751f:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_6c140199efe3aea8",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_6c140199efe3aea8:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_e4b14607592e33f8",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_e4b14607592e33f8:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_3129f142555deba5",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "SUPPRESSED",
+    "status": "SUPPRESSED",
+    "deduplicationKey": "v2_3129f142555deba5:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_466eb06fc9943651",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_466eb06fc9943651:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_7261e5fa623a2062",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_7261e5fa623a2062:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_e2385a0cf2b4cf46",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_e2385a0cf2b4cf46:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_9a6749526d943517",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_9a6749526d943517:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_f65aa5a65358914a",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_f65aa5a65358914a:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_6790b1e3f39468db",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_6790b1e3f39468db:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_d235bd5624d337d3",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_d235bd5624d337d3:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_4ac61dbc55ddd1f6",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_4ac61dbc55ddd1f6:1670403316:FO_INTEL",
+    "attemptCount": 0
+  },
+  {
+    "articleId": "v2_9a760f064624d363",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "DIGEST_PENDING",
+    "status": "DIGEST_PENDING",
+    "deduplicationKey": "v2_9a760f064624d363:1670403316:FO_INTEL",
+    "attemptCount": 0
   }
 ]

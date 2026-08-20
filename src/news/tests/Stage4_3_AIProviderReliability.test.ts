@@ -10,7 +10,6 @@ import { LocalProvider } from '../AI/LocalProvider';
 import { AIHealthMonitor } from '../AI/AIHealthMonitor';
 import { CostTracker } from '../AI/CostTracker';
 import { CacheManager } from '../AI/CacheManager';
-import { NewsAIService } from "../AI/NewsAIService";
 
 vi.mock('axios');
 
@@ -29,13 +28,13 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
   });
 
   describe('1. Model Availability & Verification', () => {
-    it('should verify Groq primary model is openai/gpt-oss-120b and fallback is llama-3.3-70b-versatile', () => {
+    it('should verify Groq primary model is llama-3.3-70b-versatile and fallback is llama-3.1-8b-instant', () => {
       const groqProvider = new GroqProvider();
       delete process.env.GROQ_PRIMARY_MODEL;
       delete process.env.GROQ_FALLBACK_MODEL;
 
-      expect(groqProvider.getPrimaryModel()).toBe('openai/gpt-oss-120b');
-      expect(groqProvider.getFallbackModel()).toBe('llama-3.3-70b-versatile');
+      expect(groqProvider.getPrimaryModel()).toBe('llama-3.3-70b-versatile');
+      expect(groqProvider.getFallbackModel()).toBe('llama-3.1-8b-instant');
     });
 
     it('should verify Gemini fallback model is gemini-3.7-flash and alternative candidates are verified', () => {
@@ -108,12 +107,12 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
       expect(mockedAxios).toHaveBeenCalledTimes(1);
       const callArgs = mockedAxios.mock.calls[0];
       expect(callArgs[0]).toBe('https://api.groq.com/openai/v1/chat/completions');
-      expect((callArgs[1] as any).model).toBe('openai/gpt-oss-120b');
+      expect((callArgs[1] as any).model).toBe('llama-3.3-70b-versatile');
       expect(result.provider).toBe('groq');
       expect(result.fallbackUsed).toBe(false);
     });
 
-    it('should fail over from Groq primary (openai/gpt-oss-120b) to Groq fallback (llama-3.3-70b-versatile) on 429', async () => {
+    it('should fail over from Groq primary (llama-3.3-70b-versatile) to Groq fallback (llama-3.1-8b-instant) on 429', async () => {
       process.env.GROQ_API_KEY = 'gsk_mock_valid_key_12345';
 
       const mockedAxios = vi.mocked(axios.post);
@@ -121,7 +120,7 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
       mockedAxios.mockRejectedValueOnce({
         response: {
           status: 429,
-          data: { error: { message: 'Rate limit exceeded on gpt-oss-120b' } }
+          data: { error: { message: 'Rate limit exceeded on llama-3.3-70b-versatile' } }
         }
       });
       // Attempt 2 (fallback model) succeeds
@@ -146,8 +145,8 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
       });
 
       expect(mockedAxios).toHaveBeenCalledTimes(2);
-      expect((mockedAxios.mock.calls[0][1] as any).model).toBe('openai/gpt-oss-120b');
-      expect((mockedAxios.mock.calls[1][1] as any).model).toBe('llama-3.3-70b-versatile');
+      expect((mockedAxios.mock.calls[0][1] as any).model).toBe('llama-3.3-70b-versatile');
+      expect((mockedAxios.mock.calls[1][1] as any).model).toBe('llama-3.1-8b-instant');
       expect(result.provider).toBe('groq');
     });
 

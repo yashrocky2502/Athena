@@ -1,0 +1,283 @@
+[
+  {
+    "id": "case_a_jio_prime",
+    "categoryKey": "CASE_A_PRODUCT",
+    "title": "Jio Prime subscription at ₹300 — What is on offer and how it differs from Bharti Airtel",
+    "headline": "Jio Prime subscription at ₹300 — What is on offer and how it differs from Bharti Airtel",
+    "content": "Reliance Jio Infocomm announced the commercial launch of its Jio Prime subscription at Rs 300 per year. The subscription offers extended free voice and data benefits to existing customers. Competitor Bharti Airtel responded by evaluating prepaid data packs, while Vodafone Idea announced new subscriber retention offers across circles.",
+    "publisher": "CNBC TV18",
+    "publishedAt": "2026-08-18T08:00:00.000Z",
+    "expected": {
+      "primaryEntity": "Reliance Industries / Jio",
+      "secondaryEntity": "Bharti Airtel",
+      "eventType": "PRODUCT_LAUNCH",
+      "isFno": false,
+      "cePeBias": "INSUFFICIENT_INFORMATION",
+      "noFalseEarnings": true
+    }
+  },
+  {
+    "id": "case_b_sunshine_ipo",
+    "categoryKey": "CASE_B_IPO",
+    "title": "Sunshine Pictures IPO review: Analysts divided; GMP at 20% - key details",
+    "headline": "Sunshine Pictures IPO review: Analysts divided; GMP at 20% - key details",
+    "content": "Sunshine Pictures Limited open for subscription today with issue price band fixed at Rs 180 to Rs 190 per share. SBI Securities recommended Avoid citing high valuations and media peer comparisons. Master Capital Services recommended Subscribe for long term. The current Grey Market Premium (GMP) stands at 20% or Rs 38 per share. Total issue size is Rs 250 crore.",
+    "publisher": "Moneycontrol",
+    "publishedAt": "2026-08-18T08:15:00.000Z",
+    "expected": {
+      "primaryEntity": "Sunshine Pictures",
+      "symbolResolutionState": "UNLISTED_OR_NO_TRADING_SYMBOL",
+      "brokerages": ["SBI Securities", "Master Capital Services"],
+      "forbiddenSymbols": ["SBIN"],
+      "eventType": "IPO",
+      "issuePrice": "Rs 180-190",
+      "gmp": "20%"
+    }
+  },
+  {
+    "id": "case_c_lalithaa_ipo",
+    "categoryKey": "CASE_C_IPO_CORRUPTION",
+    "title": "Subscribe for Lalithaa Jewellery Mart Ltd IPO; Geojit Financial Services",
+    "headline": "Subscribe for Lalithaa Jewellery Mart Ltd IPO; Geojit Financial Services",
+    "content": "Geojit Financial Services has assigned a Subscribe rating to Lalithaa Jewellery Mart Ltd IPO. The company plans to raise Rs 400 crore to expand retail jewelry stores in Southern India. Price band is Rs 210 to Rs 225 per share.",
+    "publisher": "Economic Times",
+    "publishedAt": "2026-08-18T08:30:00.000Z",
+    "expected": {
+      "primaryEntity": "Lalithaa Jewellery Mart Ltd",
+      "forbiddenEntityPrefix": "ibe for Lalithaa",
+      "brokerages": ["Geojit Financial Services"],
+      "forbiddenSymbols": ["GEOJITBNPP"],
+      "eventType": "IPO"
+    }
+  },
+  {
+    "id": "case_d_indomim_earnings",
+    "categoryKey": "CASE_D_EARNINGS",
+    "title": "Indo-MIM shares hit 10% upper circuit on strong Q1 results",
+    "headline": "Indo-MIM shares hit 10% upper circuit on strong Q1 results",
+    "content": "Indo-MIM reported a 32% year-on-year increase in Q1 net profit to Rs 85 crore driven by robust export orders. Consolidated revenue grew 18% to Rs 420 crore. Following the announcement, Indo-MIM shares hit the 10% upper circuit limit in morning trade.",
+    "publisher": "Mint",
+    "publishedAt": "2026-08-18T08:45:00.000Z",
+    "expected": {
+      "primaryEntity": "Indo-MIM",
+      "eventType": "EARNINGS",
+      "impactDirection": "BULLISH",
+      "reactionValue": "10% upper circuit",
+      "noInventedNumbers": true
+    }
+  },
+  {
+    "id": "case_e_bse_downgrade",
+    "categoryKey": "CASE_E_BROKERAGE_DOWNGRADE",
+    "title": "BSE shares drop 3% after second downgrade in two days",
+    "headline": "BSE shares drop 3% after second downgrade in two days",
+    "content": "BSE Limited shares fell 3% to Rs 2,450 after brokerage firms Jefferies, Nuvama, and Citi downgraded the stock rating to Hold, citing regulatory shifts in index options transaction fees.",
+    "publisher": "Business Standard",
+    "publishedAt": "2026-08-18T09:00:00.000Z",
+    "expected": {
+      "primaryEntity": "BSE Limited",
+      "brokerages": ["Jefferies", "Nuvama", "Citi"],
+      "eventType": "RATING_CHANGE",
+      "impactDirection": "BEARISH",
+      "reportedMovement": "-3%"
+    }
+  },
+  {
+    "id": "event_dividend",
+    "title": "TCS declares ₹20 special interim dividend per share",
+    "headline": "TCS declares ₹20 special interim dividend per share",
+    "content": "Tata Consultancy Services announced an interim dividend of Rs 20 per equity share with record date fixed for August 28.",
+    "publisher": "Financial Express",
+    "publishedAt": "2026-08-18T09:15:00.000Z",
+    "expected": { "primaryEntity": "TCS", "eventType": "DIVIDEND" }
+  },
+  {
+    "id": "event_buyback",
+    "title": "Infosys board approves ₹9,300 crore share buyback at ₹1,850",
+    "headline": "Infosys board approves ₹9,300 crore share buyback at ₹1,850",
+    "content": "Infosys announced a open market share buyback program aggregating up to Rs 9,300 crore at maximum price of Rs 1,850 per share.",
+    "publisher": "Moneycontrol",
+    "publishedAt": "2026-08-18T09:30:00.000Z",
+    "expected": { "primaryEntity": "Infosys", "eventType": "BUYBACK" }
+  },
+  {
+    "id": "event_m_and_a",
+    "title": "Adani Ports acquires 80% stake in Astro Offshore for $185 million",
+    "headline": "Adani Ports acquires 80% stake in Astro Offshore for $185 million",
+    "content": "Adani Ports and Special Economic Zone has entered into a definitive agreement to acquire 80% controlling stake in Astro Offshore.",
+    "publisher": "Reuters",
+    "publishedAt": "2026-08-18T09:45:00.000Z",
+    "expected": { "primaryEntity": "Adani Ports", "eventType": "M_AND_A" }
+  },
+  {
+    "id": "event_order_win",
+    "title": "L&T Construction bags major ₹2,500 crore solar power project in Middle East",
+    "headline": "L&T Construction bags major ₹2,500 crore solar power project in Middle East",
+    "content": "Larsen & Toubro power transmission business secured a large order valued between Rs 2,500 crore to Rs 5,000 crore.",
+    "publisher": "NDTV Profit",
+    "publishedAt": "2026-08-18T10:00:00.000Z",
+    "expected": { "primaryEntity": "L&T", "eventType": "ORDER_WIN" }
+  },
+  {
+    "id": "event_qip",
+    "title": "DLF opens ₹3,000 crore QIP at floor price of ₹810 per share",
+    "headline": "DLF opens ₹3,000 crore QIP at floor price of ₹810 per share",
+    "content": "DLF Limited launched its qualified institutional placement to raise up to Rs 3,000 crore at floor price of Rs 810.",
+    "publisher": "Bloomberg",
+    "publishedAt": "2026-08-18T10:15:00.000Z",
+    "expected": { "primaryEntity": "DLF", "eventType": "QIP" }
+  },
+  {
+    "id": "event_block_deal",
+    "title": "Block deal: 2.5% equity of Zomato changes hands in early trade",
+    "headline": "Block deal: 2.5% equity of Zomato changes hands in early trade",
+    "content": "About 2.1 crore shares of Zomato worth Rs 540 crore traded in a large block deal on BSE.",
+    "publisher": "CNBC TV18",
+    "publishedAt": "2026-08-18T10:30:00.000Z",
+    "expected": { "primaryEntity": "Zomato", "eventType": "BLOCK_DEAL" }
+  },
+  {
+    "id": "event_stake_sale",
+    "title": "Promoter entity sells 4% stake in IndusInd Bank via open market",
+    "headline": "Promoter entity sells 4% stake in IndusInd Bank via open market",
+    "content": "IndusInd International Holdings sold 3.1 crore shares of IndusInd Bank worth Rs 1,800 crore.",
+    "publisher": "Economic Times",
+    "publishedAt": "2026-08-18T10:45:00.000Z",
+    "expected": { "primaryEntity": "IndusInd Bank", "eventType": "STAKE_SALE" }
+  },
+  {
+    "id": "event_rating_change",
+    "title": "UBS upgrades Tata Motors to Buy with target price of ₹1,150",
+    "headline": "UBS upgrades Tata Motors to Buy with target price of ₹1,150",
+    "content": "Brokerage firm UBS upgraded Tata Motors rating to Buy from Neutral, raising target price from Rs 950 to Rs 1,150 citing JLR margins.",
+    "publisher": "Mint",
+    "publishedAt": "2026-08-18T11:00:00.000Z",
+    "expected": { "primaryEntity": "Tata Motors", "brokerages": ["UBS"], "eventType": "RATING_CHANGE" }
+  },
+  {
+    "id": "event_regulatory_action",
+    "title": "RBI imposes ₹1.2 crore monetary penalty on ICICI Bank for compliance lapses",
+    "headline": "RBI imposes ₹1.2 crore monetary penalty on ICICI Bank for compliance lapses",
+    "content": "Reserve Bank of India issued a penalty order of Rs 1.2 crore on ICICI Bank for statutory loan compliance issues.",
+    "publisher": "Business Standard",
+    "publishedAt": "2026-08-18T11:15:00.000Z",
+    "expected": { "primaryEntity": "ICICI Bank", "eventType": "REGULATORY_ACTION" }
+  },
+  {
+    "id": "event_sebi_action",
+    "title": "SEBI passes interim order against IIFL Securities over fund segregation violations",
+    "headline": "SEBI passes interim order against IIFL Securities over fund segregation violations",
+    "content": "Securities and Exchange Board of India restrained IIFL Securities from onboarding new clients for 2 years.",
+    "publisher": "Moneycontrol",
+    "publishedAt": "2026-08-18T11:30:00.000Z",
+    "expected": { "primaryEntity": "IIFL Securities", "eventType": "SEBI_ACTION" }
+  },
+  {
+    "id": "event_rbi_policy",
+    "title": "RBI Monetary Policy Committee keeps repo rate unchanged at 6.5%",
+    "headline": "RBI Monetary Policy Committee keeps repo rate unchanged at 6.5%",
+    "content": "RBI MPC voted 5-1 to maintain benchmark repo rate at 6.50% while retaining withdrawal of accommodation stance.",
+    "publisher": "Financial Express",
+    "publishedAt": "2026-08-18T11:45:00.000Z",
+    "expected": { "eventType": "RBI_POLICY" }
+  },
+  {
+    "id": "event_central_bank",
+    "title": "US Federal Reserve signals potential 25 bps rate cut in September meeting",
+    "headline": "US Federal Reserve signals potential 25 bps rate cut in September meeting",
+    "content": "US Federal Reserve Chairman Jerome Powell stated inflation trajectory aligns with 25 bps interest rate reduction.",
+    "publisher": "Reuters",
+    "publishedAt": "2026-08-18T12:00:00.000Z",
+    "expected": { "eventType": "CENTRAL_BANK" }
+  },
+  {
+    "id": "event_macro_data",
+    "title": "India IIP industrial production grows 5.4% in June vs 4.7% expected",
+    "headline": "India IIP industrial production grows 5.4% in June vs 4.7% expected",
+    "content": "India Index of Industrial Production expanded 5.4% in June supported by manufacturing and electricity output.",
+    "publisher": "Business Standard",
+    "publishedAt": "2026-08-18T12:15:00.000Z",
+    "expected": { "eventType": "MACRO_DATA" }
+  },
+  {
+    "id": "event_interest_rate",
+    "title": "SBI hikes MCLR loan rates by 10 bps across tenors",
+    "headline": "SBI hikes MCLR loan rates by 10 bps across tenors",
+    "content": "State Bank of India revised Marginal Cost of Funds based Lending Rate upwards by 10 basis points.",
+    "publisher": "Economic Times",
+    "publishedAt": "2026-08-18T12:30:00.000Z",
+    "expected": { "primaryEntity": "SBI", "eventType": "INTEREST_RATE" }
+  },
+  {
+    "id": "event_inflation",
+    "title": "India CPI retail inflation eases to 3.6% in July, five-month low",
+    "headline": "India CPI retail inflation eases to 3.6% in July, five-month low",
+    "content": "Consumer Price Index based inflation dropped to 3.6% in July primarily driven by softening vegetable prices.",
+    "publisher": "Mint",
+    "publishedAt": "2026-08-18T12:45:00.000Z",
+    "expected": { "eventType": "INFLATION" }
+  },
+  {
+    "id": "event_currency",
+    "title": "Indian Rupee rises 12 paise to 83.82 against US Dollar on FII inflows",
+    "headline": "Indian Rupee rises 12 paise to 83.82 against US Dollar on FII inflows",
+    "content": "Rupee appreciated against US dollar backed by equity market inflows and lower crude oil prices.",
+    "publisher": "CNBC TV18",
+    "publishedAt": "2026-08-18T13:00:00.000Z",
+    "expected": { "eventType": "CURRENCY" }
+  },
+  {
+    "id": "event_commodity",
+    "title": "Brent crude oil prices fall below $75 per barrel on China demand worries",
+    "headline": "Brent crude oil prices fall below $75 per barrel on China demand worries",
+    "content": "Global crude oil benchmark Brent futures declined 2.1% to $74.80 per barrel as Chinese economic indicators weakened.",
+    "publisher": "Reuters",
+    "publishedAt": "2026-08-18T13:15:00.000Z",
+    "expected": { "eventType": "COMMODITY" }
+  },
+  {
+    "id": "event_capex",
+    "title": "NTPC approves ₹21,000 crore capital expenditure for 2,400 MW thermal expansion",
+    "headline": "NTPC approves ₹21,000 crore capital expenditure for 2,400 MW thermal expansion",
+    "content": "NTPC board sanctioned investment approval for expansion of Stage-III power unit at Sipat power station.",
+    "publisher": "NDTV Profit",
+    "publishedAt": "2026-08-18T13:30:00.000Z",
+    "expected": { "primaryEntity": "NTPC", "eventType": "CAPEX" }
+  },
+  {
+    "id": "event_management_change",
+    "title": "Wipro appoints Srini Pallia as Chief Executive Officer following Thierry Delaporte resignation",
+    "headline": "Wipro appoints Srini Pallia as Chief Executive Officer following Thierry Delaporte resignation",
+    "content": "Wipro Limited announced executive leadership transition with Srini Pallia taking charge as Managing Director and CEO.",
+    "publisher": "Economic Times",
+    "publishedAt": "2026-08-18T13:45:00.000Z",
+    "expected": { "primaryEntity": "Wipro", "eventType": "MANAGEMENT_CHANGE" }
+  },
+  {
+    "id": "event_promoter_action",
+    "title": "Promoters pledge 5% additional shares of Vedanta with security trustee",
+    "headline": "Promoters pledge 5% additional shares of Vedanta with security trustee",
+    "content": "Vedanta Resources promoter group pledged 18.5 crore shares representing 5.0% equity to secure loan facility.",
+    "publisher": "Moneycontrol",
+    "publishedAt": "2026-08-18T14:00:00.000Z",
+    "expected": { "primaryEntity": "Vedanta", "eventType": "PROMOTER_ACTION" }
+  },
+  {
+    "id": "event_legal_action",
+    "title": "Delhi High Court stays arbitration award against SpiceJet in Kalanithi Maran dispute",
+    "headline": "Delhi High Court stays arbitration award against SpiceJet in Kalanithi Maran dispute",
+    "content": "Delhi High Court issued interim relief to SpiceJet Limited staying execution of Rs 270 crore arbitral award.",
+    "publisher": "Business Standard",
+    "publishedAt": "2026-08-18T14:15:00.000Z",
+    "expected": { "primaryEntity": "SpiceJet", "eventType": "LEGAL_ACTION" }
+  },
+  {
+    "id": "event_fno_explicit",
+    "title": "Nifty August 24,500 Call option OI jumps 45% as PCR drops to 0.72",
+    "headline": "Nifty August 24,500 Call option OI jumps 45% as PCR drops to 0.72",
+    "content": "Nifty derivatives data showed heavy call writing at 24,500 strike with Open Interest increasing by 4.2 million shares. Put-Call Ratio (PCR) dropped from 0.88 to 0.72 indicating resistance.",
+    "publisher": "NSE India",
+    "publishedAt": "2026-08-18T14:30:00.000Z",
+    "expected": { "isFno": true, "cePeBias": "PE_BIAS", "fnoEvidencePresent": true }
+  }
+]

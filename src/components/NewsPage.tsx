@@ -3,17 +3,17 @@ import { NewsCategoryChips, CategoryName } from './news/NewsCategoryChips';
 import { NewsCard } from './news/NewsCard';
 import { ArticleReader } from './news/ArticleReader';
 import { NewsSkeletonLoader } from './news/NewsSkeletonLoader';
-import { NewsDiagnosticsPanel, formatISTTime } from './NewsDiagnosticsPanel';
-import { FixedSectionNewsLayout } from './news/FixedSectionNewsLayout';
+import { TraderSymbolWatchlistView } from './news/TraderSymbolWatchlistView';
 import { safeLocalStorage } from '../services/storage/safeStorage';
 import { 
   Newspaper, RefreshCw, AlertCircle, 
-  Search, Clock, X, Activity, CheckCircle2, AlertTriangle,
-  BookOpen, ExternalLink, Cpu, Radio, Sparkles, LayoutGrid, List
+  Search, Clock, X, CheckCircle2, AlertTriangle,
+  BookOpen, ExternalLink, Radio, Sparkles, LayoutGrid, List,
+  TrendingUp, Flame, Zap, Building2
 } from 'lucide-react';
 
-type SentimentFilter = 'ALL' | 'BULLISH' | 'BEARISH' | 'NEUTRAL';
-type ViewMode = 'SECTIONS' | 'FEED';
+type SentimentFilter = 'ALL' | 'BULLISH' | 'BEARISH' | 'NEUTRAL' | 'HIGH_IMPACT' | 'BREAKING' | 'FNO' | 'EARNINGS' | 'REGULATORY';
+type ViewMode = 'FEED' | 'WATCHLIST';
 
 export type CategoryFeedState = {
   articles: any[];
@@ -32,7 +32,7 @@ const ALL_CATEGORIES: CategoryName[] = [
 ];
 
 export default function NewsPage({ developerMode = false }: { developerMode?: boolean }) {
-  const [viewMode, setViewMode] = useState<ViewMode>('SECTIONS');
+  const [viewMode, setViewMode] = useState<ViewMode>('FEED');
   const [selectedCategory, setSelectedCategory] = useState<CategoryName>('All');
   const selectedCategoryRef = useRef<CategoryName>(selectedCategory);
   useEffect(() => {
@@ -61,9 +61,6 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
   const [streamStatus, setStreamStatus] = useState<"CONNECTED" | "RECONNECTING" | "OFFLINE">("CONNECTED");
   const [newArticlesCount, setNewArticlesCount] = useState<number>(0);
   const [breakingNewsArticle, setBreakingNewsArticle] = useState<any | null>(null);
-
-  // Diagnostics Modal & Live Push Toast State
-  const [showDiagnosticsModal, setShowDiagnosticsModal] = useState<boolean>(false);
   const [livePushToast, setLivePushToast] = useState<{ count: number; headline: string; publisher: string; time: string } | null>(null);
   const toastTimeoutRef = useRef<any>(null);
 
@@ -71,11 +68,6 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
   const [searchQuery, setSearchQuery] = useState('');
   const [sentimentFilter, setSentimentFilter] = useState<SentimentFilter>('ALL');
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
-
-  // Metrics Modal state
-  const [showMetricsModal, setShowMetricsModal] = useState(false);
-  const [metricsData, setMetricsData] = useState<any | null>(null);
-  const [loadingMetrics, setLoadingMetrics] = useState(false);
 
   // Lazy Rendering State (per-category view slice)
   const [visibleCount, setVisibleCount] = useState(50);
@@ -350,33 +342,6 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     }
   };
 
-  // Metrics Modal Loader
-  const loadMetrics = async () => {
-    setLoadingMetrics(true);
-    try {
-      const res = await fetch('/api/v4/news/status');
-      if (res.ok) {
-        const data = await res.json();
-        setMetricsData({
-          summary: {
-            totalProviders: data.activeCollectors || 11,
-            healthyProviders: data.activeCollectors || 11,
-            degradedProviders: 0,
-            totalArticlesReturned: data.apiCount || 0,
-            totalValidArticles: data.storageCount || 0,
-            totalDuplicatesRemoved: (data.duplicateIds || 0) + (data.duplicateCanonicalUrls || 0),
-            totalInvalidUrls: 0,
-            lastGlobalRefresh: data.lastSuccessfulSyncAt || new Date().toISOString()
-          }
-        });
-      }
-    } catch (err) {
-      console.warn("[NewsPage] Failed to fetch V2 metrics:", err);
-    } finally {
-      setLoadingMetrics(false);
-    }
-  };
-
   // 60-second Countdown Auto-Sync Scheduler using selectedCategoryRef.current
   useEffect(() => {
     const timer = setInterval(() => {
@@ -530,7 +495,19 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     }
 
     if (sentimentFilter !== 'ALL') {
-      result = result.filter((a) => a.sentiment === sentimentFilter);
+      if (sentimentFilter === 'BULLISH' || sentimentFilter === 'BEARISH' || sentimentFilter === 'NEUTRAL') {
+        result = result.filter((a) => (a.sentiment || 'NEUTRAL').toUpperCase() === sentimentFilter);
+      } else if (sentimentFilter === 'HIGH_IMPACT') {
+        result = result.filter((a) => (a.impactScore && a.impactScore >= 7) || (a.impact && ['VERY_HIGH', 'HIGH'].includes(a.impact.toUpperCase())));
+      } else if (sentimentFilter === 'BREAKING') {
+        result = result.filter((a) => a.isBreaking || (a.headline || a.title || '').toLowerCase().includes('breaking'));
+      } else if (sentimentFilter === 'FNO') {
+        result = result.filter((a) => !!(a.fno?.eligible || a.isFO || a.fnoEligible));
+      } else if (sentimentFilter === 'EARNINGS') {
+        result = result.filter((a) => (a.primaryCategory === 'Results' || (a.headline || a.title || '').toLowerCase().includes('profit') || (a.headline || a.title || '').toLowerCase().includes('q1') || (a.headline || a.title || '').toLowerCase().includes('q2') || (a.headline || a.title || '').toLowerCase().includes('q3') || (a.headline || a.title || '').toLowerCase().includes('q4')));
+      } else if (sentimentFilter === 'REGULATORY') {
+        result = result.filter((a) => (a.headline || a.title || '').toLowerCase().includes('sebi') || (a.headline || a.title || '').toLowerCase().includes('penalty') || (a.headline || a.title || '').toLowerCase().includes('rbi'));
+      }
     }
 
     return result;
@@ -544,7 +521,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     setActiveArticle(article);
     setActiveArticleContent({
       cleanText: article.body || article.summary || article.headline,
-      title: article.headline
+      title: article.headline || article.title
     });
     setActiveSummary({
       summary: article.summary || article.body || article.headline,
@@ -564,8 +541,8 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-100">Athena Terminal News Core V2</h1>
-              <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-semibold">Isolated Feed Architecture</span>
+              <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-100">Athena News Intelligence Core</h1>
+              <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-semibold">Stage 7 Trader Actionable</span>
             </div>
             <p className="text-xs text-slate-400">Real-time financial intelligence stream • Total Records: <span className="font-mono font-semibold text-slate-200">{totalCount}</span></p>
           </div>
@@ -574,17 +551,6 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
         <div className="flex flex-wrap items-center gap-2">
           {/* View Mode Switcher */}
           <div className="flex items-center gap-1 bg-slate-950/80 border border-slate-800 p-1 rounded-xl text-xs">
-            <button
-              onClick={() => setViewMode('SECTIONS')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
-                viewMode === 'SECTIONS'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span>Fixed Sections</span>
-            </button>
             <button
               onClick={() => setViewMode('FEED')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
@@ -595,6 +561,17 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
             >
               <List className="w-3.5 h-3.5" />
               <span>Category Feed</span>
+            </button>
+            <button
+              onClick={() => setViewMode('WATCHLIST')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                viewMode === 'WATCHLIST'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Building2 className="w-3.5 h-3.5" />
+              <span>Symbol Watchlist</span>
             </button>
           </div>
 
@@ -613,27 +590,6 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
             <Clock className="w-3.5 h-3.5 text-indigo-400" />
             <span>Auto-sync in {nextAutoSyncSec}s</span>
           </div>
-
-          {/* Metrics Audit Modal Button */}
-          <button
-            onClick={() => {
-              setShowMetricsModal(true);
-              loadMetrics();
-            }}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 text-xs font-medium border border-slate-700/60 transition-all cursor-pointer"
-          >
-            <Activity className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Provider Audit</span>
-          </button>
-
-          {/* Diagnostics Panel Toggle */}
-          <button
-            onClick={() => setShowDiagnosticsModal(true)}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 text-xs font-medium border border-slate-700/60 transition-all cursor-pointer"
-          >
-            <Cpu className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Diagnostics</span>
-          </button>
         </div>
       </div>
 
@@ -654,7 +610,7 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
         </div>
       )}
 
-      {/* SEARCH AND FILTERS BAR */}
+      {/* SEARCH AND TRADER FILTERS BAR */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -675,112 +631,124 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           )}
         </div>
 
-        {/* Sentiment Filter Pills */}
-        <div className="flex items-center gap-1 bg-slate-900/80 p-1 border border-slate-800 rounded-xl text-xs w-full sm:w-auto overflow-x-auto">
-          {(['ALL', 'BULLISH', 'BEARISH', 'NEUTRAL'] as SentimentFilter[]).map((st) => (
+        {/* Sentiment & Trader Intelligence Filter Pills */}
+        <div className="flex items-center gap-1.5 bg-slate-900/80 p-1 border border-slate-800 rounded-xl text-xs w-full sm:w-auto overflow-x-auto">
+          {[
+            { id: 'ALL', label: 'All' },
+            { id: 'HIGH_IMPACT', label: '⚡ High Impact' },
+            { id: 'BREAKING', label: '🔥 Breaking' },
+            { id: 'FNO', label: '🎯 F&O' },
+            { id: 'BULLISH', label: '🟢 Bullish' },
+            { id: 'BEARISH', label: '🔴 Bearish' },
+            { id: 'EARNINGS', label: '📊 Earnings' },
+            { id: 'REGULATORY', label: '⚖️ Regulatory' }
+          ].map((st) => (
             <button
-              key={st}
-              onClick={() => setSentimentFilter(st)}
-              className={`px-3 py-1 rounded-lg font-medium transition-all ${
-                sentimentFilter === st
+              key={st.id}
+              onClick={() => setSentimentFilter(st.id as SentimentFilter)}
+              className={`px-3 py-1 rounded-lg font-medium transition-all whitespace-nowrap cursor-pointer ${
+                sentimentFilter === st.id
                   ? 'bg-indigo-600 text-white shadow-sm'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              {st}
+              {st.label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* CATEGORY TABS BAR */}
-      <div className="sticky top-0 z-20 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 py-1.5 -mx-3 md:-mx-4 px-3 md:px-4 shadow-lg">
-        <NewsCategoryChips
-          selectedCategory={selectedCategory}
-          onSelectCategory={(cat) => setSelectedCategory(cat)}
-          categoryCounts={categoryCounts}
-        />
-      </div>
-
       {/* MAIN CONTENT AREA */}
-      {viewMode === 'SECTIONS' ? (
-        <FixedSectionNewsLayout
-          onOpenArticle={handleOpenArticleContent}
-          developerMode={developerMode}
+      {viewMode === 'WATCHLIST' ? (
+        <TraderSymbolWatchlistView
+          onSelectArticle={handleOpenArticleContent}
         />
-      ) : loading && targetCategoryArticles.length === 0 ? (
-        <NewsSkeletonLoader />
-      ) : error && targetCategoryArticles.length === 0 ? (
-        <div className="p-8 bg-rose-950/20 border border-rose-500/30 rounded-2xl text-center flex flex-col items-center gap-3">
-          <AlertCircle className="w-8 h-8 text-rose-400" />
-          <h3 className="text-base font-semibold text-rose-200">Unable to load News Feed</h3>
-          <p className="text-xs text-rose-300 max-w-md">{error}</p>
-          <button
-            onClick={() => loadNewsFeed(1, selectedCategory, false)}
-            className="mt-2 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold"
-          >
-            Retry Connection
-          </button>
-        </div>
-      ) : visibleArticles.length === 0 ? (
-        <div className="p-10 bg-slate-900/60 border border-slate-800/80 rounded-2xl text-center flex flex-col items-center justify-center gap-2">
-          <p className="text-sm font-semibold text-slate-300">No news articles found for this selection.</p>
-          <p className="text-xs text-slate-500">Try clearing search terms or selecting another category tab.</p>
-          <button
-            onClick={() => {
-              setSelectedCategory('All');
-              setSearchQuery('');
-              setSentimentFilter('ALL');
-            }}
-            className="mt-2 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium"
-          >
-            Reset Filters
-          </button>
-        </div>
       ) : (
-        <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {visibleArticles.map((article) => (
-              <NewsCard
-                key={article.id}
-                article={article}
-                onOpenArticleContent={handleOpenArticleContent}
-              />
-            ))}
+        <>
+          {/* CATEGORY TABS BAR */}
+          <div className="sticky top-0 z-20 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 py-1.5 -mx-3 md:-mx-4 px-3 md:px-4 shadow-lg">
+            <NewsCategoryChips
+              selectedCategory={selectedCategory}
+              onSelectCategory={(cat) => setSelectedCategory(cat)}
+              categoryCounts={categoryCounts}
+            />
           </div>
 
-          {/* Lazy Load Button */}
-          {visibleCount < filteredArticles.length ? (
-            <div className="flex justify-center my-6">
+          {loading && targetCategoryArticles.length === 0 ? (
+            <NewsSkeletonLoader />
+          ) : error && targetCategoryArticles.length === 0 ? (
+            <div className="p-8 bg-rose-950/20 border border-rose-500/30 rounded-2xl text-center flex flex-col items-center gap-3">
+              <AlertCircle className="w-8 h-8 text-rose-400" />
+              <h3 className="text-base font-semibold text-rose-200">Unable to load News Feed</h3>
+              <p className="text-xs text-rose-300 max-w-md">{error}</p>
               <button
-                onClick={() => setVisibleCount((prev) => prev + 15)}
-                className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-semibold transition-all shadow-md cursor-pointer"
+                onClick={() => loadNewsFeed(1, selectedCategory, false)}
+                className="mt-2 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold"
               >
-                Show More Articles ({filteredArticles.length - visibleCount} loaded)
+                Retry Connection
               </button>
             </div>
-          ) : currentPage < totalPages ? (
-            <div className="flex justify-center my-6">
+          ) : visibleArticles.length === 0 ? (
+            <div className="p-10 bg-slate-900/60 border border-slate-800/80 rounded-2xl text-center flex flex-col items-center justify-center gap-2">
+              <p className="text-sm font-semibold text-slate-300">No news articles found for this selection.</p>
+              <p className="text-xs text-slate-500">Try clearing search terms or selecting another category tab.</p>
               <button
                 onClick={() => {
-                  loadNewsFeed(currentPage + 1, selectedCategory, true).then(() => {
-                    setVisibleCount((prev) => prev + 15);
-                  });
+                  setSelectedCategory('All');
+                  setSearchQuery('');
+                  setSentimentFilter('ALL');
                 }}
-                className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-all shadow-md cursor-pointer flex items-center gap-2"
+                className="mt-2 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium"
               >
-                {lifecycleState === 'SYNCING' ? (
-                  <>
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                    <span>Loading...</span>
-                  </>
-                ) : (
-                  <span>Load More Historical Articles (Page {currentPage + 1} of {totalPages})</span>
-                )}
+                Reset Filters
               </button>
             </div>
-          ) : null}
-        </div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {visibleArticles.map((article) => (
+                  <NewsCard
+                    key={article.id}
+                    article={article}
+                    onOpenArticleContent={handleOpenArticleContent}
+                  />
+                ))}
+              </div>
+
+              {/* Lazy Load Button */}
+              {visibleCount < filteredArticles.length ? (
+                <div className="flex justify-center my-6">
+                  <button
+                    onClick={() => setVisibleCount((prev) => prev + 15)}
+                    className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-semibold transition-all shadow-md cursor-pointer"
+                  >
+                    Show More Articles ({filteredArticles.length - visibleCount} loaded)
+                  </button>
+                </div>
+              ) : currentPage < totalPages ? (
+                <div className="flex justify-center my-6">
+                  <button
+                    onClick={() => {
+                      loadNewsFeed(currentPage + 1, selectedCategory, true).then(() => {
+                        setVisibleCount((prev) => prev + 15);
+                      });
+                    }}
+                    className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-all shadow-md cursor-pointer flex items-center gap-2"
+                  >
+                    {lifecycleState === 'SYNCING' ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Loading...</span>
+                      </>
+                    ) : (
+                      <span>Load More Historical Articles (Page {currentPage + 1} of {totalPages})</span>
+                    )}
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          )}
+        </>
       )}
 
       {/* ARTICLE READER MODAL */}
@@ -795,69 +763,6 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
           onClose={() => setActiveArticle(null)}
           onRetry={() => handleOpenArticleContent(activeArticle)}
         />
-      )}
-
-      {/* DIAGNOSTICS MODAL */}
-      {showDiagnosticsModal && (
-        <NewsDiagnosticsPanel
-          isOpen={showDiagnosticsModal}
-          onClose={() => setShowDiagnosticsModal(false)}
-        />
-      )}
-
-      {/* AUDIT METRICS MODAL */}
-      {showMetricsModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-            <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/50">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30">
-                  <Activity className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="font-bold text-slate-100 text-base sm:text-lg">Ingestion & Provider Audit</h2>
-                  <p className="text-xs text-slate-400">News Core V2 Live Pipeline Telemetry</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowMetricsModal(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-4 sm:p-6 overflow-y-auto flex-1 flex flex-col gap-5 text-xs">
-              {loadingMetrics ? (
-                <div className="py-12 text-center text-slate-400 flex flex-col items-center gap-3">
-                  <RefreshCw className="w-6 h-6 animate-spin text-indigo-400" />
-                  <span>Loading News Core V2 metrics...</span>
-                </div>
-              ) : metricsData && metricsData.summary ? (
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-3 flex flex-col gap-1">
-                    <span className="text-slate-400 text-[11px]">Active Collectors</span>
-                    <span className="font-mono font-bold text-lg text-slate-100">{metricsData.summary.totalProviders}</span>
-                  </div>
-                  <div className="bg-slate-950/60 border border-emerald-500/20 rounded-xl p-3 flex flex-col gap-1">
-                    <span className="text-emerald-400 text-[11px]">Valid Canonical Articles</span>
-                    <span className="font-mono font-bold text-lg text-emerald-400">{metricsData.summary.totalValidArticles}</span>
-                  </div>
-                  <div className="bg-slate-950/60 border border-indigo-500/20 rounded-xl p-3 flex flex-col gap-1">
-                    <span className="text-indigo-400 text-[11px]">Deduplicated Items</span>
-                    <span className="font-mono font-bold text-lg text-indigo-400">{metricsData.summary.totalDuplicatesRemoved}</span>
-                  </div>
-                  <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-3 flex flex-col gap-1">
-                    <span className="text-slate-400 text-[11px]">Total Raw Ingested</span>
-                    <span className="font-mono font-bold text-lg text-slate-100">{metricsData.summary.totalArticlesReturned}</span>
-                  </div>
-                </div>
-              ) : (
-                <p className="text-slate-400 text-center py-6">Telemetry unavailable</p>
-              )}
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );

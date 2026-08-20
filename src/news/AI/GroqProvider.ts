@@ -2,6 +2,7 @@ import axios from 'axios';
 import { IAIProvider, AIRequestOptions, AIResponse, ProviderType } from './AIProvider';
 import { AIHealthMonitor } from './AIHealthMonitor';
 import { CostTracker } from './CostTracker';
+import { AIModelConfig } from './AIModelConfig';
 
 export type GroqErrorCode =
   | 'AUTH_FAILED'
@@ -19,7 +20,10 @@ export class GroqProvider implements IAIProvider {
   private costTracker = CostTracker.getInstance();
 
   public getApiKey(): string | undefined {
-    const key = process.env.GROQ_API_KEY || (typeof window === 'undefined' ? process.env?.GROQ_API_KEY : undefined);
+    if (typeof process === 'undefined' || !process.env) {
+      return undefined;
+    }
+    const key = process.env.GROQ_API_KEY;
     if (!key || key.includes('MY_GROQ_API_KEY') || key === 'undefined' || key === 'null' || key.trim() === '') {
       return undefined;
     }
@@ -35,11 +39,17 @@ export class GroqProvider implements IAIProvider {
   }
 
   public getPrimaryModel(): string {
-    return process.env.GROQ_PRIMARY_MODEL || 'openai/gpt-oss-120b';
+    const envModel = process.env.GROQ_PRIMARY_MODEL;
+    return (envModel && AIModelConfig.groq.candidates.includes(envModel)) 
+      ? envModel 
+      : AIModelConfig.groq.primary;
   }
 
   public getFallbackModel(): string {
-    return process.env.GROQ_FALLBACK_MODEL || 'llama-3.3-70b-versatile';
+    const envModel = process.env.GROQ_FALLBACK_MODEL;
+    return (envModel && AIModelConfig.groq.candidates.includes(envModel)) 
+      ? envModel 
+      : AIModelConfig.groq.fallback;
   }
 
   public async generate(options: AIRequestOptions): Promise<AIResponse> {
@@ -51,11 +61,19 @@ export class GroqProvider implements IAIProvider {
       throw err;
     }
 
-    const models = [
+    let models = [
       this.getPrimaryModel(),
       this.getFallbackModel(),
-      'llama-3.3-70b-versatile'
-    ].filter((m, idx, self) => self.indexOf(m) === idx);
+      ...AIModelConfig.groq.candidates
+    ]
+      .filter((m, idx, self) => Boolean(m) && self.indexOf(m) === idx)
+      .filter(m => !this.healthMonitor.isModelPoisoned(m));
+
+    if (models.length === 0) {
+      // If all are poisoned, recover fallback to allow failover tracking
+      models = [this.getFallbackModel() || 'llama-3.1-8b-instant'];
+    }
+
     const maxRetries = models.length - 1;
     let attempt = 0;
     let lastError: any = null;
@@ -151,10 +169,21 @@ export class GroqProvider implements IAIProvider {
         const errorMessage = err?.response?.data?.error?.message || err?.message || 'Unknown Groq Error';
 
         if (status === 401 || status === 403) {
-          this.healthMonitor.recordFailure('groq', `Auth error ${status}: ${errorMessage}`);
+          this.healthMonitor.recordFailure('groq', `Auth error ${status}: ${errorMessage}`, status);
           const authErr = new Error(`Groq Authentication Failed (${status}): ${errorMessage}`);
           (authErr as any).code = 'AUTH_FAILED' as GroqErrorCode;
           throw authErr;
+        }
+
+        // Handle model not found or invalid model errors by trying the next model
+        if (status === 404 || status === 400 || errorMessage.includes('does not exist') || errorMessage.includes('decommissioned') || errorMessage.includes('model') || errorMessage.includes('not found')) {
+          console.warn(`[GroqProvider] Model '${modelToUse}' unavailable (${errorMessage}). Recording poisoned model...`);
+          this.healthMonitor.recordPoisonedModel(modelToUse);
+          this.healthMonitor.recordFailure('groq', errorMessage, status || '404');
+          attempt++;
+          if (attempt <= maxRetries) {
+            continue;
+          }
         }
 
         if (status === 429) {

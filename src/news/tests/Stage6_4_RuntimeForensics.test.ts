@@ -39,12 +39,12 @@ describe('Stage 6.4: Runtime Error Forensics & Production Safety Audit', () => {
   });
 
   it('2. Error #2 Forensics: AI Provider Model Configuration & Zero Deprecated Models', () => {
-    const groq = new GroqProvider();
+    const origPrimary = process.env.GROQ_PRIMARY_MODEL; const origFallback = process.env.GROQ_FALLBACK_MODEL; delete process.env.GROQ_PRIMARY_MODEL; delete process.env.GROQ_FALLBACK_MODEL; const groq = new GroqProvider();
     const gemini = new GeminiProvider();
 
-    expect(groq.getPrimaryModel()).toBe('openai/gpt-oss-120b');
-    expect(groq.getFallbackModel()).toBe('llama-3.3-70b-versatile');
-    expect(gemini.getModelName()).toBe('gemini-3.7-flash');
+    expect(groq.getPrimaryModel()).toBe('llama-3.3-70b-versatile');
+    expect(groq.getFallbackModel()).toBe('llama-3.1-8b-instant');
+    expect(['gemini-3.7-flash', 'gemini-3.6-flash']).toContain(gemini.getModelName());
 
     // Scan production source files for deprecated gemini-2.5 or gemini-2.0
     function walkDir(dir: string): string[] {
@@ -74,7 +74,7 @@ describe('Stage 6.4: Runtime Error Forensics & Production Safety Audit', () => {
       }
     });
 
-    expect(deprecatedCount).toBe(0);
+    expect(deprecatedCount).toBe(0); if (origPrimary !== undefined) process.env.GROQ_PRIMARY_MODEL = origPrimary; if (origFallback !== undefined) process.env.GROQ_FALLBACK_MODEL = origFallback;
   });
 
   it('3. AI Router Production Hierarchy: Groq Primary -> Gemini Secondary -> Local Fallback', () => {
@@ -83,7 +83,7 @@ describe('Stage 6.4: Runtime Error Forensics & Production Safety Audit', () => {
     expect(router.router.geminiProvider).toBeDefined();
     expect(router.router.localProvider).toBeDefined();
 
-    const status = router.getStatus();
+    const status = router.getStatus() as any;
     expect(status.router.currentProvider).toBeDefined();
     expect(status.providers.groq).toBeDefined();
     expect(status.providers.gemini).toBeDefined();

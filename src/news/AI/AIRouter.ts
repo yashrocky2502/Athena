@@ -109,22 +109,22 @@ export class AIRouter {
             confidence: evalResult.score
           };
         } else {
-          console.warn(`[AI Router] Groq confidence score low (${evalResult.score}/100): ${evalResult.issues.join('; ')}. Failing over to Gemini 3.6 Flash.`);
+          console.warn(`[AI Router] Groq confidence score low (${evalResult.score}/100): ${evalResult.issues.join('; ')}. Failing over to Gemini Flash.`);
           fallbackUsed = true;
         }
       } catch (err: any) {
-        console.warn(`[AI Router] Groq Provider failed: ${err.message}. Failing over to Gemini 3.6 Flash.`);
+        console.warn(`[AI Router] Groq Provider failed: ${err.message}. Failing over to Gemini Flash.`);
         fallbackUsed = true;
       }
     } else {
-      console.log('[AI Router] Groq Provider unhealthy or unconfigured. Failing over to Gemini 3.6 Flash.');
+      console.log('[AI Router] Groq Provider unhealthy or unconfigured. Failing over to Gemini Flash.');
       fallbackUsed = true;
     }
 
-    // 3. Try Emergency Fallback: Gemini 3.6 Flash
+    // 3. Try Emergency Fallback: Gemini Flash
     if (!response && this.geminiProvider.isHealthy()) {
       try {
-        console.log('[AI Router] Dispatching request to Emergency Fallback Provider: Gemini 3.6 Flash');
+        console.log('[AI Router] Dispatching request to Emergency Fallback Provider: Gemini Flash');
         const geminiResp = await this.geminiProvider.generate(requestOptions);
         const evalResult = ConfidenceEngine.evaluate(geminiResp.text, requestOptions.facts, input.body);
 
@@ -155,6 +155,54 @@ export class AIRouter {
     // Store in Cache
     this.cacheManager.set(cacheKey, response, cacheCategory);
 
+    return response;
+  }
+
+  /**
+   * Direct compatible router generation path.
+   */
+  public async generateWithRouter(options: AIRequestOptions): Promise<AIResponse> {
+    let response: AIResponse | null = null;
+    
+    // Check Cache
+    const cacheKey = this.cacheManager.generateKey({
+      url: options.url,
+      title: options.headline || options.prompt.slice(0, 50),
+      publisher: options.publisher,
+      articleHash: options.prompt ? String(options.prompt.length) : undefined,
+      promptVersion: 'v5_direct',
+      modelVersion: 'v1_direct'
+    });
+    
+    const cached = this.cacheManager.get(cacheKey);
+    if (cached) {
+      if (options.streamingCallback) {
+        options.streamingCallback('final', cached.text);
+      }
+      return cached;
+    }
+
+    if (this.groqProvider.isHealthy()) {
+      try {
+        response = await this.groqProvider.generate(options);
+      } catch (err) {
+        console.warn(`[AIRouter] direct groq failed: ${err}`);
+      }
+    }
+    
+    if (!response && this.geminiProvider.isHealthy()) {
+      try {
+        response = await this.geminiProvider.generate(options);
+      } catch (err) {
+        console.warn(`[AIRouter] direct gemini failed: ${err}`);
+      }
+    }
+    
+    if (!response) {
+      response = await this.localProvider.generate(options);
+    }
+    
+    this.cacheManager.set(cacheKey, response, 'Market News');
     return response;
   }
 

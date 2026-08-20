@@ -19,7 +19,7 @@ export interface NewsItem {
   title?: string;
   description?: string;
   summary?: string;
-  publisher: string;
+  publisher?: string;
   author?: string;
   publishedAt: string;
   category: string;
@@ -32,7 +32,7 @@ export interface NewsItem {
   canonicalUrl?: string;
   resolutionStatus?: 'RESOLVED' | 'PUBLISHER_URL_UNAVAILABLE';
   image?: string;
-  source: string;
+  source?: any;
   sourceType: 'RSS' | 'SITEMAP' | 'GOOGLE_DISCOVERY' | 'API' | 'EXCHANGE' | 'GOVERNMENT' | 'SCRAPER';
   discoveryLayer?: 'RSS' | 'SITEMAP' | 'GOOGLE_DISCOVERY' | 'EXCHANGE' | 'GOVERNMENT' | 'API' | 'SCRAPER';
   isExchange: boolean;

@@ -53,6 +53,22 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 }
 
+// Global defensive event listeners to guard against unhandled promise rejections or async network aborts
+if (typeof window !== 'undefined') {
+  window.addEventListener('unhandledrejection', (event) => {
+    console.warn('[Athena Runtime Guard] Non-fatal unhandled promise rejection caught:', event.reason);
+    // Prevent unhandled promise rejection from escalating to browser-level fatal state
+    event.preventDefault();
+  });
+
+  window.addEventListener('error', (event) => {
+    if (event.error?.message?.includes('ResizeObserver') || event.message?.includes('ResizeObserver')) {
+      // Benign browser resize observer loop error
+      event.stopImmediatePropagation();
+    }
+  });
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>

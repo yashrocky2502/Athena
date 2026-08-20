@@ -1,1 +1,48 @@
-[]
+[
+  {
+    "articleId": "v2_f7c8be2352a0b322",
+    "payload": {
+      "id": "v2_f7c8be2352a0b322",
+      "canonicalUrl": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQczVSbmVaRFFnc1Q1MFlhekhyc0RJUUJvbUZZRjdRSmEyYnpfVDh4bDJPclFoVDcwNWtNdlNkMWdhMFRDNzBCRmR4ZUE1V0pwVEdiWE5PU0VLN2NrR1BaTlFNWE1KblpnMHo4SHZZVWJlVjVIOXpvd0k0OXhTSzIzMWZ0bFgxT2JwenVNalU1SXdUUzlmb1BYeGhyVDBuTGhreGlWcGJhd3RVZkdfS1A0YkJFdFhvbnE0VzFScGFHMi3SAcYBQVVfeXFMUF9IT01XeG9GdkxtQnZ2SUVsTGM2XzdiM21GemRtSk1vUzFIeGtGYkZYNjVMcUpxVVM0ZlIyM3JxYTNCeTdWa0FCWWNnUVRhbVpXdHJjUzRhcmNLU2lkRkVPeW9rZV9paEQxd25UZHJ0LWYxeEFNMzNoc2hFZGJBYm5UV1BMX3VEVE9iN0cxWG9yX01mZllESkVqQ0lkdmkzN1N0NklGc3dyVUJKWmpNemNmT1hjNnZJTEJlaC1UNU1nMW4wN05R?oc=5",
+      "headline": "NSE may seek SEBI nod to trade its shares on its own platforms, sources say - CNBC TV18",
+      "body": "<a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxQczVSbmVaRFFnc1Q1MFlhekhyc0RJUUJvbUZZRjdRSmEyYnpfVDh4bDJPclFoVDcwNWtNdlNkMWdhMFRDNzBCRmR4ZUE1V0pwVEdiWE5PU0VLN2NrR1BaTlFNWE1KblpnMHo4SHZZVWJlVjVIOXpvd0k0OXhTSzIzMWZ0bFgxT2JwenVNalU1SXdUUzlmb1BYeGhyVDBuTGhreGlWcGJhd3RVZkdfS1A0YkJFdFhvbnE0VzFScGFHMi3SAcYBQVVfeXFMUF9IT01XeG9GdkxtQnZ2SUVsTGM2XzdiM21GemRtSk1vUzFIeGtGYkZYNjVMcUpxVVM0ZlIyM3JxYTNCeTdWa0FCWWNnUVRhbVpXdHJjUzRhcmNLU2lkRkVPeW9rZV9paEQxd25UZHJ0LWYxeEFNMzNoc2hFZGJBYm5UV1BMX3VEVE9iN0cxWG9yX01mZllESkVqQ0lkdmkzN1N0NklGc3dyVUJKWmpNemNmT1hjNnZJTEJlaC1UNU1nMW4wN05R?oc=5\" target=\"_blank\">NSE may seek SEBI nod to trade its shares on its own platforms, sources say</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
+      "source": {
+        "publisher": "CNBC TV18",
+        "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQczVSbmVaRFFnc1Q1MFlhekhyc0RJUUJvbUZZRjdRSmEyYnpfVDh4bDJPclFoVDcwNWtNdlNkMWdhMFRDNzBCRmR4ZUE1V0pwVEdiWE5PU0VLN2NrR1BaTlFNWE1KblpnMHo4SHZZVWJlVjVIOXpvd0k0OXhTSzIzMWZ0bFgxT2JwenVNalU1SXdUUzlmb1BYeGhyVDBuTGhreGlWcGJhd3RVZkdfS1A0YkJFdFhvbnE0VzFScGFHMi3SAcYBQVVfeXFMUF9IT01XeG9GdkxtQnZ2SUVsTGM2XzdiM21GemRtSk1vUzFIeGtGYkZYNjVMcUpxVVM0ZlIyM3JxYTNCeTdWa0FCWWNnUVRhbVpXdHJjUzRhcmNLU2lkRkVPeW9rZV9paEQxd25UZHJ0LWYxeEFNMzNoc2hFZGJBYm5UV1BMX3VEVE9iN0cxWG9yX01mZllESkVqQ0lkdmkzN1N0NklGc3dyVUJKWmpNemNmT1hjNnZJTEJlaC1UNU1nMW4wN05R?oc=5",
+        "collectionMethod": "RSS"
+      },
+      "publishedAt": "2026-08-20T09:00:24.000Z",
+      "collectedAt": "2026-08-20T09:07:50.726Z",
+      "category": "Economy",
+      "sentiment": "NEUTRAL",
+      "relevanceScore": 65,
+      "primaryCategory": "Economy",
+      "secondaryCategories": [],
+      "eventType": "REGULATORY",
+      "categoryConfidence": "HIGH",
+      "classificationEvidence": [
+        "[Economy] Economy/regulatory keywords matched in headline"
+      ],
+      "fno": {
+        "eligible": false,
+        "symbol": null,
+        "confidence": "NONE",
+        "decision": "EXCLUDE",
+        "reason": "No canonical F&O entity identified in headline"
+      },
+      "summary": "NSE may seek SEBI nod to trade its shares on its own platforms, sources say - CNBC TV18. <a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxQczVSbmVaRFFnc1Q1MFlhekhyc0RJUUJvbUZZRjdRSmEyYnpfVDh4bDJPclFoVDcwNWtNdlNkMWdhMFRDNzBCRmR4ZUE1V0pwVEdiWE5PU0VLN2NrR1BaTlFNWE1KblpnMHo4SHZZVWJlVjVIOXpvd0k0OXhTSzIzMWZ0bFgxT2JwenVNalU1SXdUUzlmb1BYeGhyVDBuTGhreGlWcGJhd3RVZkdfS1A0YkJFdFhvbnE0VzFScGFHMi3SAcYBQVVfeXFMUF9IT01XeG9GdkxtQnZ2SUVsTGM2XzdiM21GemRtSk1vUzFIeGtGYkZYNjVMcUpxVVM0ZlIyM3JxYTNCeTdWa0FCWWNnUVRhbVpXdHJjUzRhcmNLU2lkRkVPeW9rZV9paEQxd25UZHJ0LWYxeEFNMzNoc2hFZGJBYm5UV1BMX3VEVE9iN0cxWG9yX01mZllESkVqQ0lkdmkzN1N0NklGc3dyVUJKWmpNemNmT1hjNnZJTEJlaC1UNU1nMW4wN05R?oc=5\" target=\"_blank\">NSE may seek SEBI nod to trade its shares on its own platforms, sources say</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
+      "whatChanged": [
+        "NSE may seek SEBI nod to trade its shares on its own platforms, sources say - CNBC TV18"
+      ],
+      "keyMetrics": [],
+      "whyItMatters": "Regulatory update: NSE may seek SEBI nod to trade its shares on its own platforms, sources say - CNBC TV18. Requisite compliance parameters apply as published.",
+      "marketImpact": "No actionable F&O setup from this article alone.",
+      "riskWatchpoints": [
+        "Regulatory / Legal watchpoint: \"<a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxQczVSbmVaRFFnc1Q1MFlhekhyc0RJUUJvbUZZRjdRSmEyYnpfVDh4bDJPcl\""
+      ],
+      "summaryConfidence": 80,
+      "summaryProcessingMode": "DETERMINISTIC"
+    },
+    "attempts": 0
+  }
+]

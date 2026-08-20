@@ -7,6 +7,7 @@ export interface PromptBuildInput {
   facts?: Record<string, any> | string;
   issuer?: string;
   filingType?: string;
+  symbols?: string[];
 }
 
 export interface BuiltPrompt {

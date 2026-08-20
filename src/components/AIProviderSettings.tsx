@@ -142,7 +142,7 @@ export default function AIProviderSettings() {
             ATHENA V5 — AI Model Infrastructure (Stage 4.3)
           </h2>
           <p className="text-xs text-slate-400 mt-1">
-            Authoritative Hierarchy: Groq Primary (Llama 3.3 70B) → Gemini 3.6 Flash Fallback → Athena Local Engine.
+            Authoritative Hierarchy: Groq Primary (Llama 3.3 70B) → Gemini 3.7 Flash Fallback → Athena Local Engine.
           </p>
         </div>
         <button 
@@ -236,7 +236,7 @@ export default function AIProviderSettings() {
             <div className="space-y-3">
               {[
                 { name: "groq", label: "Groq Llama 3.3 70B (Primary Authoritative)", desc: "Ultra-low latency inference engine. Evaluated first for all intelligence tasks." },
-                { name: "gemini", label: "Gemini 3.6 Flash (Emergency Fallback)", desc: "Google DeepMind high-speed multimodal fallback when Groq encounters rate-limits or timeouts." },
+                { name: "gemini", label: "Gemini 3.7 Flash (Emergency Fallback)", desc: "Google DeepMind high-speed multimodal fallback when Groq encounters rate-limits or timeouts." },
                 { name: "local", label: "Athena Local NLP Synthesizer (Zero-Failure Net)", desc: "100% offline rule-based deterministic engine. Zero cost, guaranteed availability." }
               ].map((provider, idx) => {
                 const telemetry = (status.providers as any)?.[provider.name] || (provider.name === 'groq' ? (status.providers as any)?.grok : undefined) || { status: 'Healthy', successRatePercentage: 100, averageLatencyMs: 0 };

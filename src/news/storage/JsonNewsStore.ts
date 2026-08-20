@@ -203,13 +203,14 @@ export class JsonNewsStore implements INewsStore {
 
         const catLower = category.toLowerCase().trim();
         return all.filter(a => {
+            const cat = a.primaryCategory ? a.primaryCategory.toLowerCase() : '';
             if (catLower === 'f&o' || catLower === 'fno') {
                 return a.primaryCategory === 'F&O' || a.fnoEligible === true;
             }
             if (catLower === 'market' || catLower === 'markets') {
-                return a.primaryCategory.toLowerCase() === 'market' || a.primaryCategory.toLowerCase() === 'markets';
+                return cat === 'market' || cat === 'markets';
             }
-            return a.primaryCategory.toLowerCase() === catLower;
+            return cat === catLower;
         });
     }
 

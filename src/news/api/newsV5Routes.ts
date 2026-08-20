@@ -20,6 +20,8 @@ import { IngestionTelemetry } from '../monitoring/IngestionTelemetry.ts';
 import { getAllSectionDefinitions, NewsSectionId, isValidSectionId, normalizeSectionId } from '../types/NewsSection.ts';
 import { NewsSectionRouter } from '../intelligence/NewsSectionRouter.ts';
 import { NewsIntelligenceQualityService } from '../intelligence/NewsIntelligenceQualityService.ts';
+import { NewsSummaryService } from '../services/NewsSummaryService.ts';
+import { LiveIngestionWorker } from '../ingestion/LiveIngestionWorker.ts';
 
 const router = Router();
 
@@ -844,4 +846,361 @@ router.get('/sections/health', async (_req: Request, res: Response) => {
     }
 });
 
-export { router as newsV5Router, stage2Store, feedService, ingestionPipeline };
+// ==========================================
+// STAGE 7: TRADER-CENTRIC INTELLIGENCE APIS
+// ==========================================
+import { TraderImpactEngine } from '../intelligence/TraderImpactEngine.ts';
+import { ImpactDirection, EventType, FNORelevance } from '../types/TraderIntelligence.ts';
+import { TraderIntelligenceCache } from '../cache/TraderIntelligenceCache.ts';
+
+// Fast in-memory cache for intelligence items
+const intelligenceCache = new Map<string, { data: any; cachedAt: number }>();
+const CACHE_TTL_MS = 60 * 1000; // 1 minute
+
+function getCachedOrCompute(key: string, computeFn: () => any): any {
+    const cached = intelligenceCache.get(key);
+    if (cached && (Date.now() - cached.cachedAt) < CACHE_TTL_MS) {
+        return cached.data;
+    }
+    const fresh = computeFn();
+    intelligenceCache.set(key, { data: fresh, cachedAt: Date.now() });
+    return fresh;
+}
+
+/**
+ * GET /api/v5/news/intelligence/article/:id
+ * On-demand full trader dossier for a specific article.
+ * Uses TraderIntelligenceCache (key format: news-intelligence:{id}:v7_3)
+ */
+router.get('/intelligence/article/:id', async (req: Request, res: Response) => {
+    const startTime = Date.now();
+    try {
+        const { id } = req.params;
+        const article = await stage2Store.getById(id);
+        if (!article) {
+            return res.status(404).json({ status: 'error', message: `Article with ID ${id} not found.` });
+        }
+
+        const cache = TraderIntelligenceCache.getInstance();
+        let intelligence = cache.get(id, 'v7_3');
+        let fromCache = true;
+
+        if (!intelligence) {
+            fromCache = false;
+            // Execute deterministic analysis (External AI called only when required and available)
+            intelligence = TraderImpactEngine.transform(article as any);
+            // Store in isolated TraderIntelligenceCache
+            cache.set(id, intelligence, 'v7_3');
+        }
+
+        const latencyMs = Date.now() - startTime;
+
+        res.json({
+            status: 'success',
+            cached: fromCache,
+            latencyMs,
+            article: {
+                id: article.id,
+                headline: (article as any).headline || (article as any).title,
+                publishedAt: article.publishedAt,
+                publisher: article.source?.name || article.source?.publisher,
+                sourceUrl: (article as any).sourceUrl || (article as any).url,
+                category: article.primaryCategory || (article as any).category
+            },
+            intelligence
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/summary/article/:id
+ * On-demand canonical 2-4 sentence summary for a specific article.
+ * Uses NewsSummaryService & NewsSummaryCache (key format: news-summary:{id}:v7_4)
+ */
+router.get('/summary/article/:id', async (req: Request, res: Response) => {
+    const startTime = Date.now();
+    try {
+        const { id } = req.params;
+        const article = await stage2Store.getById(id);
+        if (!article) {
+            return res.status(404).json({ status: 'error', message: `Article with ID ${id} not found.` });
+        }
+
+        const summaryService = NewsSummaryService.getInstance();
+        const summary = await summaryService.getOrGenerateSummary(article as any);
+        const latencyMs = Date.now() - startTime;
+
+        res.json({
+            status: 'success',
+            latencyMs,
+            article: {
+                id: article.id,
+                headline: (article as any).headline || (article as any).title,
+                publisher: article.source?.name || article.source?.publisher,
+                publishedAt: article.publishedAt
+            },
+            summary
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/symbol/:symbol
+ * Aggregated symbol intelligence dossier.
+ */
+router.get('/intelligence/symbol/:symbol', async (req: Request, res: Response) => {
+    const startTime = Date.now();
+    try {
+        const { symbol } = req.params;
+        const sym = symbol.toUpperCase().trim();
+        const allArticles = await stage2Store.getAll();
+
+        const summary = getCachedOrCompute(`sym_${sym}`, () =>
+            TraderImpactEngine.generateSymbolSummary(sym, allArticles as any[])
+        );
+        const latencyMs = Date.now() - startTime;
+
+        res.json({
+            status: 'success',
+            symbol: sym,
+            latencyMs,
+            summary
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/impact/:impact
+ * Filtered by impact direction / magnitude.
+ */
+router.get('/intelligence/impact/:impact', async (req: Request, res: Response) => {
+    const startTime = Date.now();
+    try {
+        const impactParam = req.params.impact.toUpperCase();
+        const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string) || 20));
+        const page = Math.max(1, parseInt(req.query.page as string) || 1);
+        const allArticles = await stage2Store.getAll();
+
+        const transformed = getCachedOrCompute(`all_transformed`, () =>
+            (allArticles as any[]).map(a => TraderImpactEngine.transform(a))
+        );
+
+        const filtered = transformed.filter((t: any) =>
+            t.impactDirection === impactParam || t.impactMagnitude === impactParam
+        );
+
+        const offset = (page - 1) * limit;
+        const paginated = filtered.slice(offset, offset + limit);
+        const latencyMs = Date.now() - startTime;
+
+        res.json({
+            status: 'success',
+            impact: impactParam,
+            total: filtered.length,
+            page,
+            limit,
+            latencyMs,
+            items: paginated
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/fno
+ * F&O relevant feed with CE/PE bias and IV risk tags.
+ */
+router.get('/intelligence/fno', async (req: Request, res: Response) => {
+    const startTime = Date.now();
+    try {
+        const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string) || 20));
+        const page = Math.max(1, parseInt(req.query.page as string) || 1);
+        const allArticles = await stage2Store.getAll();
+
+        const transformed = getCachedOrCompute(`all_transformed`, () =>
+            (allArticles as any[]).map(a => TraderImpactEngine.transform(a))
+        );
+
+        const fnoItems = transformed.filter((t: any) =>
+            t.fnoRelevance === FNORelevance.HIGH || t.fnoRelevance === FNORelevance.MEDIUM
+        );
+
+        const offset = (page - 1) * limit;
+        const paginated = fnoItems.slice(offset, offset + limit);
+        const latencyMs = Date.now() - startTime;
+
+        res.json({
+            status: 'success',
+            total: fnoItems.length,
+            page,
+            limit,
+            latencyMs,
+            items: paginated
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/breaking
+ * High-urgency breaking news feed.
+ */
+router.get('/intelligence/breaking', async (req: Request, res: Response) => {
+    const startTime = Date.now();
+    try {
+        const allArticles = await stage2Store.getAll();
+
+        const transformed = getCachedOrCompute(`all_transformed`, () =>
+            (allArticles as any[]).map(a => TraderImpactEngine.transform(a))
+        );
+
+        const breakingItems = transformed
+            .filter((t: any) => t.isBreaking || t.urgency === 'VERY_HIGH' || t.urgency === 'HIGH')
+            .slice(0, 30);
+
+        const latencyMs = Date.now() - startTime;
+
+        res.json({
+            status: 'success',
+            total: breakingItems.length,
+            latencyMs,
+            items: breakingItems
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/events/:eventType
+ * Filtered by event type taxonomy (e.g. EARNINGS, DIVIDEND, REGULATORY_ACTION).
+ */
+router.get('/intelligence/events/:eventType', async (req: Request, res: Response) => {
+    const startTime = Date.now();
+    try {
+        const eventTypeParam = req.params.eventType.toUpperCase();
+        const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string) || 20));
+        const page = Math.max(1, parseInt(req.query.page as string) || 1);
+        const allArticles = await stage2Store.getAll();
+
+        const transformed = getCachedOrCompute(`all_transformed`, () =>
+            (allArticles as any[]).map(a => TraderImpactEngine.transform(a))
+        );
+
+        const filtered = transformed.filter((t: any) =>
+            t.eventType.toUpperCase() === eventTypeParam
+        );
+
+        const offset = (page - 1) * limit;
+        const paginated = filtered.slice(offset, offset + limit);
+        const latencyMs = Date.now() - startTime;
+
+        res.json({
+            status: 'success',
+            eventType: eventTypeParam,
+            total: filtered.length,
+            page,
+            limit,
+            latencyMs,
+            items: paginated
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+const liveWorker = LiveIngestionWorker.getInstance(stage2Store);
+
+/**
+ * GET /api/v5/news/worker/status
+ * Telemetry and state for the Live Ingestion Worker.
+ */
+router.get('/worker/status', (_req: Request, res: Response) => {
+    try {
+        const telemetry = liveWorker.getTelemetry();
+        res.json({
+            status: 'success',
+            worker: telemetry
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/news/worker/poll
+ * Triggers an immediate, isolated polling cycle across live sources.
+ */
+router.post('/worker/poll', async (_req: Request, res: Response) => {
+    try {
+        const result = await liveWorker.pollOnce();
+        res.json({
+            status: 'success',
+            result
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/news/worker/start
+ * Starts periodic background polling.
+ */
+router.post('/worker/start', (req: Request, res: Response) => {
+    try {
+        const intervalMs = req.body?.intervalMs ? parseInt(req.body.intervalMs, 10) : undefined;
+        liveWorker.start(intervalMs);
+        res.json({
+            status: 'success',
+            message: 'Live ingestion worker started',
+            telemetry: liveWorker.getTelemetry()
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/news/worker/stop
+ * Stops periodic background polling.
+ */
+router.post('/worker/stop', (_req: Request, res: Response) => {
+    try {
+        liveWorker.stop();
+        res.json({
+            status: 'success',
+            message: 'Live ingestion worker stopped',
+            telemetry: liveWorker.getTelemetry()
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/sources
+ * Returns active live sources configuration & status.
+ */
+router.get('/sources', (_req: Request, res: Response) => {
+    try {
+        const telemetry = liveWorker.getTelemetry();
+        res.json({
+            status: 'success',
+            total: telemetry.sources.length,
+            sources: telemetry.sources
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+export { router as newsV5Router, stage2Store, feedService, ingestionPipeline, liveWorker as liveIngestionWorker };

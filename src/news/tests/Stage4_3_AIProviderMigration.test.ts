@@ -8,7 +8,6 @@ import { GeminiProvider } from '../AI/GeminiProvider';
 import { LocalProvider } from '../AI/LocalProvider';
 import { AIHealthMonitor } from '../AI/AIHealthMonitor';
 import { CostTracker } from '../AI/CostTracker';
-import { NewsAIService } from "../AI/NewsAIService";
 
 describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', () => {
   const stage2StorePath = path.join(process.cwd(), 'data', 'news_stage2_store.json');
@@ -226,15 +225,15 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
       process.env.GEMINI_FALLBACK_MODEL = originalEnv;
     });
 
-    it('should verify GroqProvider default model is openai/gpt-oss-120b and fallback is llama-3.3-70b-versatile', () => {
+    it('should verify GroqProvider default model is llama-3.3-70b-versatile and fallback is llama-3.1-8b-instant', () => {
       const groqProvider = new GroqProvider();
       const originalPrimary = process.env.GROQ_PRIMARY_MODEL;
       const originalFallback = process.env.GROQ_FALLBACK_MODEL;
       delete process.env.GROQ_PRIMARY_MODEL;
       delete process.env.GROQ_FALLBACK_MODEL;
 
-      expect(groqProvider.getPrimaryModel()).toBe('openai/gpt-oss-120b');
-      expect(groqProvider.getFallbackModel()).toBe('llama-3.3-70b-versatile');
+      expect(groqProvider.getPrimaryModel()).toBe('llama-3.3-70b-versatile');
+      expect(groqProvider.getFallbackModel()).toBe('llama-3.1-8b-instant');
 
       process.env.GROQ_PRIMARY_MODEL = originalPrimary;
       process.env.GROQ_FALLBACK_MODEL = originalFallback;
@@ -301,7 +300,7 @@ describe('ATHENA STAGE 4.3 — AI Model Infrastructure & Provider Migration', ()
 
     it('should return complete observability metrics in AIRouter.getStatus()', () => {
       const router = NewsAIService.getInstance();
-      const status = router.getStatus();
+      const status = router.getStatus() as any;
 
       expect(status.timestamp).toBeDefined();
       expect(status.router).toBeDefined();

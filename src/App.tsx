@@ -128,7 +128,7 @@ export default function App() {
   const [settingsDefaultView, setSettingsDefaultView] = useState<"menu" | "myintel" | "research" | "watchlist" | "theme" | "notifications" | "telegram" | "developer" | "about" | "privacy" | "account" | "aiprovider">("menu");
 
   const [isAdminNews, setIsAdminNews] = useState(() => {
-    return window.location.pathname === "/admin/news";
+    return typeof window !== 'undefined' && window.location.pathname === "/admin/news";
   });
 
   useEffect(() => {
