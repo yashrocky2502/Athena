@@ -14,6 +14,7 @@ export interface TelegramSendResult {
   responseBody?: any;
   error?: string;
   errorCode?: string;
+  retryAfterSeconds?: number;
 }
 
 export function maskToken(token: string): string {
@@ -291,6 +292,12 @@ export class TelegramService {
     return { botToken: this.botToken, chatId: this.chatId, enabled: this.enabled };
   }
 
+  public setCredentials(botToken: string, chatId: string, enabled: boolean = true): void {
+    this.botToken = botToken;
+    this.chatId = chatId;
+    this.enabled = enabled;
+  }
+
   public getPublicConfig() {
     return {
       hasBotToken: !!this.botToken && this.isLocalConfigValid({ botToken: this.botToken, chatId: this.chatId }),
@@ -454,6 +461,7 @@ export class TelegramService {
         let mappedError = data.description || `HTTP ${status}`;
         let errorCode = `HTTP_${status}`;
 
+        let retryAfterSeconds: number | undefined;
         if (status === 401) {
           mappedError = "Telegram authentication failed. Check the Bot Token.";
           errorCode = "AUTH_FAILED";
@@ -466,6 +474,8 @@ export class TelegramService {
         } else if (status === 429) {
           mappedError = "Telegram rate limit reached. Retry scheduled.";
           errorCode = "RATE_LIMITED";
+          retryAfterSeconds = data.parameters?.retry_after ||
+            (res.headers.get('retry-after') ? parseInt(res.headers.get('retry-after')!, 10) : undefined);
         }
 
         // Retry criteria: 429 or 500+ (retry once after 1 second for test speed)
@@ -481,7 +491,8 @@ export class TelegramService {
           httpStatus: status,
           responseBody: data,
           error: mappedError,
-          errorCode
+          errorCode,
+          retryAfterSeconds
         };
       } catch (e: any) {
         if (attempt === 1) {

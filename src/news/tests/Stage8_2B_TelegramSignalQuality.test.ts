@@ -29,6 +29,7 @@
  * Part P: Real-World Alert Simulation with 50+ mixed articles.
  */
 
+import { describe, test, expect } from 'vitest';
 import { TelegramAlertEligibilityEngine } from '../telegram/TelegramAlertEligibilityEngine';
 import { TelegramQualityGate } from '../telegram/TelegramQualityGate';
 import { TraderTelegramFormatter } from '../telegram/TraderTelegramFormatter';
@@ -578,6 +579,13 @@ function generateSimulationArticles(): any[] {
 
   return articles;
 }
+
+describe('Stage 8.2B: Telegram Signal Quality Suite', () => {
+  test('should pass all Stage 8.2B signal quality tests', async () => {
+    const res = await runStage8_2BTests();
+    expect(res.success).toBe(true);
+  });
+});
 
 // Allow direct execution via tsx / node
 if (process.argv[1] && process.argv[1].endsWith('Stage8_2B_TelegramSignalQuality.test.ts')) {

@@ -1,23 +1,26 @@
 /**
- * ATHENA NEWS ENGINE — STAGE 7.5 JSON NEWS REPOSITORY
- * Migration-compatible JSON repository wrapping canonical store data.
+ * ATHENA NEWS ENGINE — STAGE 8.4 JSON NEWS REPOSITORY
+ * Migration-compatible JSON repository wrapping canonical store data and news events.
  * Rule: Preserves data/news_stage2_store.json untouched during normal operation.
  */
 
 import { NewsArticle } from '../models/NewsArticle';
 import { NewsSummary, PublisherProfile } from '../types/NewsSummary';
 import { TraderIntelligence } from '../types/TraderIntelligence';
-import { NewsRepository, ArticleQueryFilters } from './NewsRepository';
+import { NewsEvent } from '../types/NewsEvent';
+import { NewsRepository, ArticleQueryFilters, EventQueryFilters } from './NewsRepository';
 import { JsonNewsStore } from './JsonNewsStore';
 import { NewsSummaryCache } from '../cache/NewsSummaryCache';
 import { TraderIntelligenceCache } from '../cache/TraderIntelligenceCache';
 import { PublisherProfileManager } from '../extraction/PublisherProfileManager';
+import { EventCentricOrchestrator } from '../intelligence/EventCentricOrchestrator';
 
 export class JsonNewsRepository implements NewsRepository {
   private jsonStore: JsonNewsStore;
   private summaryCache = NewsSummaryCache.getInstance();
   private intelCache = TraderIntelligenceCache.getInstance();
   private publisherManager = PublisherProfileManager.getInstance();
+  private eventOrchestrator = EventCentricOrchestrator.getInstance();
 
   constructor(customPath?: string) {
     this.jsonStore = new JsonNewsStore(customPath);
@@ -73,7 +76,6 @@ export class JsonNewsRepository implements NewsRepository {
   }
 
   public async saveArticle(article: NewsArticle): Promise<void> {
-    // Save in memory/store layer without altering disk canonical JSON if immutable mode
     await this.jsonStore.initialize();
     await this.jsonStore.insert(article as any);
   }
@@ -112,5 +114,42 @@ export class JsonNewsRepository implements NewsRepository {
   public async getArticleCount(): Promise<number> {
     await this.jsonStore.initialize();
     return this.jsonStore.count();
+  }
+
+  // Stage 8.4 NewsEvent Repository Implementation
+  public async getEvent(eventId: string): Promise<NewsEvent | null> {
+    return this.eventOrchestrator.getEventById(eventId) || null;
+  }
+
+  public async getEvents(filters?: EventQueryFilters): Promise<NewsEvent[]> {
+    let events = this.eventOrchestrator.getAllEvents();
+
+    if (filters?.category) {
+      const cat = filters.category.toLowerCase();
+      events = events.filter(e => (e.category || '').toLowerCase() === cat);
+    }
+
+    if (filters?.symbol) {
+      const sym = filters.symbol.toUpperCase();
+      events = events.filter(e => e.symbol.toUpperCase() === sym || e.primaryEntity.toUpperCase() === sym);
+    }
+
+    if (filters?.status) {
+      events = events.filter(e => e.eventStatus === filters.status);
+    }
+
+    if (filters?.limit && filters.limit > 0) {
+      events = events.slice(0, filters.limit);
+    }
+
+    return events;
+  }
+
+  public async saveEvent(event: NewsEvent): Promise<void> {
+    // Stored in orchestrator in-memory / cache layer
+  }
+
+  public async getEventByFingerprint(fingerprint: string): Promise<NewsEvent | null> {
+    return this.eventOrchestrator.getEventByFingerprint(fingerprint) || null;
   }
 }

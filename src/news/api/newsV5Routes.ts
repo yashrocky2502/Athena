@@ -22,8 +22,16 @@ import { NewsSectionRouter } from '../intelligence/NewsSectionRouter.ts';
 import { NewsIntelligenceQualityService } from '../intelligence/NewsIntelligenceQualityService.ts';
 import { NewsSummaryService } from '../services/NewsSummaryService.ts';
 import { LiveIngestionWorker } from '../ingestion/LiveIngestionWorker.ts';
+import { sourceHealthMonitor } from '../monitoring/SourceHealthMonitor.ts';
+import { ArticleFreshnessEvaluator } from '../freshness/ArticleFreshnessEvaluator.ts';
+import { eventFingerprintEngine } from '../deduplication/EventFingerprintEngine.ts';
+import { ingestionLatencyTracker } from '../monitoring/IngestionLatencyTracker.ts';
+import v5EventRoutes from '../routes/v5EventRoutes.ts';
 
 const router = Router();
+
+// Mount Stage 8.4 Event Routes
+router.use('/', v5EventRoutes);
 
 // Shared Singleton for Stage 2 isolated storage
 const stage2Store = new JsonNewsStore();
@@ -1197,6 +1205,113 @@ router.get('/sources', (_req: Request, res: Response) => {
             status: 'success',
             total: telemetry.sources.length,
             sources: telemetry.sources
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/sources/health
+ * Detailed Source Health Report across all registered sources.
+ */
+router.get('/sources/health', (_req: Request, res: Response) => {
+    try {
+        const report = sourceHealthMonitor.getAllSourceHealth();
+        res.json({
+            status: 'success',
+            total: report.length,
+            sources: report
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/sources/:sourceId/health
+ * Single Source Health Report for a specific source ID.
+ */
+router.get('/sources/:sourceId/health', (req: Request, res: Response) => {
+    try {
+        const { sourceId } = req.params;
+        const health = sourceHealthMonitor.getSourceHealth(sourceId);
+        if (!health) {
+            res.status(404).json({ status: 'error', message: `Source ID ${sourceId} not found` });
+            return;
+        }
+        res.json({
+            status: 'success',
+            source: health
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/freshness
+ * System-wide Article Freshness metrics & distribution.
+ */
+router.get('/freshness', async (_req: Request, res: Response) => {
+    try {
+        const articles = await stage2Store.getAll();
+        const distributions: Record<string, number> = { BREAKING: 0, VERY_FRESH: 0, FRESH: 0, AGING: 0, STALE: 0, UNKNOWN: 0 };
+        let totalFreshnessSec = 0;
+        let validCount = 0;
+
+        for (const art of articles) {
+            const evalRes = ArticleFreshnessEvaluator.evaluateFreshness(art);
+            distributions[evalRes.freshnessState] = (distributions[evalRes.freshnessState] || 0) + 1;
+            totalFreshnessSec += evalRes.freshnessSeconds;
+            validCount++;
+        }
+
+        const avgFreshnessSeconds = validCount > 0 ? Math.round(totalFreshnessSec / validCount) : 0;
+        const quarantineLog = ArticleFreshnessEvaluator.getQuarantineLog();
+
+        res.json({
+            status: 'success',
+            totalArticles: articles.length,
+            avgFreshnessSeconds,
+            freshnessDistribution: distributions,
+            quarantinedCount: quarantineLog.length,
+            recentQuarantines: quarantineLog.slice(-10)
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/events/recent
+ * Recent cluster events, updates, escalations, and source conflicts.
+ */
+router.get('/events/recent', (_req: Request, res: Response) => {
+    try {
+        const events = eventFingerprintEngine.getRecentEvents(50);
+        res.json({
+            status: 'success',
+            total: events.length,
+            events
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/ingestion/telemetry
+ * End-to-end ingestion latency & SLA metrics (median, P95, P99).
+ */
+router.get('/ingestion/telemetry', (_req: Request, res: Response) => {
+    try {
+        const globalSLAs = ingestionLatencyTracker.getGlobalSLAStats();
+        const sourceSLAs = ingestionLatencyTracker.getAllSourceSLAStats();
+        res.json({
+            status: 'success',
+            globalSLAs,
+            sourceSLAs
         });
     } catch (err: any) {
         res.status(500).json({ status: 'error', message: err.message });

@@ -25,6 +25,7 @@
  * 20. Low-impact routine disclosure (Filtered)
  */
 
+import { describe, test, expect } from 'vitest';
 import { TelegramAlertEligibilityEngine } from '../telegram/TelegramAlertEligibilityEngine';
 import { TelegramQualityGate } from '../telegram/TelegramQualityGate';
 import { TraderTelegramFormatter } from '../telegram/TraderTelegramFormatter';
@@ -363,6 +364,13 @@ export async function runStage8_2ATests(): Promise<{ success: boolean; passedCou
 
   return { success: true, passedCount: passed, totalCount: 20 };
 }
+
+describe('Stage 8.2A: Category Feed & Telegram Quality Suite', () => {
+  test('should pass all Stage 8.2A quality tests', async () => {
+    const res = await runStage8_2ATests();
+    expect(res.success).toBe(true);
+  });
+});
 
 // Allow direct execution via tsx / node
 if (process.argv[1] && process.argv[1].endsWith('Stage8_2A_CategoryFeedTelegramQuality.test.ts')) {

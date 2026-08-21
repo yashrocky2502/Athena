@@ -64,6 +64,12 @@ export interface NewsArticle {
     /** Relevance score for feed ordering (0-100) */
     relevanceScore: number;
 
+    /** Legacy / raw collector optional aliases */
+    title?: string;
+    publisher?: string;
+    url?: string;
+    category?: string;
+
     /** Sentiment analysis (optional enrichment) */
     sentiment?: Sentiment;
 

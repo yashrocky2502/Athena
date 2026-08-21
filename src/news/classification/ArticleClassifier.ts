@@ -21,6 +21,12 @@ export class ArticleClassifier {
         // 3. Extract deterministic financial metrics if present in headline/body
         const financialMetrics = this.extractDeterministicMetrics(article.headline, article.body);
 
+        // Convert categoryConfidence string ("HIGH", "MEDIUM", "LOW") to numeric score (0-100)
+        const confMap: Record<string, number> = { HIGH: 90, MEDIUM: 70, LOW: 40 };
+        const classificationConfidence = typeof result.categoryConfidence === 'number'
+            ? result.categoryConfidence
+            : (confMap[result.categoryConfidence as string] || 80);
+
         // 4. Map back to canonical article
         return {
             ...article,
@@ -30,7 +36,7 @@ export class ArticleClassifier {
             fnoEligible: fnoResult.eligible,
             sentiment: result.sentiment as Sentiment,
             financialMetrics,
-            classificationConfidence: Number(result.categoryConfidence || 80),
+            classificationConfidence,
             relevanceScore: result.relevanceScore
         };
     }

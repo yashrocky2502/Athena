@@ -21,9 +21,9 @@ export class ArticleDeduplicator {
         }
 
         // 2. URL Match (Direct)
-        const incomingUrl = incoming.sourceUrl.split('?')[0].replace(/\/$/, '').toLowerCase();
+        const incomingUrl = (incoming.sourceUrl || '').split('?')[0].replace(/\/$/, '').toLowerCase();
         const urlMatch = existingArticles.find(a => {
-            const aUrl = a.sourceUrl.split('?')[0].replace(/\/$/, '').toLowerCase();
+            const aUrl = (a.sourceUrl || '').split('?')[0].replace(/\/$/, '').toLowerCase();
             return aUrl === incomingUrl && aUrl.length > 15;
         });
 

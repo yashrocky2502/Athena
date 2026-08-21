@@ -15,6 +15,7 @@ import {
   OfficialFeedsSourceProvider,
   LiveSourceFeedConfig
 } from './LiveSourceProviders';
+import { TelegramNotificationPipeline } from '../telegram/TelegramNotificationPipeline';
 
 export type WorkerState = 'STOPPED' | 'RUNNING' | 'POLLING' | 'ERROR';
 
@@ -46,6 +47,7 @@ export interface WorkerTelemetry {
   lifetimeErrors: number;
   activeSourceCount: number;
   sources: SourceHealthRecord[];
+  telegramPipeline?: any;
 }
 
 export class LiveIngestionWorker {
@@ -344,7 +346,8 @@ export class LiveIngestionWorker {
       lifetimeDuplicates: this.lifetimeDuplicates,
       lifetimeErrors: this.lifetimeErrors,
       activeSourceCount: Array.from(this.sources.values()).filter(s => s.config.enabled).length,
-      sources: Array.from(this.sources.values()).map(s => ({ ...s.health }))
+      sources: Array.from(this.sources.values()).map(s => ({ ...s.health })),
+      telegramPipeline: TelegramNotificationPipeline.getInstance().getTelemetry()
     };
   }
 }

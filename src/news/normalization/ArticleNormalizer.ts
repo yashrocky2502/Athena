@@ -17,7 +17,7 @@ export interface RawArticlePayload {
 export class ArticleNormalizer {
     public static normalize(payload: RawArticlePayload, sourceName: string, method: NewsArticleSource['collectionMethod']): NewsArticle {
         const headline = (payload.headline || payload.title || '').trim();
-        const body = (payload.body || payload.content || '').trim();
+        const body = (payload.body || payload.content || payload.description || payload.summary || '').trim();
         const sourceUrl = (payload.url || payload.link || '').trim();
         const publisher = (payload.publisher || payload.source || sourceName).trim();
 

@@ -129,8 +129,13 @@ export class TelegramQualityGate {
     const TWELVE_HOURS = 12 * 60 * 60 * 1000;
 
     if (lastAlert && (now - lastAlert.timestamp) < TWELVE_HOURS) {
-      failedChecks.push('DUPLICATE_ALERT_SUPPRESSED');
-      reasons.push(`Duplicate alert for ${assessment.companyName} (${assessment.eventType}) already dispatched via ${lastAlert.source} within 12 hours.`);
+      const incomingId = (originalArticle as any)?.id;
+      // If it's a different article with the same signature, suppress duplicate.
+      // If it is the exact same article retrying dispatch, do not block.
+      if (!incomingId || !(lastAlert as any).articleId || incomingId !== (lastAlert as any).articleId) {
+        failedChecks.push('DUPLICATE_ALERT_SUPPRESSED');
+        reasons.push(`Duplicate alert for ${assessment.companyName} (${assessment.eventType}) already dispatched via ${lastAlert.source} within 12 hours.`);
+      }
     }
 
     // 9. Source Availability
@@ -149,7 +154,12 @@ export class TelegramQualityGate {
 
     if (passed) {
       const publisher = assessment.sources && assessment.sources.length > 0 ? assessment.sources[0] : 'Unknown';
-      this.recentAlertSignatures.set(signature, { timestamp: now, source: publisher, headline });
+      this.recentAlertSignatures.set(signature, { 
+        timestamp: now, 
+        source: publisher, 
+        headline,
+        articleId: (originalArticle as any)?.id 
+      } as any);
     }
 
     return {
