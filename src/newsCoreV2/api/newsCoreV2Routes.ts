@@ -152,8 +152,10 @@ newsCoreV2Router.get("/feed", async (req: Request, res: Response) => {
       }).length;
     }
 
+    const excludedCount = allArticles.length - filtered.length;
     const responsePayload = {
       status: "success",
+      feedVersion: "V4-CANONICAL",
       articles: uiArticles,
       count: uiArticles.length,
       totalCount,
@@ -163,9 +165,27 @@ newsCoreV2Router.get("/feed", async (req: Request, res: Response) => {
       hasNext,
       hasPrevious,
       categoryCounts,
+      diagnostics: {
+        feedVersion: "V4-CANONICAL",
+        canonicalCount: allArticles.length,
+        repositoryCount: allArticles.length,
+        apiCount: uiArticles.length,
+        normalizedCount: paginatedArticles.length,
+        filteredCount: filtered.length,
+        displayedCount: uiArticles.length,
+        excludedCount,
+        excludedReasons: categoryQuery && categoryQuery.toLowerCase() !== "all" 
+          ? [`CATEGORY_FILTER:${categoryQuery}`] 
+          : []
+      },
       lastSuccessfulSyncAt: syncStatus.lastSuccessfulSyncAt,
       nextSyncAt: syncStatus.nextSyncAt
     };
+
+    res.setHeader("X-Athena-Feed-Version", "V4-CANONICAL");
+    res.setHeader("X-Athena-Canonical-Count", allArticles.length.toString());
+    res.setHeader("X-Athena-Filtered-Count", filtered.length.toString());
+    res.setHeader("X-Athena-Total-Count", totalCount.toString());
 
     // Trigger Non-blocking Shadow Mode comparison if enabled
     if (newsShadowComparator.isEnabled()) {
