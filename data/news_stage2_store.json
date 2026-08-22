@@ -10,8 +10,8 @@
     "sourceUrl": "https://example.com/fno-1",
     "headline": "Nifty 25000 Call Option sees massive Open Interest buildup of 50 lakh contracts",
     "body": "Derivatives data shows high call writing at 25000 strike with PCR at 0.75 and IV at 14.5%",
-    "publishedAt": "2026-08-22T13:25:02.682Z",
-    "fetchedAt": "2026-08-22T13:25:02.684Z",
+    "publishedAt": "2026-08-22T14:01:56.752Z",
+    "fetchedAt": "2026-08-22T14:01:56.755Z",
     "primaryCategory": "F&O",
     "eventType": "DERIVATIVE_VOLATILITY",
     "symbol": "NIFTY",
@@ -20,14 +20,14 @@
     "classificationConfidence": 90,
     "relevanceScore": 65,
     "isLive": true,
-    "discoveredAt": "2026-08-22T13:25:02.684Z",
-    "ingestedAt": "2026-08-22T13:25:02.685Z",
+    "discoveredAt": "2026-08-22T14:01:56.755Z",
+    "ingestedAt": "2026-08-22T14:01:56.755Z",
     "sentiment": "NEUTRAL",
     "freshnessState": "BREAKING",
     "freshnessSeconds": 0,
-    "eventId": "evt_id_1787405102712_tltzl",
+    "eventId": "evt_id_1787407316780_lcbku",
     "eventRelation": "NEW_EVENT",
     "hasConflict": false,
-    "storedAt": "2026-08-22T13:25:02.714Z"
+    "storedAt": "2026-08-22T14:01:56.782Z"
   }
 ]

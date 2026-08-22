@@ -330,7 +330,37 @@ export class TelegramNotificationPipeline {
       return result;
     }
 
-    // 2. Validate through Quality Gate
+    // 2. Validate through Quality Gate & Operations Idempotency
+    const eventId = (article as any).eventId || assessment.eventFingerprint || `${(assessment.symbol || assessment.companyName).toLowerCase().replace(/[^a-z0-9]/g, '')}_${assessment.eventType}`;
+    const alertType = (article as any).alertType || (assessment.fnoEvidence?.hasExplicitDerivativesData ? 'EVENT_ESCALATION' : 'ARTICLE_ALERT');
+    const revision = (article as any).eventVersion || (article as any).materialRevision;
+
+    const opController = TelegramOperationsController.getInstance();
+    const auditTrail = TelegramAuditTrail.getInstance();
+
+    if (opController.isEventAlertDispatched(eventId, alertType, revision) && !forceDispatch) {
+      const result: TelegramPipelineResult = {
+        articleId,
+        isEligible: true,
+        qualityGatePassed: false,
+        dispatched: false,
+        score: assessment.score,
+        urgency: assessment.urgency,
+        eventType: assessment.eventType,
+        rejectionReasons: [`Duplicate event alert suppressed: ${eventId} (${alertType}${revision ? ` ${revision}` : ''}) already dispatched.`],
+        assessment,
+        fetchedAt,
+        ingestedAt,
+        queuedAt,
+        sentAt,
+        ingestionToQueueLatencyMs,
+        queueToTelegramLatencyMs,
+        totalDeliveryLatencyMs
+      };
+      this.dispatchHistory.set(articleId, result);
+      return result;
+    }
+
     const qualityResult = TelegramQualityGate.validate(assessment, article);
 
     if (!qualityResult.passed && !forceDispatch) {
@@ -362,9 +392,6 @@ export class TelegramNotificationPipeline {
     // 4. Dispatch via Telegram Service if credentials configured and not dryRun
     let dispatched = false;
     let dispatchError: string | undefined;
-
-    const opController = TelegramOperationsController.getInstance();
-    const auditTrail = TelegramAuditTrail.getInstance();
 
     if (!dryRun && !this.auditModeOnly && opController.isEnabled()) {
       try {
@@ -410,9 +437,9 @@ export class TelegramNotificationPipeline {
     }
 
     // Mark delivered only upon verified successful dispatch or dryRun
-    if (dispatched) {
+    if (dispatched || dryRun) {
       this.deliveredArticleIds.add(articleId);
-      opController.recordDispatchedEvent((article as any).eventId || articleId, 'ARTICLE_ALERT');
+      opController.recordDispatchedEvent(eventId, alertType, revision);
     }
 
     const finalResult: TelegramPipelineResult = {

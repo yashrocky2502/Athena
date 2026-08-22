@@ -131,17 +131,21 @@ export class TelegramOperationsController {
   /**
    * Idempotency tracking: returns true if this exact event state has already been dispatched.
    */
-  public isEventAlertDispatched(eventId: string, alertType: string): boolean {
-    const key = `${eventId}::${alertType}`;
-    return this.dispatchedEventKeys.has(key);
+  public isEventAlertDispatched(eventId: string, alertType: string, revision?: string): boolean {
+    const revKey = revision ? `${eventId}::${alertType}::${revision}` : `${eventId}::${alertType}`;
+    const defaultKey = `${eventId}::${alertType}`;
+    return this.dispatchedEventKeys.has(revKey) || (!revision && this.dispatchedEventKeys.has(defaultKey));
   }
 
   /**
    * Records that an event alert has been delivered to prevent duplicate alerts.
    */
-  public recordDispatchedEvent(eventId: string, alertType: string): void {
-    const key = `${eventId}::${alertType}`;
+  public recordDispatchedEvent(eventId: string, alertType: string, revision?: string): void {
+    const key = revision ? `${eventId}::${alertType}::${revision}` : `${eventId}::${alertType}`;
     this.dispatchedEventKeys.add(key);
+    if (!revision || revision === 'v1') {
+      this.dispatchedEventKeys.add(`${eventId}::${alertType}`);
+    }
   }
 
   /**

@@ -176,7 +176,39 @@ export class UnifiedIntelligenceEngine {
       return `${headline}. The strategic corporate transaction impacts consolidated market positioning and operating synergies.`;
     }
 
-    // 3. Earnings / Results Executive Summary (when specific earnings metrics exist)
+    // 3. Regulatory / Operational Clearance Executive Summary
+    if (/\b(revokes order|fssai revokes|quashes order|clearance)\b/i.test(headline)) {
+      const comp = companyName && companyName !== "Subject Company" ? companyName : "The company";
+      if (body) {
+        const sentences = body
+          .split(/(?<=[.?!])\s+/)
+          .map(s => s.trim())
+          .filter(s => s.length > 15 && !s.startsWith("Image:"));
+        const distinct = sentences.find(s => !s.toLowerCase().includes(headline.toLowerCase().slice(0, 30)));
+        if (distinct) {
+          return `${headline}. ${distinct}`;
+        }
+      }
+      return `${comp} received regulatory order revocation from authorities, lifting operational restrictions on affected manufacturing units.`;
+    }
+
+    // 4. Listing / Debt Notes Executive Summary (e.g. Axis Bank)
+    if (/\b(senior notes|list \$?\d+|debt listing|notes listing)\b/i.test(headline)) {
+      const comp = companyName && companyName !== "Subject Company" ? companyName : "The entity";
+      if (body) {
+        const sentences = body
+          .split(/(?<=[.?!])\s+/)
+          .map(s => s.trim())
+          .filter(s => s.length > 15 && !s.startsWith("Image:"));
+        const distinct = sentences.find(s => !s.toLowerCase().includes(headline.toLowerCase().slice(0, 30)));
+        if (distinct) {
+          return `${headline}. ${distinct}`;
+        }
+      }
+      return `${comp} secured regulatory approval to list senior notes on international exchange platforms, facilitating institutional debt-capital access.`;
+    }
+
+    // 5. Earnings / Results Executive Summary (when specific earnings metrics exist)
     if ((evUpper === "EARNINGS" || catUpper === "RESULTS") && metrics.length > 0) {
       const parts: string[] = [];
       const pat = metrics.find(m => m.name === "PAT");
@@ -216,8 +248,8 @@ export class UnifiedIntelligenceEngine {
       }
     }
 
-    // 4. Order / Contract Win Executive Summary
-    if (evUpper === "ORDER_CONTRACT" || /order win|contract win|bags order|awarded order|secures order/i.test(headline)) {
+    // 6. Order / Contract Win Executive Summary
+    if ((evUpper === "ORDER_CONTRACT" || /order win|contract win|bags order|awarded order|secures order/i.test(headline)) && !/revokes order|court order|fssai|sebi order/i.test(headline)) {
       const orderMetric = metrics.find(m => m.name === "Order Book");
       const orderVal = orderMetric ? orderMetric.displayText : "";
       if (body) {
@@ -233,7 +265,7 @@ export class UnifiedIntelligenceEngine {
       return `${headline}. The commercial contract addition${orderVal ? ` (${orderVal})` : ""} bolsters revenue visibility and operational backlog.`;
     }
 
-    // 5. General fallback using headline + clean distinct body sentence
+    // 7. General fallback using headline + clean distinct body sentence
     if (body) {
       const sentences = body
         .split(/(?<=[.?!])\s+/)
@@ -246,8 +278,11 @@ export class UnifiedIntelligenceEngine {
       }
     }
 
-    const targetSubj = companyName && companyName !== "Subject Company" && companyName !== "Market" ? companyName : "the entity";
-    return `${headline}. Institutional market participants are evaluating the immediate operational and financial implications for ${targetSubj}.`;
+    if (catUpper === "OTHER" || catUpper === "GLOBAL" || !companyName || companyName === "Market" || companyName === "Subject Company") {
+      return `${headline}. Informs public policy, governance, and macroeconomic context.`;
+    }
+
+    return `${headline}. Market participants are monitoring the reported operational development for ${companyName}.`;
   }
 
   private static extractKeyFacts(article: NewsArticleV2, metrics: any[]): string[] {
@@ -350,7 +385,15 @@ export class UnifiedIntelligenceEngine {
       return `Strategic corporate transaction involving ${headline}.`;
     }
 
-    // 3. REGULATORY / POLICY
+    // 3. REGULATORY / POLICY / OPERATIONAL CLEARANCE
+    if (/\b(revokes order|fssai revokes|quashes order|clean chit)\b/i.test(lowerHeadline) || /\b(revokes order|fssai revokes)\b/i.test(lowerText)) {
+      return `The revocation of the regulatory order removes operating restrictions and resolves compliance uncertainty for ${entity.companyName || 'the affected unit'}.`;
+    }
+
+    if (/\b(senior notes|debt listing|list \$?\d+|bonds listing)\b/i.test(lowerHeadline)) {
+      return `Listing senior notes on international exchange platforms provides access to global institutional debt investors and diversifies funding sources for ${entity.companyName || 'the issuer'}.`;
+    }
+
     if (evUpper === "REGULATORY" || (catUpper === "ECONOMY" && /\b(sebi|rbi|regulator|circular|show-cause|investigation|penalty|probe|cpi|gdp|monetary policy)\b/i.test(lowerHeadline)) || /\b(sebi|rbi|regulatory|sebi order|court order|interim order|final order|circular)\b/i.test(lowerHeadline)) {
       const isProposed = /\b(proposed|proposal|draft|consultation|seeking comments|discussion paper|recommends)\b/i.test(lowerText);
       if (isProposed) {
@@ -360,7 +403,7 @@ export class UnifiedIntelligenceEngine {
     }
 
     // 4. ORDER / CONTRACT
-    if (evUpper === "ORDER_CONTRACT" || /\b(order win|contract win|bags order|awarded order|secures order|won order|secures major order|secures contract)\b/i.test(lowerHeadline)) {
+    if ((evUpper === "ORDER_CONTRACT" || /\b(order win|contract win|bags order|awarded order|secures order|won order|secures major order|secures contract)\b/i.test(lowerHeadline)) && !/revokes order|court order|fssai|sebi order/i.test(lowerHeadline)) {
       const orderMetric = metrics.find(m => m.name === "Order Book");
       const clientMatch = text.match(/from\s+([A-Z][A-Za-z0-9\s]+?)(?=\s+for|\s+worth|\.|$)/);
       const clientName = clientMatch ? clientMatch[1].trim() : null;

@@ -285,7 +285,7 @@ export class TelegramAlertEligibilityEngine {
     if (/(interim dividend|special dividend|final dividend|dividend of rs|declares dividend)/i.test(text)) return 'DIVIDEND';
 
     // 9. Order Wins / Contracts
-    if (/(bags (.* )?(order|contract|project|mandate)|wins (.* )?(order|contract|tender|mandate)|secures (.* )?(order|contract|deal|mandate)|awarded (.* )?(order|contract|project)|order win worth|receives lo[ia]|contract worth rs)/i.test(text)) {
+    if (/(bags (.* )?(order|contract|project|mandate)|wins (.* )?(order|contract|tender|mandate)|secures (.* )?(order|contract|deal|mandate)|awarded (.* )?(order|contract|project)|order win worth|receives lo[ia]|contract worth rs)/i.test(text) && !/(revokes order|fssai|court order|sebi order|interim order|stay order|quashes order)/i.test(text)) {
       return 'ORDER_WIN';
     }
 
@@ -295,7 +295,7 @@ export class TelegramAlertEligibilityEngine {
     }
 
     // 11. Regulatory & Legal Actions
-    if (/(sebi (bars|fines|issues notice|orders probe|clamps down|penalizes|initiates|imposes|passes order)|rbi (imposes|penalizes|restricts|bans)|show-cause notice|ed raids|cbi probe|nclt|cci probe|sebi penalty|penalty of rs|penalty on)/i.test(text)) {
+    if (/(revokes order|fssai|quashes order|sebi (bars|fines|issues notice|orders probe|clamps down|penalizes|initiates|imposes|passes order)|rbi (imposes|penalizes|restricts|bans)|show-cause notice|ed raids|cbi probe|nclt|cci probe|sebi penalty|penalty of rs|penalty on)/i.test(text)) {
       return 'REGULATORY_ACTION';
     }
 
@@ -321,7 +321,7 @@ export class TelegramAlertEligibilityEngine {
 
     // 15. IPO & Listing
     if (/(\bipo\b|drhp|draft red herring|initial public offer|gmp today|ipo opens|ipo closes|ipo subscription|ipo allotment)/i.test(text)) return 'IPO';
-    if (/lists at|shares list at|listing date|to list on bse|debuts at/i.test(text)) return 'LISTING';
+    if (/(senior notes|debt listing|list \$?\d+ million|lists at|shares list at|listing date|to list on bse|debuts at)/i.test(text)) return 'LISTING';
 
     // 16. Fundraising / QIP / Rights Issue
     if (/(raises rs|qip|rights issue|preferential issue|private placement|fundraising of rs)/i.test(text)) {

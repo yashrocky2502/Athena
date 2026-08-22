@@ -90,9 +90,11 @@ const ECONOMY_KEYWORDS = [
 
 const CORPORATE_KEYWORDS = [
   "acquisition", "acquire", "acquires", "acquired", "takeover", "merger", "merges", "merged", "amalgamation", "demerger",
-  "order", "contract", "bags", "win", "partnership", "partners", "collaborates", "collaboration", "joint venture", "mou",
+  "order win", "bags order", "secures order", "contract win", "awarded contract", "awarded order", "receives order", "epc order", "work order",
+  "partnership", "partners", "collaborates", "collaboration", "joint venture", "mou",
   "resigns", "resignation", "appointed", "appointment", "ceo", "cfo", "board approves", "managing director",
-  "dividend", "buyback", "bonus issue", "capex", "capacity expansion", "stake sale", "stake purchase"
+  "dividend", "buyback", "bonus issue", "capex", "capacity expansion", "stake sale", "stake purchase", "senior notes",
+  "suspension", "revokes suspension", "manufacturing unit", "plant shutdown", "plant operations", "manufacturing facility"
 ];
 
 const TECH_KEYWORDS = [
@@ -356,11 +358,13 @@ export class NewsCategoryResolver {
     } else if (primaryCategory === "Exchange") {
       eventType = "EXCHANGE_NOTICE";
     } else if (primaryCategory === "Economy") {
-      eventType = lowerHeadline.includes("sebi") || lowerHeadline.includes("rbi") ? "REGULATORY" : "MACRO";
+      eventType = lowerHeadline.includes("sebi") || lowerHeadline.includes("rbi") || lowerHeadline.includes("fssai") || lowerHeadline.includes("regulat") ? "REGULATORY" : "MACRO";
     } else if (primaryCategory === "Corporate") {
-      if (/acquisition|acquire|takeover/i.test(lowerHeadline)) eventType = "ACQUISITION";
+      if (/revokes order|court order|sebi order|interim order|stay order|quashes order|fssai|rbi order|tribunal|nclt|nclat/i.test(lowerHeadline)) eventType = "REGULATORY";
+      else if (/senior notes|debt listing|list \$?\d+|bonds listing/i.test(lowerHeadline)) eventType = "LISTING";
+      else if (/acquisition|acquire|takeover/i.test(lowerHeadline)) eventType = "ACQUISITION";
       else if (/merger|amalgamation|demerger/i.test(lowerHeadline)) eventType = "MERGER";
-      else if (/order|contract|bags/i.test(lowerHeadline)) eventType = "ORDER_CONTRACT";
+      else if (/\b(order win|contract win|bags order|awarded order|secures order|won order|secures contract|bags contract|epc order|work order|receives order)\b/i.test(lowerHeadline)) eventType = "ORDER_CONTRACT";
       else if (/dividend/i.test(lowerHeadline)) eventType = "DIVIDEND";
       else if (/buyback/i.test(lowerHeadline)) eventType = "BUYBACK";
       else if (/resigns|appointed|ceo|cfo/i.test(lowerHeadline)) eventType = "MANAGEMENT_COMMENTARY";
