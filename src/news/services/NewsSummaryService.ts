@@ -12,6 +12,7 @@ import { AIRouter } from '../AI/AIRouter';
 import { TrafilaturaExtractor } from '../extraction/TrafilaturaExtractor';
 import { Crawl4AIExtractor } from '../extraction/Crawl4AIExtractor';
 import { PublisherProfileManager } from '../extraction/PublisherProfileManager';
+import { AIOperationsController } from '../operations/AIOperationsController';
 
 export class NewsSummaryService {
   private static instance: NewsSummaryService;
@@ -39,7 +40,16 @@ export class NewsSummaryService {
     // 1. Check Cache
     const cached = this.cache.get(article.id);
     if (cached) {
+      AIOperationsController.getInstance().recordCacheHit();
       return cached;
+    }
+
+    const aiController = AIOperationsController.getInstance();
+    if (!aiController.isAIEnabled()) {
+      aiController.recordAvoidedCall('AI_DISABLED');
+      const fallback = this.generateLocalFallbackSummary(article, 'AI enrichment disabled in operations control plane');
+      this.cache.set(article.id, fallback);
+      return fallback;
     }
 
     const title = article.title || article.headline || '';

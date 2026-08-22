@@ -26,6 +26,14 @@ import { sourceHealthMonitor } from '../monitoring/SourceHealthMonitor.ts';
 import { ArticleFreshnessEvaluator } from '../freshness/ArticleFreshnessEvaluator.ts';
 import { eventFingerprintEngine } from '../deduplication/EventFingerprintEngine.ts';
 import { ingestionLatencyTracker } from '../monitoring/IngestionLatencyTracker.ts';
+import { newsEngineTelemetry } from '../observability/NewsEngineTelemetry.ts';
+import { feedIntegrityMonitor } from '../observability/FeedIntegrityMonitor.ts';
+import { sourceExpansionRegistry } from '../registry/SourceExpansionRegistry.ts';
+import { economicCalendarAdapter } from '../providers/EconomicCalendarAdapter.ts';
+import { NewsRuntimeConfig } from '../operations/NewsRuntimeConfig.ts';
+import { telegramOperationsController } from '../operations/TelegramOperationsController.ts';
+import { aiOperationsController } from '../operations/AIOperationsController.ts';
+import { newsSafeModeController } from '../operations/NewsSafeModeController.ts';
 import v5EventRoutes from '../routes/v5EventRoutes.ts';
 
 const router = Router();
@@ -1312,6 +1320,303 @@ router.get('/ingestion/telemetry', (_req: Request, res: Response) => {
             status: 'success',
             globalSLAs,
             sourceSLAs
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/telemetry
+ * Full operational snapshot across ingestion, events, telegram, AI, and persistence integrity.
+ */
+router.get('/observability/telemetry', (_req: Request, res: Response) => {
+    try {
+        const snapshot = newsEngineTelemetry.getSnapshot();
+        res.json({
+            status: 'success',
+            telemetry: snapshot
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/integrity
+ * Forensic feed integrity report comparing disk, memory, stage2, and duplicate metrics.
+ */
+router.get('/observability/integrity', async (_req: Request, res: Response) => {
+    try {
+        const report = await feedIntegrityMonitor.runIntegrityCheck();
+        res.json({
+            status: 'success',
+            report
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/sources
+ * Dynamic source expansion registry status & circuit breaker quarantine states.
+ */
+router.get('/observability/sources', (_req: Request, res: Response) => {
+    try {
+        const allSources = sourceExpansionRegistry.getAllSources();
+        const quarantined = sourceExpansionRegistry.getQuarantinedSources();
+        res.json({
+            status: 'success',
+            totalSources: allSources.length,
+            quarantinedCount: quarantined.length,
+            sources: allSources,
+            quarantined
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/economic-calendar
+ * Upcoming & recent macroeconomic calendar releases (RBI, US Fed, CPI, GDP, IIP).
+ */
+router.get('/observability/economic-calendar', async (_req: Request, res: Response) => {
+    try {
+        const upcoming = await economicCalendarAdapter.getUpcomingEvents(72);
+        const recent = await economicCalendarAdapter.getRecentEvents(24);
+        const canonicalArticles = upcoming.map(e => economicCalendarAdapter.toCanonicalArticle(e));
+
+        res.json({
+            status: 'success',
+            upcomingCount: upcoming.length,
+            recentCount: recent.length,
+            upcoming,
+            recent,
+            canonicalArticles
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+// ==========================================
+// STAGE 8.9: PRODUCTION CONTROL PLANE ROUTES
+// ==========================================
+
+/**
+ * GET /api/v5/news/operations/status
+ * Aggregated operational control-plane status.
+ */
+router.get('/operations/status', async (_req: Request, res: Response) => {
+    try {
+        const config = NewsRuntimeConfig.getInstance();
+        const telegram = telegramOperationsController.getStatus();
+        const ai = aiOperationsController.getAIStatus();
+        const safeMode = newsSafeModeController.getStatus();
+        const canary = newsCanaryRouter.getStatus();
+        const sources = sourceExpansionRegistry.getAllSourceStatuses();
+        const integrity = await feedIntegrityMonitor.runIntegrityCheck();
+
+        res.json({
+            status: 'success',
+            runtimeMode: config.getRuntimeMode(),
+            isSafeMode: config.isSafeMode(),
+            config: config.toJSON(),
+            telegram,
+            ai,
+            safeMode,
+            canary,
+            sourcesCount: sources.length,
+            sources,
+            integrity
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/operations/telegram
+ */
+router.get('/operations/telegram', (_req: Request, res: Response) => {
+    res.json({
+        status: 'success',
+        telegram: telegramOperationsController.getStatus()
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/telegram/pause
+ */
+router.post('/operations/telegram/pause', (req: Request, res: Response) => {
+    const reason = req.body?.reason || 'Operator paused via API';
+    telegramOperationsController.pause(reason);
+    res.json({
+        status: 'success',
+        message: 'Telegram dispatch paused. In-memory queue preserved.',
+        telegram: telegramOperationsController.getStatus()
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/telegram/resume
+ */
+router.post('/operations/telegram/resume', (_req: Request, res: Response) => {
+    telegramOperationsController.resume();
+    res.json({
+        status: 'success',
+        message: 'Telegram dispatch resumed.',
+        telegram: telegramOperationsController.getStatus()
+    });
+});
+
+/**
+ * GET /api/v5/news/operations/ai
+ */
+router.get('/operations/ai', (_req: Request, res: Response) => {
+    res.json({
+        status: 'success',
+        ai: aiOperationsController.getAIStatus()
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/ai/enable
+ */
+router.post('/operations/ai/enable', (_req: Request, res: Response) => {
+    aiOperationsController.enableAI();
+    res.json({
+        status: 'success',
+        message: 'AI enrichments enabled.',
+        ai: aiOperationsController.getAIStatus()
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/ai/disable
+ */
+router.post('/operations/ai/disable', (_req: Request, res: Response) => {
+    aiOperationsController.disableAI();
+    res.json({
+        status: 'success',
+        message: 'AI enrichments disabled. Fallbacks will be served.',
+        ai: aiOperationsController.getAIStatus()
+    });
+});
+
+/**
+ * GET /api/v5/news/operations/safemode
+ */
+router.get('/operations/safemode', (_req: Request, res: Response) => {
+    res.json({
+        status: 'success',
+        safemode: newsSafeModeController.getStatus()
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/safemode/enable
+ */
+router.post('/operations/safemode/enable', (req: Request, res: Response) => {
+    const reason = req.body?.reason || 'Operator activated Safe Mode via API';
+    newsSafeModeController.enableSafeMode(reason);
+    res.json({
+        status: 'success',
+        message: 'SAFE_MODE activated. Optional enrichment suspended; canonical feeds preserved.',
+        safemode: newsSafeModeController.getStatus()
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/safemode/disable
+ */
+router.post('/operations/safemode/disable', (_req: Request, res: Response) => {
+    newsSafeModeController.disableSafeMode();
+    res.json({
+        status: 'success',
+        message: 'SAFE_MODE deactivated. Normal operations restored.',
+        safemode: newsSafeModeController.getStatus()
+    });
+});
+
+/**
+ * GET /api/v5/news/operations/sources
+ */
+router.get('/operations/sources', (_req: Request, res: Response) => {
+    res.json({
+        status: 'success',
+        sources: sourceExpansionRegistry.getAllSourceStatuses()
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/sources/:id/enable
+ */
+router.post('/operations/sources/:id/enable', (req: Request, res: Response) => {
+    const success = sourceExpansionRegistry.enableSource(req.params.id);
+    if (!success) {
+        return res.status(404).json({ status: 'error', message: `Source '${req.params.id}' not found.` });
+    }
+    res.json({
+        status: 'success',
+        source: sourceExpansionRegistry.getSourceStatus(req.params.id)
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/sources/:id/disable
+ */
+router.post('/operations/sources/:id/disable', (req: Request, res: Response) => {
+    const success = sourceExpansionRegistry.disableSource(req.params.id);
+    if (!success) {
+        return res.status(404).json({ status: 'error', message: `Source '${req.params.id}' not found.` });
+    }
+    res.json({
+        status: 'success',
+        source: sourceExpansionRegistry.getSourceStatus(req.params.id)
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/sources/:id/quarantine
+ */
+router.post('/operations/sources/:id/quarantine', (req: Request, res: Response) => {
+    const reason = req.body?.reason || 'Quarantined via operations API';
+    const success = sourceExpansionRegistry.quarantineSource(req.params.id, reason);
+    if (!success) {
+        return res.status(404).json({ status: 'error', message: `Source '${req.params.id}' not found.` });
+    }
+    res.json({
+        status: 'success',
+        source: sourceExpansionRegistry.getSourceStatus(req.params.id)
+    });
+});
+
+/**
+ * POST /api/v5/news/operations/sources/:id/reset
+ */
+router.post('/operations/sources/:id/reset', (req: Request, res: Response) => {
+    const success = sourceExpansionRegistry.resetSourceCircuit(req.params.id);
+    if (!success) {
+        return res.status(404).json({ status: 'error', message: `Source '${req.params.id}' not found.` });
+    }
+    res.json({
+        status: 'success',
+        source: sourceExpansionRegistry.getSourceStatus(req.params.id)
+    });
+});
+
+/**
+ * GET /api/v5/news/operations/integrity
+ */
+router.get('/operations/integrity', async (_req: Request, res: Response) => {
+    try {
+        const report = await feedIntegrityMonitor.runIntegrityCheck();
+        res.json({
+            status: 'success',
+            integrity: report
         });
     } catch (err: any) {
         res.status(500).json({ status: 'error', message: err.message });

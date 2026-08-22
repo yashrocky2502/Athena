@@ -16,6 +16,7 @@ import {
   LiveSourceFeedConfig
 } from './LiveSourceProviders';
 import { TelegramNotificationPipeline } from '../telegram/TelegramNotificationPipeline';
+import { SourceExpansionRegistry } from '../registry/SourceExpansionRegistry';
 
 export type WorkerState = 'STOPPED' | 'RUNNING' | 'POLLING' | 'ERROR';
 
@@ -218,6 +219,7 @@ export class LiveIngestionWorker {
         const sourceStartTime = new Date().toISOString();
         const health = entry.health;
         health.lastPollAt = sourceStartTime;
+        SourceExpansionRegistry.getInstance().recordPollAttempt(sourceId);
 
         try {
           // Collect payloads safely
@@ -228,6 +230,7 @@ export class LiveIngestionWorker {
           if (batch.error) {
             health.consecutiveFailures++;
             health.lastError = batch.error;
+            SourceExpansionRegistry.getInstance().recordSourceFailure(sourceId, batch.error);
             sourceResults[sourceId] = {
               processed: 0,
               saved: 0,
@@ -248,6 +251,8 @@ export class LiveIngestionWorker {
           health.consecutiveFailures = 0;
           health.lastError = undefined;
 
+          SourceExpansionRegistry.getInstance().recordSourceSuccess(sourceId, ingestionRes.saved);
+
           cycleSaved += ingestionRes.saved;
           cycleDuplicates += ingestionRes.duplicates;
           cycleErrors += ingestionRes.errors;
@@ -259,6 +264,7 @@ export class LiveIngestionWorker {
         } catch (err: any) {
           health.consecutiveFailures++;
           health.lastError = err.message || 'Unknown ingestion failure';
+          SourceExpansionRegistry.getInstance().recordSourceFailure(sourceId, err);
           cycleErrors++;
           sourceResults[sourceId] = {
             processed: 0,

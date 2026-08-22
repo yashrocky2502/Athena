@@ -56,6 +56,12 @@ export class IngestionPipeline {
                 let article = ArticleNormalizer.normalize(payload, sourceName, 'RSS');
                 const normalizedAt = new Date().toISOString();
 
+                // Set Stage 8.8 lifecycle metadata
+                (article as any).isLive = true;
+                (article as any).discoveredAt = discoveredAt;
+                (article as any).ingestedAt = normalizedAt;
+                (article as any).publishedAt = article.publishedAt || payload.publishedAt || discoveredAt;
+
                 // 2. Identity
                 article.id = ArticleIdentity.generateId(article);
 
@@ -101,6 +107,7 @@ export class IngestionPipeline {
                 }
 
                 // 8. Storage (Summary-first for canonical article store)
+                (article as any).storedAt = new Date().toISOString();
                 await this.store.insert(article);
                 result.saved++;
                 const summaryReadyAt = new Date().toISOString();

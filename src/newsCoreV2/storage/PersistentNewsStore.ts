@@ -444,6 +444,10 @@ export class PersistentNewsStore {
       activeCollectors: activeCollectorsCount
     };
   }
+
+  public resetToCanonicalDiskSnapshot(): void {
+    this.hydrateFromDisk();
+  }
 }
 
 // Global Singleton Instance to survive dev server hot-reloads

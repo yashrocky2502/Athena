@@ -15,7 +15,7 @@ export type GroqErrorCode =
 
 export class GroqProvider implements IAIProvider {
   public readonly providerName: ProviderType = 'groq';
-  private readonly TIMEOUT_MS = 15000; // 15s timeout
+  private readonly TIMEOUT_MS = 6000; // 6s timeout for fast failover
   private healthMonitor = AIHealthMonitor.getInstance();
   private costTracker = CostTracker.getInstance();
 

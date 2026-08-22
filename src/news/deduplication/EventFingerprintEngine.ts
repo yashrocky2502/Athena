@@ -88,11 +88,11 @@ export class EventFingerprintEngine {
     const fullText = `${headline} ${body}`.toLowerCase();
 
     // 1. Extract Primary Entity & Symbol
-    let primaryEntity = (article.symbol || '').toUpperCase().trim();
-    let symbol = primaryEntity;
+    let primaryEntity = ((article as any).primaryEntity || article.symbol || (article as any).tickers?.[0] || (article as any).ticker || '').toUpperCase().trim();
+    let symbol = (article.symbol || primaryEntity).toUpperCase().trim();
 
     if (!primaryEntity || primaryEntity === 'UNKNOWN') {
-      if (/\btata motors\b/i.test(fullText)) { primaryEntity = 'TATA MOTORS'; symbol = 'TATAMOTORS'; }
+      if (/\btata motors\b/i.test(fullText)) { primaryEntity = 'TATAMOTORS'; symbol = 'TATAMOTORS'; }
       else if (/\breliance\b|\bril\b/i.test(fullText)) { primaryEntity = 'RELIANCE'; symbol = 'RELIANCE'; }
       else if (/\binfosys\b|\binfy\b/i.test(fullText)) { primaryEntity = 'INFOSYS'; symbol = 'INFY'; }
       else if (/\blarsen\b|\bl&t\b|\blarsen & toubro\b/i.test(fullText)) { primaryEntity = 'L&T'; symbol = 'LT'; }

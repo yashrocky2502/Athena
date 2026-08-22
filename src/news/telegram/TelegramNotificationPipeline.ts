@@ -18,6 +18,9 @@ import { TelegramAlertEligibilityEngine, TelegramEligibilityAssessment } from '.
 import { TelegramQualityGate, QualityGateValidationResult } from './TelegramQualityGate';
 import { TraderTelegramFormatter } from './TraderTelegramFormatter';
 import { TelegramService } from '../NewsEngine/TelegramService';
+import { TelegramAuditTrail } from '../operations/TelegramAuditTrail';
+import { TelegramOperationsController } from '../operations/TelegramOperationsController';
+import { NewsRuntimeConfig } from '../operations/NewsRuntimeConfig';
 
 export interface TelegramPipelineResult {
   articleId: string;
@@ -187,6 +190,15 @@ export class TelegramNotificationPipeline {
 
       this.totalQueuedCount++;
 
+      // Record in immutable Telegram Audit Trail
+      TelegramAuditTrail.getInstance().recordQueued({
+        deliveryId: articleId,
+        eventId: (article as any).eventId || articleId,
+        alertType: isFno ? 'EVENT_ESCALATION' : 'ARTICLE_ALERT',
+        priority,
+        headline: article.headline
+      });
+
       // Priority insertion: Priority 1 before 2, 2 before 3
       let insertIndex = this.queue.length;
       for (let i = 0; i < this.queue.length; i++) {
@@ -206,7 +218,7 @@ export class TelegramNotificationPipeline {
   /**
    * Internal queue runner. Processes enqueued items sequentially in real time.
    */
-  private async triggerQueueProcessing(): Promise<void> {
+  public async triggerQueueProcessing(): Promise<void> {
     if (this.isProcessingQueue) {
       return;
     }
@@ -215,7 +227,12 @@ export class TelegramNotificationPipeline {
 
     try {
       while (this.queue.length > 0) {
-        // Handle active rate-limit pause
+        // Handle operator pause or active rate-limit pause
+        if (TelegramOperationsController.getInstance().isPaused()) {
+          await new Promise(r => setTimeout(r, 20));
+          continue;
+        }
+
         if (this.isPaused && Date.now() < this.pausedUntil) {
           const sleepMs = Math.max(50, this.pausedUntil - Date.now());
           await new Promise(r => setTimeout(r, sleepMs));
@@ -346,8 +363,12 @@ export class TelegramNotificationPipeline {
     let dispatched = false;
     let dispatchError: string | undefined;
 
-    if (!dryRun && !this.auditModeOnly) {
+    const opController = TelegramOperationsController.getInstance();
+    const auditTrail = TelegramAuditTrail.getInstance();
+
+    if (!dryRun && !this.auditModeOnly && opController.isEnabled()) {
       try {
+        auditTrail.recordAttempt(articleId);
         const telegramService = TelegramService.getInstance();
         const creds = telegramService.getCredentials();
         if (creds && creds.botToken && creds.chatId) {
@@ -360,19 +381,38 @@ export class TelegramNotificationPipeline {
             this.pausedUntil = Date.now() + (retryAfterSec * 1000);
             this.rateLimitPausesCount++;
             dispatchError = 'RATE_LIMITED';
+            opController.markDegraded('Telegram rate-limited (429)');
+            auditTrail.recordFailure(articleId, {
+              status: 'RATE_LIMITED',
+              httpStatus: 429,
+              errorClassification: 'RATE_LIMIT_BACKOFF'
+            });
           } else if (!sendResult.success) {
             dispatchError = sendResult.error || 'DISPATCH_FAILED';
+            auditTrail.recordFailure(articleId, {
+              status: 'FAILED',
+              httpStatus: sendResult.httpStatus || 500,
+              errorClassification: dispatchError
+            });
+          } else {
+            opController.markActive();
+            auditTrail.recordSuccess(articleId, sendResult.messageId);
           }
         }
       } catch (err: any) {
         console.warn('[TelegramPipeline] Dispatch error:', err);
         dispatchError = err.message || 'DISPATCH_EXCEPTION';
+        auditTrail.recordFailure(articleId, {
+          status: 'FAILED',
+          errorClassification: dispatchError
+        });
       }
     }
 
     // Mark delivered only upon verified successful dispatch or dryRun
     if (dispatched) {
       this.deliveredArticleIds.add(articleId);
+      opController.recordDispatchedEvent((article as any).eventId || articleId, 'ARTICLE_ALERT');
     }
 
     const finalResult: TelegramPipelineResult = {

@@ -237,4 +237,13 @@ export class ArticleFreshnessEvaluator {
   public static clearQuarantineLog(): void {
     this.quarantineLog = [];
   }
+
+  public static evaluateBatchFreshness(articles: Partial<NewsArticle>[]): Record<string, number> {
+    const dist: Record<string, number> = { BREAKING: 0, VERY_FRESH: 0, FRESH: 0, AGING: 0, STALE: 0, UNKNOWN: 0 };
+    for (const art of articles) {
+      const res = this.evaluateFreshness(art);
+      dist[res.freshnessState] = (dist[res.freshnessState] || 0) + 1;
+    }
+    return dist;
+  }
 }

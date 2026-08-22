@@ -7,6 +7,7 @@ import { ConfidenceEngine } from './ConfidenceEngine';
 import { CostTracker } from './CostTracker';
 import { CacheManager, NewsCacheCategory } from './CacheManager';
 import { AIHealthMonitor } from './AIHealthMonitor';
+import { AIOperationsController } from '../operations/AIOperationsController';
 
 export interface RouterRequestInput extends PromptBuildInput {
   url?: string;
@@ -75,11 +76,32 @@ export class AIRouter {
     if (!input.forceRefresh) {
       const cached = this.cacheManager.get(cacheKey);
       if (cached) {
+        AIOperationsController.getInstance().recordCacheHit();
         if (input.streamingCallback) {
           input.streamingCallback('final', cached.text);
         }
         return cached;
       }
+    }
+
+    const aiController = AIOperationsController.getInstance();
+    if (!aiController.isAIEnabled()) {
+      aiController.recordAvoidedCall('AI_DISABLED');
+      console.log('[AI Router] AI enrichment disabled by operational control plane. Serving Athena Local Engine.');
+      const localResp = await this.localProvider.generate({
+        prompt: builtPrompt.userPrompt,
+        systemPrompt: builtPrompt.systemPrompt,
+        domainType: builtPrompt.category,
+        headline: input.headline,
+        url: input.url,
+        publisher: input.publisher,
+        facts: typeof input.facts === 'object' ? input.facts : undefined,
+        streamingCallback: input.streamingCallback
+      });
+      return {
+        ...localResp,
+        fallbackUsed: true
+      };
     }
 
     const requestOptions: AIRequestOptions = {
@@ -99,11 +121,13 @@ export class AIRouter {
     // 2. Try Primary: Groq (Llama 3.3 70B / Llama 3.1 8B)
     if (this.groqProvider.isHealthy()) {
       try {
+        aiController.recordCallAttempt('groq');
         console.log('[AI Router] Dispatching request to Primary Provider: Groq');
         const groqResp = await this.groqProvider.generate(requestOptions);
         const evalResult = ConfidenceEngine.evaluate(groqResp.text, requestOptions.facts, input.body);
 
         if (evalResult.passed) {
+          aiController.recordCallSuccess();
           response = {
             ...groqResp,
             confidence: evalResult.score
@@ -113,6 +137,7 @@ export class AIRouter {
           fallbackUsed = true;
         }
       } catch (err: any) {
+        aiController.recordCallFailure(err.message);
         console.warn(`[AI Router] Groq Provider failed: ${err.message}. Failing over to Gemini Flash.`);
         fallbackUsed = true;
       }
@@ -124,11 +149,13 @@ export class AIRouter {
     // 3. Try Emergency Fallback: Gemini Flash
     if (!response && this.geminiProvider.isHealthy()) {
       try {
+        aiController.recordCallAttempt('gemini');
         console.log('[AI Router] Dispatching request to Emergency Fallback Provider: Gemini Flash');
         const geminiResp = await this.geminiProvider.generate(requestOptions);
         const evalResult = ConfidenceEngine.evaluate(geminiResp.text, requestOptions.facts, input.body);
 
         if (evalResult.passed) {
+          aiController.recordCallSuccess();
           response = {
             ...geminiResp,
             confidence: evalResult.score,
@@ -138,6 +165,7 @@ export class AIRouter {
           console.warn(`[AI Router] Gemini confidence score low (${evalResult.score}/100): ${evalResult.issues.join('; ')}. Failing over to Athena Local Engine.`);
         }
       } catch (err: any) {
+        aiController.recordCallFailure(err.message);
         console.warn(`[AI Router] Gemini Provider failed: ${err.message}. Failing over to Athena Local Engine.`);
       }
     }

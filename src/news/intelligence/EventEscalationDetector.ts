@@ -59,7 +59,7 @@ export class EventEscalationDetector {
     const rawNumbers = fullText.match(/\b\d+(?:,\d+)*(?:\.\d+)?\b/g) || [];
     const numValues = rawNumbers.map(n => parseFloat(n.replace(/,/g, ''))).filter(n => n > 10);
 
-    const existingMainNum = existingEvent.keyNumbers.find(k => k.numValue && k.numValue > 10)?.numValue;
+    const existingMainNum = existingEvent.keyNumbers.find(k => (k.numValue || (k as any).value) && ((k.numValue || (k as any).value) > 10))?.numValue || (existingEvent.keyNumbers.find(k => (k.numValue || (k as any).value) && ((k.numValue || (k as any).value) > 10)) as any)?.value;
     if (existingMainNum && numValues.length > 0) {
       const maxNewNum = Math.max(...numValues);
       if (maxNewNum > existingMainNum * 1.15) {

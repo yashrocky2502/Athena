@@ -295,7 +295,7 @@ export class TelegramAlertEligibilityEngine {
     }
 
     // 11. Regulatory & Legal Actions
-    if (/(sebi (bars|fines|issues notice|orders probe|clamps down|penalizes|initiates)|rbi (imposes|penalizes|restricts|bans)|show-cause notice|ed raids|cbi probe|nclt|cci probe)/i.test(text)) {
+    if (/(sebi (bars|fines|issues notice|orders probe|clamps down|penalizes|initiates|imposes|passes order)|rbi (imposes|penalizes|restricts|bans)|show-cause notice|ed raids|cbi probe|nclt|cci probe|sebi penalty|penalty of rs|penalty on)/i.test(text)) {
       return 'REGULATORY_ACTION';
     }
 
@@ -1052,6 +1052,24 @@ export class TelegramAlertEligibilityEngine {
       novelty: 0
     };
 
+    const execSummary = this.generateExecutiveSummary(
+      article.headline || '',
+      article.body || '',
+      eventType,
+      companyName,
+      symbol,
+      { hasExplicitDerivativesData: false }
+    );
+
+    const whyMatters = this.generateWhyItMatters(
+      eventType,
+      article.headline || '',
+      article.body || '',
+      symbol,
+      companyName,
+      { hasExplicitDerivativesData: false }
+    );
+
     return {
       isEligible: false,
       score,
@@ -1065,8 +1083,8 @@ export class TelegramAlertEligibilityEngine {
       observedMarketReaction: null,
       confidence: 50,
       traderRelevance: 'No Clear Beneficiary',
-      executiveSummary: '',
-      whyItMatters: '',
+      executiveSummary: execSummary,
+      whyItMatters: whyMatters,
       whatToMonitor: [],
       sources: [article.source?.publisher || 'Athena Source'],
       fnoEvidence: { hasExplicitDerivativesData: false },

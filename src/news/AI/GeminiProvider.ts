@@ -6,7 +6,7 @@ import { AIModelConfig } from './AIModelConfig';
 
 export class GeminiProvider implements IAIProvider {
   public readonly providerName: ProviderType = 'gemini';
-  private readonly TIMEOUT_MS = 25000; // 25s timeout for fast failover
+  private readonly TIMEOUT_MS = 8000; // 8s timeout for fast failover
   private healthMonitor = AIHealthMonitor.getInstance();
   private costTracker = CostTracker.getInstance();
 

@@ -45,20 +45,38 @@ export class TraderTelegramFormatter {
     
     message += `${divider}\n\n`;
     message += `📰 <b>Executive Summary</b>\n\n`;
-    message += `${this.escapeHtml(assessment.executiveSummary)}\n\n`;
+    const execSummary = assessment.executiveSummary && assessment.executiveSummary.trim()
+      ? assessment.executiveSummary.trim()
+      : 'Material event reported by primary market source.';
+    message += `${this.escapeHtml(execSummary)}\n\n`;
 
     message += `${divider}\n\n`;
     message += `📊 <b>Market Intelligence</b>\n\n`;
     message += `<b>Direction:</b> ${assessment.direction}\n`;
-    message += `<b>Impact:</b> ${assessment.score}/100\n`;
+    if (assessment.directionReason && assessment.directionReason.trim()) {
+      message += `<b>Reasoning:</b> ${this.escapeHtml(assessment.directionReason.trim())}\n`;
+    }
+    message += `<b>Impact Score:</b> ${assessment.score}/100\n`;
     message += `<b>Confidence:</b> ${assessment.confidence}%\n`;
     message += `<b>Urgency:</b> ${assessment.urgency}\n\n`;
 
-    if (assessment.observedMarketReaction) {
-      message += `<b>Observed Reaction:</b> ${this.escapeHtml(assessment.observedMarketReaction)}\n\n`;
+    if (assessment.observedMarketReaction && assessment.observedMarketReaction.trim()) {
+      message += `<b>Observed Reaction:</b> ${this.escapeHtml(assessment.observedMarketReaction.trim())}\n\n`;
     }
 
-    message += `<b>Why It Matters:</b>\n${this.escapeHtml(assessment.whyItMatters)}\n\n`;
+    if (assessment.traderRelevance && assessment.traderRelevance.trim()) {
+      message += `${divider}\n\n`;
+      message += `🎯 <b>Trader Relevance</b>\n\n`;
+      message += `${this.escapeHtml(assessment.traderRelevance.trim())}\n\n`;
+    }
+
+    const whyItMattersText = assessment.whyItMatters && assessment.whyItMatters.trim()
+      ? assessment.whyItMatters.trim()
+      : 'Material corporate development affecting market expectations based on published disclosure.';
+
+    message += `${divider}\n\n`;
+    message += `🧠 <b>Why It Matters</b>\n\n`;
+    message += `${this.escapeHtml(whyItMattersText)}\n\n`;
 
     if (assessment.fnoEvidence && assessment.fnoEvidence.hasExplicitDerivativesData) {
       message += `${divider}\n\n`;
@@ -102,22 +120,19 @@ export class TraderTelegramFormatter {
       }
     }
 
-    if (assessment.traderRelevance) {
-      message += `${divider}\n\n`;
-      message += `🎯 <b>Trader Relevance</b>\n\n`;
-      message += `${this.escapeHtml(assessment.traderRelevance)}\n\n`;
-    }
-
     if (assessment.whatToMonitor && assessment.whatToMonitor.length > 0) {
-      message += `${divider}\n\n`;
-      message += `👀 <b>What To Monitor</b>\n\n`;
-      for (const item of assessment.whatToMonitor) {
-        message += `• ${this.escapeHtml(item)}\n`;
+      const validPoints = assessment.whatToMonitor.filter(p => p && p.trim().length > 0);
+      if (validPoints.length > 0) {
+        message += `${divider}\n\n`;
+        message += `👀 <b>What To Monitor</b>\n\n`;
+        for (const item of validPoints) {
+          message += `• ${this.escapeHtml(item.trim())}\n`;
+        }
+        message += `\n`;
       }
-      message += `\n`;
     }
 
-    const publisher = assessment.sources && assessment.sources.length > 0 ? assessment.sources[0] : 'Athena News';
+    const publisher = assessment.sources && assessment.sources.length > 0 ? assessment.sources[0] : 'Athena Verified Wire';
     message += `${divider}\n\n`;
     message += `✓ <b>Source:</b> ${this.escapeHtml(publisher)}\n\n`;
     message += `🔗 <b>Open ATHENA</b>`;

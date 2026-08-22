@@ -15,6 +15,7 @@
  */
 
 import crypto from 'crypto';
+import { NewsRuntimeConfig } from '../operations/NewsRuntimeConfig';
 
 export interface CanaryStatus {
     enabled: boolean;
@@ -38,9 +39,7 @@ export class NewsCanaryRouter {
     private lastDecision?: 'CANARY' | 'CONTROL';
 
     private constructor() {
-        this.enabled = process.env.ATHENA_NEWS_CANARY_ENABLED === 'true';
-        const parsedPct = parseInt(process.env.ATHENA_NEWS_CANARY_PERCENTAGE || '0', 10);
-        this.percentage = isNaN(parsedPct) ? 0 : Math.max(0, Math.min(100, parsedPct));
+        this.syncWithRuntimeConfig();
     }
 
     public static getInstance(): NewsCanaryRouter {
@@ -50,8 +49,20 @@ export class NewsCanaryRouter {
         return NewsCanaryRouter.instance;
     }
 
+    public static resetInstance(): NewsCanaryRouter {
+        NewsCanaryRouter.instance = new NewsCanaryRouter();
+        return NewsCanaryRouter.instance;
+    }
+
+    private syncWithRuntimeConfig(): void {
+        const config = NewsRuntimeConfig.getInstance();
+        this.enabled = config.isCanaryEnabled();
+        this.percentage = config.getCanaryPercentage();
+    }
+
     public setEnabled(enabled: boolean): void {
         this.enabled = enabled;
+        NewsRuntimeConfig.getInstance().setCanary(enabled, this.percentage);
     }
 
     public isEnabled(): boolean {
@@ -60,6 +71,7 @@ export class NewsCanaryRouter {
 
     public setPercentage(pct: number): void {
         this.percentage = Math.max(0, Math.min(100, pct));
+        NewsRuntimeConfig.getInstance().setCanary(this.enabled, this.percentage);
     }
 
     public getPercentage(): number {
