@@ -159,7 +159,8 @@ export class ProductionTruthRecoveryEngine {
       success: success && reconciliationPassed,
       message,
       probedAt: now,
-      reconciliationPassed
+      reconciliationPassed,
+      healthyState: (success && reconciliationPassed) ? 'HEALTHY' : 'DEGRADED'
     };
   }
 

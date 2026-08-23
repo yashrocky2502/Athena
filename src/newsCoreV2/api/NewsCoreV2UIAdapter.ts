@@ -1,5 +1,6 @@
 import { NewsArticleV2 } from "../domain/NewsArticle.ts";
 import { UnifiedIntelligenceEngine } from "../intelligenceV2/UnifiedIntelligenceEngine.ts";
+import { newsStore } from "../storage/PersistentNewsStore.ts";
 
 export interface UIAdaptedArticle {
   id: string;
@@ -135,5 +136,10 @@ export class NewsCoreV2UIAdapter {
 
   public static adaptMany(articles: NewsArticleV2[]): UIAdaptedArticle[] {
     return (articles || []).map((art) => this.adapt(art));
+  }
+
+  public static getArticlesForUI(filters?: any): UIAdaptedArticle[] {
+    const raw = newsStore.getAllArticles();
+    return this.adaptMany(raw);
   }
 }

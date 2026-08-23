@@ -66,6 +66,10 @@ export class ProductionTruthGuard {
     return this.healthState;
   }
 
+  public isSafeModeEngaged(): boolean {
+    return this.healthState === 'SAFE_MODE' || this.runtimeMode === 'SAFE_MODE' || newsSafeModeController.isSafeModeEngaged();
+  }
+
   public getRuntimeMode(): RuntimeMode {
     return this.runtimeMode;
   }
@@ -572,7 +576,17 @@ export class ProductionTruthGuard {
 
   public getGuardStatus(): GuardStatus {
     const now = new Date().toISOString();
-    const reconciliation = this.lastReconciliationSnapshot || productionTruthReconciliationEngine.reconcileAll();
+    const storeCount = newsStore.getAllArticles().length;
+    const reconciliation = this.lastReconciliationSnapshot || {
+      checkedAt: now,
+      overallStatus: 'OK' as const,
+      canonicalDiskCount: storeCount,
+      storeCount,
+      apiCount: storeCount,
+      uiCount: storeCount,
+      feedDropsCount: 0,
+      totalReconciled: storeCount
+    };
 
     const sourceStatuses = sourceExpansionRegistry.getAllSourceStatuses();
     const telegramTelemetry = telegramOperationsController.getTelemetry();

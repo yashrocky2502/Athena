@@ -5,6 +5,7 @@
 
 import { NewsArticle } from '../models/NewsArticle';
 import { NewsSummary, ExtractionQuality } from '../types/NewsSummary';
+import { SourceArticleExtractionGate } from '../intelligence/SourceArticleExtractionGate';
 import { ExtractionQualityEvaluator } from '../extraction/ExtractionQualityEvaluator';
 import { SummaryValidator } from '../validation/SummaryValidator';
 import { NewsSummaryCache } from '../cache/NewsSummaryCache';
@@ -56,39 +57,35 @@ export class NewsSummaryService {
     const rawBody = article.content || article.raw_text || article.summary || '';
     const domain = this.extractDomain(article.url || article.link || '');
 
-    // 2. Extraction Quality Evaluation
-    let evalResult = ExtractionQualityEvaluator.evaluate(title, rawBody, rawBody);
-    let cleanText = rawBody;
-    let extractionMethod = 'TrafilaturaExtractor';
-
-    if (evalResult.quality === 'WEAK' || evalResult.quality === 'FAILED') {
-      // Attempt secondary extraction via Crawl4AI / DOM renderer
-      const crawl4ai = new Crawl4AIExtractor();
-      const extracted = await crawl4ai.extract(article.url || '', rawBody);
-      if (extracted.quality === 'EXCELLENT' || extracted.quality === 'ACCEPTABLE') {
-        cleanText = extracted.cleanText;
-        evalResult = { score: extracted.qualityScore, quality: extracted.quality, reasons: ['Upgraded via Crawl4AI'] };
-        extractionMethod = 'Crawl4AIExtractor';
-      }
-    }
-
-    // Record publisher extraction profile
-    if (domain) {
-      this.publisherManager.recordResult(
-        domain,
-        extractionMethod,
-        evalResult.score,
-        evalResult.quality !== 'FAILED',
-        evalResult.reasons.join('; ')
-      );
-    }
-
-    // Rule: FAILED extraction -> DO NOT send to AI, use local deterministic summary
-    if (evalResult.quality === 'FAILED') {
-      const fallback = this.generateLocalFallbackSummary(article, 'Extraction failed quality threshold');
+    // 2. Extraction Quality Evaluation via SourceArticleExtractionGate (Stage 8.9.10)
+    const { diagnostic, cleanBody } = SourceArticleExtractionGate.evaluate(article);
+    if (diagnostic.extractionStatus !== 'SUCCESS' || !cleanBody) {
+      const fallback: NewsSummary = {
+        articleId: article.id,
+        summary: null as any,
+        whatHappened: 'Summary unavailable — Open original source',
+        whyItMatters: '',
+        keyFacts: [],
+        importantNumbers: [],
+        entities: [],
+        eventType: article.category || 'MARKET_UPDATE',
+        unknowns: [diagnostic.rejectionReason || 'Extraction failed quality threshold'],
+        extractionQuality: 'UNAVAILABLE' as any,
+        extractionMethod: 'SourceArticleExtractionGate',
+        provider: 'AthenaLocalEngine',
+        model: 'RuleBasedSynthesizer',
+        validated: true,
+        generatedAt: new Date().toISOString()
+      };
+      (fallback as any).summaryStatus = 'SOURCE_UNAVAILABLE';
+      (fallback as any).summaryQuality = 'UNAVAILABLE';
       this.cache.set(article.id, fallback);
       return fallback;
     }
+
+    let cleanText = cleanBody;
+    let evalResult = { score: diagnostic.extractionScore, quality: 'EXCELLENT' as any, reasons: [] as string[] };
+    let extractionMethod = 'SourceArticleExtractionGate';
 
     // 3. AI Generation Pipeline
     const prompt = this.buildSummaryPrompt(title, cleanText, article.publisher || domain);

@@ -228,9 +228,26 @@ export function TraderArticleDossier({
                   </span>
                 )}
               </h4>
-              <p className="text-slate-200 font-medium">{canonicalSummary?.summary || summaryText}</p>
+              {canonicalSummary?.summaryStatus === 'SOURCE_UNAVAILABLE' || canonicalSummary?.summary === null ? (
+                <div className="p-3 rounded-lg bg-rose-950/20 border border-rose-500/20 text-rose-400 font-medium flex items-center justify-between gap-3 flex-wrap">
+                  <span className="text-slate-300">Summary unavailable — Open original source</span>
+                  {article?.url && (
+                    <a
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-indigo-200 text-xs font-bold transition-all border border-slate-700"
+                    >
+                      <span>Open Source</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <p className="text-slate-200 font-medium">{canonicalSummary?.summary || summaryText}</p>
+              )}
 
-              {canonicalSummary && (
+              {canonicalSummary && canonicalSummary.summaryStatus !== 'SOURCE_UNAVAILABLE' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 text-xs border-t border-slate-800/60">
                   {canonicalSummary.whatHappened && (
                     <div className="p-2.5 rounded-lg bg-slate-950/50 border border-slate-800/80">
@@ -247,7 +264,7 @@ export function TraderArticleDossier({
                 </div>
               )}
 
-              {canonicalSummary?.importantNumbers && canonicalSummary.importantNumbers.length > 0 && (
+              {canonicalSummary && canonicalSummary.summaryStatus !== 'SOURCE_UNAVAILABLE' && canonicalSummary?.importantNumbers && canonicalSummary.importantNumbers.length > 0 && (
                 <div className="pt-2 border-t border-slate-800/60 flex flex-wrap gap-2 text-xs">
                   <span className="text-[10px] uppercase font-mono font-bold text-slate-400 self-center">Key Numbers:</span>
                   {canonicalSummary.importantNumbers.map((num: any, idx: number) => (

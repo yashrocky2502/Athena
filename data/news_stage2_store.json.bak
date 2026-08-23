@@ -1,0 +1,53 @@
+[
+  {
+    "id": "test_stage3_6_growth_1787499513520",
+    "title": "STAGE 3.6 AUDIT TEST: Reserve Bank Announces Policy Rate Decision",
+    "headline": "STAGE 3.6 AUDIT TEST: Reserve Bank Announces Policy Rate Decision",
+    "content": "",
+    "summary": "",
+    "url": "",
+    "link": "",
+    "publisher": {
+      "publisher": "Athena Audit",
+      "url": "https://athena.test/test_stage3_6_growth_1787499513520"
+    },
+    "source": {
+      "id": "wire",
+      "name": "Verified Wire"
+    },
+    "publishedAt": "2026-08-23T15:38:33.520Z",
+    "category": "MARKET",
+    "isFno": false
+  },
+  {
+    "id": "v2_190155992a840ff3",
+    "source": {
+      "name": "F&O Market Desk",
+      "url": "https://example.com/fno-1",
+      "publisher": "F&O Market Desk",
+      "collectionMethod": "RSS"
+    },
+    "sourceUrl": "https://example.com/fno-1",
+    "headline": "Nifty 25000 Call Option sees massive Open Interest buildup of 50 lakh contracts",
+    "body": "Derivatives data shows high call writing at 25000 strike with PCR at 0.75 and IV at 14.5%",
+    "publishedAt": "2026-08-23T15:36:37.566Z",
+    "fetchedAt": "2026-08-23T15:36:37.567Z",
+    "primaryCategory": "F&O",
+    "eventType": "DERIVATIVE_VOLATILITY",
+    "symbol": "NIFTY",
+    "fnoEligible": true,
+    "financialMetrics": [],
+    "classificationConfidence": 90,
+    "relevanceScore": 65,
+    "isLive": true,
+    "discoveredAt": "2026-08-23T15:36:37.567Z",
+    "ingestedAt": "2026-08-23T15:36:37.568Z",
+    "sentiment": "NEUTRAL",
+    "freshnessState": "BREAKING",
+    "freshnessSeconds": 0,
+    "eventId": "evt_id_1787499397594_3sba0",
+    "eventRelation": "NEW_EVENT",
+    "hasConflict": false,
+    "storedAt": "2026-08-23T15:36:37.596Z"
+  }
+]

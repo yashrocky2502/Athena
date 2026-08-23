@@ -170,6 +170,31 @@ export class SourceCircuitBreaker {
     sourceExpansionRegistry.recordSourceFailure(sourceId, `${classification}: ${message || 'HTTP error'}`);
   }
 
+  public recordFailure(sourceId: string, error?: any): void {
+    let record = sourceExpansionRegistry.getSourceRecord(sourceId);
+    if (!record) {
+      sourceExpansionRegistry.registerSource({
+        id: sourceId,
+        name: sourceId,
+        publisher: sourceId,
+        category: 'MARKETS',
+        url: `https://${sourceId}.com/feed`,
+        tier: 2,
+        enabled: true
+      });
+    }
+    sourceExpansionRegistry.recordSourceFailure(sourceId, error || 'Source probe failure');
+  }
+
+  public isQuarantined(sourceId: string): boolean {
+    const record = sourceExpansionRegistry.getSourceRecord(sourceId);
+    return record ? record.circuitState === 'QUARANTINED' : false;
+  }
+
+  public resetSource(sourceId: string): boolean {
+    return sourceExpansionRegistry.resetSourceCircuit(sourceId);
+  }
+
   public reset(): void {
     this.recoverySuccessCounters.clear();
     this.lastProbeTimes.clear();

@@ -31,6 +31,11 @@ export class PersistentNewsStore {
   public lastSyncStatus: string | null = null;
   public persistWriteAttemptsCount: number = 0;
   public persistGuardRejectionsCount: number = 0;
+  private lastHydrationTime: string = new Date().toISOString();
+
+  public getLastHydrationTime(): string {
+    return this.lastHydrationTime;
+  }
 
   constructor(filePath?: string) {
     this.filePath = filePath || path.join(process.cwd(), "data", "news_core_v2.json");
@@ -324,6 +329,10 @@ export class PersistentNewsStore {
    */
   public getArticle(id: string): NewsArticleV2 | undefined {
     return this.articleMap.get(id);
+  }
+
+  public getArticleById(id: string): NewsArticleV2 | undefined {
+    return this.getArticle(id);
   }
 
   /**

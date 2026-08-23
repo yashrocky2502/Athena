@@ -47,7 +47,10 @@ export type SubsystemId =
   | 'FOREX_FACTORY'
   | 'ECONOMIC_CALENDAR'
   | 'CACHE'
-  | 'CANARY_ROUTER';
+  | 'CANARY_ROUTER'
+  | 'NSE_RSS'
+  | 'STORAGE_INTEGRITY'
+  | (string & {});
 
 export interface GuardIncident {
   id: string;
@@ -131,4 +134,5 @@ export interface RecoveryProbeResult {
   message: string;
   probedAt: string;
   reconciliationPassed: boolean;
+  healthyState?: HealthState;
 }

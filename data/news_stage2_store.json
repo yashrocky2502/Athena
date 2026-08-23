@@ -1,33 +1,39 @@
 [
   {
-    "id": "v2_190155992a840ff3",
-    "source": {
-      "name": "F&O Market Desk",
-      "url": "https://example.com/fno-1",
-      "publisher": "F&O Market Desk",
-      "collectionMethod": "RSS"
+    "id": "test_stage3_6_growth_1787499513520",
+    "title": "STAGE 3.6 AUDIT TEST: Reserve Bank Announces Policy Rate Decision",
+    "headline": "STAGE 3.6 AUDIT TEST: Reserve Bank Announces Policy Rate Decision",
+    "content": "",
+    "summary": "",
+    "url": "",
+    "link": "",
+    "publisher": {
+      "publisher": "Athena Audit",
+      "url": "https://athena.test/test_stage3_6_growth_1787499513520"
     },
-    "sourceUrl": "https://example.com/fno-1",
+    "source": {
+      "id": "wire",
+      "name": "Verified Wire"
+    },
+    "publishedAt": "2026-08-23T15:38:33.520Z",
+    "category": "MARKET",
+    "isFno": false
+  },
+  {
+    "id": "v2_190155992a840ff3",
+    "title": "Nifty 25000 Call Option sees massive Open Interest buildup of 50 lakh contracts",
     "headline": "Nifty 25000 Call Option sees massive Open Interest buildup of 50 lakh contracts",
-    "body": "Derivatives data shows high call writing at 25000 strike with PCR at 0.75 and IV at 14.5%",
-    "publishedAt": "2026-08-23T10:17:08.526Z",
-    "fetchedAt": "2026-08-23T10:17:08.527Z",
-    "primaryCategory": "F&O",
-    "eventType": "DERIVATIVE_VOLATILITY",
-    "symbol": "NIFTY",
-    "fnoEligible": true,
-    "financialMetrics": [],
-    "classificationConfidence": 90,
-    "relevanceScore": 65,
-    "isLive": true,
-    "discoveredAt": "2026-08-23T10:17:08.527Z",
-    "ingestedAt": "2026-08-23T10:17:08.527Z",
-    "sentiment": "NEUTRAL",
-    "freshnessState": "BREAKING",
-    "freshnessSeconds": 0,
-    "eventId": "evt_id_1787480228593_2hof6",
-    "eventRelation": "NEW_EVENT",
-    "hasConflict": false,
-    "storedAt": "2026-08-23T10:17:08.595Z"
+    "content": "",
+    "summary": "",
+    "url": "",
+    "link": "",
+    "publisher": "F&O Market Desk",
+    "source": {
+      "id": "wire",
+      "name": "F&O Market Desk"
+    },
+    "publishedAt": "2026-08-23T15:36:37.566Z",
+    "category": "MARKET",
+    "isFno": false
   }
 ]

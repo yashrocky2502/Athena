@@ -1,4 +1,5 @@
 import { NewsArticleV2 } from "../domain/NewsArticle.ts";
+import { SourceArticleExtractionGate } from "../../news/intelligence/SourceArticleExtractionGate.ts";
 import { IntelligenceEntityResolver } from "./IntelligenceEntityResolver.ts";
 import { IntelligenceMetricResolver } from "./IntelligenceMetricResolver.ts";
 import { IntelligenceStore } from "./IntelligenceStore.ts";
@@ -92,8 +93,16 @@ export class UnifiedIntelligenceEngine {
     else if (materialityScore >= 70 || relevanceScore >= 80) urgency = "HIGH";
     else if (materialityScore >= 50 || relevanceScore >= 60) urgency = "MEDIUM";
 
-    // 5. Source-Grounded Executive Summary Construction
-    const executiveSummary = this.buildExecutiveSummary(article, entity.companyName, resolvedMetrics.metrics, primaryCategory, eventType);
+    // 5. Source-Grounded Executive Summary Construction with SourceArticleExtractionGate (Stage 8.9.10)
+    const { diagnostic, cleanBody } = SourceArticleExtractionGate.evaluate(article);
+    const hasSuccessfulExtraction = diagnostic.extractionStatus === 'SUCCESS' && cleanBody;
+
+    const executiveSummary = hasSuccessfulExtraction
+      ? this.buildExecutiveSummary(article, entity.companyName, resolvedMetrics.metrics, primaryCategory, eventType)
+      : "";
+
+    const summaryStatus = hasSuccessfulExtraction ? "AVAILABLE" : "SOURCE_UNAVAILABLE";
+    const summaryQuality = hasSuccessfulExtraction ? "EXCELLENT" : "UNAVAILABLE";
 
     // 6. Key Facts Extraction
     const keyFacts = this.extractKeyFacts(article, resolvedMetrics.metrics);
@@ -152,6 +161,8 @@ export class UnifiedIntelligenceEngine {
       orderBook: resolvedMetrics.orderBook,
 
       executiveSummary,
+      summaryStatus,
+      summaryQuality,
       keyFacts,
       whyItMatters,
       marketImpact,
@@ -163,6 +174,8 @@ export class UnifiedIntelligenceEngine {
       intelligenceVersion: this.VERSION,
       generatedAt: new Date().toISOString()
     };
+
+    (record as any).summary = hasSuccessfulExtraction ? executiveSummary : null;
 
     // Cache the deterministic record
     store.set(record);
@@ -639,6 +652,9 @@ export class UnifiedIntelligenceEngine {
 
   public static async generateAIIntelligence(article: NewsArticleV2): Promise<IntelligenceRecord> {
     const record = this.build(article);
+    if (record.summaryStatus === "SOURCE_UNAVAILABLE") {
+      return record;
+    }
     const store = IntelligenceStore.getInstance();
     const aiVersion = this.VERSION + "_AI";
     const cached = store.get(article.id, aiVersion);

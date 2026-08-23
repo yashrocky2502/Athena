@@ -85,8 +85,16 @@ export class NewsSafeModeController {
     AIOperationsController.getInstance().enableAI();
   }
 
+  public engageSafeMode(reason = 'Operator initiated safe mode'): void {
+    this.enableSafeMode(reason);
+  }
+
   public isSafeMode(): boolean {
     return this.isSafeModeActive;
+  }
+
+  public isSafeModeEngaged(): boolean {
+    return this.isSafeMode();
   }
 
   public getStatus(): SafeModeStatus {

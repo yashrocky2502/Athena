@@ -48,10 +48,20 @@ export class TelegramQualityGate {
       reasons.push(assessment.rejectionReason || 'Article does not meet minimum eligibility score threshold.');
     }
 
-    // 1b. Urgency Gate: LOW urgency is feed-only
-    if (assessment.urgency === 'LOW') {
-      failedChecks.push('LOW_URGENCY_SUPPRESSED');
-      reasons.push('LOW urgency alerts are restricted to Category Feed only.');
+    // 1b. Urgency Gate: suppressed if below configured dispatch threshold (Default: HIGH)
+    const getUrgencyValue = (u: string): number => {
+      switch ((u || '').toUpperCase()) {
+        case 'LOW': return 1;
+        case 'MEDIUM': return 2;
+        case 'HIGH': return 3;
+        case 'CRITICAL': return 4;
+        default: return 0;
+      }
+    };
+    const dispatchThreshold = process.env.TELEGRAM_DISPATCH_THRESHOLD || 'HIGH';
+    if (getUrgencyValue(assessment.urgency) < getUrgencyValue(dispatchThreshold)) {
+      failedChecks.push('URGENCY_BELOW_THRESHOLD');
+      reasons.push(`Alert urgency (${assessment.urgency}) is below the configured dispatch threshold (${dispatchThreshold}).`);
     }
 
     // 2. Non-empty Summary
@@ -77,12 +87,81 @@ export class TelegramQualityGate {
       'favorable announcement for',
       'corporate development may impact sentiment',
       'investors should monitor the stock',
-      'this could affect market participants'
+      'this could affect market participants',
+      'material development for market participants',
+      'this development is important',
+      'this announcement could impact sentiment',
+      'investors should monitor',
+      'material corporate development affecting market expectations'
     ];
     for (const phrase of boilerplateWhyPhrases) {
       if (whyItMatters.toLowerCase().includes(phrase)) {
         failedChecks.push('GENERIC_BOILERPLATE_REASONING');
         reasons.push(`"Why It Matters" contains forbidden boilerplate filler: "${phrase}".`);
+      }
+    }
+
+    // F&O specific category validation
+    const isFnoCategory = 
+      assessment.category?.toUpperCase() === 'F&O' || 
+      assessment.category?.toUpperCase() === 'FNO' || 
+      originalArticle.category?.toUpperCase() === 'F&O' || 
+      originalArticle.category?.toUpperCase() === 'FNO' ||
+      (originalArticle as any).isFno;
+
+    if (isFnoCategory) {
+      // Options Seller Impact generic/empty check
+      const optionsSellerImpact = ((originalArticle as any).optionsSellerImpact || assessment.traderRelevance || '').trim();
+      const optionsSellerImpactLower = optionsSellerImpact.toLowerCase();
+      const genericFnoPhrases = [
+        'no actionable f&o setup',
+        'no material f&o implication',
+        'consult professional advisor',
+        'no actionable options setup'
+      ];
+      const isGenericOptionsImpact = 
+        !optionsSellerImpact || 
+        genericFnoPhrases.some(phrase => optionsSellerImpactLower.includes(phrase));
+
+      if (isGenericOptionsImpact) {
+        failedChecks.push('GENERIC_OPTIONS_SELLER_IMPACT');
+        reasons.push('F&O alert rejected because Options Seller Impact is empty or generic fallback.');
+      }
+
+      // Sentiment Neutral Check
+      const sentiment = (originalArticle.sentiment || '').toUpperCase();
+      const direction = (assessment.direction || '').toUpperCase();
+      if (direction === 'NEUTRAL' || sentiment === 'NEUTRAL') {
+        failedChecks.push('NEUTRAL_FNO_ALERT_BLOCKED');
+        reasons.push('F&O alerts must have a clear direction (Bullish, Bearish, or Volatile), never Neutral.');
+      }
+
+      // Zero-fabrication check for F&O symbols, strikes, or premium levels
+      const sourceText = `${headline} ${body}`.toLowerCase();
+      const generatedText = `${summary} ${whyItMatters} ${traderRelevance} ${((originalArticle as any).optionsSellerImpact || '')}`.toLowerCase();
+
+      // Check symbol fabrication
+      if (assessment.symbol) {
+        const symLower = assessment.symbol.toLowerCase();
+        if (!sourceText.includes(symLower) && !headline.toLowerCase().includes(symLower)) {
+          failedChecks.push('FABRICATED_SYMBOL');
+          reasons.push(`F&O symbol "${assessment.symbol}" is not present in the source article text.`);
+        }
+      }
+
+      // Check strikes and premium levels
+      const strikePattern = /(\b\d+(?:\s*(?:strike|CE|PE|call|put|premium|points|pts|level))\b)/gi;
+      const strikesInGenerated = generatedText.match(strikePattern) || [];
+      for (const strike of strikesInGenerated) {
+        const digitsMatch = strike.match(/\d+/);
+        if (digitsMatch) {
+          const num = digitsMatch[0];
+          if (!sourceText.includes(num)) {
+            failedChecks.push('FABRICATED_STRIKE_OR_PREMIUM');
+            reasons.push(`Fabricated F&O strike/premium value "${strike}" not found in source text.`);
+            break;
+          }
+        }
       }
     }
 

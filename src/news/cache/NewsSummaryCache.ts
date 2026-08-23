@@ -45,4 +45,9 @@ export class NewsSummaryCache {
   public clear(): void {
     this.memoryCache.clear();
   }
+
+  public delete(articleId: string): void {
+    if (!articleId) return;
+    this.memoryCache.delete(this.getCacheKey(articleId));
+  }
 }

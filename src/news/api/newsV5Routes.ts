@@ -36,6 +36,8 @@ import { aiOperationsController } from '../operations/AIOperationsController.ts'
 import { newsSafeModeController } from '../operations/NewsSafeModeController.ts';
 import { productionTruthReconciliationEngine } from '../reconciliation/ProductionTruthReconciliationEngine.ts';
 import { productionTruthGuard } from '../guard/ProductionTruthGuard.ts';
+import { productionTruthControlPlane } from '../controlPlane/ProductionTruthControlPlane.ts';
+import { productionTruthDriftDetector } from '../controlPlane/ProductionTruthDriftDetector.ts';
 import { FailureDomain } from '../guard/types.ts';
 import v5EventRoutes from '../routes/v5EventRoutes.ts';
 
@@ -1742,4 +1744,202 @@ router.get('/operations/integrity', async (_req: Request, res: Response) => {
     }
 });
 
+// =========================================================================
+// STAGE 8.9.5 PRODUCTION TRUTH CONTROL PLANE & INCIDENT FORENSIC ENDPOINTS
+// =========================================================================
+
+/**
+ * GET /api/v5/news/observability/control-plane
+ * Returns full deterministic production truth snapshot.
+ */
+router.get('/observability/control-plane', (_req: Request, res: Response) => {
+    try {
+        const snapshot = productionTruthControlPlane.getOperationalSnapshot();
+        res.json({
+            status: 'success',
+            snapshot
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/control-plane/summary
+ * Returns lightweight, compact operational health summary.
+ */
+router.get('/observability/control-plane/summary', (_req: Request, res: Response) => {
+    try {
+        const summary = productionTruthControlPlane.getCompactSummary();
+        res.json({
+            status: 'success',
+            summary
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/incidents/:incidentId
+ * Returns forensic detail for a specific incident by ID.
+ */
+router.get('/observability/incidents/:incidentId', (req: Request, res: Response) => {
+    try {
+        const incidentId = req.params.incidentId;
+        const incident = productionTruthControlPlane.getIncidentById(incidentId);
+        if (!incident) {
+            return res.status(404).json({
+                status: 'error',
+                message: `Incident '${incidentId}' not found`
+            });
+        }
+        res.json({
+            status: 'success',
+            incident
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/timeline
+ * Returns bounded operational incident & state transition timeline.
+ */
+router.get('/observability/timeline', (req: Request, res: Response) => {
+    try {
+        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 100;
+        const timeline = productionTruthControlPlane.getTimeline(isNaN(limit) ? 100 : limit);
+        res.json({
+            status: 'success',
+            count: timeline.length,
+            timeline
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/domains
+ * Returns domain health status matrix across all 11 failure domains.
+ */
+router.get('/observability/domains', (_req: Request, res: Response) => {
+    try {
+        const domains = productionTruthControlPlane.getDomainHealth();
+        res.json({
+            status: 'success',
+            domains
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/drift
+ * Returns real-time boundary truth & drift report across all subsystems.
+ */
+router.get('/observability/drift', (_req: Request, res: Response) => {
+    try {
+        const report = productionTruthDriftDetector.detectDrift();
+        res.json({
+            status: 'success',
+            report
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/drift/:articleId
+ * Forensic boundary inspection for a specific article ID.
+ */
+router.get('/observability/drift/:articleId', (req: Request, res: Response) => {
+    try {
+        const { articleId } = req.params;
+        const forensic = productionTruthDriftDetector.getArticleForensicReport(articleId);
+        res.json({
+            status: 'success',
+            forensic
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/recovery
+ * Returns self-healing recovery status, lock info, AI cost guard telemetry, and history.
+ */
+router.get('/observability/recovery', (_req: Request, res: Response) => {
+    try {
+        const lock = productionTruthDriftDetector.getRecoveryLockStatus();
+        const history = productionTruthDriftDetector.getRecoveryHistory();
+        const aiCalls = productionTruthDriftDetector.getRecoveryTriggeredAICalls();
+
+        res.json({
+            status: 'success',
+            recoveryLock: lock,
+            recoveryHistoryCount: history.length,
+            recoveryHistory: history,
+            recoveryTriggeredAICalls: aiCalls
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/news/observability/recovery/execute
+ * Triggers deterministic self-healing recovery execution for a specified level (1-7) or auto.
+ */
+router.post('/observability/recovery/execute', async (req: Request, res: Response) => {
+    try {
+        const levelRaw = req.body?.level;
+        const owner = req.body?.owner || 'operator_api';
+
+        let result;
+        if (levelRaw !== undefined) {
+            const level = parseInt(String(levelRaw), 10) as any;
+            if (isNaN(level) || level < 1 || level > 7) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: `Invalid recovery level '${levelRaw}'. Must be an integer between 1 and 7.`
+                });
+            }
+            result = await productionTruthDriftDetector.executeRecoveryLevel(level, { owner });
+        } else {
+            result = await productionTruthDriftDetector.executeAutoRecovery({ owner });
+        }
+
+        res.json({
+            status: 'success',
+            recoveryResult: result
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/recovery/article/:articleId
+ * Forensic recovery inspection endpoint for a specific article ID.
+ */
+router.get('/observability/recovery/article/:articleId', (req: Request, res: Response) => {
+    try {
+        const { articleId } = req.params;
+        const forensic = productionTruthDriftDetector.getArticleForensicReport(articleId);
+        res.json({
+            status: 'success',
+            forensic
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
 export { router as newsV5Router, stage2Store, feedService, ingestionPipeline, liveWorker as liveIngestionWorker };
+

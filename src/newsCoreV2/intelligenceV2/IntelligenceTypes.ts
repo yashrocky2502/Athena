@@ -78,6 +78,8 @@ export interface IntelligenceRecord {
 
   // summary
   executiveSummary: string;
+  summaryStatus?: string;
+  summaryQuality?: string;
   keyFacts: string[];
   whyItMatters: string;
   marketImpact: string;

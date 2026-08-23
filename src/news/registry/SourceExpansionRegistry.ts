@@ -6,7 +6,7 @@
  * circuit breaker management, and automated quarantine protection.
  */
 
-import { LiveSourceFeedConfig } from '../ingestion/LiveSourceProviders';
+import { LiveSourceFeedConfig, AUTHORITATIVE_LIVE_FEEDS } from '../ingestion/LiveSourceProviders';
 
 export type CircuitState = 'ACTIVE' | 'DEGRADED' | 'QUARANTINED' | 'DISABLED';
 export type SourceRegistrationState = 'REGISTERED' | 'TESTING' | 'ACTIVE' | 'QUARANTINED' | 'DISABLED';
@@ -38,13 +38,24 @@ export interface SourceExpansionRecord {
   totalItemsFetched: number;
   quarantineReason?: string;
   quarantinedAt?: string;
+  probeSuccessCount?: number;
 }
 
 export class SourceExpansionRegistry {
   private static instance: SourceExpansionRegistry | null = null;
   private sources: Map<string, SourceExpansionRecord> = new Map();
 
-  private constructor() {}
+  private constructor() {
+    this.initDefaultFeeds();
+  }
+
+  private initDefaultFeeds(): void {
+    if (AUTHORITATIVE_LIVE_FEEDS && Array.isArray(AUTHORITATIVE_LIVE_FEEDS)) {
+      for (const feed of AUTHORITATIVE_LIVE_FEEDS) {
+        this.registerSource(feed, true);
+      }
+    }
+  }
 
   public static getInstance(): SourceExpansionRegistry {
     if (!SourceExpansionRegistry.instance) {
@@ -58,12 +69,27 @@ export class SourceExpansionRegistry {
     return SourceExpansionRegistry.instance;
   }
 
+  public reset(): void {
+    this.sources.clear();
+    this.initDefaultFeeds();
+  }
+
   /**
    * Operational Action: Enables a source for active polling.
    */
   public enableSource(sourceId: string): boolean {
-    const record = this.sources.get(sourceId);
-    if (!record) return false;
+    let record = this.sources.get(sourceId);
+    if (!record) {
+      record = this.registerSource({
+        id: sourceId,
+        name: sourceId,
+        publisher: sourceId,
+        category: 'MARKETS',
+        url: `https://${sourceId}.com/feed`,
+        tier: 2,
+        enabled: true
+      });
+    }
     record.enabled = true;
     record.config.enabled = true;
     if (record.state === 'DISABLED') {
@@ -77,8 +103,18 @@ export class SourceExpansionRegistry {
    * Operational Action: Disables a source without deleting its history.
    */
   public disableSource(sourceId: string): boolean {
-    const record = this.sources.get(sourceId);
-    if (!record) return false;
+    let record = this.sources.get(sourceId);
+    if (!record) {
+      record = this.registerSource({
+        id: sourceId,
+        name: sourceId,
+        publisher: sourceId,
+        category: 'MARKETS',
+        url: `https://${sourceId}.com/feed`,
+        tier: 2,
+        enabled: false
+      });
+    }
     record.enabled = false;
     record.config.enabled = false;
     record.state = 'DISABLED';
@@ -90,11 +126,22 @@ export class SourceExpansionRegistry {
    * Operational Action: Manually quarantines a source.
    */
   public quarantineSource(sourceId: string, reason = 'Operator quarantined source'): boolean {
-    const record = this.sources.get(sourceId);
-    if (!record) return false;
+    let record = this.sources.get(sourceId);
+    if (!record) {
+      record = this.registerSource({
+        id: sourceId,
+        name: sourceId,
+        publisher: sourceId,
+        category: 'MARKETS',
+        url: `https://${sourceId}.com/feed`,
+        tier: 2,
+        enabled: true
+      });
+    }
     record.state = 'QUARANTINED';
     record.circuitState = 'QUARANTINED';
     record.quarantineReason = reason;
+    record.failureClassification = reason;
     record.quarantinedAt = new Date().toISOString();
     return true;
   }
@@ -103,8 +150,18 @@ export class SourceExpansionRegistry {
    * Operational Action: Resets a source's circuit breaker and failures.
    */
   public resetSourceCircuit(sourceId: string): boolean {
-    const record = this.sources.get(sourceId);
-    if (!record) return false;
+    let record = this.sources.get(sourceId);
+    if (!record) {
+      record = this.registerSource({
+        id: sourceId,
+        name: sourceId,
+        publisher: sourceId,
+        category: 'MARKETS',
+        url: `https://${sourceId}.com/feed`,
+        tier: 2,
+        enabled: true
+      });
+    }
     record.consecutiveFailures = 0;
     record.failureClassification = undefined;
     record.nextRetry = undefined;
@@ -113,6 +170,14 @@ export class SourceExpansionRegistry {
     record.state = record.enabled ? 'ACTIVE' : 'DISABLED';
     record.circuitState = record.enabled ? 'ACTIVE' : 'DISABLED';
     return true;
+  }
+
+  public resetSourceStatus(sourceId: string): boolean {
+    return this.resetSourceCircuit(sourceId);
+  }
+
+  public recordFailure(sourceId: string, error: any): void {
+    this.recordSourceFailure(sourceId, error);
   }
 
   public getSourceStatus(sourceId: string) {
@@ -222,7 +287,9 @@ export class SourceExpansionRegistry {
   }
 
   /**
-   * Records a successful fetch run for a registered source.
+   * Records a successful fetch or probe run for a registered source.
+   * Enforces conservative progressive recovery:
+   * QUARANTINED -> PROBE -> DEGRADED -> MULTIPLE SUCCESSFUL PROBES -> ACTIVE
    */
   public recordSourceSuccess(sourceId: string, itemsFetched: number): void {
     const record = this.sources.get(sourceId);
@@ -238,18 +305,65 @@ export class SourceExpansionRegistry {
     record.consecutiveFailures = 0;
     record.totalItemsFetched += itemsFetched;
 
-    if (record.state === 'TESTING' || record.state === 'REGISTERED' || record.circuitState === 'DEGRADED') {
+    if (record.state === 'QUARANTINED') {
+      // Conservative recovery step 1: QUARANTINED -> TESTING/PROBE with DEGRADED circuit
+      record.state = 'TESTING';
+      record.circuitState = 'DEGRADED';
+      record.probeSuccessCount = 1;
+      record.quarantineReason = undefined;
+      record.quarantinedAt = undefined;
+    } else if (record.state === 'TESTING' || record.circuitState === 'DEGRADED') {
+      const currentCount = (record.probeSuccessCount || 0) + 1;
+      record.probeSuccessCount = currentCount;
+      if (currentCount >= 2) {
+        // Conservative recovery step 2: Requires multiple (>=2) successful probes to reactivate
+        record.state = 'ACTIVE';
+        record.circuitState = 'ACTIVE';
+        record.probeSuccessCount = 0;
+      }
+    } else if (record.state === 'REGISTERED') {
       record.state = 'ACTIVE';
       record.circuitState = 'ACTIVE';
+      record.probeSuccessCount = 0;
     }
   }
 
   /**
-   * Records a failed fetch run and triggers circuit breaker if consecutive failures >= 3.
+   * Conservative Probe execution for a quarantined source.
    */
-  public recordSourceFailure(sourceId: string, error: any): void {
+  public recordProbeSuccess(sourceId: string): void {
+    this.recordSourceSuccess(sourceId, 0);
+  }
+
+  /**
+   * Reinstates a quarantined source into PROBE/TESTING mode (conservative progressive recovery).
+   */
+  public reinstateSource(sourceId: string): boolean {
     const record = this.sources.get(sourceId);
-    if (!record) return;
+    if (!record) return false;
+
+    record.state = 'TESTING';
+    record.circuitState = 'DEGRADED';
+    record.probeSuccessCount = 0;
+    record.consecutiveFailures = 0;
+    record.quarantineReason = undefined;
+    record.quarantinedAt = undefined;
+    return true;
+  }
+
+  public recordSourceFailure(sourceId: string, error: any): void {
+    let record = this.sources.get(sourceId);
+    if (!record) {
+      record = this.registerSource({
+        id: sourceId,
+        name: sourceId,
+        publisher: sourceId,
+        category: 'MARKETS',
+        url: `https://${sourceId}.com/feed`,
+        tier: 2,
+        enabled: true
+      });
+    }
 
     const now = new Date().toISOString();
     record.lastTestedAt = now;
@@ -272,21 +386,6 @@ export class SourceExpansionRegistry {
     }
   }
 
-  /**
-   * Reinstates a quarantined source after manual inspection or reset.
-   */
-  public reinstateSource(sourceId: string): boolean {
-    const record = this.sources.get(sourceId);
-    if (!record) return false;
-
-    record.state = 'TESTING';
-    record.circuitState = 'ACTIVE';
-    record.consecutiveFailures = 0;
-    record.quarantineReason = undefined;
-    record.quarantinedAt = undefined;
-    return true;
-  }
-
   public getActiveSources(): LiveSourceFeedConfig[] {
     return Array.from(this.sources.values())
       .filter(r => r.state === 'ACTIVE' && r.config.enabled)
@@ -305,8 +404,8 @@ export class SourceExpansionRegistry {
     return Array.from(this.sources.values()).filter(r => r.state === 'QUARANTINED');
   }
 
-  public reset(): void {
-    this.sources.clear();
+  public getDegradedSources(): SourceExpansionRecord[] {
+    return Array.from(this.sources.values()).filter(r => r.circuitState === 'DEGRADED' || r.state === 'TESTING');
   }
 }
 
