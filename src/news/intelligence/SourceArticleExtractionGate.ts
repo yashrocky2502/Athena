@@ -40,6 +40,7 @@ export class SourceArticleExtractionGate {
    * Determines if a publisher matches ET or LiveMint variants.
    */
   public static detectPublisher(article: any): { matched: boolean; name: 'Economic Times' | 'LiveMint' | 'Other' } {
+    if (!article) return { matched: false, name: 'Other' };
     const publisherName = (article.publisher || article.source?.publisher || article.source?.name || '').trim();
     const url = (article.url || article.link || article.originalPublisherUrl || '').toLowerCase();
 
@@ -72,6 +73,21 @@ export class SourceArticleExtractionGate {
    * Evaluates the extraction quality and returns status, score and internal diagnostic metadata.
    */
   public static evaluate(article: any): { diagnostic: ExtractionDiagnostic; cleanBody: string | null } {
+    if (!article) {
+      return {
+        diagnostic: {
+          publisher: 'Other',
+          extractionStatus: 'FAILED',
+          extractionScore: 0,
+          bodyLength: 0,
+          sentenceCount: 0,
+          contaminationDetected: false,
+          headlineSimilarity: 0,
+          rejectionReason: 'Null or undefined article parameter'
+        },
+        cleanBody: null
+      };
+    }
     const { matched, name: publisher } = this.detectPublisher(article);
     const headline = (article.headline || article.title || '').trim();
     const body = (article.body || article.content || article.raw_text || '').trim();

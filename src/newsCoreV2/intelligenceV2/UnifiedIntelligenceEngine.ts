@@ -1,5 +1,6 @@
 import { NewsArticleV2 } from "../domain/NewsArticle.ts";
 import { SourceArticleExtractionGate } from "../../news/intelligence/SourceArticleExtractionGate.ts";
+import { SummaryQualityGate } from "../../news/intelligence/SummaryQualityGate.ts";
 import { IntelligenceEntityResolver } from "./IntelligenceEntityResolver.ts";
 import { IntelligenceMetricResolver } from "./IntelligenceMetricResolver.ts";
 import { IntelligenceStore } from "./IntelligenceStore.ts";
@@ -97,18 +98,29 @@ export class UnifiedIntelligenceEngine {
     const { diagnostic, cleanBody } = SourceArticleExtractionGate.evaluate(article);
     const hasSuccessfulExtraction = diagnostic.extractionStatus === 'SUCCESS' && cleanBody;
 
-    const executiveSummary = hasSuccessfulExtraction
+    let executiveSummary = hasSuccessfulExtraction
       ? this.buildExecutiveSummary(article, entity.companyName, resolvedMetrics.metrics, primaryCategory, eventType)
+      : "Summary unavailable — Open original source";
+
+    let whyItMatters = hasSuccessfulExtraction
+      ? this.buildWhyItMatters(article, entity, resolvedMetrics.metrics, primaryCategory, eventType)
       : "";
 
-    const summaryStatus = hasSuccessfulExtraction ? "AVAILABLE" : "SOURCE_UNAVAILABLE";
-    const summaryQuality = hasSuccessfulExtraction ? "EXCELLENT" : "UNAVAILABLE";
+    // Apply the SummaryQualityGate to ensure no headline repetition or fabricated text slips through
+    const qualityEval = SummaryQualityGate.evaluate(article, executiveSummary);
+    if (!qualityEval.passed) {
+      executiveSummary = "Summary unavailable — Open original source";
+      whyItMatters = "";
+    }
+
+    const summaryStatus = (qualityEval.passed && hasSuccessfulExtraction) ? "AVAILABLE" : "SOURCE_UNAVAILABLE";
+    const summaryQuality = (qualityEval.passed && hasSuccessfulExtraction) ? "EXCELLENT" : "UNAVAILABLE";
 
     // 6. Key Facts Extraction
-    const keyFacts = this.extractKeyFacts(article, resolvedMetrics.metrics);
+    const keyFacts = (qualityEval.passed && hasSuccessfulExtraction) ? this.extractKeyFacts(article, resolvedMetrics.metrics) : [];
 
     // 7. Event-First Why It Matters (Evidence-grounded explanation)
-    const whyItMatters = this.buildWhyItMatters(article, entity, resolvedMetrics.metrics, primaryCategory, eventType);
+    // Completed above during initial assignment and gate check
 
     // 8. Options Seller Impact (Strictly conservative and factual)
     const optionsSellerImpact = this.buildOptionsSellerImpact(article, entity, resolvedMetrics.metrics, primaryCategory, eventType);
@@ -175,7 +187,7 @@ export class UnifiedIntelligenceEngine {
       generatedAt: new Date().toISOString()
     };
 
-    (record as any).summary = hasSuccessfulExtraction ? executiveSummary : null;
+    (record as any).summary = (hasSuccessfulExtraction && qualityEval.passed) ? executiveSummary : "Summary unavailable — Open original source";
 
     // Cache the deterministic record
     store.set(record);

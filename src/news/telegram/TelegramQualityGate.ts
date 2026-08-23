@@ -184,11 +184,11 @@ export class TelegramQualityGate {
         failedChecks.push('FABRICATED_FNO_METRIC');
         reasons.push('F&O open interest metric claims data not present in source text.');
       }
-      if (assessment.fnoEvidence.pcr && !text.includes('pcr')) {
+      if (assessment.fnoEvidence.pcr && !/\bpcr\b/i.test(text)) {
         failedChecks.push('FABRICATED_FNO_METRIC');
         reasons.push('F&O PCR metric claims data not present in source text.');
       }
-      if (assessment.fnoEvidence.iv && !text.includes('iv') && !text.includes('volatility')) {
+      if (assessment.fnoEvidence.iv && !/\biv\b/i.test(text) && !text.includes('volatility')) {
         failedChecks.push('FABRICATED_FNO_METRIC');
         reasons.push('F&O IV metric claims data not present in source text.');
       }

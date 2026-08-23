@@ -6,6 +6,7 @@
 import { NewsArticle } from '../models/NewsArticle';
 import { NewsSummary, ExtractionQuality } from '../types/NewsSummary';
 import { SourceArticleExtractionGate } from '../intelligence/SourceArticleExtractionGate';
+import { SummaryQualityGate } from '../intelligence/SummaryQualityGate.ts';
 import { ExtractionQualityEvaluator } from '../extraction/ExtractionQualityEvaluator';
 import { SummaryValidator } from '../validation/SummaryValidator';
 import { NewsSummaryCache } from '../cache/NewsSummaryCache';
@@ -35,7 +36,23 @@ export class NewsSummaryService {
    */
   public async getOrGenerateSummary(article: NewsArticle): Promise<NewsSummary> {
     if (!article || !article.id) {
-      return this.generateLocalFallbackSummary(article, 'Invalid article provided');
+      return {
+        articleId: article?.id || 'invalid_id',
+        summary: 'Summary unavailable — Open original source',
+        whatHappened: 'Summary unavailable — Open original source',
+        whyItMatters: '',
+        keyFacts: [],
+        importantNumbers: [],
+        entities: [],
+        eventType: 'MARKET_UPDATE',
+        unknowns: ['Invalid article provided'],
+        extractionQuality: 'UNAVAILABLE' as any,
+        extractionMethod: 'ValidationGate',
+        provider: 'AthenaLocalEngine',
+        model: 'RuleBasedSynthesizer',
+        validated: true,
+        generatedAt: new Date().toISOString()
+      };
     }
 
     // 1. Check Cache
@@ -48,7 +65,25 @@ export class NewsSummaryService {
     const aiController = AIOperationsController.getInstance();
     if (!aiController.isAIEnabled()) {
       aiController.recordAvoidedCall('AI_DISABLED');
-      const fallback = this.generateLocalFallbackSummary(article, 'AI enrichment disabled in operations control plane');
+      const fallback: NewsSummary = {
+        articleId: article.id,
+        summary: 'Summary unavailable — Open original source',
+        whatHappened: 'Summary unavailable — Open original source',
+        whyItMatters: '',
+        keyFacts: [],
+        importantNumbers: [],
+        entities: [],
+        eventType: article.category || 'MARKET_UPDATE',
+        unknowns: ['AI enrichment disabled in operations control plane'],
+        extractionQuality: 'UNAVAILABLE' as any,
+        extractionMethod: 'OperationsControlGate',
+        provider: 'AthenaLocalEngine',
+        model: 'RuleBasedSynthesizer',
+        validated: true,
+        generatedAt: new Date().toISOString()
+      };
+      (fallback as any).summaryStatus = 'SOURCE_UNAVAILABLE';
+      (fallback as any).summaryQuality = 'UNAVAILABLE';
       this.cache.set(article.id, fallback);
       return fallback;
     }
@@ -62,7 +97,7 @@ export class NewsSummaryService {
     if (diagnostic.extractionStatus !== 'SUCCESS' || !cleanBody) {
       const fallback: NewsSummary = {
         articleId: article.id,
-        summary: null as any,
+        summary: 'Summary unavailable — Open original source',
         whatHappened: 'Summary unavailable — Open original source',
         whyItMatters: '',
         keyFacts: [],
@@ -102,13 +137,14 @@ export class NewsSummaryService {
       if (parsedJSON) {
         // 4. Summary Validation
         const valResult = SummaryValidator.validate(parsedJSON, title, cleanText);
-        if (valResult.valid) {
+        const qualityResult = SummaryQualityGate.evaluate(article, parsedJSON);
+        if (valResult.valid && qualityResult.passed) {
           const summaryObj: NewsSummary = {
             articleId: article.id,
-            summary: parsedJSON.summary || `${parsedJSON.whatHappened} ${parsedJSON.whyItMatters}`,
-            whatHappened: parsedJSON.whatHappened || parsedJSON.summary,
-            whyItMatters: parsedJSON.whyItMatters || 'Material development for market participants.',
-            keyFacts: Array.isArray(parsedJSON.keyFacts) ? parsedJSON.keyFacts : [],
+            summary: qualityResult.summary,
+            whatHappened: qualityResult.whatHappened,
+            whyItMatters: qualityResult.whyItMatters,
+            keyFacts: qualityResult.keyFacts,
             importantNumbers: Array.isArray(parsedJSON.importantNumbers) ? parsedJSON.importantNumbers : [],
             entities: Array.isArray(parsedJSON.entities) ? parsedJSON.entities : [],
             eventType: parsedJSON.eventType || article.category || 'CORPORATE_DEVELOPMENT',
@@ -120,6 +156,8 @@ export class NewsSummaryService {
             validated: true,
             generatedAt: new Date().toISOString()
           };
+          (summaryObj as any).summaryStatus = 'AVAILABLE';
+          (summaryObj as any).summaryQuality = 'EXCELLENT';
 
           this.cache.set(article.id, summaryObj);
           return summaryObj;
@@ -130,7 +168,25 @@ export class NewsSummaryService {
     }
 
     // 5. Fallback on validation/AI failure
-    const fallback = this.generateLocalFallbackSummary(article, 'AI generation or validation fallback');
+    const fallback: NewsSummary = {
+      articleId: article.id,
+      summary: 'Summary unavailable — Open original source',
+      whatHappened: 'Summary unavailable — Open original source',
+      whyItMatters: '',
+      keyFacts: [],
+      importantNumbers: [],
+      entities: [],
+      eventType: article.category || 'MARKET_UPDATE',
+      unknowns: ['AI generation or validation fallback'],
+      extractionQuality: 'UNAVAILABLE' as any,
+      extractionMethod: 'DeterministicLocal',
+      provider: 'AthenaLocalEngine',
+      model: 'RuleBasedSynthesizer',
+      validated: true,
+      generatedAt: new Date().toISOString()
+    };
+    (fallback as any).summaryStatus = 'SOURCE_UNAVAILABLE';
+    (fallback as any).summaryQuality = 'UNAVAILABLE';
     this.cache.set(article.id, fallback);
     return fallback;
   }
