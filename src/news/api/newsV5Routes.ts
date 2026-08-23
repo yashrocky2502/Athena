@@ -34,6 +34,9 @@ import { NewsRuntimeConfig } from '../operations/NewsRuntimeConfig.ts';
 import { telegramOperationsController } from '../operations/TelegramOperationsController.ts';
 import { aiOperationsController } from '../operations/AIOperationsController.ts';
 import { newsSafeModeController } from '../operations/NewsSafeModeController.ts';
+import { productionTruthReconciliationEngine } from '../reconciliation/ProductionTruthReconciliationEngine.ts';
+import { productionTruthGuard } from '../guard/ProductionTruthGuard.ts';
+import { FailureDomain } from '../guard/types.ts';
 import v5EventRoutes from '../routes/v5EventRoutes.ts';
 
 const router = Router();
@@ -224,11 +227,12 @@ router.get('/feed', async (req: Request, res: Response) => {
         const symbol = (req.query.symbol as string) || undefined;
         const sort = (req.query.sort as 'latest' | 'relevance') || 'latest';
 
-        // Evaluate Canary Decision
+        // Evaluate Canary & Guard Safety Decisions
         const canaryDecision = newsCanaryRouter.shouldRouteToCanary(req);
+        const isV5Safe = productionTruthGuard.isV5FeedSafe();
 
-        // If canary says use V2 (control group, disabled, or override)
-        if (!canaryDecision.useCanary) {
+        // If canary says use V4/V2 (control group, disabled, override) OR if V5 is not safe/contained
+        if (!canaryDecision.useCanary || !isV5Safe) {
             const allArticles = newsStore.getAllArticles();
             let filtered = allArticles;
             if (category && category.toLowerCase() !== 'all') {
@@ -1606,6 +1610,121 @@ router.post('/operations/sources/:id/reset', (req: Request, res: Response) => {
         status: 'success',
         source: sourceExpansionRegistry.getSourceStatus(req.params.id)
     });
+});
+
+/**
+ * GET /api/v5/news/observability/reconciliation
+ */
+router.get('/observability/reconciliation', (req: Request, res: Response) => {
+    try {
+        const search = req.query.search as string | undefined;
+        const category = req.query.category as string | undefined;
+        const page = req.query.page ? parseInt(req.query.page as string, 10) : undefined;
+        const pageSize = req.query.pageSize ? parseInt(req.query.pageSize as string, 10) : undefined;
+
+        const snapshot = productionTruthReconciliationEngine.reconcileAll({ search, category, page, pageSize });
+        res.json({
+            status: 'success',
+            reconciliation: snapshot
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/reconciliation/:articleId
+ */
+router.get('/observability/reconciliation/:articleId', (req: Request, res: Response) => {
+    try {
+        const { articleId } = req.params;
+        const article = newsStore.getArticle(articleId);
+        if (!article) {
+            return res.status(404).json({ status: 'error', message: `Article '${articleId}' not found in canonical store.` });
+        }
+        const record = productionTruthReconciliationEngine.reconcileArticle(article);
+        res.json({
+            status: 'success',
+            reconciliationRecord: record
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/guard
+ * Returns comprehensive production truth guard status, health state, contained subsystems, and telemetry.
+ */
+router.get('/observability/guard', (_req: Request, res: Response) => {
+    try {
+        const guardStatus = productionTruthGuard.getGuardStatus();
+        res.json({
+            status: 'success',
+            guard: guardStatus
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/incidents
+ * Returns recent guard incidents across all domains.
+ */
+router.get('/observability/incidents', (req: Request, res: Response) => {
+    try {
+        const domain = req.query.domain as FailureDomain | undefined;
+        const incidents = productionTruthGuard.getIncidents(domain);
+        res.json({
+            status: 'success',
+            count: incidents.length,
+            incidents
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/guard/:domain
+ * Returns domain-specific guard status and incidents.
+ */
+router.get('/observability/guard/:domain', (req: Request, res: Response) => {
+    try {
+        const domain = req.params.domain as FailureDomain;
+        const incidents = productionTruthGuard.getIncidents(domain);
+        const guardStatus = productionTruthGuard.getGuardStatus();
+        const containedInDomain = guardStatus.containedSubsystems.filter(c => c.domain === domain);
+
+        res.json({
+            status: 'success',
+            domain,
+            containedSubsystems: containedInDomain,
+            incidentsCount: incidents.length,
+            incidents
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/news/observability/guard/recover
+ * Triggers deterministic recovery probes for contained subsystems.
+ */
+router.post('/observability/guard/recover', async (_req: Request, res: Response) => {
+    try {
+        const recoveryResult = await productionTruthGuard.runRecoveryProbes();
+        res.json({
+            status: 'success',
+            recovery: recoveryResult,
+            currentHealth: productionTruthGuard.getHealthState(),
+            currentMode: productionTruthGuard.getRuntimeMode()
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
 });
 
 /**

@@ -1,4 +1,4 @@
-import { NewsSource } from "./NewsSource.ts";
+import { NewsSource, ArticleProvenance } from "./NewsSource.ts";
 import { NewsCategoryV2, SentimentV2 } from "./NewsClassification.ts";
 import { FNOClassificationResult } from "./FNOClassification.ts";
 
@@ -14,6 +14,8 @@ export interface NewsArticleV2 {
   sentiment: SentimentV2;
   relevanceScore: number;
   fno: FNOClassificationResult;
+  provenance?: ArticleProvenance;
+  sourceAuthorityTier?: 1 | 2 | 3 | 4;
   // Phase 25: Source-Grounded News Summary fields
   summary?: string;
   whatChanged?: string[];

@@ -307,6 +307,10 @@ export class PersistentNewsStore {
     return uniqueArticles;
   }
 
+  public async addArticles(newArticles: NewsArticleV2[]): Promise<NewsArticleV2[]> {
+    return this.saveArticles(newArticles);
+  }
+
   /**
    * Upserts a single article.
    */
@@ -457,3 +461,5 @@ if (!(global as any)[globalStoreKey]) {
 }
 
 export const newsStore: PersistentNewsStore = (global as any)[globalStoreKey];
+export const persistentNewsStore: PersistentNewsStore = newsStore;
+

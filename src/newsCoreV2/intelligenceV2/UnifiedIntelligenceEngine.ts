@@ -6,6 +6,47 @@ import { IntelligenceRecord, SentimentType, UrgencyType } from "./IntelligenceTy
 
 export class UnifiedIntelligenceEngine {
   public static readonly VERSION = "27.3";
+  private static instance: UnifiedIntelligenceEngine | null = null;
+
+  public static getInstance(): UnifiedIntelligenceEngine {
+    if (!UnifiedIntelligenceEngine.instance) {
+      UnifiedIntelligenceEngine.instance = new UnifiedIntelligenceEngine();
+    }
+    return UnifiedIntelligenceEngine.instance;
+  }
+
+  public generateSourceGroundedSummary(
+    headline: string,
+    body?: string,
+    eventType?: string,
+    primaryCategory?: string,
+    metrics: any[] = [],
+    companyName?: string
+  ): string {
+    return UnifiedIntelligenceEngine.generateSourceGroundedSummary(headline, body, eventType, primaryCategory, metrics, companyName);
+  }
+
+  public static generateSourceGroundedSummary(
+    headline: string,
+    body?: string,
+    eventType?: string,
+    primaryCategory?: string,
+    metrics: any[] = [],
+    companyName: string = "Subject Company"
+  ): string {
+    const dummyArticle: any = {
+      id: "dummy",
+      headline,
+      body: body || "",
+      publishedAt: new Date().toISOString(),
+      source: { publisher: "Feed", collectionMethod: "FEED", url: "" },
+      category: primaryCategory || "Corporate",
+      sentiment: "NEUTRAL",
+      relevanceScore: 50,
+      fno: { eligible: false, symbol: null, decision: 'EXCLUDE', reason: 'Dummy article', confidence: 'HIGH' }
+    };
+    return this.buildExecutiveSummary(dummyArticle, companyName, metrics, primaryCategory || "Corporate", eventType || "CORPORATE_UPDATE");
+  }
 
   /**
    * Builds or retrieves the canonical IntelligenceRecord for a News Core V2 article.
@@ -140,8 +181,45 @@ export class UnifiedIntelligenceEngine {
     const body = (article.body || "").trim();
     const evUpper = (eventType || "").toUpperCase();
     const catUpper = (primaryCategory || "").toUpperCase();
+    const lowerHeadline = headline.toLowerCase();
+    const lowerBody = body.toLowerCase();
+    const fullText = `${headline} ${body}`;
 
-    // 1. IPO Executive Summary
+    // 1. Regulatory / Operational Clearance / Revocation (e.g. FSSAI suspension revocation)
+    if (/\b(revokes order|fssai revokes|quashes order|clean chit|suspension revoked|revokes suspension|lifts suspension)\b/i.test(lowerHeadline) ||
+        (/\bfssai\b/i.test(lowerHeadline) && /\b(revokes|lifted|quashed|restored)\b/i.test(lowerHeadline))) {
+      const comp = companyName && companyName !== "Subject Company" ? companyName : "The company";
+      let detail = "lifting operational restrictions on affected units";
+      if (body) {
+        const sentences = body
+          .split(/(?<=[.?!])\s+/)
+          .map(s => s.trim())
+          .filter(s => s.length > 15 && !s.startsWith("Image:") && !s.startsWith("Click here") && !s.startsWith("Subscribe"));
+        const distinct = sentences.find(s => !s.toLowerCase().includes(headline.toLowerCase().slice(0, 30)));
+        if (distinct) {
+          return `${headline}. ${distinct}`;
+        }
+      }
+      return `${comp} received regulatory order revocation from authorities, ${detail} and restoring authorized operations.`;
+    }
+
+    // 2. Listing / Debt Notes Executive Summary (e.g. Axis Bank)
+    if (/\b(senior notes|list \$?\d+|debt listing|notes listing|medium term notes)\b/i.test(lowerHeadline)) {
+      const comp = companyName && companyName !== "Subject Company" ? companyName : "The entity";
+      if (body) {
+        const sentences = body
+          .split(/(?<=[.?!])\s+/)
+          .map(s => s.trim())
+          .filter(s => s.length > 15 && !s.startsWith("Image:") && !s.startsWith("Click here") && !s.startsWith("Subscribe"));
+        const distinct = sentences.find(s => !s.toLowerCase().includes(headline.toLowerCase().slice(0, 30)));
+        if (distinct) {
+          return `${headline}. ${distinct}`;
+        }
+      }
+      return `${comp} secured regulatory approval to list debt notes on exchange platforms, facilitating institutional debt-capital access.`;
+    }
+
+    // 3. IPO Executive Summary
     if (evUpper === "IPO" || catUpper === "IPO") {
       const ipoMetric = metrics.find(m => m.name === "IPO");
       if (ipoMetric && ipoMetric.displayText) {
@@ -152,7 +230,7 @@ export class UnifiedIntelligenceEngine {
         const sentences = body
           .split(/(?<=[.?!])\s+/)
           .map(s => s.trim())
-          .filter(s => s.length > 15 && !s.startsWith("Image:"));
+          .filter(s => s.length > 15 && !s.startsWith("Image:") && !s.startsWith("Click here") && !s.startsWith("Subscribe"));
         const distinct = sentences.find(s => !s.toLowerCase().includes(headline.toLowerCase().slice(0, 30)));
         if (distinct) {
           return `${headline}. ${distinct}`;
@@ -161,13 +239,13 @@ export class UnifiedIntelligenceEngine {
       return `${headline}. Primary market participants are tracking subscription demand and grey market indications.`;
     }
 
-    // 2. Acquisition Executive Summary
+    // 4. Acquisition / Merger Executive Summary
     if (evUpper === "ACQUISITION" || evUpper === "MERGER") {
       if (body) {
         const sentences = body
           .split(/(?<=[.?!])\s+/)
           .map(s => s.trim())
-          .filter(s => s.length > 15 && !s.startsWith("Image:"));
+          .filter(s => s.length > 15 && !s.startsWith("Image:") && !s.startsWith("Click here") && !s.startsWith("Subscribe"));
         const distinct = sentences.find(s => !s.toLowerCase().includes(headline.toLowerCase().slice(0, 30)));
         if (distinct) {
           return `${headline}. ${distinct}`;
@@ -176,39 +254,7 @@ export class UnifiedIntelligenceEngine {
       return `${headline}. The strategic corporate transaction impacts consolidated market positioning and operating synergies.`;
     }
 
-    // 3. Regulatory / Operational Clearance Executive Summary
-    if (/\b(revokes order|fssai revokes|quashes order|clearance)\b/i.test(headline)) {
-      const comp = companyName && companyName !== "Subject Company" ? companyName : "The company";
-      if (body) {
-        const sentences = body
-          .split(/(?<=[.?!])\s+/)
-          .map(s => s.trim())
-          .filter(s => s.length > 15 && !s.startsWith("Image:"));
-        const distinct = sentences.find(s => !s.toLowerCase().includes(headline.toLowerCase().slice(0, 30)));
-        if (distinct) {
-          return `${headline}. ${distinct}`;
-        }
-      }
-      return `${comp} received regulatory order revocation from authorities, lifting operational restrictions on affected manufacturing units.`;
-    }
-
-    // 4. Listing / Debt Notes Executive Summary (e.g. Axis Bank)
-    if (/\b(senior notes|list \$?\d+|debt listing|notes listing)\b/i.test(headline)) {
-      const comp = companyName && companyName !== "Subject Company" ? companyName : "The entity";
-      if (body) {
-        const sentences = body
-          .split(/(?<=[.?!])\s+/)
-          .map(s => s.trim())
-          .filter(s => s.length > 15 && !s.startsWith("Image:"));
-        const distinct = sentences.find(s => !s.toLowerCase().includes(headline.toLowerCase().slice(0, 30)));
-        if (distinct) {
-          return `${headline}. ${distinct}`;
-        }
-      }
-      return `${comp} secured regulatory approval to list senior notes on international exchange platforms, facilitating institutional debt-capital access.`;
-    }
-
-    // 5. Earnings / Results Executive Summary (when specific earnings metrics exist)
+    // 5. Earnings / Results Executive Summary
     if ((evUpper === "EARNINGS" || catUpper === "RESULTS") && metrics.length > 0) {
       const parts: string[] = [];
       const pat = metrics.find(m => m.name === "PAT");
@@ -248,15 +294,18 @@ export class UnifiedIntelligenceEngine {
       }
     }
 
-    // 6. Order / Contract Win Executive Summary
-    if ((evUpper === "ORDER_CONTRACT" || /order win|contract win|bags order|awarded order|secures order/i.test(headline)) && !/revokes order|court order|fssai|sebi order/i.test(headline)) {
+    // 6. Order / Contract Win Executive Summary (strictly when genuine commercial order)
+    const isExplicitOrder = (evUpper === "ORDER_CONTRACT" || /\b(order win|contract win|bags order|awarded order|secures order|won order|secures contract|bags contract)\b/i.test(lowerHeadline)) &&
+      !/\b(revokes order|court order|fssai|sebi order|interim order|stay order|quashes order)\b/i.test(lowerHeadline);
+
+    if (isExplicitOrder) {
       const orderMetric = metrics.find(m => m.name === "Order Book");
       const orderVal = orderMetric ? orderMetric.displayText : "";
       if (body) {
         const sentences = body
           .split(/(?<=[.?!])\s+/)
           .map(s => s.trim())
-          .filter(s => s.length > 15 && !s.startsWith("Image:"));
+          .filter(s => s.length > 15 && !s.startsWith("Image:") && !s.startsWith("Click here") && !s.startsWith("Subscribe"));
         const distinct = sentences.find(s => !s.toLowerCase().includes(headline.toLowerCase().slice(0, 30)));
         if (distinct) {
           return `${headline}. ${distinct}`;
@@ -679,3 +728,6 @@ Respond STRICTLY in valid JSON matching this schema:
     }
   }
 }
+
+export const unifiedIntelligenceEngine = UnifiedIntelligenceEngine.getInstance();
+

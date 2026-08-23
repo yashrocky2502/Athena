@@ -17,7 +17,40 @@ export type EventPriority = 'P0' | 'P1' | 'P2' | 'P3' | 'P4';
 
 export type EventFreshness = 'BREAKING' | 'VERY_FRESH' | 'FRESH' | 'AGING' | 'STALE';
 
-export type ConflictStatus = 'NONE' | 'CONFLICTING_REPORTS' | 'RESOLVED';
+export type ConflictStatus = 
+  | 'NONE' 
+  | 'NO_CONFLICT'
+  | 'POTENTIAL_CONFLICT'
+  | 'CONFLICTING_REPORTS' 
+  | 'RESOLVED_BY_AUTHORITY'
+  | 'RESOLVED';
+
+export type ConflictResolutionStatus = ConflictStatus;
+
+export interface EvidenceNumber {
+  value: string;
+  normalizedValue?: number;
+  unit?: string;
+  metric?: string;
+  sourceArticleId: string;
+  sourcePublisher: string;
+  sourceUrl?: string;
+  sourceText?: string;
+  confidence: number;
+}
+
+export interface EventEvidence {
+  evidenceId: string;
+  eventId: string;
+  articleId: string;
+  publisher: string;
+  sourceUrl?: string;
+  authorityTier: number;
+  evidenceType: string;
+  extractedFacts: string[];
+  keyNumbers: EvidenceNumber[];
+  observedAt: string;
+}
 
 export type TelegramEventState = 
   | 'PENDING' 
@@ -51,6 +84,8 @@ export interface EventKeyNumber {
 
 export interface ConflictingReport {
   field: string;
+  existingValue?: any;
+  reportedValue?: any;
   reportA: {
     value: any;
     publisher: string;
@@ -114,6 +149,7 @@ export interface NewsEvent {
   telegramState: TelegramEventState;
   traderIntelligenceAvailable: boolean;
   conflictingReports?: ConflictingReport[];
+  evidence?: EventEvidence[];
   fnoMetrics?: {
     oi?: string;
     pcr?: string;

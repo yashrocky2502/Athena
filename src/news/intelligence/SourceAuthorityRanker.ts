@@ -1,6 +1,6 @@
 /**
- * ATHENA NEWS ENGINE — STAGE 8.4 SOURCE AUTHORITY RANKER
- * Deterministic source ranking into Tiers 1-4.
+ * ATHENA NEWS ENGINE — STAGE 8.4 & 8.9.2 SOURCE AUTHORITY RANKER
+ * Deterministic source ranking into Tiers 1-4 and Authoritative Publisher Resolution.
  */
 
 export class SourceAuthorityRanker {
@@ -13,6 +13,155 @@ export class SourceAuthorityRanker {
       SourceAuthorityRanker.instance = new SourceAuthorityRanker();
     }
     return SourceAuthorityRanker.instance;
+  }
+
+  /**
+   * Deterministically resolves the authoritative publisher name from source metadata, URL, and headline.
+   * Priority:
+   * 1. Explicit connector/source publisher or name (if not generic placeholder like "Athena Verified Source")
+   * 2. Canonical domain extraction & mapping
+   * 3. Headline/content publisher markers
+   * 4. Safe fallback (never an AI-hallucinated publisher)
+   */
+  public getAuthoritativePublisher(source: any, sourceUrl?: string, headline?: string): string {
+    const rawPub = typeof source === 'string' 
+      ? source 
+      : (source?.publisher || source?.name || '');
+    const url = sourceUrl || (typeof source === 'object' ? source?.url || source?.sourceUrl : '') || '';
+
+    // Check if rawPub is valid and not generic filler
+    const isGenericPub = !rawPub || 
+      rawPub.toLowerCase().includes('athena verified') || 
+      rawPub.toLowerCase() === 'athena source' || 
+      rawPub.toLowerCase() === 'verified source' ||
+      rawPub.toLowerCase() === 'market source';
+
+    // Canonical domain mapping table
+    const urlLower = url.toLowerCase();
+    if (urlLower.includes('cnbctv18.com') || urlLower.includes('cnbc-tv18')) return 'CNBC TV18';
+    if (urlLower.includes('moneycontrol.com')) return 'Moneycontrol';
+    if (urlLower.includes('economictimes.indiatimes.com') || urlLower.includes('economictimes')) return 'Economic Times';
+    if (urlLower.includes('livemint.com') || urlLower.includes('mint')) return 'LiveMint';
+    if (urlLower.includes('business-standard.com')) return 'Business Standard';
+    if (urlLower.includes('reuters.com')) return 'Reuters';
+    if (urlLower.includes('bloomberg.com')) return 'Bloomberg';
+    if (urlLower.includes('financialexpress.com')) return 'Financial Express';
+    if (urlLower.includes('ndtvprofit.com') || urlLower.includes('ndtv.com/profit')) return 'NDTV Profit';
+    if (urlLower.includes('zeebiz.com')) return 'Zee Business';
+    if (urlLower.includes('businesstoday.in')) return 'Business Today';
+    if (urlLower.includes('thehindubusinessline.com') || urlLower.includes('thehindu.com/business')) return 'The Hindu BusinessLine';
+    if (urlLower.includes('bseindia.com')) return 'BSE';
+    if (urlLower.includes('nseindia.com')) return 'NSE';
+    if (urlLower.includes('sebi.gov.in')) return 'SEBI';
+    if (urlLower.includes('rbi.org.in')) return 'RBI';
+    if (urlLower.includes('mcxindia.com')) return 'MCX';
+    if (urlLower.includes('pib.gov.in')) return 'PIB';
+    if (urlLower.includes('forexfactory.com')) return 'Forex Factory';
+
+    if (!isGenericPub) {
+      const pLower = rawPub.toLowerCase().trim();
+      if (pLower.includes('cnbc') || pLower.includes('cnbctv18')) return 'CNBC TV18';
+      if (pLower.includes('moneycontrol')) return 'Moneycontrol';
+      if (pLower.includes('economic times') || pLower === 'et' || pLower.includes('economictimes')) return 'Economic Times';
+      if (pLower.includes('livemint') || pLower === 'mint') return 'LiveMint';
+      if (pLower.includes('business standard') || pLower === 'bs') return 'Business Standard';
+      if (pLower.includes('reuters')) return 'Reuters';
+      if (pLower.includes('bloomberg')) return 'Bloomberg';
+      if (pLower.includes('bse')) return 'BSE';
+      if (pLower.includes('nse')) return 'NSE';
+      if (pLower.includes('sebi')) return 'SEBI';
+      if (pLower.includes('rbi')) return 'RBI';
+      if (pLower.includes('pib')) return 'PIB';
+      if (pLower.includes('financial express')) return 'Financial Express';
+      if (pLower.includes('zee business') || pLower.includes('zeebiz')) return 'Zee Business';
+      if (pLower.includes('ndtv profit')) return 'NDTV Profit';
+      if (pLower.includes('business today')) return 'Business Today';
+      if (pLower.includes('hindu businessline') || pLower.includes('businessline')) return 'The Hindu BusinessLine';
+      if (pLower.includes('forex factory')) return 'Forex Factory';
+      return rawPub.trim();
+    }
+
+    // Try headline markers (e.g., "[Reuters] ...", "... - Moneycontrol", "... | CNBC TV18")
+    if (headline) {
+      if (/moneycontrol/i.test(headline)) return 'Moneycontrol';
+      if (/cnbc\s*tv18|cnbc/i.test(headline)) return 'CNBC TV18';
+      if (/economic\s*times|\bet\b/i.test(headline)) return 'Economic Times';
+      if (/reuters/i.test(headline)) return 'Reuters';
+      if (/livemint|\bmint\b/i.test(headline)) return 'LiveMint';
+      if (/business\s*standard/i.test(headline)) return 'Business Standard';
+      if (/bloomberg/i.test(headline)) return 'Bloomberg';
+      if (/sebi/i.test(headline)) return 'SEBI';
+      if (/rbi/i.test(headline)) return 'RBI';
+      if (/bse/i.test(headline)) return 'BSE';
+      if (/nse/i.test(headline)) return 'NSE';
+    }
+
+    return 'Market Wire';
+  }
+
+  /**
+   * Validates a source URL for syntax, domain alignment, and publisher consistency.
+   */
+  public validateSourceUrl(url: string, expectedPublisher?: string): {
+    isValid: boolean;
+    domainMismatch: boolean;
+    canonicalDomain?: string;
+    issues?: string[];
+  } {
+    const issues: string[] = [];
+    if (!url || typeof url !== 'string' || !url.trim()) {
+      return { isValid: false, domainMismatch: false, issues: ['URL is empty or missing'] };
+    }
+
+    let parsedUrl: URL;
+    try {
+      parsedUrl = new URL(url.trim());
+    } catch {
+      return { isValid: false, domainMismatch: false, issues: ['Malformed URL syntax'] };
+    }
+
+    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+      issues.push('Invalid URL protocol');
+      return { isValid: false, domainMismatch: false, issues };
+    }
+
+    const domain = parsedUrl.hostname.toLowerCase().replace(/^www\./, '');
+    let domainMismatch = false;
+
+    if (expectedPublisher) {
+      const pubLower = expectedPublisher.toLowerCase();
+      const domainMap: Record<string, string[]> = {
+        'reuters': ['reuters.com'],
+        'moneycontrol': ['moneycontrol.com'],
+        'economic times': ['economictimes.indiatimes.com', 'indiatimes.com', 'economictimes.com'],
+        'cnbc tv18': ['cnbctv18.com', 'cnbc.com'],
+        'livemint': ['livemint.com', 'mint.com'],
+        'business standard': ['business-standard.com'],
+        'sebi': ['sebi.gov.in'],
+        'rbi': ['rbi.org.in'],
+        'nse': ['nseindia.com'],
+        'bse': ['bseindia.com'],
+        'pib': ['pib.gov.in'],
+        'forex factory': ['forexfactory.com']
+      };
+
+      for (const [key, domains] of Object.entries(domainMap)) {
+        if (pubLower.includes(key)) {
+          if (!domains.some(d => domain.includes(d) || d.includes(domain))) {
+            domainMismatch = true;
+            issues.push(`Publisher '${expectedPublisher}' domain mismatch with URL host '${domain}'`);
+          }
+          break;
+        }
+      }
+    }
+
+    return {
+      isValid: issues.length === 0,
+      domainMismatch,
+      canonicalDomain: domain,
+      issues: issues.length > 0 ? issues : undefined
+    };
   }
 
   /**
@@ -43,7 +192,7 @@ export class SourceAuthorityRanker {
       pub.includes('cnbc') || pub.includes('moneycontrol') || pub.includes('livemint') ||
       pub.includes('bloomberg') || pub.includes('pti') || pub.includes('press trust') ||
       url.includes('economictimes') || url.includes('business-standard') || url.includes('moneycontrol') ||
-      url.includes('livemint') || url.includes('reuters')
+      url.includes('livemint') || url.includes('reuters') || url.includes('cnbctv18')
     ) {
       return 2;
     }
@@ -52,7 +201,8 @@ export class SourceAuthorityRanker {
     if (
       pub.includes('financial express') || pub.includes('zee business') || pub.includes('ndtv profit') ||
       pub.includes('business today') || pub.includes('fortune') || pub.includes('mint') ||
-      pub.includes('cnbctv18') || pub.includes('businessline')
+      pub.includes('businessline') || url.includes('financialexpress') || url.includes('zeebiz') ||
+      url.includes('ndtvprofit') || url.includes('businesstoday')
     ) {
       return 3;
     }
@@ -94,3 +244,4 @@ export class SourceAuthorityRanker {
 }
 
 export const sourceAuthorityRanker = SourceAuthorityRanker.getInstance();
+

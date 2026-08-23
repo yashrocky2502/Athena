@@ -360,8 +360,8 @@ export class NewsCategoryResolver {
     } else if (primaryCategory === "Economy") {
       eventType = lowerHeadline.includes("sebi") || lowerHeadline.includes("rbi") || lowerHeadline.includes("fssai") || lowerHeadline.includes("regulat") ? "REGULATORY" : "MACRO";
     } else if (primaryCategory === "Corporate") {
-      if (/revokes order|court order|sebi order|interim order|stay order|quashes order|fssai|rbi order|tribunal|nclt|nclat/i.test(lowerHeadline)) eventType = "REGULATORY";
-      else if (/senior notes|debt listing|list \$?\d+|bonds listing/i.test(lowerHeadline)) eventType = "LISTING";
+      if (/revokes order|court order|sebi order|interim order|stay order|quashes order|fssai|rbi order|tribunal|nclt|nclat|revokes suspension|lifts suspension|suspension revoked|regulatory action|show cause|enforcement|penalty notice/i.test(lowerHeadline)) eventType = "REGULATORY";
+      else if (/senior notes|debt listing|list \$?\d+|bonds listing|issues \$?\d+|lists notes|notes listing|medium term notes/i.test(lowerHeadline)) eventType = "LISTING";
       else if (/acquisition|acquire|takeover/i.test(lowerHeadline)) eventType = "ACQUISITION";
       else if (/merger|amalgamation|demerger/i.test(lowerHeadline)) eventType = "MERGER";
       else if (/\b(order win|contract win|bags order|awarded order|secures order|won order|secures contract|bags contract|epc order|work order|receives order)\b/i.test(lowerHeadline)) eventType = "ORDER_CONTRACT";
@@ -369,6 +369,8 @@ export class NewsCategoryResolver {
       else if (/buyback/i.test(lowerHeadline)) eventType = "BUYBACK";
       else if (/resigns|appointed|ceo|cfo/i.test(lowerHeadline)) eventType = "MANAGEMENT_COMMENTARY";
       else if (/partnership|partners|collaborate/i.test(lowerHeadline)) eventType = "PARTNERSHIP";
+      else if (/qip|rights issue|preferential issue|fundraise|fund raising|warrants/i.test(lowerHeadline)) eventType = "FUNDRAISING";
+      else if (/promoter|block deal|bulk deal|stake sale/i.test(lowerHeadline)) eventType = "PROMOTER_TRANSACTION";
       else eventType = "CORPORATE_ACTION";
     } else if (primaryCategory === "Technology") {
       eventType = "PRODUCT_TECHNOLOGY";
@@ -378,6 +380,12 @@ export class NewsCategoryResolver {
       eventType = "MACRO";
     } else if (primaryCategory === "F&O") {
       eventType = "DERIVATIVE_VOLATILITY";
+    }
+
+    if (eventType === "OTHER" || eventType === "CORPORATE_ACTION") {
+      if (/revokes|fssai|sebi|court order|quashes|suspension revoked|regulatory/i.test(lowerHeadline)) eventType = "REGULATORY";
+      else if (/qip|fundraise|rights issue|preferential/i.test(lowerHeadline)) eventType = "FUNDRAISING";
+      else if (/promoter|block deal|bulk deal|stake sale/i.test(lowerHeadline)) eventType = "PROMOTER_TRANSACTION";
     }
 
     let categoryConfidence: "HIGH" | "MEDIUM" | "LOW" = "MEDIUM";
@@ -397,4 +405,18 @@ export class NewsCategoryResolver {
       classificationEvidence
     };
   }
+
+  public resolveCategoryAndEventType(headline: string, body?: string) {
+    const res = NewsCategoryResolver.resolve(headline, body || "", "", undefined);
+    return {
+      category: res.primaryCategory,
+      primaryCategory: res.primaryCategory,
+      secondaryCategories: res.secondaryCategories,
+      eventType: res.eventType,
+      categoryConfidence: res.categoryConfidence
+    };
+  }
 }
+
+export const newsCategoryResolver = new NewsCategoryResolver();
+

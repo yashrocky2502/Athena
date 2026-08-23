@@ -183,10 +183,30 @@ export class TraderTelegramFormatter {
     }
 
     message += `${divider}\n\n`;
-    message += `📡 <b>Primary Source:</b> ${this.escapeHtml(event.primarySource.publisher)} (Tier ${event.primarySource.tier})\n`;
-    message += `🌐 <b>Covered by:</b> ${event.sourceCount} sources\n\n`;
+    message += `📡 <b>Primary Source:</b> ${this.escapeHtml((event as any).primarySource?.publisher || (event as any).primaryPublisher || 'Market Wire')}\n`;
+    message += `🌐 <b>Covered by:</b> ${(event as any).sourceCount || ((event as any).publishers ? (event as any).publishers.length : 1)} sources\n\n`;
     message += `🔗 <b>Open ATHENA</b>`;
 
     return message;
   }
+
+  public formatEventAlert(event: NewsEvent, action: string = 'INITIAL_EVENT'): string {
+    const evAny = event as any;
+    const divider = '━━━━━━━━━━━━━━━━━━━━━━';
+    const primaryPub = evAny.primaryPublisher || (evAny.publishers && evAny.publishers[0]) || 'Market Wire';
+    
+    let msg = `${divider}\n🚨 <b>ATHENA MARKET ALERT</b>\n${divider}\n\n`;
+    msg += `📌 <b>Headline:</b> ${TraderTelegramFormatter.escapeHtml(evAny.headline || evAny.title || '')}\n\n`;
+    msg += `📰 <b>Executive Summary</b>\n${TraderTelegramFormatter.escapeHtml(evAny.summary || evAny.headline || '')}\n\n`;
+    if (evAny.whyItMatters) {
+      msg += `💡 <b>Why It Matters:</b>\n${TraderTelegramFormatter.escapeHtml(evAny.whyItMatters)}\n\n`;
+    }
+    msg += `${divider}\n\n`;
+    msg += `✓ <b>Source:</b> ${TraderTelegramFormatter.escapeHtml(primaryPub)}\n\n`;
+    msg += `🔗 <b>Open ATHENA</b>`;
+    return msg;
+  }
 }
+
+export const traderTelegramFormatter = new TraderTelegramFormatter();
+

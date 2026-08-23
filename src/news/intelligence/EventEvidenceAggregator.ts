@@ -1,15 +1,17 @@
 /**
- * ATHENA NEWS ENGINE — STAGE 8.4 EVIDENCE AGGREGATION & CONFLICT RESOLUTION
+ * ATHENA NEWS ENGINE — STAGE 8.4 & 8.9.2 EVIDENCE AGGREGATION & CONFLICT RESOLUTION
  * Aggregates evidence across articles for an event and manages numerical conflicts.
  */
 
 import { NewsArticle } from '../types/Article';
-import { NewsEvent, EventKeyNumber, ConflictingReport, ConflictStatus } from '../types/NewsEvent';
+import { NewsEvent, EventKeyNumber, ConflictingReport, ConflictStatus, EvidenceNumber, EventEvidence } from '../types/NewsEvent';
 import { sourceAuthorityRanker } from './SourceAuthorityRanker';
 
 export interface ExtractedEvidence {
   keyNumbers: EventKeyNumber[];
+  evidenceNumbers?: EvidenceNumber[];
   hasNumericalConflict: boolean;
+  conflictStatus?: ConflictStatus;
   conflictingReport?: ConflictingReport;
   preferredValue?: number;
   preferredSource?: string;
@@ -35,7 +37,7 @@ export class EventEvidenceAggregator {
     const headline = article.headline || article.title || '';
     const body = article.body || (article as any).summary || (article as any).content || '';
     const text = `${headline} ${body}`;
-    const publisher = article.source?.name || article.publisher || 'Unknown';
+    const publisher = sourceAuthorityRanker.getAuthoritativePublisher(article.source || article.publisher, article.sourceUrl, headline);
     const tier = (article.source as any)?.tier || sourceAuthorityRanker.getTier(publisher, article.sourceUrl);
     const sourceArticleId = article.id || `art_${Date.now()}`;
 
@@ -74,6 +76,46 @@ export class EventEvidenceAggregator {
   }
 
   /**
+   * Builds an EventEvidence object capturing structured facts and numbers for an article.
+   */
+  public extractEvidence(article: Partial<NewsArticle>, eventId?: string): EventEvidence {
+    const keyNums = this.extractNumbersFromArticle(article);
+    const publisher = sourceAuthorityRanker.getAuthoritativePublisher(article.source || article.publisher, article.sourceUrl, article.headline);
+    const tier = (article.source as any)?.tier || sourceAuthorityRanker.getTier(publisher, article.sourceUrl);
+    const articleId = article.id || `art_${Date.now()}`;
+    const evId = eventId || (article as any).eventId || `ev_${Date.now()}`;
+
+    const evidenceNumbers: EvidenceNumber[] = keyNums.map(kn => ({
+      value: kn.value,
+      normalizedValue: kn.numValue,
+      sourceArticleId: kn.sourceArticleId,
+      sourcePublisher: kn.publisher,
+      sourceUrl: article.sourceUrl,
+      sourceText: kn.extractedText,
+      confidence: 90
+    }));
+
+    const facts: string[] = [];
+    if (article.headline) facts.push(article.headline);
+    if (keyNums.length > 0) {
+      facts.push(`Key numbers reported: ${keyNums.map(k => k.value).join(', ')}`);
+    }
+
+    return {
+      evidenceId: `evi_${articleId}_${Date.now()}`,
+      eventId: evId,
+      articleId,
+      publisher,
+      sourceUrl: article.sourceUrl,
+      authorityTier: tier,
+      evidenceType: (article as any).eventType || 'GENERAL_FACT',
+      extractedFacts: facts,
+      keyNumbers: evidenceNumbers,
+      observedAt: new Date().toISOString()
+    };
+  }
+
+  /**
    * Extracts and aggregates numbers across multiple articles.
    */
   public extractAndAggregate(articles: Partial<NewsArticle>[]): ExtractedEvidence {
@@ -84,6 +126,7 @@ export class EventEvidenceAggregator {
     return {
       keyNumbers: allNumbers,
       hasNumericalConflict: false,
+      conflictStatus: 'NO_CONFLICT',
       confidence: 85
     };
   }
@@ -93,18 +136,19 @@ export class EventEvidenceAggregator {
    */
   public aggregate(existingEvent: NewsEvent, newArticle: Partial<NewsArticle>): ExtractedEvidence {
     const newNumbers = this.extractNumbersFromArticle(newArticle);
-    const publisher = newArticle.source?.name || newArticle.publisher || 'Unknown';
+    const publisher = sourceAuthorityRanker.getAuthoritativePublisher(newArticle.source || newArticle.publisher, newArticle.sourceUrl, newArticle.headline);
     const tier = (newArticle.source as any)?.tier || sourceAuthorityRanker.getTier(publisher, newArticle.sourceUrl);
     const sourceArticleId = newArticle.id || `art_${Date.now()}`;
 
     // Combine existing and new key numbers
-    const allNumbers = [...existingEvent.keyNumbers, ...newNumbers];
+    const allNumbers = [...(existingEvent.keyNumbers || []), ...newNumbers];
 
     // Find main financial metrics (e.g. monetary values in Cr / Crore)
-    const existingValNum = existingEvent.keyNumbers.find(k => k.numValue !== undefined && k.numValue > 10);
+    const existingValNum = (existingEvent.keyNumbers || []).find(k => k.numValue !== undefined && k.numValue > 10);
     const newValNum = newNumbers.find(k => k.numValue !== undefined && k.numValue > 10);
 
     let hasConflict = false;
+    let conflictStatus: ConflictStatus = 'NO_CONFLICT';
     let conflictReport: ConflictingReport | undefined;
     let preferredValue: number | undefined = existingValNum?.numValue;
     let preferredSource: string | undefined = existingValNum?.publisher;
@@ -113,12 +157,15 @@ export class EventEvidenceAggregator {
     if (existingValNum && newValNum && Math.abs(existingValNum.numValue! - newValNum.numValue!) > 1) {
       const pctDiff = Math.abs(existingValNum.numValue! - newValNum.numValue!) / Math.max(existingValNum.numValue!, newValNum.numValue!);
       
-      if (pctDiff > 0.10) {
+      if (pctDiff > 0.05) {
         // Material conflict detected
         hasConflict = true;
+        conflictStatus = 'CONFLICTING_REPORTS';
 
         conflictReport = {
           field: 'financialValue',
+          existingValue: existingValNum.numValue,
+          reportedValue: newValNum.numValue,
           reportA: {
             value: existingValNum.value,
             publisher: existingValNum.publisher,
@@ -142,6 +189,7 @@ export class EventEvidenceAggregator {
           preferredValue = newValNum.numValue;
           preferredSource = newValNum.publisher;
           confidence = 95;
+          conflictStatus = 'RESOLVED_BY_AUTHORITY';
           conflictReport.resolvedBy = newValNum.publisher;
           conflictReport.resolutionNote = `Resolved by higher authority Tier ${newValNum.tier} source (${newValNum.publisher})`;
         } else if (existingValNum.tier < newValNum.tier) {
@@ -149,10 +197,12 @@ export class EventEvidenceAggregator {
           preferredValue = existingValNum.numValue;
           preferredSource = existingValNum.publisher;
           confidence = 95;
+          conflictStatus = 'RESOLVED_BY_AUTHORITY';
           conflictReport.resolvedBy = existingValNum.publisher;
           conflictReport.resolutionNote = `Maintained Tier ${existingValNum.tier} official value over lower tier report`;
         } else {
           // Same tier reporting conflicting values: Unresolved
+          conflictStatus = 'CONFLICTING_REPORTS';
           confidence = 60; // Reduce confidence due to conflict
         }
       }
@@ -161,6 +211,7 @@ export class EventEvidenceAggregator {
     return {
       keyNumbers: allNumbers,
       hasNumericalConflict: hasConflict,
+      conflictStatus,
       conflictingReport: conflictReport,
       preferredValue,
       preferredSource,
@@ -170,3 +221,4 @@ export class EventEvidenceAggregator {
 }
 
 export const eventEvidenceAggregator = EventEvidenceAggregator.getInstance();
+

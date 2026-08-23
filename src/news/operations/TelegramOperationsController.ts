@@ -161,6 +161,38 @@ export class TelegramOperationsController {
     this.dispatchedEventKeys.clear();
   }
 
+  public resetStateForTesting(): void {
+    this.clearIdempotency();
+    this.state = 'ACTIVE';
+    this.pauseReason = undefined;
+    this.pausedAt = undefined;
+    this.degradedReason = undefined;
+  }
+
+  public recordDispatch(eventId: string, alertType: string, revision?: number | string): {
+    shouldDispatch: boolean;
+    alertType: string;
+    reason?: string;
+  } {
+    const revStr = revision !== undefined ? `v${revision}` : undefined;
+    if (this.isEventAlertDispatched(eventId, alertType, revStr)) {
+      return {
+        shouldDispatch: false,
+        alertType,
+        reason: `Duplicate alert suppressed for ${eventId} ${alertType} ${revStr || ''}`.trim()
+      };
+    }
+    this.recordDispatchedEvent(eventId, alertType, revStr);
+    return {
+      shouldDispatch: true,
+      alertType
+    };
+  }
+
+  public getTelemetry(): TelegramOperationsStatus {
+    return this.getStatus();
+  }
+
   public getStatus(): TelegramOperationsStatus {
     this.syncWithRuntimeConfig();
     const pipeline = TelegramNotificationPipeline.getInstance();
