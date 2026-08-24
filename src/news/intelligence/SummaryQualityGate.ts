@@ -36,26 +36,51 @@ export class SummaryQualityGate {
       };
     }
 
-    const title = (article.title || article.headline || "").trim().toLowerCase();
+    const title = (article.headline || article.title || "").trim().toLowerCase();
     const sumText = (typeof generatedSummary === 'string' ? generatedSummary : generatedSummary?.summary || "").trim();
     const sumTextLower = sumText.toLowerCase();
 
-    const titleClean = title.replace(/\s+/g, ' ').trim();
-    const sumClean = sumTextLower.replace(/\s+/g, ' ').trim();
+    // Strip punctuation/brackets/quotes for clean headline comparison
+    const titleClean = title.replace(/[\[\]"']/g, '').replace(/\s+/g, ' ').trim();
+    const sumClean = sumTextLower.replace(/[\[\]"']/g, '').replace(/\s+/g, ' ').trim();
 
     // Guard against repeated headlines or headline extensions (e.g., repeating the headline + a generic sentence)
     let isRepeatedHeadline = false;
     if (sumClean === titleClean) {
       isRepeatedHeadline = true;
+    } else if (sumClean.endsWith(titleClean)) {
+      // Summary is just a prefix tag + headline (e.g. "Economic Times: Headline")
+      isRepeatedHeadline = true;
+    } else if (sumClean.startsWith(titleClean)) {
+      const extra = sumClean.slice(titleClean.length).replace(/^[.\s:—-]+/, '').trim();
+      // If extra is too short (< 10 chars) or contains forbidden boilerplate phrases, reject
+      if (
+        extra.length < 10 ||
+        /^(experts|analysts)\s+are\s+tracking/i.test(extra) ||
+        /analysts\s+track/i.test(extra) ||
+        /this\s+development\s+may\s+impact\s+sentiment/i.test(extra) ||
+        /market\s+participants\s+are\s+monitoring/i.test(extra) ||
+        /routine\s+operational\s+disclosure/i.test(extra) ||
+        /favorable\s+announcement\s+for/i.test(extra)
+      ) {
+        isRepeatedHeadline = true;
+      }
     } else if (sumClean.includes(titleClean)) {
       const extra = sumClean.replace(titleClean, '').trim();
-      // If extra is short, or contains boilerplate, reject
-      if (extra.length < 45 || extra.includes('market participants') || extra.includes('analysts') || extra.includes('experts') || extra.includes('monitoring') || extra.includes('tracking') || extra.includes('sentiment')) {
+      if (
+        extra.length < 10 ||
+        /^(experts|analysts)\s+are\s+tracking/i.test(extra) ||
+        /analysts\s+track/i.test(extra) ||
+        /this\s+development\s+may\s+impact\s+sentiment/i.test(extra) ||
+        /market\s+participants\s+are\s+monitoring/i.test(extra) ||
+        /routine\s+operational\s+disclosure/i.test(extra) ||
+        /favorable\s+announcement\s+for/i.test(extra)
+      ) {
         isRepeatedHeadline = true;
       }
     } else if (titleClean.includes(sumClean) && sumClean.length > 10) {
       isRepeatedHeadline = true;
-    } else if (SourceArticleExtractionGate.calculateSimilarity(titleClean, sumClean) > 0.75) {
+    } else if (SourceArticleExtractionGate.calculateSimilarity(titleClean, sumClean) > 0.88) {
       isRepeatedHeadline = true;
     }
 

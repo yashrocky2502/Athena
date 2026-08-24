@@ -468,8 +468,10 @@ export class TelegramAlertEligibilityEngine {
   /**
    * Part H & I: Extract F&O Evidence strictly from source (Zero Metric Fabrication)
    */
-  public static extractFNOEvidence(headline: string, body: string, symbol: string | null): FNOEvidence {
-    const text = `${headline} ${body}`;
+  public static extractFNOEvidence(headline: string, body?: string, symbol?: string | null): FNOEvidence {
+    const rawBody = body || '';
+    const cleanSymbol = symbol || (typeof body === 'string' && body.length <= 15 && !body.includes(' ') ? body : null);
+    const text = `${headline} ${rawBody}`;
 
     const oiMatch = text.match(/\b(open interest|oi)\b\s*(increased|surged|dropped|stands at|rose|fell|up|climbed)\s*(by\s*)?([\d,.]+(\s?%|\s?(lakh|cr|contracts|shares)))/i) ||
                     text.match(/([\d,.]+(\s?%|\s?(lakh|cr)))\s+(addition|unwinding|surge|buildup)\s+in\s+\b(oi|open interest)\b/i);
@@ -477,15 +479,17 @@ export class TelegramAlertEligibilityEngine {
     const oiChangeMatch = text.match(/\boi\b\s*(surged|rose|jumped|fell|dropped|down|up)\s*(by\s*)?([\d.]+%)/i) ||
                           text.match(/([\d.]+%)\s+(surge|fall|drop|rise)\s+in\s+\b(oi|open interest)\b/i);
 
-    const pcrMatch = text.match(/\bpcr\b\s*(?:ratio)?\s*(?:stands at|at|of|is|rises to|rose to|falls to|drops to|climbs to|reaches|rises|drops)\s*([\d.]+)/i);
-    const ivMatch = text.match(/\b(implied volatility|iv)\b\s*(?:stands at|at|rose to|is|of)\s*([\d.]+\s?%?)/i);
-    const strikeMatch = text.match(/\b(\d{4,5})\s*(ce|pe|call|put)\s*(?:strike)?\b/i);
-    const callOiMatch = text.match(/\bcall oi\b\s*(?:stands at|at|of|is)\s*([\d,.]+(\s?(lakh|cr|contracts))?)/i);
-    const putOiMatch = text.match(/\bput oi\b\s*(?:stands at|at|of|is)\s*([\d,.]+(\s?(lakh|cr|contracts))?)/i);
-    const spotMatch = text.match(/\bspot\b\s*(?:at|trades at|stands at|is)\s*(?:rs\.?|₹)?\s*([\d,.]+)/i);
-    const futureMatch = text.match(/\bfutures?\b\s*(?:at|trades at|stands at|is)\s*(?:rs\.?|₹)?\s*([\d,.]+)/i);
+    const pcrMatch = text.match(/\bpcr\b\s*(?:ratio)?\s*(?:stands at|at|of|is|rises to|rose to|falls to|drops to|climbs to|reaches|rises|drops)?\s*[:\s]*([\d.]+)/i);
+    const ivMatch = text.match(/\b(implied volatility|iv)\b\s*(?:stands at|at|rose to|is|of)?\s*[:\s]*([\d.]+\s?%?)/i);
+    const strikeMatch = text.match(/\b(\d{4,5})\s*(ce|pe|call|put)\s*(?:strike)?\b/i) || text.match(/\b(\d{4,5})\s+strike\b/i);
+    const callOiMatch = text.match(/\bcall oi\b\s*(?:stands at|at|of|is)?\s*[:\s]*([\d,.]+(\s?(lakh|cr|contracts))?)/i);
+    const putOiMatch = text.match(/\bput oi\b\s*(?:stands at|at|of|is)?\s*[:\s]*([\d,.]+(\s?(lakh|cr|contracts))?)/i);
+    const spotMatch = text.match(/\bspot\b\s*[:\s]*(?:trades at|stands at|is at|at|is)?\s*(?:rs\.?|₹)?\s*([\d,.]+)/i) ||
+                      text.match(/\b(nifty|bank nifty|sensex|[A-Z]+)\s+spot\s*[:\s]*(?:trades at|stands at|is at|at|is)?\s*(?:rs\.?|₹)?\s*([\d,.]+)/i);
+    const futureMatch = text.match(/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)?\s*futures?\b\s*[:\s]*(?:trades at|stands at|is at|at|is)?\s*(?:rs\.?|₹)?\s*([\d,.]+)/i) ||
+                        text.match(/\b(nifty|bank nifty|sensex|[A-Z]+)\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)?\s*futures?\s*[:\s]*(?:trades at|stands at|is at|at|is)?\s*(?:rs\.?|₹)?\s*([\d,.]+)/i);
 
-    const hasExplicit = Boolean(oiMatch || pcrMatch || ivMatch || strikeMatch || callOiMatch || putOiMatch);
+    const hasExplicit = Boolean(oiMatch || pcrMatch || ivMatch || strikeMatch || callOiMatch || putOiMatch || spotMatch || futureMatch);
 
     if (!hasExplicit) {
       return {
@@ -520,7 +524,7 @@ export class TelegramAlertEligibilityEngine {
 
     return {
       hasExplicitDerivativesData: true,
-      underlying: symbol || undefined,
+      underlying: cleanSymbol || undefined,
       spot: spotMatch ? spotMatch[1] : undefined,
       future: futureMatch ? futureMatch[1] : undefined,
       oi: oiMatch ? oiMatch[0] : undefined,
@@ -754,6 +758,33 @@ export class TelegramAlertEligibilityEngine {
       observedReaction = priceMoveMatch[0];
     }
 
+    // Primary market / IPO
+    if (eventType === 'IPO' || eventType === 'LISTING') {
+      return {
+        direction: 'NEUTRAL',
+        directionReason: 'Primary market offering subject to listing-day subscription demand and anchor allocation.',
+        observedMarketReaction: observedReaction
+      };
+    }
+
+    // Block deal neutral liquidity shift
+    if (eventType === 'BLOCK_DEAL' || eventType === 'BULK_DEAL' || /(block deal|bulk deal)/i.test(headline)) {
+      return {
+        direction: 'NEUTRAL',
+        directionReason: 'Substantial ownership transfer across market participants; secondary market supply dynamics will determine near-term trajectory.',
+        observedMarketReaction: observedReaction
+      };
+    }
+
+    // Macro events
+    if (eventType === 'CENTRAL_BANK' || eventType === 'MACRO_DATA') {
+      return {
+        direction: 'NEUTRAL',
+        directionReason: 'Broad macroeconomic shift impacting interest rate expectations across asset classes.',
+        observedMarketReaction: observedReaction
+      };
+    }
+
     // Explicit Bullish catalysts
     if (
       eventType === 'ORDER_WIN' ||
@@ -777,33 +808,6 @@ export class TelegramAlertEligibilityEngine {
       return {
         direction: 'BEARISH',
         directionReason: 'Negative catalyst confirmed by earnings deterioration, regulatory enforcement, or credit downgrade.',
-        observedMarketReaction: observedReaction
-      };
-    }
-
-    // Primary market / IPO
-    if (eventType === 'IPO' || eventType === 'LISTING') {
-      return {
-        direction: 'NEUTRAL',
-        directionReason: 'Primary market offering subject to listing-day subscription demand and anchor allocation.',
-        observedMarketReaction: observedReaction
-      };
-    }
-
-    // Block deal neutral liquidity shift
-    if (eventType === 'BLOCK_DEAL' || eventType === 'BULK_DEAL') {
-      return {
-        direction: 'NEUTRAL',
-        directionReason: 'Substantial ownership transfer across market participants; secondary market supply dynamics will determine near-term trajectory.',
-        observedMarketReaction: observedReaction
-      };
-    }
-
-    // Macro events
-    if (eventType === 'CENTRAL_BANK' || eventType === 'MACRO_DATA') {
-      return {
-        direction: 'NEUTRAL',
-        directionReason: 'Broad macroeconomic shift impacting interest rate expectations across asset classes.',
         observedMarketReaction: observedReaction
       };
     }

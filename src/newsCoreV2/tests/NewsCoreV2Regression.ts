@@ -1038,10 +1038,10 @@ export class NewsCoreV2Regression {
     storeInstance.set(draftPaperIntel);
     const retrieved = storeInstance.get(draftPaperArticle.id, currentVersion);
 
-    const t42Passed = currentVersion === "27.3" && retrieved !== null && retrieved.articleId === "test_draft_paper_41";
+    const t42Passed = currentVersion === "27.4" && retrieved !== null && retrieved.articleId === "test_draft_paper_41";
 
     results.push({
-      testName: "Phase 23.4-C - TEST 42: Canonical version synchronization 27.3",
+      testName: "Phase 23.4-C - TEST 42: Canonical version synchronization 27.4",
       passed: t42Passed,
       message: `UnifiedIntelligenceEngine.VERSION: ${currentVersion}, Store size: ${storeInstance.size()}, Hydrated from Store: ${retrieved ? retrieved.articleId : "NONE"}`
     });
