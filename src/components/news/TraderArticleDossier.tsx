@@ -228,7 +228,12 @@ export function TraderArticleDossier({
                   </span>
                 )}
               </h4>
-              {canonicalSummary?.summaryStatus === 'SOURCE_UNAVAILABLE' || canonicalSummary?.summary === null ? (
+              {canonicalSummary && (
+                canonicalSummary.summaryStatus === 'SOURCE_UNAVAILABLE' ||
+                canonicalSummary.summaryStatus === 'EXTRACTION_FAILED' ||
+                canonicalSummary.summaryStatus === 'QUALITY_REJECTED' ||
+                canonicalSummary.summary === null
+              ) ? (
                 <div className="p-3 rounded-lg bg-rose-950/20 border border-rose-500/20 text-rose-400 font-medium flex items-center justify-between gap-3 flex-wrap">
                   <span className="text-slate-300">Summary unavailable — Open original source</span>
                   {article?.url && (
@@ -247,7 +252,10 @@ export function TraderArticleDossier({
                 <p className="text-slate-200 font-medium">{canonicalSummary?.summary || summaryText}</p>
               )}
 
-              {canonicalSummary && canonicalSummary.summaryStatus !== 'SOURCE_UNAVAILABLE' && (
+              {canonicalSummary && 
+               canonicalSummary.summaryStatus !== 'SOURCE_UNAVAILABLE' && 
+               canonicalSummary.summaryStatus !== 'EXTRACTION_FAILED' && 
+               canonicalSummary.summaryStatus !== 'QUALITY_REJECTED' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 text-xs border-t border-slate-800/60">
                   {canonicalSummary.whatHappened && (
                     <div className="p-2.5 rounded-lg bg-slate-950/50 border border-slate-800/80">
@@ -264,7 +272,12 @@ export function TraderArticleDossier({
                 </div>
               )}
 
-              {canonicalSummary && canonicalSummary.summaryStatus !== 'SOURCE_UNAVAILABLE' && canonicalSummary?.importantNumbers && canonicalSummary.importantNumbers.length > 0 && (
+              {canonicalSummary && 
+               canonicalSummary.summaryStatus !== 'SOURCE_UNAVAILABLE' && 
+               canonicalSummary.summaryStatus !== 'EXTRACTION_FAILED' && 
+               canonicalSummary.summaryStatus !== 'QUALITY_REJECTED' && 
+               canonicalSummary?.importantNumbers && 
+               canonicalSummary.importantNumbers.length > 0 && (
                 <div className="pt-2 border-t border-slate-800/60 flex flex-wrap gap-2 text-xs">
                   <span className="text-[10px] uppercase font-mono font-bold text-slate-400 self-center">Key Numbers:</span>
                   {canonicalSummary.importantNumbers.map((num: any, idx: number) => (

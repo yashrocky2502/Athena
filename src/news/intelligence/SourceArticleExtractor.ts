@@ -9,6 +9,8 @@
  * Tier 3 (National Desks), and Tier 4 (Market Portals & Verified Aggregators).
  */
 
+import { ExtractionFailureCategory, ExtractionTaxonomyReport } from './SourceArticleExtractionGate';
+
 export interface ExtractorPublisherMatch {
   matched: boolean;
   canonicalName: string;
@@ -35,6 +37,14 @@ export interface SourceExtractionResult {
   contaminationDetected: boolean;
   headlineSimilarity: number;
   rejectionReason: string | null;
+  failureCategory?: ExtractionFailureCategory;
+  extractionMethod?: string;
+  paragraphCount?: number;
+  contaminationScore?: number;
+  retryCount?: number;
+  elapsedMs?: number;
+  sourceUrl?: string;
+  timestamp?: string;
 }
 
 export class SourceArticleExtractor {
@@ -61,8 +71,7 @@ export class SourceArticleExtractor {
 
     const rawPublisher = (
       article.publisher ||
-      article.source?.publisher ||
-      article.source?.name ||
+      (typeof article.source === 'string' ? article.source : article.source?.publisher || article.source?.name) ||
       ''
     ).trim();
 
@@ -70,6 +79,8 @@ export class SourceArticleExtractor {
       article.canonicalUrl ||
       article.url ||
       article.link ||
+      article.sourceUrl ||
+      article.source_url ||
       article.originalPublisherUrl ||
       article.source?.url ||
       ''
@@ -419,9 +430,132 @@ export class SourceArticleExtractor {
   }
 
   /**
+   * Safely normalizes text encoding and removes invalid UTF-8 control characters.
+   */
+  public static normalizeEncoding(text: string): string {
+    if (!text) return '';
+    return text
+      .replace(/[\uFFFD\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '')
+      .replace(/\u00A0/g, ' ')
+      .trim();
+  }
+
+  /**
+   * Calculates contamination score from 0 to 100 based on HTML, navigation, and marketing debris.
+   */
+  public static calculateContaminationScore(text: string): number {
+    if (!text) return 0;
+    let score = 0;
+    if (/<[a-z/][\s\S]*?>/i.test(text)) score += 40;
+    if (/cookie|privacy policy|terms of use|all rights reserved/i.test(text)) score += 20;
+    if (/follow us on|subscribe now|click here/i.test(text)) score += 20;
+    if (/advertisement|sponsored|promoted/i.test(text)) score += 20;
+    return Math.min(100, score);
+  }
+
+  /**
+   * Safely attempts multi-strategy extraction layers across available article attributes.
+   */
+  public static extractMultiStrategy(article: any): { cleanBody: string | null; method: string; rawText: string } {
+    if (!article) return { cleanBody: null, method: 'NONE', rawText: '' };
+
+    // Strategy 1: Primary Body Field
+    const primaryText = this.normalizeEncoding(
+      (article.body || article.content || article.raw_text || article.full_content || '').trim()
+    );
+    if (primaryText) {
+      const sanitized = this.sanitizeContent(primaryText);
+      if (sanitized.cleanBody && sanitized.wordCount >= 12 && !sanitized.hasResidualHtml) {
+        return { cleanBody: sanitized.cleanBody, method: 'PRIMARY_BODY', rawText: primaryText };
+      }
+    }
+
+    // Strategy 2: JSON-LD / Structured Data
+    if (article.json_ld || article.schema_data || article.jsonLd) {
+      try {
+        const jsonLdObj = typeof article.json_ld === 'string'
+          ? (article.json_ld.startsWith('{') ? JSON.parse(article.json_ld) : null)
+          : (article.json_ld || article.schema_data || article.jsonLd);
+        
+        const jsonBody = jsonLdObj?.articleBody || jsonLdObj?.description || jsonLdObj?.text;
+        if (typeof jsonBody === 'string' && jsonBody.trim().length > 0) {
+          const normJson = this.normalizeEncoding(jsonBody);
+          const sanitized = this.sanitizeContent(normJson);
+          if (sanitized.cleanBody && sanitized.wordCount >= 10) {
+            return { cleanBody: sanitized.cleanBody, method: 'JSON_LD', rawText: normJson };
+          }
+        }
+      } catch {
+        // Safe json parse fallthrough
+      }
+    }
+
+    // Strategy 3: Publisher Recovery Profiles (Moneycontrol, CNBC TV18, PIB, Google News, NSE, BSE, RBI, SEBI, Business Standard, ET, LiveMint)
+    const { canonicalName: publisher } = this.detectPublisher(article);
+    if (publisher) {
+      const candidateFields = [
+        article.description,
+        article.summary,
+        article.og_description,
+        article.ogDescription,
+        article.details,
+        article.fullText
+      ];
+      for (const candidate of candidateFields) {
+        if (typeof candidate === 'string' && candidate.trim().length > 0) {
+          const normCandidate = this.normalizeEncoding(candidate);
+          const sanitized = this.sanitizeContent(normCandidate);
+          const headline = (article.headline || article.title || '').trim();
+          const sim = this.calculateSimilarity(headline, sanitized.cleanBody || '');
+          if (sanitized.cleanBody && sanitized.wordCount >= 10 && sim < 0.85) {
+            return { cleanBody: sanitized.cleanBody, method: 'PUBLISHER_PROFILE_RECOVERY', rawText: normCandidate };
+          }
+        }
+      }
+    }
+
+    // Strategy 4: Paragraph Aggregation
+    if (Array.isArray(article.paragraphs) || Array.isArray(article.p_tags)) {
+      const paragraphs = article.paragraphs || article.p_tags;
+      const joined = paragraphs.filter((p: any) => typeof p === 'string' && p.trim().length > 0).join(' ');
+      if (joined.trim().length > 0) {
+        const normJoined = this.normalizeEncoding(joined);
+        const sanitized = this.sanitizeContent(normJoined);
+        if (sanitized.cleanBody && sanitized.wordCount >= 12) {
+          return { cleanBody: sanitized.cleanBody, method: 'PARAGRAPH_AGGREGATION', rawText: normJoined };
+        }
+      }
+    }
+
+    // Strategy 5: Secondary Description / Summary
+    const secondaryText = this.normalizeEncoding(
+      (article.description || article.summary || article.og_description || article.ogDescription || article.raw_description || '').trim()
+    );
+    if (secondaryText) {
+      const sanitized = this.sanitizeContent(secondaryText);
+      const headline = (article.headline || article.title || '').trim();
+      const sim = this.calculateSimilarity(headline, sanitized.cleanBody || '');
+      if (sanitized.cleanBody && sanitized.wordCount >= 8 && sim < 0.85) {
+        return { cleanBody: sanitized.cleanBody, method: 'SECONDARY_DESCRIPTION', rawText: secondaryText };
+      }
+    }
+
+    // Fallback if primaryText was provided
+    if (primaryText) {
+      const sanitized = this.sanitizeContent(primaryText);
+      return { cleanBody: sanitized.cleanBody, method: 'PRIMARY_BODY_FALLBACK', rawText: primaryText };
+    }
+
+    return { cleanBody: null, method: 'FAILED_EXTRACTION', rawText: '' };
+  }
+
+  /**
    * Master evaluation method: evaluates article extraction quality across all tiers.
    */
   public static evaluate(article: any): SourceExtractionResult {
+    const startTime = Date.now();
+    const timestamp = new Date().toISOString();
+
     if (!article) {
       return {
         publisher: 'Other',
@@ -434,13 +568,30 @@ export class SourceArticleExtractor {
         sentenceCount: 0,
         contaminationDetected: false,
         headlineSimilarity: 0,
-        rejectionReason: 'Null or undefined article parameter'
+        rejectionReason: 'Null or undefined article parameter',
+        failureCategory: 'NO_SOURCE_BODY',
+        extractionMethod: 'NONE',
+        paragraphCount: 0,
+        contaminationScore: 0,
+        retryCount: 0,
+        elapsedMs: Date.now() - startTime,
+        sourceUrl: '',
+        timestamp
       };
     }
 
     const { matched, canonicalName: publisher, tier } = this.detectPublisher(article);
     const headline = (article.headline || article.title || '').trim();
-    const rawBody = (article.body || article.content || article.raw_text || '').trim();
+    const sourceUrl = (
+      article.canonicalUrl ||
+      article.url ||
+      article.link ||
+      article.sourceUrl ||
+      article.source_url ||
+      article.originalPublisherUrl ||
+      article.source?.url ||
+      ''
+    );
 
     // 1. Publisher Support Check
     if (!matched || tier === 'UNSUPPORTED') {
@@ -450,14 +601,27 @@ export class SourceArticleExtractor {
         extractionStatus: 'FAILED',
         extractionScore: 0,
         cleanBody: null,
-        bodyLength: rawBody.length,
+        bodyLength: 0,
         wordCount: 0,
         sentenceCount: 0,
         contaminationDetected: false,
         headlineSimilarity: 0,
-        rejectionReason: 'Publisher not supported for high-quality extraction'
+        rejectionReason: 'Publisher not supported for high-quality extraction',
+        failureCategory: 'UNSUPPORTED_PUBLISHER',
+        extractionMethod: 'UNSUPPORTED',
+        paragraphCount: 0,
+        contaminationScore: 0,
+        retryCount: 0,
+        elapsedMs: Date.now() - startTime,
+        sourceUrl,
+        timestamp
       };
     }
+
+    // Multi-strategy extraction attempt
+    const multiResult = this.extractMultiStrategy(article);
+    const rawBody = multiResult.rawText;
+    const extractionMethod = multiResult.method;
 
     // 2. Empty Body Check
     if (!rawBody) {
@@ -472,15 +636,25 @@ export class SourceArticleExtractor {
         sentenceCount: 0,
         contaminationDetected: false,
         headlineSimilarity: 0,
-        rejectionReason: 'Article body is empty'
+        rejectionReason: 'Article body is empty',
+        failureCategory: 'NO_SOURCE_BODY',
+        extractionMethod: 'NO_SOURCE_BODY',
+        paragraphCount: 0,
+        contaminationScore: 0,
+        retryCount: 0,
+        elapsedMs: Date.now() - startTime,
+        sourceUrl,
+        timestamp
       };
     }
 
     // 3. Sanitization
     const sanitized = this.sanitizeContent(rawBody);
     const cleanBody = sanitized.cleanBody;
+    const contaminationScore = this.calculateContaminationScore(rawBody);
 
     if (!cleanBody) {
+      const cat = this.classifyFailureCategory(article);
       return {
         publisher,
         tier,
@@ -492,7 +666,15 @@ export class SourceArticleExtractor {
         sentenceCount: 0,
         contaminationDetected: sanitized.hasResidualHtml || sanitized.hasBoilerplate,
         headlineSimilarity: 0,
-        rejectionReason: 'Sanitization produced empty body after removing boilerplate'
+        rejectionReason: 'Sanitization produced empty body after removing boilerplate',
+        failureCategory: cat,
+        extractionMethod,
+        paragraphCount: 0,
+        contaminationScore,
+        retryCount: 0,
+        elapsedMs: Date.now() - startTime,
+        sourceUrl,
+        timestamp
       };
     }
 
@@ -575,6 +757,7 @@ export class SourceArticleExtractor {
 
     const finalScore = Math.max(0, Math.min(100, score));
     const threshold = this.getMinScoreThreshold();
+    const paragraphCount = cleanBody.split('\n').filter(Boolean).length || sanitized.sentenceCount;
 
     if (finalScore >= threshold) {
       return {
@@ -588,9 +771,17 @@ export class SourceArticleExtractor {
         sentenceCount: sanitized.sentenceCount,
         contaminationDetected: sanitized.hasResidualHtml,
         headlineSimilarity,
-        rejectionReason: null
+        rejectionReason: null,
+        extractionMethod,
+        paragraphCount,
+        contaminationScore,
+        retryCount: 0,
+        elapsedMs: Date.now() - startTime,
+        sourceUrl,
+        timestamp
       };
     } else {
+      const failureCategory = this.classifyFailureCategory(article);
       return {
         publisher,
         tier,
@@ -602,8 +793,170 @@ export class SourceArticleExtractor {
         sentenceCount: sanitized.sentenceCount,
         contaminationDetected: sanitized.hasResidualHtml,
         headlineSimilarity,
-        rejectionReason: `Extraction quality score (${finalScore}) fell below threshold (${threshold}). Snippet: ${isSnippet}, Residual HTML: ${sanitized.hasResidualHtml}`
+        rejectionReason: `Extraction quality score (${finalScore}) fell below threshold (${threshold}). Category: ${failureCategory}. Contamination: ${sanitized.hasResidualHtml || contaminationScore > 0}, Snippet: ${isSnippet}, Residual HTML: ${sanitized.hasResidualHtml}`,
+        failureCategory,
+        extractionMethod,
+        paragraphCount,
+        contaminationScore,
+        retryCount: 0,
+        elapsedMs: Date.now() - startTime,
+        sourceUrl,
+        timestamp
       };
     }
+  }
+
+  /**
+   * Deterministically classifies extraction failures into one of 18 diagnostic categories.
+   */
+  public static classifyFailureCategory(article: any): ExtractionFailureCategory {
+    if (!article) return 'NO_SOURCE_BODY';
+
+    if (article.httpStatus) {
+      if (article.httpStatus === 429 || article.httpStatus === 408 || (article.httpStatus >= 500 && article.httpStatus < 600)) {
+        return 'TEMPORARY_SOURCE_FAILURE';
+      }
+      if (article.httpStatus >= 400 && article.httpStatus < 500) {
+        return 'HTTP_FAILURE';
+      }
+    }
+    if (article.errorType === 'TIMEOUT' || article.isTimeout) {
+      return 'TIMEOUT';
+    }
+    if (article.errorType === 'HTTP_FAILURE' || article.httpError) {
+      return 'HTTP_FAILURE';
+    }
+    if (article.errorType === 'ENCODING_FAILURE' || article.hasEncodingError) {
+      return 'ENCODING_FAILURE';
+    }
+    if (article.errorType === 'MALFORMED_SOURCE' || article.isMalformed) {
+      return 'MALFORMED_SOURCE';
+    }
+    if (article.isDuplicate || article.duplicateContentDetected) {
+      return 'DUPLICATE_CONTENT';
+    }
+
+    const pubMatch = this.detectPublisher(article);
+    if (!pubMatch.matched || pubMatch.tier === 'UNSUPPORTED') {
+      return 'UNSUPPORTED_PUBLISHER';
+    }
+
+    const rawBody = (article.body || article.content || article.raw_text || article.description || '').trim();
+    if (!rawBody) {
+      return 'NO_SOURCE_BODY';
+    }
+
+    // Check for Cloudflare / Security captcha / Bot protection
+    if (/cloudflare|enable javascript|refresh the page|captcha|security check|access denied/i.test(rawBody)) {
+      return 'BOT_PROTECTION';
+    }
+
+    const headline = (article.headline || article.title || '').trim();
+    const sanitized = this.sanitizeContent(rawBody);
+    const cleanBody = sanitized.cleanBody || '';
+
+    // Check for Navigation Contamination first (as navigation menus may contain words like 'subscribe')
+    if (/(home > news|share this article|click here to|copyright \d{4})/i.test(rawBody) || /(home > news|share this article|click here to|copyright \d{4})/i.test(cleanBody)) {
+      return 'NAVIGATION_CONTAMINATION';
+    }
+
+    // Check for Paywall / Login prompts
+    if (/subscribe|subscriber|login|sign in|paywall|premium article|premium member|premium subscriber|restricted to premium/i.test(rawBody)) {
+      return 'PAYWALL_OR_LOGIN';
+    }
+
+    if (/<[a-z][\s\S]*>/i.test(rawBody) || sanitized.hasResidualHtml) {
+      return 'HTML_CONTAMINATION';
+    }
+
+    if (!cleanBody) {
+      return 'CONTENT_TOO_SHORT';
+    }
+
+    const sim = this.calculateSimilarity(headline, cleanBody);
+
+    if (sim > 0.85 || cleanBody === headline || (rawBody.startsWith('<a href=') && cleanBody.length < headline.length + 40)) {
+      return 'HEADLINE_ONLY';
+    }
+
+    if (cleanBody.endsWith('...') || /stock price today|share price today|today's live updates/i.test(cleanBody)) {
+      return 'SNIPPET_ONLY';
+    }
+
+    if (sanitized.wordCount < 12 || cleanBody.length < 65) {
+      return 'CONTENT_TOO_SHORT';
+    }
+
+    if (/(home > news|share this article|click here to|copyright \d{4})/i.test(cleanBody)) {
+      return 'NAVIGATION_CONTAMINATION';
+    }
+
+    return 'UNKNOWN_EXTRACTION_FAILURE';
+  }
+
+  /**
+   * Generates a complete ExtractionTaxonomyReport across a dataset of articles.
+   */
+  public static getDiagnosticReport(articles: any[]): ExtractionTaxonomyReport {
+    const totalArticles = articles.length;
+    let groundedCount = 0;
+    let failedCount = 0;
+
+    const taxonomyBreakdown: Record<ExtractionFailureCategory, number> = {
+      UNSUPPORTED_PUBLISHER: 0,
+      NO_SOURCE_BODY: 0,
+      HEADLINE_ONLY: 0,
+      SNIPPET_ONLY: 0,
+      PAYWALL_OR_LOGIN: 0,
+      BOT_PROTECTION: 0,
+      HTTP_FAILURE: 0,
+      TIMEOUT: 0,
+      HTML_PARSE_FAILURE: 0,
+      CONTENT_SELECTOR_FAILURE: 0,
+      HTML_CONTAMINATION: 0,
+      CONTENT_TOO_SHORT: 0,
+      NAVIGATION_CONTAMINATION: 0,
+      DUPLICATE_CONTENT: 0,
+      ENCODING_FAILURE: 0,
+      MALFORMED_SOURCE: 0,
+      TEMPORARY_SOURCE_FAILURE: 0,
+      UNKNOWN_EXTRACTION_FAILURE: 0
+    };
+
+    const publisherFailures: Record<string, number> = {};
+
+    for (const article of articles) {
+      const evalResult = this.evaluate(article);
+      if (evalResult.extractionStatus === 'SUCCESS') {
+        groundedCount++;
+      } else {
+        failedCount++;
+        const cat = evalResult.failureCategory || this.classifyFailureCategory(article);
+        taxonomyBreakdown[cat] = (taxonomyBreakdown[cat] || 0) + 1;
+
+        const pub = evalResult.publisher || 'Unknown';
+        publisherFailures[pub] = (publisherFailures[pub] || 0) + 1;
+      }
+    }
+
+    const topFailedPublishers = Object.entries(publisherFailures)
+      .map(([publisher, failureCount]) => ({ publisher, failureCount }))
+      .sort((a, b) => b.failureCount - a.failureCount)
+      .slice(0, 10);
+
+    const groundedPercentage = totalArticles > 0
+      ? parseFloat(((groundedCount / totalArticles) * 100).toFixed(2))
+      : 0;
+
+    return {
+      totalArticles,
+      groundedCount,
+      failedCount,
+      groundedPercentage,
+      taxonomyBreakdown,
+      topFailedPublishers,
+      qualityGateThreshold: this.getMinScoreThreshold(),
+      timestamp: new Date().toISOString()
+    };
   }
 }

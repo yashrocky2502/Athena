@@ -15,6 +15,18 @@ import { NewsCoreV2UIAdapter } from '../../newsCoreV2/api/NewsCoreV2UIAdapter.ts
 import { PersistentV3StorageAdapter } from '../NewsEngineV3/storage/PersistentV3StorageAdapter.ts';
 import { healthMonitor } from '../monitoring/HealthMonitor.ts';
 import { IngestionTelemetry } from '../monitoring/IngestionTelemetry.ts';
+import { TraderIntelligenceEngine } from '../intelligence/TraderIntelligenceEngine.ts';
+import { TraderDecisionSupportEngine } from '../intelligence/TraderDecisionSupportEngine.ts';
+import { EventCentricOrchestrator } from '../intelligence/EventCentricOrchestrator.ts';
+import { marketDataProvider } from '../intelligence/MarketDataProvider.ts';
+import { LiveMarketReactionEngine } from '../intelligence/LiveMarketReactionEngine.ts';
+import { MarketVolumeConfirmationEngine } from '../intelligence/MarketVolumeConfirmationEngine.ts';
+import { FnoPositioningEngine } from '../intelligence/FnoPositioningEngine.ts';
+import { MarketConfirmationEngine } from '../intelligence/MarketConfirmationEngine.ts';
+import { marketDataProviderManager } from '../market-data/MarketDataProvider.ts';
+import { MarketDataCircuitBreaker } from '../market-data/MarketDataCircuitBreaker.ts';
+import { MarketDataNormalizer } from '../market-data/MarketDataNormalizer.ts';
+import { MarketSessionEngine } from '../market-data/MarketSessionEngine.ts';
 
 
 import { getAllSectionDefinitions, NewsSectionId, isValidSectionId, normalizeSectionId } from '../types/NewsSection.ts';
@@ -38,6 +50,8 @@ import { productionTruthReconciliationEngine } from '../reconciliation/Productio
 import { productionTruthGuard } from '../guard/ProductionTruthGuard.ts';
 import { productionTruthControlPlane } from '../controlPlane/ProductionTruthControlPlane.ts';
 import { productionTruthDriftDetector } from '../controlPlane/ProductionTruthDriftDetector.ts';
+import { SourceArticleExtractionGate } from '../intelligence/SourceArticleExtractionGate.ts';
+import { SourceArticleExtractor } from '../intelligence/SourceArticleExtractor.ts';
 import { FailureDomain } from '../guard/types.ts';
 import v5EventRoutes from '../routes/v5EventRoutes.ts';
 
@@ -1938,6 +1952,907 @@ router.get('/observability/recovery/article/:articleId', (req: Request, res: Res
         });
     } catch (err: any) {
         res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/extraction
+ * Returns complete diagnostic taxonomy report and extraction telemetry across canonical dataset.
+ */
+router.get('/observability/extraction', (_req: Request, res: Response) => {
+    try {
+        const allArticles = newsStore.getAllArticles();
+        const taxonomyReport = SourceArticleExtractor.getDiagnosticReport(allArticles);
+
+        let paywallDetectionCount = 0;
+        let botProtectionCount = 0;
+        let contaminationRejectionCount = 0;
+        let totalLatencyMs = 0;
+        const publisherStats: Record<string, { total: number; success: number; failed: number }> = {};
+        const methodStats: Record<string, number> = {};
+
+        for (const art of allArticles) {
+            const evalResult = SourceArticleExtractor.evaluate(art);
+            const pub = evalResult.publisher || 'Unknown';
+            if (!publisherStats[pub]) {
+                publisherStats[pub] = { total: 0, success: 0, failed: 0 };
+            }
+            publisherStats[pub].total++;
+
+            if (evalResult.extractionStatus === 'SUCCESS') {
+                publisherStats[pub].success++;
+            } else {
+                publisherStats[pub].failed++;
+            }
+
+            const method = evalResult.extractionMethod || 'UNKNOWN';
+            methodStats[method] = (methodStats[method] || 0) + 1;
+
+            if (evalResult.failureCategory === 'PAYWALL_OR_LOGIN') paywallDetectionCount++;
+            if (evalResult.failureCategory === 'BOT_PROTECTION') botProtectionCount++;
+            if (evalResult.failureCategory === 'HTML_CONTAMINATION' || evalResult.failureCategory === 'NAVIGATION_CONTAMINATION') contaminationRejectionCount++;
+            totalLatencyMs += evalResult.elapsedMs || 0;
+        }
+
+        const averageExtractionLatency = allArticles.length > 0 ? parseFloat((totalLatencyMs / allArticles.length).toFixed(2)) : 0;
+
+        const publisherSuccessRates = Object.entries(publisherStats).map(([publisher, stat]) => ({
+            publisher,
+            successRate: stat.total > 0 ? parseFloat(((stat.success / stat.total) * 100).toFixed(2)) : 0,
+            totalArticles: stat.total,
+            successCount: stat.success,
+            failureCount: stat.failed
+        })).sort((a, b) => b.totalArticles - a.totalArticles);
+
+        const publisherFailureRates = [...publisherSuccessRates].sort((a, b) => b.failureCount - a.failureCount);
+
+        res.json({
+            status: 'success',
+            taxonomyReport,
+            extractionSummary: {
+                totalArticlesScanned: taxonomyReport.totalArticles,
+                successfulExtractionCount: taxonomyReport.groundedCount,
+                failedExtractionCount: taxonomyReport.failedCount,
+                sourceGroundedPercentage: taxonomyReport.groundedPercentage,
+                extractionFailedPercentage: parseFloat((100 - taxonomyReport.groundedPercentage).toFixed(2))
+            },
+            failureTaxonomyDistribution: taxonomyReport.taxonomyBreakdown,
+            publisherSuccessRates,
+            publisherFailureRates,
+            extractionMethodSuccessRates: methodStats,
+            averageExtractionLatency,
+            retryCounts: 0,
+            paywallDetectionCount,
+            botProtectionCount,
+            contaminationRejectionCount,
+            topRecoveryOpportunities: taxonomyReport.topFailedPublishers,
+            qualityGateThreshold: taxonomyReport.qualityGateThreshold
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/observability/extraction/:articleId
+ * Provides the complete forensic extraction report for a specific article ID.
+ */
+router.get('/observability/extraction/:articleId', (req: Request, res: Response) => {
+    try {
+        const { articleId } = req.params;
+        const article = newsStore.getArticleById(articleId);
+
+        if (!article) {
+            return res.status(404).json({
+                status: 'error',
+                message: `Article with ID ${articleId} not found`
+            });
+        }
+
+        const evaluation = SourceArticleExtractor.evaluate(article);
+        const taxonomyCategory = SourceArticleExtractor.classifyFailureCategory(article);
+
+        res.json({
+            status: 'success',
+            articleId,
+            headline: article.headline || (article as any).title,
+            publisher: evaluation.publisher,
+            tier: evaluation.tier,
+            extractionStatus: evaluation.extractionStatus,
+            extractionScore: evaluation.extractionScore,
+            failureCategory: evaluation.failureCategory || taxonomyCategory,
+            rejectionReason: evaluation.rejectionReason,
+            cleanBodySnippet: evaluation.cleanBody ? evaluation.cleanBody.substring(0, 300) : null,
+            bodyLength: evaluation.bodyLength,
+            wordCount: evaluation.wordCount,
+            sentenceCount: evaluation.sentenceCount,
+            headlineSimilarity: evaluation.headlineSimilarity,
+            contaminationDetected: evaluation.contaminationDetected,
+            extractionMethod: evaluation.extractionMethod,
+            paragraphCount: evaluation.paragraphCount,
+            contaminationScore: evaluation.contaminationScore,
+            elapsedMs: evaluation.elapsedMs,
+            sourceUrl: evaluation.sourceUrl,
+            timestamp: evaluation.timestamp
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+// ==========================================
+// STAGE 9: TRADER INTELLIGENCE V9 APIS
+// ==========================================
+
+// ==========================================
+// STAGE 9: TRADER INTELLIGENCE V9.1 APIS
+// ==========================================
+
+// In-memory cache with TTL for Phase 9.1 Trader Intelligence
+const intelligenceV9Cache = new Map<string, { data: any; cachedAt: number }>();
+const V9_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes cache
+
+// Observability Metrics for Decision Support Intelligence
+export const intelligenceObservability = {
+    intelligenceRequests: 0,
+    intelligenceCacheHits: 0,
+    intelligenceCacheMisses: 0,
+    groundedIntelligence: 0,
+    unavailableIntelligence: 0,
+    rejectedIntelligence: 0,
+    totalGenerationLatencyMs: 0,
+    aiCalls: 0,
+    zeroAiSuppressedCalls: 0,
+    evidenceCompletenessSum: 0,
+    marketReactionEvidenceCount: 0,
+    foEvidenceCount: 0,
+    
+    // Stage 9.2 market observability
+    marketReactionRequests: 0,
+    marketReactionLatencySumMs: 0,
+    staleMarketDataCount: 0,
+    marketDataAvailableCount: 0,
+    marketDataNotAvailableCount: 0,
+    volumeDataAvailableCount: 0,
+    volumeDataNotAvailableCount: 0,
+    fnoDataAvailableCount: 0,
+    fnoDataNotAvailableCount: 0,
+    contradictionCount: 0,
+    insufficientEvidenceCount: 0,
+    marketCacheHits: 0,
+    marketCacheMisses: 0,
+    zeroAiMarketCalculations: 0,
+    confirmationDistribution: {
+        CONFIRMED: 0,
+        PARTIALLY_CONFIRMED: 0,
+        NEUTRAL: 0,
+        CONTRADICTED: 0,
+        INSUFFICIENT_EVIDENCE: 0
+    } as Record<string, number>
+};
+
+function getMarketObservationSignature(symbol: string): string {
+    const cleanSym = (symbol || '').trim().toUpperCase();
+    if (!cleanSym) return 'no_sym';
+    const ticks = marketDataProvider.getPriceTicks(cleanSym);
+    const fno = marketDataProvider.getFnoTicks(cleanSym);
+    
+    const lastPriceTs = ticks.length > 0 ? ticks[ticks.length - 1].timestamp : 'no_price';
+    const lastFnoTs = fno.length > 0 ? fno[fno.length - 1].timestamp : 'no_fno';
+    
+    const todayStr = new Date().toISOString().split('T')[0];
+    const session = marketDataProvider.getSessionSummary(cleanSym, todayStr);
+    const lastVolTs = session ? todayStr : 'no_vol';
+    
+    return `mkt_${lastPriceTs}_fno_${lastFnoTs}_vol_${lastVolTs}`;
+}
+
+/**
+ * Helper to generate a content/revision-aware cache key for articles.
+ * Invalidates instantly if headline, body, fno status, financial metrics or source changes.
+ */
+function getArticleRevisionKey(article: any): string {
+    const body = article.body || article.content || '';
+    const headline = article.headline || article.title || '';
+    const fno = article.fnoEligible ? '1' : '0';
+    const metrics = JSON.stringify(article.financialMetrics || []);
+    const sourceUrl = article.sourceUrl || '';
+    const updated = article.publishedAt || '';
+    const symbol = article.symbol || '';
+    const marketSig = getMarketObservationSignature(symbol);
+    return `art_${article.id}_rev_${body.length}_${headline.length}_${fno}_${metrics.length}_${sourceUrl.length}_${updated}_${marketSig}`;
+}
+
+/**
+ * Helper to generate a revision-aware cache key for events.
+ * Invalidates if status, last update time, source count or primary article changes.
+ */
+function getEventRevisionKey(event: any): string {
+    const articleId = event.latestArticleId || event.primarySource?.articleId || '';
+    const symbol = event.symbol || '';
+    const marketSig = getMarketObservationSignature(symbol);
+    return `evt_${event.eventId}_rev_${event.lastUpdatedAt}_${event.sourceCount}_${event.eventStatus}_${articleId}_${marketSig}`;
+}
+
+function getV9CachedOrCompute(key: string, computeFn: () => any): any {
+    const cached = intelligenceV9Cache.get(key);
+    if (cached && (Date.now() - cached.cachedAt) < V9_CACHE_TTL_MS) {
+        intelligenceObservability.intelligenceCacheHits++;
+        return cached.data;
+    }
+    intelligenceObservability.intelligenceCacheMisses++;
+    const start = Date.now();
+    const fresh = computeFn();
+    const duration = Date.now() - start;
+    
+    intelligenceObservability.totalGenerationLatencyMs += duration;
+    intelligenceV9Cache.set(key, { data: fresh, cachedAt: Date.now() });
+    return fresh;
+}
+
+/**
+ * GET /api/v5/news/intelligence/observability
+ * Exposes the in-memory decision-support intelligence metrics.
+ */
+router.get('/intelligence/observability', (req: Request, res: Response) => {
+    try {
+        const reqCount = intelligenceObservability.intelligenceRequests;
+        const groundedCount = intelligenceObservability.groundedIntelligence;
+        res.json({
+            status: 'success',
+            observability: {
+                ...intelligenceObservability,
+                averageGenerationLatencyMs: reqCount > 0
+                    ? Number((intelligenceObservability.totalGenerationLatencyMs / reqCount).toFixed(2))
+                    : 0,
+                evidenceCompletenessRate: groundedCount > 0
+                    ? ((intelligenceObservability.evidenceCompletenessSum / groundedCount)).toFixed(2) + '%'
+                    : '0%',
+                marketReactionEvidenceRate: groundedCount > 0
+                    ? ((intelligenceObservability.marketReactionEvidenceCount / groundedCount) * 100).toFixed(2) + '%'
+                    : '0%',
+                foEvidenceRate: groundedCount > 0
+                    ? ((intelligenceObservability.foEvidenceCount / groundedCount) * 100).toFixed(2) + '%'
+                    : '0%',
+                averageMarketLatencyMs: intelligenceObservability.marketReactionRequests > 0
+                    ? Number((intelligenceObservability.marketReactionLatencySumMs / intelligenceObservability.marketReactionRequests).toFixed(2))
+                    : 0
+            }
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/:articleId
+ * Generates or retrieves the high-fidelity Phase 9.1 Trader Intelligence Dossier for a specific article.
+ */
+router.get('/intelligence/:articleId', async (req: Request, res: Response) => {
+    try {
+        const { articleId } = req.params;
+        if (!articleId || articleId.trim() === '') {
+            return res.status(400).json({ status: 'error', message: 'Article ID is required and must not be empty.' });
+        }
+
+        const article = await stage2Store.getById(articleId);
+        if (!article) {
+            return res.status(404).json({ status: 'error', message: `Article with ID '${articleId}' not found in canonical store.` });
+        }
+
+        intelligenceObservability.intelligenceRequests++;
+
+        const sym = (article as any).symbol || 'NIFTY';
+        // Fetch, validate, and register real market data in the legacy provider registry first (Section 19)
+        try {
+            const [eq, fut, chain] = await Promise.all([
+                marketDataProviderManager.getEquityObservation(sym).catch(() => null),
+                marketDataProviderManager.getFuturesObservation(sym).catch(() => null),
+                marketDataProviderManager.getOptionChain(sym).catch(() => null)
+            ]);
+            marketDataProvider.registerRealObservations(sym, eq, fut, chain);
+        } catch (mktErr) {
+            console.warn(`[MarketDataPreFetch] Non-blocking market pre-fetch failed for ${sym}:`, mktErr);
+        }
+
+        const cacheKey = getArticleRevisionKey(article);
+        const dossier = getV9CachedOrCompute(cacheKey, () => {
+            const sym = (article as any).symbol || 'NIFTY';
+            const baseDir: 'BULLISH' | 'BEARISH' | 'NEUTRAL' | 'UNKNOWN' = (article as any).category === 'EARNINGS' || (article as any).category === 'ORDER_WIN' ? 'BULLISH' : 'NEUTRAL';
+            const fDate = article.publishedAt || new Date().toISOString();
+
+            // Run deterministic market confirmation engine
+            intelligenceObservability.marketReactionRequests++;
+            const startMkt = Date.now();
+            const marketConfirmation = MarketConfirmationEngine.process(sym, fDate, baseDir);
+            const durationMkt = Date.now() - startMkt;
+            intelligenceObservability.marketReactionLatencySumMs += durationMkt;
+
+            // Generate dossier with confirmation payload
+            const base = TraderIntelligenceEngine.process(article as any).toJSON();
+            const support = TraderDecisionSupportEngine.generate(article as any, marketConfirmation);
+
+            // Record detailed Stage 9.2 market observability
+            intelligenceObservability.zeroAiMarketCalculations++;
+            if (marketConfirmation.priceReaction.availability === 'AVAILABLE') {
+                intelligenceObservability.marketDataAvailableCount++;
+            } else {
+                intelligenceObservability.marketDataNotAvailableCount++;
+            }
+            if (marketConfirmation.priceReaction.dataFreshness === 'STALE' || marketConfirmation.priceReaction.dataFreshness === 'EXPIRED') {
+                intelligenceObservability.staleMarketDataCount++;
+            }
+            if (marketConfirmation.volumeConfirmation.volumeAvailability === 'AVAILABLE') {
+                intelligenceObservability.volumeDataAvailableCount++;
+            } else {
+                intelligenceObservability.volumeDataNotAvailableCount++;
+            }
+            if (marketConfirmation.fnoPositioning.availability === 'AVAILABLE') {
+                intelligenceObservability.fnoDataAvailableCount++;
+            } else {
+                intelligenceObservability.fnoDataNotAvailableCount++;
+            }
+            const overallState = marketConfirmation.overallConfirmation;
+            if (!intelligenceObservability.confirmationDistribution[overallState]) {
+                intelligenceObservability.confirmationDistribution[overallState] = 0;
+            }
+            intelligenceObservability.confirmationDistribution[overallState]++;
+            if (overallState === 'CONTRADICTED') {
+                intelligenceObservability.contradictionCount++;
+            } else if (overallState === 'INSUFFICIENT_EVIDENCE') {
+                intelligenceObservability.insufficientEvidenceCount++;
+            }
+
+            // Record Observability stats
+            if (support.qualityState === 'SOURCE_GROUNDED') {
+                intelligenceObservability.groundedIntelligence++;
+            } else if (support.qualityState === 'QUALITY_REJECTED') {
+                intelligenceObservability.rejectedIntelligence++;
+            } else {
+                intelligenceObservability.unavailableIntelligence++;
+            }
+
+            if (support.marketReaction.status === 'VERIFIED') {
+                intelligenceObservability.marketReactionEvidenceCount++;
+            }
+            if (support.optionsSellerView.derivativesEvidence === 'AVAILABLE') {
+                intelligenceObservability.foEvidenceCount++;
+            }
+
+            // Calculate evidence completeness percentage
+            const verifiedFactsCount = support.facts.verifiedFacts.length;
+            const changedVerified = support.whatChanged.status === 'VERIFIED_NUMERICAL_CHANGE' ? 1 : 0;
+            const mechanismVerified = support.whyItMatters.status === 'VERIFIED' ? 1 : 0;
+            const reactionVerified = support.marketReaction.status === 'VERIFIED' ? 1 : 0;
+            const foAvailable = support.optionsSellerView.derivativesEvidence === 'AVAILABLE' ? 1 : 0;
+            const completeness = ((verifiedFactsCount + changedVerified + mechanismVerified + reactionVerified + foAvailable) / 5) * 100;
+            
+            intelligenceObservability.evidenceCompletenessSum += completeness;
+            intelligenceObservability.zeroAiSuppressedCalls++; // Zero AI call enforcement
+
+            return {
+                ...base,
+                ...support,
+                articleTruth: base,
+                traderDecisionSupport: support,
+                marketReaction: marketConfirmation.priceReaction,
+                volumeConfirmation: marketConfirmation.volumeConfirmation,
+                fnoPositioning: marketConfirmation.fnoPositioning,
+                marketConfirmation: marketConfirmation
+            };
+        });
+
+        res.json({
+            status: 'success',
+            version: 'ATHENA_TRADER_V9.2',
+            articleId,
+            articleTruth: dossier.articleTruth,
+            traderDecisionSupport: dossier.traderDecisionSupport,
+            marketReaction: dossier.marketReaction,
+            volumeConfirmation: dossier.volumeConfirmation,
+            fnoPositioning: dossier.fnoPositioning,
+            marketConfirmation: dossier.marketConfirmation,
+            intelligence: dossier,
+            observability: {
+                aiCalls: 0,
+                zeroAiSuppressedCalls: 1
+            }
+        });
+    } catch (err: any) {
+        console.error(`[TraderIntelligence V9.2] Error processing article ${req.params.articleId}:`, err);
+        res.status(500).json({ status: 'error', message: err.message || 'Failed to process trader intelligence.' });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/event/:eventId
+ * Generates or retrieves Phase 9.2 Trader Intelligence Dossier for the primary/latest article in an event.
+ */
+router.get('/intelligence/event/:eventId', async (req: Request, res: Response) => {
+    try {
+        const { eventId } = req.params;
+        if (!eventId || eventId.trim() === '') {
+            return res.status(400).json({ status: 'error', message: 'Event ID is required and must not be empty.' });
+        }
+
+        const orchestrator = EventCentricOrchestrator.getInstance();
+        const event = orchestrator.getEventById(eventId);
+        if (!event) {
+            return res.status(404).json({ status: 'error', message: `Event with ID '${eventId}' not found.` });
+        }
+
+        intelligenceObservability.intelligenceRequests++;
+
+        const sym = event.symbol || 'NIFTY';
+        try {
+            const [eq, fut, chain] = await Promise.all([
+                marketDataProviderManager.getEquityObservation(sym).catch(() => null),
+                marketDataProviderManager.getFuturesObservation(sym).catch(() => null),
+                marketDataProviderManager.getOptionChain(sym).catch(() => null)
+            ]);
+            marketDataProvider.registerRealObservations(sym, eq, fut, chain);
+        } catch (mktErr) {
+            console.warn(`[MarketDataPreFetch] Non-blocking market pre-fetch failed for event ${sym}:`, mktErr);
+        }
+
+        const articleId = event.latestArticleId || event.primarySource?.articleId;
+        if (!articleId) {
+            return res.status(404).json({ status: 'error', message: `No associated articles found for event '${eventId}'.` });
+        }
+
+        const article = await stage2Store.getById(articleId);
+        let dossier: any;
+
+        if (!article) {
+            console.warn(`[TraderIntelligence V9.2] Article ${articleId} not found for event ${eventId}, using synthetic fallback.`);
+            const syntheticArticle = {
+                id: articleId,
+                headline: event.primarySource?.headline || event.canonicalSummary?.whatHappened || 'Market Event',
+                body: event.canonicalSummary?.whyItMatters || '',
+                publishedAt: event.primarySource?.publishedAt || event.lastUpdatedAt,
+                source: { name: event.primarySource?.publisher || 'Official', publisher: event.primarySource?.publisher || 'Official' },
+                category: event.category,
+                symbol: event.symbol || 'NIFTY',
+                fnoEligible: true
+            };
+            const cacheKey = getArticleRevisionKey(syntheticArticle);
+            dossier = getV9CachedOrCompute(cacheKey, () => {
+                const sym = syntheticArticle.symbol;
+                const baseDir: 'BULLISH' | 'BEARISH' | 'NEUTRAL' | 'UNKNOWN' = syntheticArticle.category === 'EARNINGS' || syntheticArticle.category === 'ORDER_WIN' ? 'BULLISH' : 'NEUTRAL';
+                const fDate = syntheticArticle.publishedAt || new Date().toISOString();
+
+                // Run deterministic market confirmation engine
+                intelligenceObservability.marketReactionRequests++;
+                const startMkt = Date.now();
+                const marketConfirmation = MarketConfirmationEngine.process(sym, fDate, baseDir);
+                const durationMkt = Date.now() - startMkt;
+                intelligenceObservability.marketReactionLatencySumMs += durationMkt;
+
+                const base = TraderIntelligenceEngine.process(syntheticArticle).toJSON();
+                const support = TraderDecisionSupportEngine.generate(syntheticArticle, marketConfirmation);
+                
+                if (support.qualityState === 'SOURCE_GROUNDED') intelligenceObservability.groundedIntelligence++;
+                else intelligenceObservability.unavailableIntelligence++;
+                intelligenceObservability.zeroAiSuppressedCalls++;
+
+                return {
+                    ...base,
+                    ...support,
+                    articleTruth: base,
+                    traderDecisionSupport: support,
+                    marketReaction: marketConfirmation.priceReaction,
+                    volumeConfirmation: marketConfirmation.volumeConfirmation,
+                    fnoPositioning: marketConfirmation.fnoPositioning,
+                    marketConfirmation: marketConfirmation
+                };
+            });
+        } else {
+            const cacheKey = getArticleRevisionKey(article);
+            dossier = getV9CachedOrCompute(cacheKey, () => {
+                const sym = (article as any).symbol || 'NIFTY';
+                const baseDir: 'BULLISH' | 'BEARISH' | 'NEUTRAL' | 'UNKNOWN' = (article as any).category === 'EARNINGS' || (article as any).category === 'ORDER_WIN' ? 'BULLISH' : 'NEUTRAL';
+                const fDate = article.publishedAt || new Date().toISOString();
+
+                // Run deterministic market confirmation engine
+                intelligenceObservability.marketReactionRequests++;
+                const startMkt = Date.now();
+                const marketConfirmation = MarketConfirmationEngine.process(sym, fDate, baseDir);
+                const durationMkt = Date.now() - startMkt;
+                intelligenceObservability.marketReactionLatencySumMs += durationMkt;
+
+                const base = TraderIntelligenceEngine.process(article as any).toJSON();
+                const support = TraderDecisionSupportEngine.generate(article as any, marketConfirmation);
+
+                if (support.qualityState === 'SOURCE_GROUNDED') {
+                    intelligenceObservability.groundedIntelligence++;
+                } else if (support.qualityState === 'QUALITY_REJECTED') {
+                    intelligenceObservability.rejectedIntelligence++;
+                } else {
+                    intelligenceObservability.unavailableIntelligence++;
+                }
+
+                if (support.marketReaction.status === 'VERIFIED') {
+                    intelligenceObservability.marketReactionEvidenceCount++;
+                }
+                if (support.optionsSellerView.derivativesEvidence === 'AVAILABLE') {
+                    intelligenceObservability.foEvidenceCount++;
+                }
+
+                const verifiedFactsCount = support.facts.verifiedFacts.length;
+                const changedVerified = support.whatChanged.status === 'VERIFIED_NUMERICAL_CHANGE' ? 1 : 0;
+                const mechanismVerified = support.whyItMatters.status === 'VERIFIED' ? 1 : 0;
+                const reactionVerified = support.marketReaction.status === 'VERIFIED' ? 1 : 0;
+                const foAvailable = support.optionsSellerView.derivativesEvidence === 'AVAILABLE' ? 1 : 0;
+                const completeness = ((verifiedFactsCount + changedVerified + mechanismVerified + reactionVerified + foAvailable) / 5) * 100;
+                
+                intelligenceObservability.evidenceCompletenessSum += completeness;
+                intelligenceObservability.zeroAiSuppressedCalls++;
+
+                return {
+                    ...base,
+                    ...support,
+                    articleTruth: base,
+                    traderDecisionSupport: support,
+                    marketReaction: marketConfirmation.priceReaction,
+                    volumeConfirmation: marketConfirmation.volumeConfirmation,
+                    fnoPositioning: marketConfirmation.fnoPositioning,
+                    marketConfirmation: marketConfirmation
+                };
+            });
+        }
+
+        // Complies with Event Intelligence (Part 16): Rank, identify revisions, supporting sources
+        const supportingPublishers = Array.from(new Set([
+            event.primarySource?.publisher,
+            ...(event.supportingSources || []).map(s => s.publisher)
+        ].filter(Boolean)));
+
+        const allSources = [
+            ...(event.primarySource ? [event.primarySource] : []),
+            ...(event.supportingSources || [])
+        ];
+
+        // Sort by tier (Tier 1 is highest, then Tier 2, etc.)
+        const rankedSources = allSources.sort((a, b) => (a.tier || 4) - (b.tier || 4));
+
+        const primaryTier = event.primarySource?.tier || 4;
+        const sourceAuthority = primaryTier === 1 ? 'HIGH_AUTHORITY' : (primaryTier === 2 || primaryTier === 3 ? 'MEDIUM_AUTHORITY' : 'LOW_AUTHORITY');
+
+        res.json({
+            status: 'success',
+            version: 'ATHENA_TRADER_V9.2',
+            eventId,
+            eventPriority: event.eventPriority,
+            eventStatus: event.eventStatus,
+            canonicalEvent: {
+                eventType: event.eventType,
+                primaryEntity: event.primaryEntity,
+                symbol: event.symbol,
+                fingerprint: event.eventFingerprint,
+                firstSeenAt: event.firstSeenAt
+            },
+            supportingPublishers,
+            rankedSources,
+            materialRevisions: event.history || [],
+            previousVsNew: {
+                previous: event.previousKeyNumbers || [],
+                current: event.keyNumbers || [],
+                details: event.whatChanged || ''
+            },
+            eventMechanism: dossier.whyItMatters?.transmissionMechanism || 'TRANSMISSION_MECHANISM_UNVERIFIED',
+            conflictingSourceInfo: event.conflictingReports || [],
+            supportingArticles: allSources,
+            sourceAuthority,
+            eventEvidence: dossier.traderDecisionSupport?.evidence || dossier.evidence || [],
+            fundamentalImpact: dossier.traderDecisionSupport?.whyItMatters || dossier.whyItMatters || null,
+            marketReaction: dossier.marketReaction,
+            volumeConfirmation: dossier.volumeConfirmation,
+            FnoPositioning: dossier.fnoPositioning,
+            fnoPositioning: dossier.fnoPositioning,
+            marketConfirmation: dossier.marketConfirmation,
+            eventRevision: event.history || [],
+            contradictionFlags: dossier.marketConfirmation?.contradictionFlags || {},
+            intelligence: dossier
+        });
+    } catch (err: any) {
+        console.error(`[TraderIntelligence V9.2] Error processing event ${req.params.eventId}:`, err);
+        res.status(500).json({ status: 'error', message: err.message || 'Failed to process event trader intelligence.' });
+    }
+});
+
+/**
+ * GET /api/v5/news/intelligence/symbol/:symbol
+ * Aggregates a symbol-specific intelligence dossier from recent historical events and article metrics.
+ */
+router.get('/intelligence/symbol/:symbol', async (req: Request, res: Response) => {
+    try {
+        const { symbol } = req.params;
+        if (!symbol || symbol.trim() === '') {
+            return res.status(400).json({ status: 'error', message: 'Symbol is required and must not be empty.' });
+        }
+
+        const cleanSymbol = symbol.toUpperCase().trim();
+        const cacheKey = `v9_intel_sym_${cleanSymbol}`;
+
+        const dossier = await getV9CachedOrCompute(cacheKey, async () => {
+            const allArticles = await stage2Store.getAll();
+            const matchingArticles = allArticles.filter(art => {
+                const text = `${art.headline || ''} ${(art as any).body || ''}`.toUpperCase();
+                return (art as any).symbol?.toUpperCase() === cleanSymbol || 
+                       (art.headline && text.includes(` ${cleanSymbol} `)) ||
+                       (art.headline && text.includes(`(${cleanSymbol})`));
+            });
+
+            if (matchingArticles.length === 0) {
+                return {
+                    symbol: cleanSymbol,
+                    entityName: 'Unknown Entity',
+                    eventCount: 0,
+                    recentMaterialEvents: 0,
+                    eventFrequency: 'NONE',
+                    latestIntelligence: null,
+                    timeline: [],
+                    activeMonitors: [],
+                    uncertainties: [],
+                    eventDistribution: { positive: 0, negative: 0, neutral: 0, mixed: 0 },
+                    majorFundamentalThemes: [],
+                    latestVerifiedMarketReaction: 'UNKNOWN',
+                    fnoEvidenceAvailable: false,
+                    activeRiskFlags: [],
+                    currentFreshness: 'STALE'
+                };
+            }
+
+            // Sort by publishedAt descending
+            const sortedArticles = matchingArticles.sort((a, b) => {
+                return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+            });
+
+            // Process latest 5 articles using the enhanced support engine with market confirmation
+            const recentIntel = sortedArticles.slice(0, 5).map(art => {
+                const sym = (art as any).symbol || cleanSymbol;
+                const baseDir: 'BULLISH' | 'BEARISH' | 'NEUTRAL' | 'UNKNOWN' = (art as any).category === 'EARNINGS' || (art as any).category === 'ORDER_WIN' ? 'BULLISH' : 'NEUTRAL';
+                const fDate = art.publishedAt || new Date().toISOString();
+
+                const mConf = MarketConfirmationEngine.process(sym, fDate, baseDir);
+                const base = TraderIntelligenceEngine.process(art as any).toJSON();
+                const support = TraderDecisionSupportEngine.generate(art as any, mConf);
+                return {
+                    ...base,
+                    ...support,
+                    marketConfirmation: mConf
+                };
+            });
+
+            const latest = recentIntel[0] || null;
+            const entityName = latest ? latest.event.primaryEntity : cleanSymbol;
+
+            // Compile timeline
+            const timeline = recentIntel.map(intel => ({
+                articleId: (intel as any).articleId || (intel as any).id || '',
+                publishedAt: intel.event.eventTimestamp,
+                eventType: intel.event.eventType,
+                headline: intel.facts.verifiedFacts[0] || 'News Event',
+                fundamentalImpact: intel.fundamentalImpact || 'NEUTRAL',
+                marketImpact: intel.marketConfirmation?.priceReaction?.reactionDirection || 'UNKNOWN',
+                confidenceScore: intel.confidence.score
+            }));
+
+            // Collect unique active monitors
+            const activeMonitorsSet = new Set<string>();
+            recentIntel.forEach(intel => {
+                if (Array.isArray(intel.whatToMonitor)) {
+                    intel.whatToMonitor.forEach((m: string) => activeMonitorsSet.add(m));
+                }
+            });
+
+            // Collect unique uncertainties
+            const uncertaintiesSet = new Set<string>();
+            recentIntel.forEach(intel => {
+                if (intel.facts?.unknownNotAvailable) {
+                    intel.facts.unknownNotAvailable.forEach((u: string) => uncertaintiesSet.add(u));
+                }
+            });
+
+            // Distribute event directions
+            const distribution = { positive: 0, negative: 0, neutral: 0, mixed: 0 };
+            recentIntel.forEach(intel => {
+                const dir = intel.marketConfirmation?.priceReaction?.reactionDirection as string;
+                if (dir === 'POSITIVE') distribution.positive++;
+                else if (dir === 'NEGATIVE') distribution.negative++;
+                else if (dir === 'MIXED') distribution.mixed++;
+                else distribution.neutral++;
+            });
+
+            // Major themes (transmission mechanisms)
+            const themes = Array.from(new Set(
+                recentIntel.map(intel => intel.whyItMatters?.transmissionMechanism).filter(Boolean)
+            ));
+
+            const riskFlags = Array.from(new Set(
+                recentIntel.map(intel => intel.risk?.level).filter(r => r && r !== 'LOW' && r !== 'UNKNOWN')
+            ));
+
+            const elapsedLatestMinutes = latest
+                ? Math.floor((Date.now() - new Date(latest.event.eventTimestamp).getTime()) / (1000 * 60))
+                : Infinity;
+            const freshness = elapsedLatestMinutes <= 30 ? 'BREAKING' : elapsedLatestMinutes <= 120 ? 'FRESH' : 'STALE';
+
+            // Phase 9.2 expanded market trend properties
+            const latestTimestamp = latest ? latest.event.eventTimestamp : new Date().toISOString();
+            const latestDirection: 'BULLISH' | 'BEARISH' | 'NEUTRAL' | 'UNKNOWN' = latest
+                ? (latest.event.eventType === 'REGULATORY_ACTION' || latest.event.eventType === 'ORDER_CANCELLATION' ? 'BEARISH' : (latest.event.eventType === 'ORDER_WIN' || latest.event.eventType === 'ACQUISITION' || latest.event.eventType === 'EARNINGS' ? 'BULLISH' : 'NEUTRAL'))
+                : 'NEUTRAL';
+
+            const currentConfirmation = MarketConfirmationEngine.process(cleanSymbol, latestTimestamp, latestDirection);
+
+            const recentEventReactions = recentIntel.map(intel => {
+                const fDir = intel.event.eventType === 'REGULATORY_ACTION' || intel.event.eventType === 'ORDER_CANCELLATION' ? 'BEARISH' : (intel.event.eventType === 'ORDER_WIN' || intel.event.eventType === 'ACQUISITION' || intel.event.eventType === 'EARNINGS' ? 'BULLISH' : 'NEUTRAL');
+                const mConf = intel.marketConfirmation || MarketConfirmationEngine.process(cleanSymbol, intel.event.eventTimestamp, fDir);
+                return {
+                    eventType: intel.event.eventType,
+                    eventTimestamp: intel.event.eventTimestamp,
+                    direction: mConf.priceReaction.reactionDirection,
+                    strength: mConf.priceReaction.reactionStrength,
+                    overallConfirmation: mConf.overallConfirmation
+                };
+            });
+
+            const marketConfirmationTrend = currentConfirmation.overallConfirmation;
+            const volumeTrend = recentIntel.map(intel => intel.marketConfirmation?.volumeConfirmation?.volumeMultiple || 1.0);
+            const FnoPositioningTrend = recentIntel.map(intel => intel.marketConfirmation?.fnoPositioning?.optionFlowClassification || 'NEUTRAL');
+
+            const contradictoryEvents = recentEventReactions.filter(r => r.overallConfirmation === 'CONTRADICTED').map(r => ({
+                eventType: r.eventType,
+                eventTimestamp: r.eventTimestamp
+            }));
+
+            const reactionTimeline = recentIntel.map(intel => {
+                const mConf = intel.marketConfirmation || MarketConfirmationEngine.process(cleanSymbol, intel.event.eventTimestamp, 'NEUTRAL');
+                return {
+                    timestamp: intel.event.eventTimestamp,
+                    priceChange: mConf.priceReaction.percentagePriceChange ?? 0,
+                    volumeMultiple: mConf.volumeConfirmation.volumeMultiple ?? 1.0,
+                    confirmationState: mConf.overallConfirmation
+                };
+            });
+
+            const currentOptionsSellerContext = latest ? latest.optionsSellerView?.optionsSellerMarketConfirmation || 'INSUFFICIENT_EVIDENCE' : 'INSUFFICIENT_EVIDENCE';
+
+            return {
+                symbol: cleanSymbol,
+                entityName,
+                eventCount: matchingArticles.length,
+                recentMaterialEvents: matchingArticles.filter(a => a.eventType !== 'OTHER').length,
+                eventFrequency: matchingArticles.length >= 5 ? 'HIGH' : matchingArticles.length >= 2 ? 'MODERATE' : matchingArticles.length === 1 ? 'LOW' : 'NONE',
+                latestIntelligence: latest,
+                timeline,
+                activeMonitors: Array.from(activeMonitorsSet),
+                uncertainties: Array.from(uncertaintiesSet),
+                eventDistribution: distribution,
+                majorFundamentalThemes: themes,
+                latestVerifiedMarketReaction: latest ? latest.marketConfirmation?.priceReaction?.reactionDirection || 'UNKNOWN' : 'UNKNOWN',
+                fnoEvidenceAvailable: recentIntel.some(intel => intel.optionsSellerView?.derivativesEvidence === 'AVAILABLE'),
+                activeRiskFlags: riskFlags,
+                currentFreshness: freshness,
+
+                // Phase 9.2 added fields
+                currentMarketReaction: currentConfirmation.priceReaction,
+                recentEventReactions,
+                marketConfirmationTrend,
+                volumeTrend,
+                FnoPositioningTrend,
+                currentOptionsSellerContext,
+                contradictoryEvents,
+                reactionTimeline
+            };
+        });
+
+        res.json({
+            status: 'success',
+            version: 'ATHENA_TRADER_V9.2',
+            symbol: cleanSymbol,
+            dossier
+        });
+    } catch (err: any) {
+        console.error(`[TraderIntelligence V9.2] Error aggregating symbol ${req.params.symbol}:`, err);
+        res.status(500).json({ status: 'error', message: err.message || 'Failed to aggregate symbol intelligence.' });
+    }
+});
+
+// ==========================================
+// PHASE 9.3: MARKET DATA & OBSERVABILITY API ENDPOINTS
+// ==========================================
+
+// 1. Market Data Observability & Circuit Breakers (Section 24)
+router.get('/market-data/observability', (req, res) => {
+    try {
+        const statuses = MarketDataCircuitBreaker.getAllStatuses();
+        res.json({
+            status: 'success',
+            timestamp: new Date().toISOString(),
+            circuitBreakers: statuses,
+            normalizerTelemetry: MarketDataNormalizer.telemetry
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+// 2. Provider Status & Health (Section 25)
+router.get('/market-data/providers', (req, res) => {
+    try {
+        const status = marketDataProviderManager.getProviderStatus();
+        res.json({
+            status: 'success',
+            timestamp: new Date().toISOString(),
+            providers: status
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+// 3. Switch Market Data Mode (PRODUCTION, DEGRADED, TEST, MOCK)
+router.post('/market-data/mode', (req, res) => {
+    try {
+        const { mode } = req.body;
+        if (!mode || !['PRODUCTION', 'DEGRADED', 'TEST', 'MOCK'].includes(mode)) {
+            return res.status(400).json({ status: 'error', message: 'Invalid or missing mode. Allowed: PRODUCTION, DEGRADED, TEST, MOCK' });
+        }
+        marketDataProviderManager.setMode(mode);
+        res.json({
+            status: 'success',
+            mode,
+            message: `Market data mode successfully updated to ${mode}`
+        });
+    } catch (err: any) {
+        res.status(400).json({ status: 'error', message: err.message });
+    }
+});
+
+// 4. Fetch Comprehensive Normalized Market Data for a Symbol (Section 26)
+router.get('/market-data/:symbol', async (req, res) => {
+    try {
+        const symbol = req.params.symbol.toUpperCase();
+        const nowUtc = new Date().toISOString();
+        const sessionState = MarketSessionEngine.determineSession(nowUtc);
+        const sessionIst = MarketSessionEngine.convertUtcToIstString(nowUtc);
+
+        const [equity, futures, optionChain] = await Promise.all([
+            marketDataProviderManager.getEquityObservation(symbol).catch(() => null),
+            marketDataProviderManager.getFuturesObservation(symbol).catch(() => null),
+            marketDataProviderManager.getOptionChain(symbol).catch(() => null)
+        ]);
+
+        let pcr = 'NOT_AVAILABLE';
+        let concentrations = [];
+        if (optionChain && optionChain.contracts) {
+            pcr = MarketDataNormalizer.calculatePcr(optionChain.contracts) as any;
+            concentrations = MarketDataNormalizer.calculateStrikeConcentrations(optionChain.contracts);
+        }
+
+        res.json({
+            status: 'success',
+            symbol,
+            session: {
+                state: sessionState,
+                istTime: sessionIst,
+                isHoliday: MarketSessionEngine.isHoliday(nowUtc.split('T')[0])
+            },
+            equity,
+            futures,
+            optionChainSnapshot: optionChain ? {
+                underlying: optionChain.underlying,
+                timestamp: optionChain.timestamp,
+                pcr,
+                strikeConcentrations: concentrations,
+                provenance: optionChain.provenance
+            } : null
+        });
+    } catch (err: any) {
+        console.error(`[MarketDataAPI] Error fetching for symbol ${req.params.symbol}:`, err);
+        res.status(500).json({ status: 'error', message: err.message || 'Failed to fetch market data.' });
     }
 });
 

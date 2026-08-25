@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-08-24T15:15:19.011Z",
+  "canonicalArticleCount": 739,
+  "persistentNewsStoreCount": 739,
+  "v4FeedCount": 739,
+  "v5ProjectionCount": 739,
+  "uiAdapterCount": 739,
+  "sourceGroundedCount": 158,
+  "extractionFailedCount": 581,
+  "sourceUnavailableCount": 0,
+  "qualityRejectedCount": 581,
+  "extractionFailureCategoryDistribution": {
+    "UNSUPPORTED_PUBLISHER": 0,
+    "NO_SOURCE_BODY": 0,
+    "HEADLINE_ONLY": 575,
+    "SNIPPET_ONLY": 0,
+    "PAYWALL_OR_LOGIN": 0,
+    "BOT_PROTECTION": 0,
+    "HTTP_FAILURE": 0,
+    "TIMEOUT": 0,
+    "HTML_PARSE_FAILURE": 0,
+    "CONTENT_SELECTOR_FAILURE": 0,
+    "HTML_CONTAMINATION": 0,
+    "CONTENT_TOO_SHORT": 5,
+    "NAVIGATION_CONTAMINATION": 0,
+    "DUPLICATE_CONTENT": 0,
+    "ENCODING_FAILURE": 0,
+    "MALFORMED_SOURCE": 0,
+    "TEMPORARY_SOURCE_FAILURE": 0,
+    "UNKNOWN_EXTRACTION_FAILURE": 1
+  },
+  "publisherTopFailures": [
+    {
+      "publisher": "Moneycontrol",
+      "failureCount": 100
+    },
+    {
+      "publisher": "CNBC TV18",
+      "failureCount": 99
+    },
+    {
+      "publisher": "PIB",
+      "failureCount": 91
+    },
+    {
+      "publisher": "Google News Business",
+      "failureCount": 84
+    },
+    {
+      "publisher": "NSE",
+      "failureCount": 74
+    },
+    {
+      "publisher": "RBI",
+      "failureCount": 64
+    },
+    {
+      "publisher": "BSE",
+      "failureCount": 49
+    },
+    {
+      "publisher": "SEBI",
+      "failureCount": 12
+    },
+    {
+      "publisher": "Business Standard",
+      "failureCount": 7
+    },
+    {
+      "publisher": "Economic Times",
+      "failureCount": 1
+    }
+  ],
+  "telegramDispatchCount": 0,
+  "telegramSuppressedCount": 0,
+  "aiInvocationCount": 0,
+  "summaryCacheHitCount": 0,
+  "summaryCacheMissCount": 0,
+  "sourceCircuitStates": "ACTIVE",
+  "activeSafeMode": false,
+  "duplicateArticleIdCount": 0,
+  "duplicateCanonicalUrlCount": 0
+}

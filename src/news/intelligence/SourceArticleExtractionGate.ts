@@ -10,6 +10,37 @@
 import { NewsArticle } from '../models/NewsArticle';
 import { SourceArticleExtractor, SourceExtractionResult } from './SourceArticleExtractor';
 
+export type ExtractionFailureCategory =
+  | 'UNSUPPORTED_PUBLISHER'
+  | 'NO_SOURCE_BODY'
+  | 'HEADLINE_ONLY'
+  | 'SNIPPET_ONLY'
+  | 'PAYWALL_OR_LOGIN'
+  | 'BOT_PROTECTION'
+  | 'HTTP_FAILURE'
+  | 'TIMEOUT'
+  | 'HTML_PARSE_FAILURE'
+  | 'CONTENT_SELECTOR_FAILURE'
+  | 'HTML_CONTAMINATION'
+  | 'CONTENT_TOO_SHORT'
+  | 'NAVIGATION_CONTAMINATION'
+  | 'DUPLICATE_CONTENT'
+  | 'ENCODING_FAILURE'
+  | 'MALFORMED_SOURCE'
+  | 'TEMPORARY_SOURCE_FAILURE'
+  | 'UNKNOWN_EXTRACTION_FAILURE';
+
+export interface ExtractionTaxonomyReport {
+  totalArticles: number;
+  groundedCount: number;
+  failedCount: number;
+  groundedPercentage: number;
+  taxonomyBreakdown: Record<ExtractionFailureCategory, number>;
+  topFailedPublishers: { publisher: string; failureCount: number }[];
+  qualityGateThreshold: number;
+  timestamp: string;
+}
+
 export interface ExtractionDiagnostic {
   publisher: string;
   extractionStatus: 'SUCCESS' | 'FAILED';
@@ -21,6 +52,7 @@ export interface ExtractionDiagnostic {
   rejectionReason: string | null;
   tier?: string;
   wordCount?: number;
+  failureCategory?: ExtractionFailureCategory;
 }
 
 export class SourceArticleExtractionGate {
@@ -62,7 +94,8 @@ export class SourceArticleExtractionGate {
       headlineSimilarity: result.headlineSimilarity,
       rejectionReason: result.rejectionReason,
       tier: result.tier,
-      wordCount: result.wordCount
+      wordCount: result.wordCount,
+      failureCategory: result.failureCategory
     };
 
     return {

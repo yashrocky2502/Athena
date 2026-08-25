@@ -95,6 +95,10 @@ export class NewsSummaryService {
     // 2. Extraction Quality Evaluation via SourceArticleExtractionGate (Stage 8.9.10)
     const { diagnostic, cleanBody } = SourceArticleExtractionGate.evaluate(article);
     if (diagnostic.extractionStatus !== 'SUCCESS' || !cleanBody) {
+      const isUnavailable = diagnostic.failureCategory === 'NO_SOURCE_BODY' || 
+                             diagnostic.failureCategory === 'UNSUPPORTED_PUBLISHER';
+      const state = isUnavailable ? 'SOURCE_UNAVAILABLE' : 'EXTRACTION_FAILED';
+
       const fallback: NewsSummary = {
         articleId: article.id,
         summary: 'Summary unavailable — Open original source',
@@ -112,7 +116,7 @@ export class NewsSummaryService {
         validated: true,
         generatedAt: new Date().toISOString()
       };
-      (fallback as any).summaryStatus = 'SOURCE_UNAVAILABLE';
+      (fallback as any).summaryStatus = state;
       (fallback as any).summaryQuality = 'UNAVAILABLE';
       this.cache.set(article.id, fallback);
       return fallback;
@@ -156,7 +160,7 @@ export class NewsSummaryService {
             validated: true,
             generatedAt: new Date().toISOString()
           };
-          (summaryObj as any).summaryStatus = 'AVAILABLE';
+          (summaryObj as any).summaryStatus = qualityResult.summaryStatus || 'SOURCE_GROUNDED';
           (summaryObj as any).summaryQuality = 'EXCELLENT';
 
           this.cache.set(article.id, summaryObj);
@@ -185,7 +189,7 @@ export class NewsSummaryService {
       validated: true,
       generatedAt: new Date().toISOString()
     };
-    (fallback as any).summaryStatus = 'SOURCE_UNAVAILABLE';
+    (fallback as any).summaryStatus = 'QUALITY_REJECTED';
     (fallback as any).summaryQuality = 'UNAVAILABLE';
     this.cache.set(article.id, fallback);
     return fallback;

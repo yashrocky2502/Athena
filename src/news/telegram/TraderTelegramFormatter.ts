@@ -206,6 +206,42 @@ export class TraderTelegramFormatter {
     msg += `🔗 <b>Open ATHENA</b>`;
     return msg;
   }
+
+  /**
+   * Format the high-value production intelligence dossier for Telegram.
+   */
+  public static formatProductionDossier(dossier: any): string {
+    const divider = '━━━━━━━━━━━━━━━━━━━━━━';
+    let msg = `${divider}\n🚨 <b>ATHENA MARKET ALERT</b>\n${divider}\n\n`;
+
+    msg += `<b>ENTITY</b>\n${this.escapeHtml(dossier.event.primaryEntity.toUpperCase())}\n`;
+    msg += `<b>Event:</b> ${this.escapeHtml(dossier.event.eventType)}\n\n`;
+
+    msg += `<b>WHAT HAPPENED</b>\n${this.escapeHtml(dossier.facts.verifiedFacts[0] || 'Factual corporate event reported.')}\n\n`;
+
+    msg += `<b>WHY IT MATTERS</b>\n${this.escapeHtml(dossier.whyItMatters.transmissionMechanism)}\n\n`;
+
+    msg += `<b>MARKET REACTION</b>\n${dossier.marketReaction.direction}: ${this.escapeHtml(dossier.marketReaction.evidenceText)}\n\n`;
+
+    if (dossier.traderRelevance && dossier.traderRelevance.length > 0) {
+      msg += `<b>TRADER RELEVANCE</b>\n`;
+      const relevant = dossier.traderRelevance.slice(0, 3).map((t: any) => `• <b>${t.profile}</b> (${t.relevanceLevel}): ${t.relevanceReason}`);
+      msg += `${this.escapeHtml(relevant.join('\n'))}\n\n`;
+    }
+
+    msg += `<b>OPTIONS SELLER VIEW</b>\n${dossier.optionsSellerView.view}`;
+    if (dossier.optionsSellerView.view !== 'INSUFFICIENT_EVIDENCE' && dossier.optionsSellerView.details) {
+      msg += `\n• IV: ${dossier.optionsSellerView.details.iv || 'N/A'}, PCR: ${dossier.optionsSellerView.details.pcr || 'N/A'}`;
+    }
+    msg += `\n\n`;
+
+    msg += `<b>RISK</b>\n${dossier.risk.level}: ${this.escapeHtml(dossier.risk.reason)}\n\n`;
+
+    msg += `<b>EVIDENCE</b>\n`;
+    msg += `Source: ${this.escapeHtml(dossier.evidence.sourceName)} (${this.escapeHtml(dossier.evidence.sourceAuthorityTier)})\n\n`;
+    msg += `🔗 <b>Open ATHENA</b>`;
+    return msg;
+  }
 }
 
 export const traderTelegramFormatter = new TraderTelegramFormatter();

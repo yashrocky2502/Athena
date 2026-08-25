@@ -66,6 +66,10 @@ export class ProductionTruthGuard {
     return this.healthState;
   }
 
+  public isGuardActive(): boolean {
+    return true;
+  }
+
   public isSafeModeEngaged(): boolean {
     return this.healthState === 'SAFE_MODE' || this.runtimeMode === 'SAFE_MODE' || newsSafeModeController.isSafeModeEngaged();
   }

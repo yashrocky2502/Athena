@@ -14,7 +14,8 @@ export interface SummaryQualityResult {
   whatHappened: string;
   whyItMatters: string;
   keyFacts: string[];
-  status: 'AVAILABLE' | 'SOURCE_UNAVAILABLE';
+  status: 'AVAILABLE' | 'SOURCE_UNAVAILABLE' | 'EXTRACTION_FAILED' | 'QUALITY_REJECTED';
+  summaryStatus?: 'SOURCE_GROUNDED' | 'SOURCE_UNAVAILABLE' | 'EXTRACTION_FAILED' | 'QUALITY_REJECTED';
 }
 
 export class SummaryQualityGate {
@@ -22,23 +23,53 @@ export class SummaryQualityGate {
    * Evaluates an article and its generated summary against strict quality standards.
    */
   public static evaluate(article: any, generatedSummary?: any): SummaryQualityResult {
-    const { diagnostic, cleanBody } = SourceArticleExtractionGate.evaluate(article);
-    const hasSuccessfulExtraction = diagnostic.extractionStatus === 'SUCCESS' && cleanBody;
-
-    if (!hasSuccessfulExtraction) {
+    if (!article) {
       return {
         passed: false,
         summary: "Summary unavailable — Open original source",
         whatHappened: "Summary unavailable — Open original source",
         whyItMatters: "",
         keyFacts: [],
-        status: 'SOURCE_UNAVAILABLE'
+        status: 'SOURCE_UNAVAILABLE',
+        summaryStatus: 'SOURCE_UNAVAILABLE'
+      };
+    }
+
+    const { diagnostic, cleanBody } = SourceArticleExtractionGate.evaluate(article);
+    const hasSuccessfulExtraction = diagnostic.extractionStatus === 'SUCCESS' && cleanBody;
+
+    if (!hasSuccessfulExtraction) {
+      // Differentiate between SOURCE_UNAVAILABLE and EXTRACTION_FAILED
+      const isUnavailable = diagnostic.failureCategory === 'NO_SOURCE_BODY' || 
+                             diagnostic.failureCategory === 'UNSUPPORTED_PUBLISHER';
+      const state = isUnavailable ? 'SOURCE_UNAVAILABLE' : 'EXTRACTION_FAILED';
+
+      return {
+        passed: false,
+        summary: "Summary unavailable — Open original source",
+        whatHappened: "Summary unavailable — Open original source",
+        whyItMatters: "",
+        keyFacts: [],
+        status: 'SOURCE_UNAVAILABLE',
+        summaryStatus: state
       };
     }
 
     const title = (article.headline || article.title || "").trim().toLowerCase();
     const sumText = (typeof generatedSummary === 'string' ? generatedSummary : generatedSummary?.summary || "").trim();
     const sumTextLower = sumText.toLowerCase();
+
+    if (!sumText) {
+      return {
+        passed: false,
+        summary: "Summary unavailable — Open original source",
+        whatHappened: "Summary unavailable — Open original source",
+        whyItMatters: "",
+        keyFacts: [],
+        status: 'SOURCE_UNAVAILABLE',
+        summaryStatus: 'QUALITY_REJECTED'
+      };
+    }
 
     // Strip punctuation/brackets/quotes for clean headline comparison
     const titleClean = title.replace(/[\[\]"']/g, '').replace(/\s+/g, ' ').trim();
@@ -91,7 +122,8 @@ export class SummaryQualityGate {
         whatHappened: "Summary unavailable — Open original source",
         whyItMatters: "",
         keyFacts: [],
-        status: 'SOURCE_UNAVAILABLE'
+        status: 'SOURCE_UNAVAILABLE',
+        summaryStatus: 'QUALITY_REJECTED'
       };
     }
 
@@ -112,9 +144,23 @@ export class SummaryQualityGate {
           whatHappened: "Summary unavailable — Open original source",
           whyItMatters: "",
           keyFacts: [],
-          status: 'SOURCE_UNAVAILABLE'
+          status: 'SOURCE_UNAVAILABLE',
+          summaryStatus: 'QUALITY_REJECTED'
         };
       }
+    }
+
+    // Guard against summaries that are too short (less than 15 chars)
+    if (sumText.length < 15) {
+      return {
+        passed: false,
+        summary: "Summary unavailable — Open original source",
+        whatHappened: "Summary unavailable — Open original source",
+        whyItMatters: "",
+        keyFacts: [],
+        status: 'SOURCE_UNAVAILABLE',
+        summaryStatus: 'QUALITY_REJECTED'
+      };
     }
 
     const finalWhatHappened = typeof generatedSummary === 'object' && generatedSummary?.whatHappened 
@@ -135,7 +181,8 @@ export class SummaryQualityGate {
       whatHappened: finalWhatHappened || "Summary unavailable — Open original source",
       whyItMatters: finalWhyItMatters,
       keyFacts: finalKeyFacts,
-      status: 'AVAILABLE'
+      status: 'AVAILABLE',
+      summaryStatus: 'SOURCE_GROUNDED'
     };
   }
 }

@@ -368,6 +368,15 @@ export class ProductionTruthDriftDetector {
   // 1. MAIN DRIFT DETECTION SCANNER
   // ==========================================
 
+  public getDriftStatus(): { status: 'SYNCHRONIZED' | 'DRIFT_DETECTED'; driftCount: number } {
+    const report = this.detectDrift();
+    const driftCount = report.countDrifts.length + report.articleDrifts.length;
+    return {
+      status: driftCount === 0 ? 'SYNCHRONIZED' : 'DRIFT_DETECTED',
+      driftCount
+    };
+  }
+
   public detectDrift(): OverallDriftReport {
     const now = new Date().toISOString();
 

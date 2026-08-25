@@ -290,6 +290,10 @@ app.use(["/api/v2/news", "/api/v3/news", "/api/v2/news/*", "/api/v3/news/*"], (r
 app.use("/api/v3", v3Router);
 app.use("/api/v4/news", newsCoreV2Router);
 app.use("/api/v5/news", newsV5Router);
+app.use("/api/v5/intelligence", (req, res, next) => {
+  req.url = "/intelligence" + req.url;
+  newsV5Router(req, res, next);
+});
 
 // Initialize Gemini Client
 const apiKey = process.env.GEMINI_API_KEY;
