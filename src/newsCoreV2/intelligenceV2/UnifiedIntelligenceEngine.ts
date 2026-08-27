@@ -5,6 +5,7 @@ import { IntelligenceEntityResolver } from "./IntelligenceEntityResolver.ts";
 import { IntelligenceMetricResolver } from "./IntelligenceMetricResolver.ts";
 import { IntelligenceStore } from "./IntelligenceStore.ts";
 import { IntelligenceRecord, SentimentType, UrgencyType } from "./IntelligenceTypes.ts";
+import { CanonicalNewsSummaryEngine } from "../summary/CanonicalNewsSummaryEngine.ts";
 
 export class UnifiedIntelligenceEngine {
   public static readonly VERSION = "27.4";
@@ -207,80 +208,19 @@ export class UnifiedIntelligenceEngine {
     primaryCategory: string,
     eventType: string
   ): string {
+    const summaryEngine = CanonicalNewsSummaryEngine.getInstance();
+    const synth = summaryEngine.generateDeterministicSummary(article);
+    if (synth && synth.summary && synth.summary !== 'Summary unavailable — Open original source') {
+      return synth.summary;
+    }
+
     const headline = (article.headline || "").trim();
     const body = (article.body || "").trim();
     const evUpper = (eventType || "").toUpperCase();
     const catUpper = (primaryCategory || "").toUpperCase();
     const lowerHeadline = headline.toLowerCase();
-    const lowerBody = body.toLowerCase();
-    const fullText = `${headline} ${body}`;
 
-    // Helper to get clean, informative body sentence
-    const getDistinctBodySentence = (): string | null => {
-      if (!body) return null;
-      const sentences = body
-        .split(/(?<=[.?!])\s+/)
-        .map(s => s.trim())
-        .filter(s => s.length > 15 && !s.startsWith("Image:") && !s.startsWith("Click here") && !s.startsWith("Subscribe"));
-      if (sentences.length === 0) return null;
-      const distinct = sentences.find(s => SourceArticleExtractionGate.calculateSimilarity(headline, s) < 0.70) ||
-                       sentences.find(s => s.toLowerCase() !== headline.toLowerCase()) ||
-                       sentences[0];
-      if (distinct && distinct.toLowerCase() !== headline.toLowerCase()) {
-        return distinct;
-      }
-      if (sentences.length > 1) {
-        return sentences.slice(0, 2).join(' ');
-      }
-      return null;
-    };
-
-    // 1. Regulatory / Operational Clearance / Revocation (e.g. FSSAI suspension revocation)
-    if (/\b(revokes order|fssai revokes|quashes order|clean chit|suspension revoked|revokes suspension|lifts suspension)\b/i.test(lowerHeadline) ||
-        (/\bfssai\b/i.test(lowerHeadline) && /\b(revokes|lifted|quashed|restored)\b/i.test(lowerHeadline))) {
-      const comp = companyName && companyName !== "Subject Company" ? companyName : "The company";
-      let detail = "lifting operational restrictions on affected units";
-      const distinct = getDistinctBodySentence();
-      if (distinct) {
-        return `${headline}. ${distinct}`;
-      }
-      return `${comp} received regulatory order revocation from authorities, ${detail} and restoring authorized operations.`;
-    }
-
-    // 2. Listing / Debt Notes Executive Summary (e.g. Axis Bank)
-    if (/\b(senior notes|list \$?\d+|debt listing|notes listing|medium term notes)\b/i.test(lowerHeadline)) {
-      const comp = companyName && companyName !== "Subject Company" ? companyName : "The entity";
-      const distinct = getDistinctBodySentence();
-      if (distinct) {
-        return `${headline}. ${distinct}`;
-      }
-      return `${comp} secured regulatory approval to list debt notes on exchange platforms, facilitating institutional debt-capital access.`;
-    }
-
-    // 3. IPO Executive Summary
-    if (evUpper === "IPO" || catUpper === "IPO") {
-      const ipoMetric = metrics.find(m => m.name === "IPO");
-      const distinct = getDistinctBodySentence();
-      if (distinct) {
-        return `${headline}. ${distinct}`;
-      }
-      if (ipoMetric && ipoMetric.displayText) {
-        const comp = companyName && companyName !== "Subject Company" ? `${companyName} ` : "";
-        return `${comp}IPO details: ${ipoMetric.displayText}. ${headline}.`;
-      }
-      return headline;
-    }
-
-    // 4. Acquisition / Merger Executive Summary
-    if (evUpper === "ACQUISITION" || evUpper === "MERGER") {
-      const distinct = getDistinctBodySentence();
-      if (distinct) {
-        return `${headline}. ${distinct}`;
-      }
-      return headline;
-    }
-
-    // 5. Earnings / Results Executive Summary
+    // Earnings / Results Executive Summary with metrics
     if ((evUpper === "EARNINGS" || catUpper === "RESULTS") && metrics.length > 0) {
       const parts: string[] = [];
       const pat = metrics.find(m => m.name === "PAT");
@@ -320,25 +260,7 @@ export class UnifiedIntelligenceEngine {
       }
     }
 
-    // 6. Order / Contract Win Executive Summary (strictly when genuine commercial order)
-    const isExplicitOrder = (evUpper === "ORDER_CONTRACT" || /\b(order win|contract win|bags order|awarded order|secures order|won order|secures contract|bags contract)\b/i.test(lowerHeadline)) &&
-      !/\b(revokes order|court order|fssai|sebi order|interim order|stay order|quashes order)\b/i.test(lowerHeadline);
-
-    if (isExplicitOrder) {
-      const distinct = getDistinctBodySentence();
-      if (distinct) {
-        return `${headline}. ${distinct}`;
-      }
-      return headline;
-    }
-
-    // 7. General fallback using headline + clean distinct body sentence
-    const distinct = getDistinctBodySentence();
-    if (distinct) {
-      return `${headline}. ${distinct}`;
-    }
-
-    return headline;
+    return synth.summary || headline;
   }
 
   private static extractKeyFacts(article: NewsArticleV2, metrics: any[]): string[] {

@@ -1,5 +1,43 @@
 [
   {
+    "id": "v2_2bd5f1d8daea7819",
+    "source": {
+      "name": "NSE",
+      "url": "https://www.nseindia.com/default",
+      "publisher": "NSE",
+      "collectionMethod": "RSS"
+    },
+    "sourceUrl": "https://www.nseindia.com/default",
+    "headline": "Tata Motors Q3 net profit rises 137% to ₹7,025 crore on strong JLR sales",
+    "body": "Tata Motors reported a 137 percent year-on-year surge in consolidated net profit at ₹7,025 crore for the third quarter ended December 31, driven by robust performance across Jaguar Land Rover and commercial vehicles.",
+    "publishedAt": "2026-08-26T05:49:07.723Z",
+    "fetchedAt": "2026-08-26T05:49:07.915Z",
+    "primaryCategory": "Results",
+    "eventType": "EARNINGS",
+    "symbol": "TATAMOTORS",
+    "fnoEligible": true,
+    "financialMetrics": [
+      {
+        "name": "Net Profit",
+        "value": "7,025 cr",
+        "change": "137%",
+        "unit": "cr"
+      }
+    ],
+    "classificationConfidence": 90,
+    "relevanceScore": 100,
+    "isLive": true,
+    "discoveredAt": "2026-08-26T05:49:07.914Z",
+    "ingestedAt": "2026-08-26T05:49:07.915Z",
+    "sentiment": "BULLISH",
+    "freshnessState": "BREAKING",
+    "freshnessSeconds": 0,
+    "eventId": "evt_id_1787723347920_mc0hm",
+    "eventRelation": "NEW_EVENT",
+    "hasConflict": false,
+    "storedAt": "2026-08-26T05:49:07.922Z"
+  },
+  {
     "id": "v2_891c71db6d3ca0a0",
     "source": {
       "name": "F&O Market Desk",

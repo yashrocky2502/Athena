@@ -13,14 +13,18 @@ export class SummaryQualityGate {
    * Evaluates the summary text and its metadata against strict quality benchmarks.
    */
   public static evaluate(
-    article: NewsArticleV2,
-    summaryText: string,
-    keyMetrics: NormalizedFinancialMetric[],
-    whatChanged: string[],
-    whyItMatters: string,
-    marketImpact: string,
-    riskWatchpoints: string[]
+    article: any,
+    summaryTextOrObject: any,
+    keyMetrics: NormalizedFinancialMetric[] = [],
+    whatChanged: string[] = [],
+    whyItMatters: string = "",
+    marketImpact: string = "",
+    riskWatchpoints: string[] = []
   ): QualityGateResult {
+    const summaryText = typeof summaryTextOrObject === 'string'
+      ? summaryTextOrObject
+      : summaryTextOrObject?.summary || summaryTextOrObject?.whatHappened || '';
+
     // 1. Check for empty inputs
     if (!summaryText || !summaryText.trim()) {
       return { passed: false, reason: "Summary text is empty", confidence: 0 };
@@ -44,8 +48,18 @@ export class SummaryQualityGate {
 
     // 3. Check for repeating headline exactly without adding information
     const headlineLower = article.headline.trim().toLowerCase();
-    if (cleanSummary === headlineLower || cleanSummary.replace(/[^\w]/g, "") === headlineLower.replace(/[^\w]/g, "")) {
+    const headlineClean = headlineLower.replace(/[^\w\s]/g, "").replace(/\s+/g, " ").trim();
+    const summaryClean = cleanSummary.replace(/[^\w\s]/g, "").replace(/\s+/g, " ").trim();
+
+    if (cleanSummary === headlineLower || summaryClean === headlineClean) {
       return { passed: false, reason: "Summary merely repeats the headline without adding synthesis", confidence: 10 };
+    }
+
+    if (summaryClean.startsWith(headlineClean)) {
+      const extra = summaryClean.slice(headlineClean.length).trim();
+      if (extra.length < 15 || extra.split(" ").length < 4) {
+        return { passed: false, reason: "Summary merely appends trivial padding to headline", confidence: 10 };
+      }
     }
 
     // 4. Run the core Consistency Validator

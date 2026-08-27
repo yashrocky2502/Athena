@@ -12,7 +12,7 @@ import {
   TrendingUp, Flame, Zap, Building2
 } from 'lucide-react';
 
-type SentimentFilter = 'ALL' | 'BULLISH' | 'BEARISH' | 'NEUTRAL' | 'HIGH_IMPACT' | 'BREAKING' | 'FNO' | 'EARNINGS' | 'REGULATORY';
+type SentimentFilter = 'ALL' | 'HIGH_SIGNAL' | 'HIGH_IMPACT' | 'BREAKING' | 'FNO' | 'BULLISH' | 'BEARISH' | 'NEUTRAL' | 'EARNINGS' | 'REGULATORY';
 type ViewMode = 'FEED' | 'WATCHLIST';
 
 export type CategoryFeedState = {
@@ -495,7 +495,9 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
     }
 
     if (sentimentFilter !== 'ALL') {
-      if (sentimentFilter === 'BULLISH' || sentimentFilter === 'BEARISH' || sentimentFilter === 'NEUTRAL') {
+      if (sentimentFilter === 'HIGH_SIGNAL') {
+        result = result.filter((a) => (a.signalStrength && a.signalStrength >= 65) || (a.signalScore && a.signalScore >= 65) || (a.qualityScore && a.qualityScore >= 75) || a.isHighSignal || a.isBreaking || (a.impactScore && a.impactScore >= 7) || (a.impact && ['VERY_HIGH', 'HIGH'].includes(a.impact.toUpperCase())));
+      } else if (sentimentFilter === 'BULLISH' || sentimentFilter === 'BEARISH' || sentimentFilter === 'NEUTRAL') {
         result = result.filter((a) => (a.sentiment || 'NEUTRAL').toUpperCase() === sentimentFilter);
       } else if (sentimentFilter === 'HIGH_IMPACT') {
         result = result.filter((a) => (a.impactScore && a.impactScore >= 7) || (a.impact && ['VERY_HIGH', 'HIGH'].includes(a.impact.toUpperCase())));
@@ -635,9 +637,10 @@ export default function NewsPage({ developerMode = false }: { developerMode?: bo
         <div className="flex items-center gap-1.5 bg-slate-900/80 p-1 border border-slate-800 rounded-xl text-xs w-full sm:w-auto overflow-x-auto">
           {[
             { id: 'ALL', label: 'All' },
+            { id: 'HIGH_SIGNAL', label: '🎯 High Signal' },
             { id: 'HIGH_IMPACT', label: '⚡ High Impact' },
             { id: 'BREAKING', label: '🔥 Breaking' },
-            { id: 'FNO', label: '🎯 F&O' },
+            { id: 'FNO', label: '🎲 F&O' },
             { id: 'BULLISH', label: '🟢 Bullish' },
             { id: 'BEARISH', label: '🔴 Bearish' },
             { id: 'EARNINGS', label: '📊 Earnings' },

@@ -16,20 +16,27 @@ export interface SessionSummary {
 
 export interface FnoTick {
   timestamp: string;
-  expiry: string;
-  spot: number;
-  futuresPrice: number;
-  futuresOI: number;
-  callOI: number;
-  putOI: number;
-  callOIChange: number;
-  putOIChange: number;
-  PCR: number;
-  IV: number;
-  IVChange: number;
-  keyCallStrikes: number[];
-  keyPutStrikes: number[];
-  strikeConcentration: string;
+  expiry?: string;
+  spot?: number;
+  spotPrice?: number;
+  futuresPrice?: number;
+  futuresOI?: number;
+  openInterest?: number;
+  oiChangePercent?: number;
+  callOI?: number;
+  callOi?: number;
+  putOI?: number;
+  putOi?: number;
+  callOIChange?: number;
+  putOIChange?: number;
+  PCR?: number;
+  pcr?: number;
+  IV?: number;
+  impliedVolatility?: number;
+  IVChange?: number;
+  keyCallStrikes?: number[];
+  keyPutStrikes?: number[];
+  strikeConcentration?: string;
 }
 
 class MarketDataProvider {

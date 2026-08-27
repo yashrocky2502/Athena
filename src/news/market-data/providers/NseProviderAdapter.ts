@@ -25,14 +25,25 @@ export class NseProviderAdapter implements IMarketDataProvider {
 
     // In test/mock mode, return deterministic high-fidelity mock data (Section 23)
     if (this.mode === 'TEST' || this.mode === 'MOCK') {
+      let ltp = symbol.toUpperCase() === 'NIFTY' ? 24500 : 2550;
+      if (symbol.toUpperCase() === 'CONFLICT_INDEX') {
+        ltp = 10000;
+      } else if (symbol.toUpperCase() === 'CONFLICT_EQUITY') {
+        ltp = 100;
+      }
+      const open = ltp - 10;
+      const high = ltp + 20;
+      const low = ltp - 15;
+      const previousClose = ltp - 5;
+
       const mockRaw = {
         symbol: symbol.toUpperCase(),
         exchange: 'NSE',
-        ltp: symbol.toUpperCase() === 'NIFTY' ? 24500 : 2550,
-        open: symbol.toUpperCase() === 'NIFTY' ? 24400 : 2530,
-        high: symbol.toUpperCase() === 'NIFTY' ? 24600 : 2570,
-        low: symbol.toUpperCase() === 'NIFTY' ? 24350 : 2520,
-        previousClose: symbol.toUpperCase() === 'NIFTY' ? 24380 : 2515,
+        ltp,
+        open,
+        high,
+        low,
+        previousClose,
         volume: 1200000,
         timestamp: new Date().toISOString()
       };

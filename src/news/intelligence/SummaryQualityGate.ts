@@ -77,16 +77,19 @@ export class SummaryQualityGate {
 
     // Guard against repeated headlines or headline extensions (e.g., repeating the headline + a generic sentence)
     let isRepeatedHeadline = false;
+    let rejectionReason = '';
+
     if (sumClean === titleClean) {
       isRepeatedHeadline = true;
+      rejectionReason = 'Summary repeats headline verbatim';
     } else if (sumClean.endsWith(titleClean)) {
-      // Summary is just a prefix tag + headline (e.g. "Economic Times: Headline")
       isRepeatedHeadline = true;
+      rejectionReason = 'Summary is just prefix tag plus headline';
     } else if (sumClean.startsWith(titleClean)) {
       const extra = sumClean.slice(titleClean.length).replace(/^[.\s:—-]+/, '').trim();
-      // If extra is too short (< 10 chars) or contains forbidden boilerplate phrases, reject
       if (
-        extra.length < 10 ||
+        extra.length < 15 ||
+        SourceArticleExtractionGate.calculateSimilarity(titleClean, extra) > 0.65 ||
         /^(experts|analysts)\s+are\s+tracking/i.test(extra) ||
         /analysts\s+track/i.test(extra) ||
         /this\s+development\s+may\s+impact\s+sentiment/i.test(extra) ||
@@ -95,11 +98,13 @@ export class SummaryQualityGate {
         /favorable\s+announcement\s+for/i.test(extra)
       ) {
         isRepeatedHeadline = true;
+        rejectionReason = 'Summary merely appends brief/redundant padding to headline';
       }
     } else if (sumClean.includes(titleClean)) {
       const extra = sumClean.replace(titleClean, '').trim();
       if (
-        extra.length < 10 ||
+        extra.length < 15 ||
+        SourceArticleExtractionGate.calculateSimilarity(titleClean, extra) > 0.65 ||
         /^(experts|analysts)\s+are\s+tracking/i.test(extra) ||
         /analysts\s+track/i.test(extra) ||
         /this\s+development\s+may\s+impact\s+sentiment/i.test(extra) ||
@@ -108,11 +113,30 @@ export class SummaryQualityGate {
         /favorable\s+announcement\s+for/i.test(extra)
       ) {
         isRepeatedHeadline = true;
+        rejectionReason = 'Summary merely contains headline with trivial padding';
       }
     } else if (titleClean.includes(sumClean) && sumClean.length > 10) {
       isRepeatedHeadline = true;
-    } else if (SourceArticleExtractionGate.calculateSimilarity(titleClean, sumClean) > 0.88) {
+      rejectionReason = 'Summary is a substring of headline';
+    } else if (SourceArticleExtractionGate.calculateSimilarity(titleClean, sumClean) > 0.80) {
       isRepeatedHeadline = true;
+      rejectionReason = 'Summary has excessive lexical overlap with headline (>80%)';
+    }
+
+    // Check sentence-level multi-sentence repetition: (e.g. Headline + rephrased headline)
+    const sentences = sumText.split(/(?<=[.?!])\s+/).map(s => s.trim().toLowerCase()).filter(s => s.length > 10);
+    if (sentences.length >= 2) {
+      const s1 = sentences[0];
+      const s2 = sentences[1];
+      const s1SimToTitle = SourceArticleExtractionGate.calculateSimilarity(titleClean, s1);
+      const s2SimToTitle = SourceArticleExtractionGate.calculateSimilarity(titleClean, s2);
+      const s1SimToS2 = SourceArticleExtractionGate.calculateSimilarity(s1, s2);
+
+      // If sentence 1 is the headline and sentence 2 is just rephrasing it
+      if (s1SimToTitle > 0.70 && (s2SimToTitle > 0.65 || s1SimToS2 > 0.65)) {
+        isRepeatedHeadline = true;
+        rejectionReason = 'Summary is a headline-repetition concatenation without substantive body synthesis';
+      }
     }
 
     if (isRepeatedHeadline) {

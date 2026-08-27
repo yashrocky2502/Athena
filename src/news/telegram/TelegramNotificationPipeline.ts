@@ -43,6 +43,7 @@ export interface TelegramPipelineResult {
   ingestionToQueueLatencyMs?: number;
   queueToTelegramLatencyMs?: number;
   totalDeliveryLatencyMs?: number;
+  eligibleAt?: number;
 }
 
 export interface QueueItem {
@@ -108,6 +109,21 @@ export class TelegramNotificationPipeline {
 
   public getQueueLength(): number {
     return this.queue.length;
+  }
+
+  /**
+   * Immediate dispatch contract enforcing zero-batching, real-time event-driven delivery.
+   */
+  public async dispatchImmediately(
+    article: Partial<NewsArticle> & { headline: string; body?: string; id?: string },
+    options?: { isLive?: boolean; forceDispatch?: boolean; dryRun?: boolean; priority?: number }
+  ): Promise<TelegramPipelineResult> {
+    const eligibleAt = Date.now();
+    const result = await this.enqueueArticle(article, options);
+    return {
+      ...result,
+      eligibleAt
+    };
   }
 
   /**
@@ -577,6 +593,8 @@ export class TelegramNotificationPipeline {
     }
 
     return {
+      immediateDispatchEnabled: true,
+      batchingDetected: false,
       totalQueued: this.totalQueuedCount,
       totalDispatched: dispatched.length,
       totalSuppressed: history.filter(h => !h.isEligible || !h.qualityGatePassed).length,

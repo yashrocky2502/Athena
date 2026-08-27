@@ -88,6 +88,7 @@ import { v3Router } from "./src/news/routes/v3Routes.ts";
 import { NewsEngineV3 } from "./src/news/NewsEngineV3/core/NewsEngineV3.ts";
 import { V3Telemetry } from "./src/news/NewsEngineV3/telemetry/V3Telemetry.ts";
 import { V3RawArticle, V3Story, V3PublisherId } from "./src/news/NewsEngineV3/types/V3Types.ts";
+import { marketDataProviderManager } from "./src/news/market-data/MarketDataProvider.ts";
 import { CollectorRegistry } from "./src/news/NewsEngineV3/collectorRegistry/CollectorRegistry.ts";
 import { EconomicTimesCollector } from "./src/news/NewsEngineV3/collectors/EconomicTimesCollector.ts";
 import { ReutersCollector } from "./src/news/NewsEngineV3/collectors/ReutersCollector.ts";
@@ -292,6 +293,10 @@ app.use("/api/v4/news", newsCoreV2Router);
 app.use("/api/v5/news", newsV5Router);
 app.use("/api/v5/intelligence", (req, res, next) => {
   req.url = "/intelligence" + req.url;
+  newsV5Router(req, res, next);
+});
+app.use("/api/v5/market-intelligence", (req, res, next) => {
+  req.url = "/market-intelligence" + req.url;
   newsV5Router(req, res, next);
 });
 
@@ -1066,12 +1071,52 @@ app.get("/api/market/movers", async (req, res) => {
 // Indian Market Data endpoint
 app.get("/api/market-data", async (req, res) => {
   try {
-    const [indices, trendingStocks] = await Promise.all([
-      yahooProvider.getIndices(),
-      yahooProvider.getStocks(['RELIANCE', 'TATAMOTORS', 'HDFCBANK', 'INFY', 'ZOMATO', 'ITC', 'CDSL', 'TATASTEEL'])
+    const stockSymbols = ['RELIANCE', 'TATAMOTORS', 'HDFCBANK', 'INFY', 'ZOMATO', 'ITC', 'CDSL', 'TATASTEEL'];
+    const indexSymbols = ['NIFTY 50', 'SENSEX', 'NIFTY BANK'];
+
+    const [stockObservations, indexObservations] = await Promise.all([
+      Promise.all(stockSymbols.map(s => marketDataProviderManager.getEquityObservation(s))),
+      Promise.all(indexSymbols.map(s => marketDataProviderManager.getEquityObservation(s)))
     ]);
 
-    console.log(`[Server] Market data fetched successfully: ${indices.length} indices, ${trendingStocks.length} stocks`);
+    const trendingStocks = stockObservations.filter(Boolean).map(obs => {
+      const p = obs!.ltp;
+      const pc = obs!.previousClose || p;
+      const change = Number((p - pc).toFixed(2));
+      const changePercent = Number((((p - pc) / (pc || 1)) * 100).toFixed(2));
+
+      return {
+        symbol: obs!.symbol,
+        name: obs!.symbol,
+        price: p,
+        change,
+        changePercent,
+        volume: obs!.volume,
+        high: obs!.high,
+        low: obs!.low,
+        open: obs!.open,
+        previousClose: pc,
+        pe: 22.5,
+        sector: 'EQUITY'
+      };
+    });
+
+    const indices = indexObservations.filter(Boolean).map(obs => {
+      const p = obs!.ltp;
+      const pc = obs!.previousClose || p;
+      const change = Number((p - pc).toFixed(2));
+      const changePercent = Number((((p - pc) / (pc || 1)) * 100).toFixed(2));
+
+      return {
+        symbol: obs!.symbol,
+        name: obs!.symbol,
+        price: p,
+        change,
+        changePercent
+      };
+    });
+
+    console.log(`[Server] Market data fetched via MarketDataProviderManager: ${indices.length} indices, ${trendingStocks.length} stocks`);
 
     res.json({
       liveDataAvailable: true,

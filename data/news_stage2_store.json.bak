@@ -7671,6 +7671,37 @@
     "storedAt": "2026-08-24T09:52:12.605Z"
   },
   {
+    "id": "v2_040f7b35d7e202a1",
+    "source": {
+      "name": "Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOcFhJQnlfZnhZbTFOdm9YMFhZRnQwNWRSSU1xSFlLZGR0NGpIcldaYVQzTGdfbm9XQkQwR1F1Wng1Slk5aDExRVFBRHNKUEdrZGlmZGJ5NzRocXFZQ3NQY1VsWEFVa0JBWnYwMUtIWWZzMGZ2NlVkQlh2OWNZUnJLaFRIYjRfcUpSMzliQ0VqeTFBWUhDSEpFdlNpbWQzcG81UWc?oc=5",
+      "publisher": "Reuters",
+      "collectionMethod": "RSS"
+    },
+    "sourceUrl": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOcFhJQnlfZnhZbTFOdm9YMFhZRnQwNWRSSU1xSFlLZGR0NGpIcldaYVQzTGdfbm9XQkQwR1F1Wng1Slk5aDExRVFBRHNKUEdrZGlmZGJ5NzRocXFZQ3NQY1VsWEFVa0JBWnYwMUtIWWZzMGZ2NlVkQlh2OWNZUnJLaFRIYjRfcUpSMzliQ0VqeTFBWUhDSEpFdlNpbWQzcG81UWc?oc=5",
+    "headline": "Man suspected of murdering five in Oregon found dead - Reuters",
+    "body": "Man suspected of murdering five in Oregon found dead&nbsp;&nbsp;Reuters",
+    "publishedAt": "2026-08-24T02:03:00.000Z",
+    "fetchedAt": "2026-08-24T09:54:38.945Z",
+    "primaryCategory": "Other",
+    "eventType": "OTHER",
+    "symbol": null,
+    "fnoEligible": false,
+    "financialMetrics": [],
+    "classificationConfidence": 40,
+    "relevanceScore": 85,
+    "isLive": true,
+    "discoveredAt": "2026-08-24T09:54:38.945Z",
+    "ingestedAt": "2026-08-24T09:54:38.945Z",
+    "sentiment": "NEUTRAL",
+    "freshnessState": "AGING",
+    "freshnessSeconds": 28298,
+    "eventId": "evt_id_1787565278946_ewjms",
+    "eventRelation": "NEW_EVENT",
+    "hasConflict": false,
+    "storedAt": "2026-08-24T09:54:38.948Z"
+  },
+  {
     "id": "v2_b8660bf8b4838818",
     "source": {
       "name": "CNBC TV18",

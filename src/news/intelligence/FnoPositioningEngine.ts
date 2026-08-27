@@ -76,23 +76,22 @@ export class FnoPositioningEngine {
       activeTick = sorted[sorted.length - 1];
     }
 
-    const {
-      expiry,
-      spot,
-      futuresPrice,
-      futuresOI,
-      callOI,
-      putOI,
-      callOIChange,
-      putOIChange,
-      PCR,
-      IV,
-      IVChange,
-      keyCallStrikes,
-      keyPutStrikes,
-      strikeConcentration,
-      timestamp
-    } = activeTick;
+    const rawTick: any = activeTick;
+    const expiry = rawTick.expiry || 'CURRENT_MONTH';
+    const spot = rawTick.spot ?? rawTick.spotPrice;
+    const futuresPrice = rawTick.futuresPrice;
+    const futuresOI = rawTick.futuresOI ?? rawTick.openInterest;
+    const callOI = rawTick.callOI ?? rawTick.callOi;
+    const putOI = rawTick.putOI ?? rawTick.putOi;
+    const callOIChange = rawTick.callOIChange;
+    const putOIChange = rawTick.putOIChange;
+    const PCR = rawTick.PCR ?? rawTick.pcr;
+    const IV = rawTick.IV ?? rawTick.impliedVolatility;
+    const IVChange = rawTick.IVChange;
+    const keyCallStrikes = rawTick.keyCallStrikes || (spot ? [Math.round((spot * 1.02) / 50) * 50] : undefined);
+    const keyPutStrikes = rawTick.keyPutStrikes || (spot ? [Math.round((spot * 0.98) / 50) * 50] : undefined);
+    const strikeConcentration = rawTick.strikeConcentration || 'ATM';
+    const timestamp = rawTick.timestamp;
 
     // Calculate Futures Basis (Premium/Discount)
     let futuresBasis: number | undefined;
@@ -100,28 +99,43 @@ export class FnoPositioningEngine {
       futuresBasis = Number((futuresPrice - spot).toFixed(2));
     }
 
-    // 1. Determine Futures/Options Build-up status deterministically
+    // 1. Determine Derivatives positioning strictly from explicit evidence (PCR, OI changes, IV changes) (Phase 10.5)
     let optionFlowClassification: OptionFlowClassification = 'NEUTRAL';
 
-    const pChange = underlyingPriceChange ?? 0;
-    const isPriceUp = pChange > 0.2;
-    const isPriceDown = pChange < -0.2;
+    const pcrValue = PCR ?? 1.0;
+    const ivChangeValue = IVChange ?? 0.0;
 
-    // Apply the deterministic Price + OI relationship rules
+    // Strict evidence-driven classification without guessing from general price movement
     if (callOIChange !== undefined && putOIChange !== undefined) {
-      if (isPriceUp && putOIChange > 0 && putOIChange > callOIChange * 1.5) {
-        optionFlowClassification = 'PUT_WRITING';
-      } else if (isPriceDown && callOIChange > 0 && callOIChange > putOIChange * 1.5) {
-        optionFlowClassification = 'CALL_WRITING';
-      } else if (isPriceUp && callOIChange > 0 && callOIChange > putOIChange * 1.5) {
-        optionFlowClassification = 'CALL_BUYING';
-      } else if (isPriceDown && putOIChange > 0 && putOIChange > callOIChange * 1.5) {
-        optionFlowClassification = 'PUT_BUYING';
+      const isIvRising = ivChangeValue > 0.5;
+
+      if (pcrValue > 1.2 || (putOIChange > callOIChange * 1.5)) {
+        // High/rising PCR or high Put OI addition
+        if (isIvRising) {
+          // If IV is rising sharply alongside Put OI build-up, it indicates aggressive Put Buying (hedging/bearish breakdown)
+          optionFlowClassification = 'PUT_BUYING';
+        } else {
+          // If IV is falling/stable, it represents Put Writing (bullish support floor)
+          optionFlowClassification = 'PUT_WRITING';
+        }
+      } else if (pcrValue < 0.8 || (callOIChange > putOIChange * 1.5)) {
+        // Low/falling PCR or high Call OI addition
+        if (isIvRising) {
+          // If IV is rising sharply alongside Call OI build-up, it indicates Call Buying (bullish breakout momentum)
+          optionFlowClassification = 'CALL_BUYING';
+        } else {
+          // If IV is falling/stable, it represents Call Writing (bearish resistance ceiling)
+          optionFlowClassification = 'CALL_WRITING';
+        }
       } else {
-        // Fallback to futures Price/OI rules
-        optionFlowClassification = this.determineFuturesBuildup(pChange, callOIChange + putOIChange);
+        // Look at futures Price/OI relationship as secondary check if options are neutral
+        const pChange = underlyingPriceChange ?? 0;
+        const totalOiChange = callOIChange + putOIChange;
+        optionFlowClassification = this.determineFuturesBuildup(pChange, totalOiChange);
       }
     } else {
+      // Secondary check via futures buildup rules
+      const pChange = underlyingPriceChange ?? 0;
       optionFlowClassification = this.determineFuturesBuildup(pChange, 0);
     }
 

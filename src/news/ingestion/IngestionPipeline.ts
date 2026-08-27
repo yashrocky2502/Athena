@@ -15,6 +15,7 @@ import { ArticleFreshnessEvaluator } from '../freshness/ArticleFreshnessEvaluato
 import { eventFingerprintEngine } from '../deduplication/EventFingerprintEngine.ts';
 import { EventCentricOrchestrator } from '../intelligence/EventCentricOrchestrator.ts';
 import { ingestionLatencyTracker } from '../monitoring/IngestionLatencyTracker.ts';
+import { LiveIntelligenceOrchestrator } from '../intelligence/LiveIntelligenceOrchestrator.ts';
 
 export interface IngestionResult {
     processed: number;
@@ -111,6 +112,13 @@ export class IngestionPipeline {
                 await this.store.insert(article);
                 result.saved++;
                 const summaryReadyAt = new Date().toISOString();
+
+                // Phase 10.1: Trigger Live Intelligence Orchestrator (Event -> Market Reaction -> Confirmation -> Telegram)
+                try {
+                    await LiveIntelligenceOrchestrator.getInstance().processArticle(article, this.store);
+                } catch (orchErr) {
+                    console.warn(`[IngestionPipeline] LiveIntelligenceOrchestrator process error for ${article.id}:`, orchErr);
+                }
 
                 // 9. Stage 8.3 F&O Priority & Grounded Derivative Evidence
                 const fullText = `${(article as any).headline || (article as any).title || ''} ${(article as any).summary || (article as any).content || ''}`.toLowerCase();

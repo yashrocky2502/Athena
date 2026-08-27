@@ -1,0 +1,48 @@
+[
+  {
+    "signalId": "sig_u776im7",
+    "symbol": "MUTATION_TEST",
+    "sector": "ENERGY",
+    "signalType": "BREAKOUT",
+    "eventType": "EARNINGS",
+    "priority": "P1_HIGH",
+    "initialDirection": "BULLISH",
+    "initialPrice": 2500,
+    "initialTimestamp": 1787678627337,
+    "currentPrice": 2550,
+    "lastUpdatedTimestamp": 1787765027337,
+    "evaluatedOutcome": "CORRECT",
+    "isResolved": true,
+    "resolutionType": "MAX_DURATION_REACHED",
+    "maxFavorableExcursionPct": 3.5,
+    "maxAdverseExcursionPct": -0.8,
+    "finalPriceChangePct": 2,
+    "directionalAccuracy": "ACCURATE",
+    "marketRegime": "RISK_ON",
+    "sourceTier": "TIER_1_REGULATORY",
+    "confidenceScore": 92,
+    "revisionCount": 1,
+    "timeBuckets": {
+      "15m": {
+        "timestamp": 1787679527337,
+        "price": 2510,
+        "priceChangePercent": 0.4
+      },
+      "1h": {
+        "timestamp": 1787682227337,
+        "price": 2525,
+        "priceChangePercent": 1
+      },
+      "4h": {
+        "timestamp": 1787693027337,
+        "price": 2540,
+        "priceChangePercent": 1.6
+      },
+      "24h": {
+        "timestamp": 1787765027337,
+        "price": 2550,
+        "priceChangePercent": 2
+      }
+    }
+  }
+]

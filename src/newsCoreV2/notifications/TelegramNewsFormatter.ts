@@ -46,6 +46,14 @@ export class TelegramNewsFormatter {
     const catBadge = record.category ? `🏷️ <b>${this.escapeHtml(record.category)}</b> | ` : "";
     text += `${catBadge}📊 <b>Impact: ${record.materialityScore}/100</b> | <b>Urgency: ${record.urgency}</b>\n\n`;
 
+    // Canonical News Summary (Inshorts-style synthesis)
+    if (record.executiveSummary && record.executiveSummary !== 'Summary unavailable — Open original source') {
+      text += `📰 <b>News Summary:</b>\n${this.escapeHtml(this.sanitizeText(record.executiveSummary))}\n\n`;
+    }
+
+    // Trader Intelligence Section Header
+    text += `📊 <b>Trader Intelligence:</b>\n`;
+
     // Key Bullets (Facts & Metrics) - Max 3-4 bullets
     const bullets: string[] = [];
 
@@ -74,14 +82,10 @@ export class TelegramNewsFormatter {
       }
     }
 
-    if (bullets.length === 0 && record.executiveSummary) {
-      bullets.push(this.sanitizeText(record.executiveSummary));
-    }
-
     for (const b of bullets) {
       text += `• ${this.escapeHtml(b)}\n`;
     }
-    text += `\n`;
+    if (bullets.length > 0) text += `\n`;
 
     // Read-through / Why It Matters
     if (record.whyItMatters && record.whyItMatters.trim()) {

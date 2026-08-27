@@ -1,10 +1,10 @@
 export type MarketDataMode = 'PRODUCTION' | 'DEGRADED' | 'TEST' | 'MOCK';
 
-export type ProviderType = 'OFFICIAL_EXCHANGE' | 'AUTHORIZED_PROVIDER' | 'FALLBACK_PROVIDER' | 'TEST_PROVIDER';
+export type ProviderType = 'OFFICIAL_EXCHANGE' | 'AUTHORIZED_PROVIDER' | 'FALLBACK_PROVIDER' | 'TEST_PROVIDER' | 'UNAVAILABLE';
 
-export type DataStatus = 'AVAILABLE' | 'PARTIAL' | 'STALE' | 'EXPIRED' | 'UNAVAILABLE' | 'INVALID';
+export type DataStatus = 'AVAILABLE' | 'PARTIAL' | 'STALE' | 'EXPIRED' | 'UNAVAILABLE' | 'INVALID' | 'PROVIDER_CONFLICT';
 
-export type DataFreshness = 'REAL_TIME' | 'FRESH' | 'STALE' | 'EXPIRED' | 'NOT_AVAILABLE';
+export type DataFreshness = 'REAL_TIME' | 'FRESH' | 'STALE' | 'EXPIRED' | 'UNAVAILABLE' | 'NOT_AVAILABLE';
 
 export interface MarketDataProvenance {
   provider: string;
@@ -90,6 +90,7 @@ export type MarketDataErrorType =
   | 'RESOURCE_NOT_FOUND'
   | 'PROVIDER_TIMEOUT'
   | 'INVALID_PROVIDER_PAYLOAD'
+  | 'PROVIDER_CONFLICT'
   | 'UNKNOWN_ERROR';
 
 export interface MarketDataTelemetry {
@@ -105,4 +106,5 @@ export interface MarketDataTelemetry {
   malformedCount: number;
   fallbackCount: number;
   zeroAiCalculations: number;
+  providerConflictCount: number;
 }

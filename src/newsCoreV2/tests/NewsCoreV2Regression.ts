@@ -1541,6 +1541,26 @@ export class NewsCoreV2Regression {
       message: `Resolved Category: ${res81.primaryCategory}, EventType: ${res81.eventType}`
     });
 
+    // --- TEST 82-86: Canonical News Summary Pipeline Suite (Inshorts-style synthesis, Quality Gate, Extraction Failure, Telegram Ordering)
+    try {
+      const { CanonicalSummaryPipelineTest } = await import("./CanonicalSummaryPipelineTest.ts");
+      const summarySuite = await CanonicalSummaryPipelineTest.runAllTests();
+      for (const st of summarySuite.results) {
+        results.push({
+          testName: `Phase 27.4 - ${st.name}`,
+          passed: st.passed,
+          message: st.passed ? "Passed canonical summary validation" : (st.error || "Failed"),
+          details: st.details
+        });
+      }
+    } catch (err: any) {
+      results.push({
+        testName: "Phase 27.4 - Canonical Summary Pipeline Suite Execution",
+        passed: false,
+        message: `Execution error: ${err.message}`
+      });
+    }
+
     // Clean up temporary store file
     if (fs.existsSync(testStorePath)) fs.unlinkSync(testStorePath);
 

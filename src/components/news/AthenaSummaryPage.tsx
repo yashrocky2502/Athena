@@ -203,13 +203,18 @@ export function AthenaSummaryPage({
             </div>
           </div>
 
-          {/* 1. EXECUTIVE SUMMARY BLOCK */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 space-y-2.5 shadow-lg">
-            <h2 className="text-xs font-black text-indigo-400 uppercase tracking-wider font-mono flex items-center gap-1.5 border-b border-slate-800/80 pb-2">
-              <FileText className="w-4 h-4 text-indigo-400" />
-              <span>1. Executive Intelligence Summary</span>
-            </h2>
-            <p className="text-sm sm:text-base text-slate-100 leading-relaxed font-medium">
+          {/* 1. CANONICAL NEWS SUMMARY BLOCK (Inshorts Style) */}
+          <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 space-y-3 shadow-lg">
+            <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <h2 className="text-xs font-black text-indigo-400 uppercase tracking-wider font-mono flex items-center gap-1.5">
+                <FileText className="w-4 h-4 text-indigo-400" />
+                <span>1. Canonical News Summary</span>
+              </h2>
+              <span className="text-xxs font-mono bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded border border-indigo-800/60 font-semibold">
+                Inshorts-Style Synthesis
+              </span>
+            </div>
+            <p className="text-sm sm:text-base text-slate-100 leading-relaxed font-normal">
               {intel.executiveSummary}
             </p>
           </div>

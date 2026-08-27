@@ -93,18 +93,20 @@ export class SourceArticleExtractor {
     // ----------------------------------------------------
     if (
       pubLower === 'nse' ||
-      pubLower === 'national stock exchange' ||
-      pubLower.includes('national stock exchange of india') ||
-      url.includes('nseindia.com')
+      pubLower.includes('nse india') ||
+      pubLower.includes('national stock exchange') ||
+      url.includes('nseindia.com') ||
+      /\bnse\b/i.test(pubLower)
     ) {
       return { matched: true, canonicalName: 'NSE', tier: 'TIER_1' };
     }
 
     if (
       pubLower === 'bse' ||
-      pubLower === 'bombay stock exchange' ||
       pubLower.includes('bse india') ||
-      url.includes('bseindia.com')
+      pubLower.includes('bombay stock exchange') ||
+      url.includes('bseindia.com') ||
+      /\bbse\b/i.test(pubLower)
     ) {
       return { matched: true, canonicalName: 'BSE', tier: 'TIER_1' };
     }

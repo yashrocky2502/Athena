@@ -44,14 +44,14 @@ export class TraderTelegramFormatter {
     message += `<b>Category:</b> ${this.escapeHtml(assessment.category)}\n\n`;
     
     message += `${divider}\n\n`;
-    message += `📰 <b>Executive Summary</b>\n\n`;
+    message += `📰 <b>CANONICAL NEWS SUMMARY</b>\n\n`;
     const execSummary = assessment.executiveSummary && assessment.executiveSummary.trim()
       ? assessment.executiveSummary.trim()
       : 'Material event reported by primary market source.';
     message += `${this.escapeHtml(execSummary)}\n\n`;
 
     message += `${divider}\n\n`;
-    message += `📊 <b>Market Intelligence</b>\n\n`;
+    message += `📊 <b>TRADER INTELLIGENCE</b>\n\n`;
     message += `<b>Direction:</b> ${assessment.direction}\n`;
     if (assessment.directionReason && assessment.directionReason.trim()) {
       message += `<b>Reasoning:</b> ${this.escapeHtml(assessment.directionReason.trim())}\n`;
@@ -214,33 +214,185 @@ export class TraderTelegramFormatter {
     const divider = '━━━━━━━━━━━━━━━━━━━━━━';
     let msg = `${divider}\n🚨 <b>ATHENA MARKET ALERT</b>\n${divider}\n\n`;
 
-    msg += `<b>ENTITY</b>\n${this.escapeHtml(dossier.event.primaryEntity.toUpperCase())}\n`;
-    msg += `<b>Event:</b> ${this.escapeHtml(dossier.event.eventType)}\n\n`;
+    const entity = dossier.event?.primaryEntity ? dossier.event.primaryEntity.toUpperCase() : 'UNKNOWN';
+    const eventType = dossier.event?.eventType || 'UNKNOWN';
 
-    msg += `<b>WHAT HAPPENED</b>\n${this.escapeHtml(dossier.facts.verifiedFacts[0] || 'Factual corporate event reported.')}\n\n`;
+    msg += `<b>ENTITY</b>\n${this.escapeHtml(entity)}\n\n`;
+    msg += `<b>EVENT</b>\n${this.escapeHtml(eventType)}\n\n`;
 
-    msg += `<b>WHY IT MATTERS</b>\n${this.escapeHtml(dossier.whyItMatters.transmissionMechanism)}\n\n`;
-
-    msg += `<b>MARKET REACTION</b>\n${dossier.marketReaction.direction}: ${this.escapeHtml(dossier.marketReaction.evidenceText)}\n\n`;
-
-    if (dossier.traderRelevance && dossier.traderRelevance.length > 0) {
-      msg += `<b>TRADER RELEVANCE</b>\n`;
-      const relevant = dossier.traderRelevance.slice(0, 3).map((t: any) => `• <b>${t.profile}</b> (${t.relevanceLevel}): ${t.relevanceReason}`);
-      msg += `${this.escapeHtml(relevant.join('\n'))}\n\n`;
+    const newsSummaryText = dossier.canonicalSummary?.summary || dossier.executiveSummary || dossier.summary || '';
+    if (newsSummaryText && newsSummaryText.trim().length > 0) {
+      msg += `<b>CANONICAL NEWS SUMMARY</b>\n${this.escapeHtml(newsSummaryText.trim())}\n\n`;
     }
 
-    msg += `<b>OPTIONS SELLER VIEW</b>\n${dossier.optionsSellerView.view}`;
-    if (dossier.optionsSellerView.view !== 'INSUFFICIENT_EVIDENCE' && dossier.optionsSellerView.details) {
-      msg += `\n• IV: ${dossier.optionsSellerView.details.iv || 'N/A'}, PCR: ${dossier.optionsSellerView.details.pcr || 'N/A'}`;
+    const verifiedFact = dossier.facts?.verifiedFacts?.[0] || dossier.whatChanged?.evidenceText || '';
+    if (verifiedFact && verifiedFact.trim().length > 0 && verifiedFact.trim() !== newsSummaryText.trim()) {
+      msg += `<b>WHAT HAPPENED</b>\n${this.escapeHtml(verifiedFact.trim())}\n\n`;
     }
-    msg += `\n\n`;
 
-    msg += `<b>RISK</b>\n${dossier.risk.level}: ${this.escapeHtml(dossier.risk.reason)}\n\n`;
+    const whyItMatters = dossier.whyItMatters?.transmissionMechanism || dossier.canonicalSummary?.whyItMatters || '';
+    if (whyItMatters && whyItMatters.trim().length > 0) {
+      msg += `<b>WHY IT MATTERS</b>\n${this.escapeHtml(whyItMatters.trim())}\n\n`;
+    }
 
-    msg += `<b>EVIDENCE</b>\n`;
-    msg += `Source: ${this.escapeHtml(dossier.evidence.sourceName)} (${this.escapeHtml(dossier.evidence.sourceAuthorityTier)})\n\n`;
+    const marketReaction = dossier.marketReaction?.status === 'VERIFIED' && dossier.marketReaction?.evidenceText
+      ? `${dossier.marketReaction.direction}: ${dossier.marketReaction.evidenceText}`
+      : 'UNAVAILABLE';
+    msg += `<b>MARKET REACTION</b>\n${this.escapeHtml(marketReaction)}\n\n`;
+
+    const volume = dossier.volumeConfirmation?.confirmationStatus || dossier.optionsSellerView?.details?.volume || 'UNAVAILABLE';
+    msg += `<b>VOLUME</b>\n${this.escapeHtml(volume)}\n\n`;
+
+    const fnoView = dossier.optionsSellerView?.details?.volatilityEvidence || dossier.optionsSellerView?.details?.oiChange || 'UNAVAILABLE';
+    msg += `<b>F&O VIEW</b>\n${this.escapeHtml(fnoView)}\n\n`;
+
+    let confState = 'NEUTRAL';
+    const osMc = dossier.optionsSellerView?.optionsSellerMarketConfirmation;
+    if (osMc === 'AVOID') confState = 'CONTRADICTED';
+    else if (osMc === 'INSUFFICIENT_EVIDENCE') confState = 'INSUFFICIENT_EVIDENCE';
+    else if (osMc?.startsWith('FAVORABLE_')) confState = 'CONFIRMED';
+    else if (osMc === 'WAIT_FOR_CONFIRMATION') confState = 'PARTIAL';
+    else if (dossier.overallConfirmation) confState = dossier.overallConfirmation;
+
+    msg += `<b>ATHENA CONFIRMATION</b>\n${confState}\n\n`;
+
+    const traderState = dossier.tradeability || (confState === 'CONFIRMED' ? 'TRADEABLE' : confState === 'CONTRADICTED' ? 'NO_TRADE' : confState === 'INSUFFICIENT_EVIDENCE' ? 'INSUFFICIENT_EVIDENCE' : 'WATCH');
+    msg += `<b>TRADER STATE</b>\n${traderState}\n\n`;
+
+    const riskLevel = dossier.risk?.level || 'UNKNOWN';
+    const riskReason = dossier.risk?.reason || '';
+    msg += `<b>RISK</b>\n${riskLevel}${riskReason ? `: ${this.escapeHtml(riskReason)}` : ''}\n\n`;
+
+    const sourceTier = dossier.evidence?.sourceAuthorityTier || 'Tier 1';
+    const sourceName = dossier.evidence?.sourceName || 'Athena Verified Wire';
+    msg += `<b>SOURCE</b>\n${this.escapeHtml(sourceTier)} + ${this.escapeHtml(sourceName)}\n\n`;
+
     msg += `🔗 <b>Open ATHENA</b>`;
     return msg;
+  }
+
+  /**
+   * Format Phase 10.7 Production Signal Lifecycle update for Telegram.
+   */
+  public static formatLifecycleNotification(lifecycle: any, action: string, reason?: string): string {
+    const divider = '━━━━━━━━━━━━━━━━━━━━━━';
+    let header = '🚨 NEW SIGNAL';
+    if (action === 'CONFIRMED' || action === 'CONFIRMATION') header = '✅ SIGNAL CONFIRMED';
+    else if (action === 'UPDATED' || action === 'MATERIAL_UPDATE') header = '🔄 SIGNAL UPDATED';
+    else if (action === 'WEAKENING') header = '⚠️ SIGNAL WEAKENING';
+    else if (action === 'CONTRADICTED') header = '🔴 SIGNAL CONTRADICTED';
+    else if (action === 'INVALIDATED') header = '⛔ SIGNAL INVALIDATED';
+    else if (action === 'EXPIRED') header = '⌛ SIGNAL EXPIRED';
+
+    let msg = `${divider}\n${header}\n${divider}\n\n`;
+    msg += `<b>ENTITY:</b> ${this.escapeHtml(lifecycle.symbol ? lifecycle.symbol.toUpperCase() : 'UNKNOWN')}\n`;
+    msg += `<b>EVENT TYPE:</b> ${this.escapeHtml(lifecycle.signalType || 'Catalyst Alert')}\n`;
+    msg += `<b>LIFECYCLE STATE:</b> ${lifecycle.currentState}\n`;
+    msg += `<b>ACTIONABILITY:</b> ${lifecycle.actionability}\n\n`;
+
+    msg += `${divider}\n\n`;
+    msg += `<b>SCORE PROFILE:</b>\n`;
+    msg += `• <b>Initial Score:</b> ${lifecycle.initialScore}\n`;
+    msg += `• <b>Current Score:</b> ${lifecycle.decayedScore} (Decay: ${lifecycle.decayFactor}x)\n`;
+    msg += `• <b>Age:</b> ${lifecycle.scoreAge} seconds\n\n`;
+
+    if (reason || lifecycle.invalidationReason || lifecycle.contradictionReason) {
+      msg += `<b>DETAIL/REASON:</b>\n`;
+      msg += `${this.escapeHtml(reason || lifecycle.invalidationReason || lifecycle.contradictionReason || 'Deterministic re-evaluation update')}\n\n`;
+    }
+
+    msg += `${divider}\n`;
+    msg += `🔗 <b>Open ATHENA</b>`;
+    return msg;
+  }
+
+  /**
+   * Format Phase 9.4 Production Trader Decision Dossier for Telegram.
+   */
+  public static formatDecision(dossier: any): string {
+    const divider = '━━━━━━━━━━━━━━━━━━━━━━';
+    let dirIcon = '⚪';
+    if (dossier.tradeability === 'TRADEABLE') {
+      dirIcon = dossier.confirmedDirection === 'BULLISH' ? '🟢' : dossier.confirmedDirection === 'BEARISH' ? '🔴' : '🟢';
+    } else if (dossier.tradeability === 'WATCH') {
+      dirIcon = '🟡';
+    } else if (dossier.tradeability === 'INSUFFICIENT_EVIDENCE') {
+      dirIcon = '🔴';
+    }
+
+    let msg = `🚨 <b>ATHENA TRADE INTELLIGENCE</b>\n\n`;
+    msg += `<b>${this.escapeHtml(dossier.entity ? dossier.entity.toUpperCase() : 'MARKET INSTRUMENT')}</b>\n`;
+    msg += `<b>Event:</b> ${this.escapeHtml(dossier.eventType || 'Corporate Action')}\n\n`;
+    msg += `${divider}\n\n`;
+
+    msg += `🧠 <b>DECISION</b>\n`;
+    msg += `${dirIcon} <b>${dossier.tradeability}</b>\n\n`;
+    msg += `<b>Fundamental:</b> ${dossier.fundamentalDirection}\n`;
+    msg += `<b>Market:</b> ${dossier.confirmedDirection}\n`;
+    msg += `<b>Confidence:</b> ${dossier.decisionConfidence}%\n\n`;
+    msg += `${divider}\n\n`;
+
+    msg += `📊 <b>MARKET</b>\n`;
+    const pChange = dossier.marketConfirmation?.priceChange;
+    const pStr = pChange !== undefined ? `${pChange >= 0 ? '+' : ''}${pChange}%` : 'N/A';
+    msg += `<b>Price Reaction:</b> ${pStr}\n`;
+    msg += `<b>Volume:</b> ${dossier.volumeConfirmation?.confirmationStatus || 'N/A'}\n`;
+    msg += `<b>F&O:</b> ${dossier.fnoConfirmation?.classification || 'N/A'}\n\n`;
+    msg += `${divider}\n\n`;
+
+    msg += `🎯 <b>OPTIONS SELLER</b>\n`;
+    msg += `<b>${dossier.optionsSellerPlaybook?.strategy || 'NO_TRADE'}</b>\n\n`;
+    if (dossier.optionsSellerPlaybook?.entryCondition) {
+      msg += `<b>Trigger:</b>\n${this.escapeHtml(dossier.optionsSellerPlaybook.entryCondition)}\n\n`;
+    }
+    if (dossier.optionsSellerPlaybook?.invalidationCondition) {
+      msg += `<b>Invalidation:</b>\n${this.escapeHtml(dossier.optionsSellerPlaybook.invalidationCondition)}\n\n`;
+    }
+    msg += `${divider}\n\n`;
+
+    msg += `⚠️ <b>RISK</b>\n`;
+    msg += `<b>${dossier.risk?.level || 'MODERATE'}</b>\n`;
+    msg += `${this.escapeHtml(dossier.risk?.primaryRisk || 'Standard market risk.')}\n\n`;
+    msg += `${divider}\n\n`;
+
+    msg += `📚 <b>EVIDENCE</b>\n`;
+    msg += `${this.escapeHtml(dossier.sourceAuthority || 'Tier 1 / Tier 2 verified source')}\n\n`;
+
+    if (dossier.historicalPrecedent || dossier.historicalContext) {
+      msg += TraderTelegramFormatter.formatHistoricalContextSection(dossier.historicalPrecedent || dossier.historicalContext);
+    }
+
+    msg += `🔗 <b>Open ATHENA</b>`;
+
+    return msg;
+  }
+
+  /**
+   * Formats Phase 10.9 Historical Context for Telegram alerts
+   */
+  public static formatHistoricalContextSection(precedent: any): string {
+    if (!precedent) return '';
+    const divider = '━━━━━━━━━━━━━━━━━━━━━━\n';
+    let section = `${divider}📚 <b>Historical Context</b>\n`;
+
+    if (precedent.sampleQuality === 'INSUFFICIENT_SAMPLE' || precedent.similarEventsCount < 5 || precedent.historicalDirectionalAccuracyPct === 'INSUFFICIENT_SAMPLE') {
+      section += `Insufficient comparable events\n\n`;
+    } else {
+      section += `<b>Similar Events:</b> ${precedent.similarEventsCount}\n`;
+      section += `<b>Historical Directional Accuracy:</b> ${precedent.historicalDirectionalAccuracyPct}%\n`;
+      if (precedent.averageReactionPct !== undefined) {
+        section += `<b>Average Reaction:</b> ${precedent.averageReactionPct}%\n`;
+      }
+      if (precedent.medianMFE !== undefined) {
+        section += `<b>Median MFE:</b> +${precedent.medianMFE}%\n`;
+      }
+      if (precedent.medianMAE !== undefined) {
+        section += `<b>Median MAE:</b> ${precedent.medianMAE}%\n`;
+      }
+      section += `<i>Historical observation (Descriptive only)</i>\n\n`;
+    }
+
+    return section;
   }
 }
 

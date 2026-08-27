@@ -4,9 +4,11 @@ import {
   Activity, Clock, Sparkles, ShieldAlert,
   CheckCircle2, Layers, Zap, AlertTriangle,
   Gauge, Flame, ChevronDown, ChevronUp,
-  UserCheck, HelpCircle, BarChart2, FileText
+  UserCheck, HelpCircle, BarChart2, FileText,
+  Compass, Shield, Target
 } from 'lucide-react';
 import { TraderImpactEngine } from '../../news/intelligence/TraderImpactEngine.ts';
+import { TraderDecisionEngine, TraderDecisionDossier } from '../../news/intelligence/TraderDecisionEngine.ts';
 import {
   TraderIntelligence,
   ImpactDirection,
@@ -15,6 +17,7 @@ import {
   EvidenceClass,
   ObservedMarketReaction
 } from '../../news/types/TraderIntelligence.ts';
+import { CanonicalNewsSummaryEngine } from '../../newsCoreV2/summary/CanonicalNewsSummaryEngine.ts';
 
 interface TraderArticleDossierProps {
   article: any;
@@ -37,7 +40,15 @@ export function TraderArticleDossier({
   // F&O news gets automatic intelligence; ordinary news requires explicit user click
   const [intelRequested, setIntelRequested] = useState<boolean>(isFno);
   const [intelligence, setIntelligence] = useState<TraderIntelligence | null>(null);
-  const [canonicalSummary, setCanonicalSummary] = useState<any>(null);
+  const [decisionDossier, setDecisionDossier] = useState<TraderDecisionDossier | null>(null);
+  const [canonicalSummary, setCanonicalSummary] = useState<any>(() => {
+    if (!article) return null;
+    try {
+      return CanonicalNewsSummaryEngine.getInstance().generateDeterministicSummary(article);
+    } catch (e) {
+      return null;
+    }
+  });
   const [loadingIntel, setLoadingIntel] = useState<boolean>(false);
   const [intelError, setIntelError] = useState<string | null>(null);
   const [showEvidenceDetails, setShowEvidenceDetails] = useState<boolean>(false);
@@ -69,11 +80,28 @@ export function TraderArticleDossier({
         setLoadingIntel(true);
         setIntelError(null);
         if (article?.id) {
-          const res = await fetch(`/api/v5/news/intelligence/article/${article.id}`);
-          if (res.ok) {
-            const data = await res.json();
+          const [intelRes, decRes] = await Promise.all([
+            fetch(`/api/v5/news/intelligence/article/${article.id}`).catch(() => null),
+            fetch(`/api/v5/news/intelligence/decision/${article.id}`).catch(() => null)
+          ]);
+
+          if (decRes && decRes.ok) {
+            const decData = await decRes.json();
+            if (isMounted && decData.decision) {
+              setDecisionDossier(decData.decision);
+            }
+          }
+
+          if (intelRes && intelRes.ok) {
+            const data = await intelRes.json();
             if (isMounted && data.intelligence) {
               setIntelligence(data.intelligence);
+              if (!decisionDossier) {
+                try {
+                  const fallbackDec = TraderDecisionEngine.evaluateTraderDecision(article);
+                  setDecisionDossier(fallbackDec);
+                } catch (e) {}
+              }
               setLoadingIntel(false);
               return;
             }
@@ -87,6 +115,8 @@ export function TraderArticleDossier({
         try {
           const transformed = TraderImpactEngine.transform(article);
           setIntelligence(transformed);
+          const fallbackDec = TraderDecisionEngine.evaluateTraderDecision(article);
+          setDecisionDossier(fallbackDec);
         } catch (err: any) {
           setIntelError(err?.message || 'Intelligence generation failed. Summary remains active.');
         }
@@ -319,6 +349,235 @@ export function TraderArticleDossier({
             <div className="p-4 rounded-xl bg-rose-950/30 border border-rose-800/50 text-rose-300 text-xs flex items-center gap-3">
               <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0" />
               <span>{intelError}</span>
+            </div>
+          ) : decisionDossier ? (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              
+              {/* Primary Decision Banner */}
+              <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    {decisionDossier.tradeability === 'TRADEABLE' ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs shadow-md shadow-emerald-950/50">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <span>🟢 TRADEABLE</span>
+                      </span>
+                    ) : decisionDossier.tradeability === 'WATCH' ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs shadow-md shadow-amber-950/50">
+                        <span className="w-2 h-2 rounded-full bg-amber-400" />
+                        <span>🟡 WATCH</span>
+                      </span>
+                    ) : decisionDossier.tradeability === 'INSUFFICIENT_EVIDENCE' ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-rose-950 border border-rose-500 text-rose-300 font-bold text-xs shadow-md shadow-rose-950/50">
+                        <span className="w-2 h-2 rounded-full bg-rose-400" />
+                        <span>🔴 INSUFFICIENT EVIDENCE</span>
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 font-bold text-xs">
+                        <span className="w-2 h-2 rounded-full bg-slate-400" />
+                        <span>⚪ NO TRADE</span>
+                      </span>
+                    )}
+
+                    <span className="px-2.5 py-1 rounded bg-slate-800 text-slate-200 text-xs font-mono font-bold">
+                      CONFIRMED: {decisionDossier.confirmedDirection}
+                    </span>
+                    <span className="px-2.5 py-1 rounded bg-slate-800 text-slate-300 text-xs font-mono">
+                      HORIZON: {decisionDossier.horizon}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 font-mono text-xs">
+                    <div className="px-2.5 py-1 rounded bg-indigo-950/80 border border-indigo-500/30 text-indigo-300">
+                      Decision Conf: <span className="font-bold text-indigo-200">{decisionDossier.decisionConfidence}%</span>
+                    </div>
+                    <div className="px-2.5 py-1 rounded bg-slate-800 text-slate-400">
+                      Source Conf: <span className="font-bold text-slate-200">{decisionDossier.sourceConfidence}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Decision Summary Text */}
+                <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-indigo-400 flex items-center gap-1">
+                      <Sparkles className="w-3 h-3 text-indigo-400" /> ATHENA Algorithmic Inference
+                    </span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-indigo-950/80 border border-indigo-500/30 text-indigo-300">
+                      MODEL INFERENCE
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+                    {decisionDossier.decision}
+                  </p>
+                </div>
+
+                {/* Profiles & Priced In Badges */}
+                <div className="flex flex-wrap items-center gap-2 text-xs pt-1">
+                  <span className="text-slate-400 text-[11px]">Relevant Profiles:</span>
+                  {decisionDossier.traderProfiles.map((p, i) => (
+                    <span key={i} className="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700 text-slate-300 text-[10px] font-mono">
+                      {p}
+                    </span>
+                  ))}
+                  <span className="ml-auto text-[11px] font-mono text-slate-400">
+                    Priced-in: <strong className="text-slate-200">{decisionDossier.pricedInStatus}</strong>
+                  </span>
+                </div>
+              </div>
+
+              {/* Actionable Options Seller Playbook Card */}
+              <div className="p-5 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-4">
+                <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
+                  <div className="flex items-center gap-2">
+                    <Compass className="w-4 h-4 text-purple-400" />
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-purple-300">
+                      Options Seller Playbook
+                    </h4>
+                  </div>
+                  <span className="px-3 py-1 rounded-lg bg-purple-900/60 border border-purple-400/40 text-purple-200 font-bold font-mono text-xs">
+                    STRATEGY: {decisionDossier.optionsSellerPlaybook.strategy}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                  <div className="p-3 rounded-xl bg-slate-950/60 border border-purple-500/20 space-y-1">
+                    <span className="font-bold text-emerald-400 block text-[10px] uppercase">Entry Condition & Trigger</span>
+                    <p className="text-slate-300 leading-relaxed">{decisionDossier.optionsSellerPlaybook.entryCondition}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-950/60 border border-purple-500/20 space-y-1">
+                    <span className="font-bold text-rose-400 block text-[10px] uppercase">Avoid Condition</span>
+                    <p className="text-slate-300 leading-relaxed">{decisionDossier.optionsSellerPlaybook.avoidCondition}</p>
+                  </div>
+                </div>
+
+                {/* Strikes & Metrics (Strict Non-Fabrication) */}
+                <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono text-center">
+                  <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                    <span className="text-slate-500 text-[10px] block">Strike Level</span>
+                    <span className="font-bold text-slate-200">{decisionDossier.optionsSellerPlaybook.strike}</span>
+                  </div>
+                  <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                    <span className="text-slate-500 text-[10px] block">Implied Volatility</span>
+                    <span className="font-bold text-slate-200">{decisionDossier.optionsSellerPlaybook.iv}</span>
+                  </div>
+                  <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                    <span className="text-slate-500 text-[10px] block">Put-Call Ratio</span>
+                    <span className="font-bold text-slate-200">{decisionDossier.optionsSellerPlaybook.pcr}</span>
+                  </div>
+                  <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                    <span className="text-slate-500 text-[10px] block">Support / Res</span>
+                    <span className="font-bold text-slate-200">{decisionDossier.optionsSellerPlaybook.supportLevel} / {decisionDossier.optionsSellerPlaybook.resistanceLevel}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Market, Volume & F&O Confirmation Row */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                  <span className="text-slate-400 font-bold uppercase text-[10px] block">1. Price Reaction</span>
+                  <div className="font-mono text-sm font-bold text-slate-100">
+                    {decisionDossier.marketConfirmation.priceChange !== undefined
+                      ? `${decisionDossier.marketConfirmation.priceChange >= 0 ? '+' : ''}${decisionDossier.marketConfirmation.priceChange}% (${decisionDossier.marketConfirmation.reactionDirection})`
+                      : 'N/A'}
+                  </div>
+                  <p className="text-slate-400 text-[11px]">{decisionDossier.marketConfirmation.interpretation}</p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                  <span className="text-slate-400 font-bold uppercase text-[10px] block">2. Volume Confirmation</span>
+                  <div className="font-mono text-sm font-bold text-slate-100">
+                    {decisionDossier.volumeConfirmation.status === 'AVAILABLE'
+                      ? `${decisionDossier.volumeConfirmation.confirmationStatus} (${decisionDossier.volumeConfirmation.volumeRatio}x)`
+                      : 'NOT_AVAILABLE'}
+                  </div>
+                  <p className="text-slate-400 text-[11px]">{decisionDossier.volumeConfirmation.interpretation}</p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                  <span className="text-slate-400 font-bold uppercase text-[10px] block">3. F&O Positioning</span>
+                  <div className="font-mono text-sm font-bold text-slate-100">
+                    {decisionDossier.fnoConfirmation.classification}
+                  </div>
+                  <p className="text-slate-400 text-[11px]">{decisionDossier.fnoConfirmation.interpretation}</p>
+                </div>
+              </div>
+
+              {/* Risk Engine Assessment */}
+              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
+                    <ShieldAlert className="w-3.5 h-3.5" /> Risk Engine Evaluation
+                  </span>
+                  <span className={`px-2.5 py-0.5 rounded text-xs font-bold font-mono ${decisionDossier.risk.level === 'CRITICAL' ? 'bg-rose-950 text-rose-300 border border-rose-500' : decisionDossier.risk.level === 'HIGH' ? 'bg-amber-950 text-amber-300 border border-amber-500' : 'bg-slate-800 text-slate-300'}`}>
+                    LEVEL: {decisionDossier.risk.level}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300">{decisionDossier.risk.primaryRisk}</p>
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {decisionDossier.risk.categories.map((c, i) => (
+                    <span key={i} className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-[10px] font-mono text-slate-400">
+                      {c}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Evidence Details Disclosure Toggle */}
+              <div className="border-t border-slate-800 pt-4">
+                <button
+                  onClick={() => setShowEvidenceDetails(!showEvidenceDetails)}
+                  className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold font-mono text-slate-300 flex items-center justify-between transition-all"
+                >
+                  <span className="flex items-center gap-2">
+                    <BarChart2 className="w-4 h-4 text-indigo-400" />
+                    <span>Structured Evidence & Invalidation Criteria ({decisionDossier.evidence.length} items)</span>
+                  </span>
+                  {showEvidenceDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </button>
+
+                {showEvidenceDetails && (
+                  <div className="mt-4 space-y-4 animate-in fade-in duration-200 text-xs">
+                    {/* Triggers & Invalidation */}
+                    <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2">
+                      <h5 className="font-bold uppercase tracking-wider text-slate-300">Trigger Conditions & Thesis Invalidation</h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                        <div>
+                          <span className="text-emerald-400 font-bold block mb-1 text-[11px]">Triggers</span>
+                          <ul className="space-y-1 text-slate-300">
+                            {decisionDossier.triggerConditions.map((t, i) => (
+                              <li key={i}>• {t}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <span className="text-rose-400 font-bold block mb-1 text-[11px]">Invalidation</span>
+                          <ul className="space-y-1 text-slate-300">
+                            {decisionDossier.invalidationConditions.map((inv, i) => (
+                              <li key={i}>• {inv}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Structured Evidence Items */}
+                    <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2">
+                      <h5 className="font-bold uppercase tracking-wider text-slate-400">Classified Evidence Items</h5>
+                      <ul className="space-y-1.5">
+                        {decisionDossier.evidence.map((ev, i) => (
+                          <li key={i} className="text-slate-300 flex items-start gap-2 p-2 rounded bg-slate-900/60 border border-slate-800/80">
+                            <span className="px-1.5 py-0.5 rounded text-[9px] font-mono shrink-0 font-bold bg-indigo-950 text-indigo-300 border border-indigo-500/30">
+                              {ev.type}
+                            </span>
+                            <span className="flex-1">{ev.statement}</span>
+                            <span className="font-mono text-slate-400 text-[10px] shrink-0">{ev.confidence}%</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           ) : intelligence ? (
             <div className="space-y-6 animate-in fade-in duration-300">

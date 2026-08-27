@@ -15,6 +15,7 @@ import { TrafilaturaExtractor } from '../extraction/TrafilaturaExtractor';
 import { Crawl4AIExtractor } from '../extraction/Crawl4AIExtractor';
 import { PublisherProfileManager } from '../extraction/PublisherProfileManager';
 import { AIOperationsController } from '../operations/AIOperationsController';
+import { CanonicalNewsSummaryEngine } from '../../newsCoreV2/summary/CanonicalNewsSummaryEngine';
 
 export class NewsSummaryService {
   private static instance: NewsSummaryService;
@@ -171,7 +172,39 @@ export class NewsSummaryService {
       // AI generation failed or rejected
     }
 
-    // 5. Fallback on validation/AI failure
+    // 5. Try High-Quality Deterministic Synthesis before giving up
+    const deterministic = CanonicalNewsSummaryEngine.getInstance().generateDeterministicSummary({
+      ...article,
+      body: cleanText,
+      headline: title
+    });
+    const gateCheck = SummaryQualityGate.evaluate(article, deterministic);
+
+    if (gateCheck.passed) {
+      const summaryObj: NewsSummary = {
+        articleId: article.id,
+        summary: deterministic.summary,
+        whatHappened: deterministic.whatHappened,
+        whyItMatters: deterministic.whyItMatters,
+        keyFacts: deterministic.keyFacts,
+        importantNumbers: deterministic.importantNumbers,
+        entities: deterministic.entities,
+        eventType: deterministic.eventType || article.category || 'CORPORATE_DEVELOPMENT',
+        unknowns: [],
+        extractionQuality: evalResult.quality,
+        extractionMethod: 'DeterministicLocal',
+        provider: 'AthenaLocalEngine',
+        model: 'RuleBasedSynthesizer',
+        validated: true,
+        generatedAt: new Date().toISOString()
+      };
+      (summaryObj as any).summaryStatus = 'SOURCE_GROUNDED';
+      (summaryObj as any).summaryQuality = 'EXCELLENT';
+      this.cache.set(article.id, summaryObj);
+      return summaryObj;
+    }
+
+    // 6. Fallback on validation/AI failure
     const fallback: NewsSummary = {
       articleId: article.id,
       summary: 'Summary unavailable — Open original source',

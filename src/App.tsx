@@ -43,6 +43,7 @@ import {
 import AlertAuditPanel from "./components/AlertAuditPanel";
 import Nifty200MonitorDashboard from "./components/Nifty200MonitorDashboard";
 import { AthenaDashboard } from "./components/AthenaDashboard";
+import CommandCenterDashboard from "./components/CommandCenterDashboard";
 import { MCPOrchestrator } from "./mcp/MCPOrchestrator";
 import { LiveIntelligenceEngine } from "./services/LiveIntelligenceEngine";
 import NewsOperationsDashboard from "./components/admin/NewsOperationsDashboard";
@@ -59,7 +60,7 @@ export default function App() {
   const searchSectionRef = useRef<HTMLDivElement>(null);
 
   // Bottom Navigation state
-  const [activeTab, setActiveTab] = useState<"home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar">((): "home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" => {
+  const [activeTab, setActiveTab] = useState<"home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" | "command">((): "home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" | "command" => {
     try {
       return (safeLocalStorage.getItem("athena-active-tab") as any) || "home";
     } catch (err) {
@@ -292,7 +293,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSelectTab = (tab: "home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar") => {
+  const handleSelectTab = (tab: "home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" | "command") => {
     setActiveTab(tab);
     // Auto-scroll back to top of page on tab switch for premium feel
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -554,15 +555,7 @@ export default function App() {
                 ) : marketData ? (
                   <div className="flex flex-col gap-6">
                     
-                    {/* 2. Market Mood (Indices & Trending Stocks) */}
-                    <div>
-                      <MarketDashboard 
-                        onSelectStock={handleTriggerSearch}
-                        onSelectCompany={setSelectedCompanySymbol}
-                      />
-                    </div>
-
-                    {/* 3. Today's Story (Daily bulletin briefs) */}
+                    {/* 2. Today's Story (Daily bulletin briefs) */}
                     <div>
                       <MorningBrief 
                         brief={marketData.morningBrief}
@@ -571,7 +564,7 @@ export default function App() {
                       />
                     </div>
 
-                    {/* 4. Opportunities & Risks */}
+                    {/* 3. Opportunities & Risks */}
                     <div>
                       <OpportunityRisk 
                         explorer={marketData.opportunityExplorer}
@@ -616,6 +609,12 @@ export default function App() {
                   onSelectMarketAsset={handleSelectMarketAsset}
                   developerMode={developerMode}
                 />
+              </div>
+            )}
+
+            {activeTab === "command" && (
+              <div className="animate-in fade-in duration-150">
+                <CommandCenterDashboard />
               </div>
             )}
 
@@ -664,7 +663,7 @@ export default function App() {
 
       {/* Fixed Bottom Navigation Dock (Optimized for One-Handed Touch Targets >= 44px) */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/80 backdrop-blur-lg border-t border-slate-900/80 shadow-2xl px-2 py-2" id="athena-bottom-nav">
-        <div className="max-w-md mx-auto flex items-center justify-between gap-1">
+        <div className="max-w-lg mx-auto flex items-center justify-between gap-1">
           
           {/* Home Tab */}
           <button
@@ -683,19 +682,37 @@ export default function App() {
             )}
           </button>
 
-          {/* Search Tab */}
+          {/* Command Center Tab */}
           <button
-            onClick={() => handleSelectTab("search")}
+            onClick={() => handleSelectTab("command")}
             className={`flex-1 flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all cursor-pointer select-none relative ${
-              activeTab === "search"
+              activeTab === "command"
+                ? "text-indigo-400 font-bold"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            style={{ minHeight: "44px" }}
+            id="cc-nav-tab"
+          >
+            <Zap className={`h-5 w-5 transition-transform ${activeTab === "command" ? "scale-110 text-indigo-400" : ""}`} />
+            <span className="text-[10px] tracking-wide">Command</span>
+            {activeTab === "command" && (
+              <span className="absolute bottom-1 h-1 w-4 rounded-full bg-indigo-500"></span>
+            )}
+          </button>
+
+          {/* Markets Tab */}
+          <button
+            onClick={() => handleSelectTab("markets")}
+            className={`flex-1 flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all cursor-pointer select-none relative ${
+              activeTab === "markets"
                 ? "text-indigo-400 font-bold"
                 : "text-slate-400 hover:text-slate-200"
             }`}
             style={{ minHeight: "44px" }}
           >
-            <SearchIcon className={`h-5 w-5 transition-transform ${activeTab === "search" ? "scale-110" : ""}`} />
-            <span className="text-[10px] tracking-wide">Search</span>
-            {activeTab === "search" && (
+            <TrendingUp className={`h-5 w-5 transition-transform ${activeTab === "markets" ? "scale-110" : ""}`} />
+            <span className="text-[10px] tracking-wide">Markets</span>
+            {activeTab === "markets" && (
               <span className="absolute bottom-1 h-1 w-4 rounded-full bg-indigo-500"></span>
             )}
           </button>

@@ -16,6 +16,31 @@ export interface CanonicalArticle {
     schemaVersion: string;
 }
 
+export interface CanonicalArticleSummary {
+    articleId: string;
+    headline: string;
+    summary: string;
+    whatHappened: string;
+    backgroundAndContext?: string;
+    whyItMatters: string;
+    keyFacts: string[];
+    importantNumbers: Array<{ value: string; context: string }>;
+    entities: string[];
+    eventType: string;
+    publisher?: string;
+    publishedAt?: string;
+    canonicalUrl?: string;
+    extractionQuality?: string;
+    extractionStatus?: 'SOURCE_GROUNDED' | 'SOURCE_UNAVAILABLE' | 'EXTRACTION_FAILED' | 'QUALITY_REJECTED';
+    summaryStatus?: 'SOURCE_GROUNDED' | 'SOURCE_UNAVAILABLE' | 'EXTRACTION_FAILED' | 'QUALITY_REJECTED';
+    qualityGatePassed?: boolean;
+    qualityGateScore?: number;
+    qualityGateReason?: string;
+    generatedAt?: string;
+    cached?: boolean;
+    revision?: string;
+}
+
 export interface IntelligenceOverlay {
     intelligenceId: string;
     canonicalArticleId: string;
@@ -31,3 +56,4 @@ export interface IntelligenceOverlay {
     generatedAt: string;
     schemaVersion: string;
 }
+

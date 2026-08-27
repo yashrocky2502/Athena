@@ -22,15 +22,25 @@ export class BseProviderAdapter implements IMarketDataProvider {
     }
 
     if (this.mode === 'TEST' || this.mode === 'MOCK') {
+      let ltp = symbol.toUpperCase() === 'NIFTY' ? 24502 : 2551;
+      if (symbol.toUpperCase() === 'CONFLICT_INDEX') {
+        ltp = 10200; // 2% spread compared to NSE (10000) -> triggers conflict (index threshold is 1.5%)
+      } else if (symbol.toUpperCase() === 'CONFLICT_EQUITY') {
+        ltp = 104;   // 4% spread compared to NSE (100) -> triggers conflict (equity threshold is 3%)
+      }
+      const open = ltp - 10;
+      const high = ltp + 20;
+      const low = ltp - 15;
+      const previousClose = ltp - 5;
+
       const mockRaw = {
         symbol: symbol.toUpperCase(),
         exchange: 'BSE',
-        // BSE prices might have a very tiny spread compared to NSE, e.g. 0.05 paise difference
-        ltp: symbol.toUpperCase() === 'NIFTY' ? 24502 : 2551,
-        open: symbol.toUpperCase() === 'NIFTY' ? 24401 : 2531,
-        high: symbol.toUpperCase() === 'NIFTY' ? 24601 : 2571,
-        low: symbol.toUpperCase() === 'NIFTY' ? 24351 : 2521,
-        previousClose: symbol.toUpperCase() === 'NIFTY' ? 24381 : 2516,
+        ltp,
+        open,
+        high,
+        low,
+        previousClose,
         volume: 800000,
         timestamp: new Date().toISOString()
       };

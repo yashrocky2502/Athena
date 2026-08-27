@@ -8,6 +8,7 @@ import { NewsAIService } from "../AI/NewsAIService";
 import { ProviderType } from '../AI/AIProvider';
 import { isExchangeArticle, getExchangeName, getExchangeDocumentType } from '../utils/ExchangeUtils';
 import { IntelligenceEngine } from './IntelligenceEngine';
+import { CanonicalNewsSummaryEngine } from '../../newsCoreV2/summary/CanonicalNewsSummaryEngine';
 
 export interface SummaryResult {
   summary: string;
@@ -447,6 +448,10 @@ ${entities.length > 0 ? entities.join('\n') : '• No key entities detected.'}`;
    * domain-analyzed "Why It Matters", and article-specific "Investor Takeaway".
    */
   public generateLocalSummary(content: ArticleContent, includeEnrichment?: boolean): string {
+    const synth = CanonicalNewsSummaryEngine.getInstance().generateDeterministicSummary(content as any);
+    if (synth && synth.summary && synth.summary !== 'Summary unavailable — Open original source') {
+      return synth.summary;
+    }
     return content.cleanText || content.body || content.headline || '';
   }
 
