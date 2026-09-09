@@ -56,7 +56,7 @@ export class PersistentNewsStore {
 
   /**
    * Hydrates in-memory map from persistent disk file on startup with backup safety.
-   * Re-evaluates persisted articles using current deterministic FNO and NewsClassifier rules.
+   * Canonical persisted articles are loaded exactly as stored without altering historical classifications.
    */
   public hydrateFromDisk(): void {
     try {
@@ -112,58 +112,11 @@ export class PersistentNewsStore {
       if (chosenArticles.length > 0) {
         this.articles = chosenArticles;
         this.articleMap.clear();
-        let hasChanges = false;
 
         for (const art of this.articles) {
           if (art.id) {
-            const fnoResult = FNOEligibilityEngine.evaluate(
-              art.headline || "",
-              art.body || ""
-            );
-            const classification = NewsClassifier.classify(
-              art.headline || "",
-              art.body || "",
-              art.source?.publisher || "",
-              fnoResult
-            );
-
-            const prevFnoEligible = art.fno?.eligible;
-            const prevFnoDecision = art.fno?.decision;
-            const prevFnoSymbol = art.fno?.symbol;
-            const prevCategory = art.category;
-            const prevPrimaryCategory = art.primaryCategory;
-            const prevSecondaryCategories = JSON.stringify(art.secondaryCategories || []);
-            const prevEventType = art.eventType;
-
-            const newSecondaryCategories = JSON.stringify(classification.secondaryCategories || []);
-
-            if (
-              prevFnoEligible !== fnoResult.eligible ||
-              prevFnoDecision !== fnoResult.decision ||
-              prevFnoSymbol !== fnoResult.symbol ||
-              prevCategory !== classification.category ||
-              prevPrimaryCategory !== classification.primaryCategory ||
-              prevSecondaryCategories !== newSecondaryCategories ||
-              prevEventType !== classification.eventType
-            ) {
-              hasChanges = true;
-            }
-
-            art.fno = fnoResult;
-            art.category = classification.category;
-            art.primaryCategory = classification.primaryCategory;
-            art.secondaryCategories = classification.secondaryCategories;
-            art.eventType = classification.eventType;
-            art.categoryConfidence = classification.categoryConfidence;
-            art.classificationEvidence = classification.classificationEvidence;
-
             this.articleMap.set(art.id, art);
           }
-        }
-
-        if (hasChanges) {
-          console.log(`[PersistentNewsStore] Reclassified persisted articles with current rules. Persisting updated store...`);
-          this.saveToDisk(true);
         }
 
         console.log(`[PersistentNewsStore] Hydrated ${this.articles.length} articles from disk (${this.filePath})`);

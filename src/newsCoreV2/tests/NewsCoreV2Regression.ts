@@ -276,10 +276,14 @@ export class NewsCoreV2Regression {
       message: `Formatted Telegram notification length: ${formattedTg.length} chars`
     });
 
-    // --- TEST 16: Persistence Hydration Stale Category Re-evaluation & No-op Persistence Optimization
+    // --- TEST 16: Historical Classification Immutability on Hydration & Explicit Reclassification
     const staleTestDbPath = path.join(process.cwd(), "data", "test_stale_hydration_regression.json");
     if (fs.existsSync(staleTestDbPath)) {
       try { fs.unlinkSync(staleTestDbPath); } catch (e) {}
+    }
+    const staleBakPath = `${staleTestDbPath}.bak`;
+    if (fs.existsSync(staleBakPath)) {
+      try { fs.unlinkSync(staleBakPath); } catch (e) {}
     }
 
     const staleArticle: NewsArticleV2 = {
@@ -302,41 +306,46 @@ export class NewsCoreV2Regression {
     // Directly write stale JSON to disk to simulate persisted file from older version
     fs.mkdirSync(path.dirname(staleTestDbPath), { recursive: true });
     fs.writeFileSync(staleTestDbPath, JSON.stringify([staleArticle], null, 2), "utf-8");
+    const mtimeBeforeHydrate = fs.statSync(staleTestDbPath).mtimeMs;
 
-    // Hydrate store 1 - Should trigger re-evaluation & save corrected state to disk
+    // Hydrate store 1 - MUST NOT trigger re-evaluation or disk save on normal hydration
     const store1 = new PersistentNewsStore(staleTestDbPath);
     const hydratedArt = store1.getArticle("v2_stale_1");
+    const mtimeAfterHydrate = fs.statSync(staleTestDbPath).mtimeMs;
 
-    const isRecalculated = !!(
+    // Assert historical classification fields remained immutable
+    const isImmutableOnHydrate = !!(
       hydratedArt &&
-      hydratedArt.fno?.eligible === true &&
-      hydratedArt.primaryCategory === "Results" && // In Phase 23.4-D.1, Results + F&O has Results as primary
-      hydratedArt.secondaryCategories?.includes("F&O") &&
-      hydratedArt.eventType === "EARNINGS" &&
-      hydratedArt.categoryConfidence &&
-      hydratedArt.classificationEvidence &&
-      hydratedArt.classificationEvidence.length > 0
+      hydratedArt.fno?.eligible === false &&
+      hydratedArt.primaryCategory === "Market" &&
+      hydratedArt.category === ("MARKET" as any) &&
+      hydratedArt.eventType === "GENERAL" &&
+      hydratedArt.secondaryCategories?.length === 0 &&
+      mtimeBeforeHydrate === mtimeAfterHydrate
     );
 
-    const mtimeAfterFirstHydrate = fs.statSync(staleTestDbPath).mtimeMs;
-
-    // Small delay to ensure timestamp resolution
-    await new Promise((r) => setTimeout(r, 50));
-
-    // Hydrate store 2 - Should NOT trigger write because metadata is already up to date
-    const store2 = new PersistentNewsStore(staleTestDbPath);
-    const mtimeAfterSecondHydrate = fs.statSync(staleTestDbPath).mtimeMs;
-
-    const noUnnecessaryWrite = mtimeAfterFirstHydrate === mtimeAfterSecondHydrate;
+    // Explicit reclassification - MUST update classifications when explicitly requested
+    await store1.reclassifyArticles(true, 10);
+    const reclassifiedArt = store1.getArticle("v2_stale_1");
+    const isExplicitlyReclassified = !!(
+      reclassifiedArt &&
+      reclassifiedArt.fno?.eligible === true &&
+      reclassifiedArt.primaryCategory === "Results" &&
+      reclassifiedArt.secondaryCategories?.includes("F&O") &&
+      reclassifiedArt.eventType === "EARNINGS"
+    );
 
     results.push({
-      testName: "Phase 23.4 - Persistent Store Hydration Stale Re-evaluation & No-op Write",
-      passed: isRecalculated && noUnnecessaryWrite,
-      message: `Recalculated: ${isRecalculated}, No Unnecessary Write: ${noUnnecessaryWrite} (primaryCat: ${hydratedArt?.primaryCategory}, eventType: ${hydratedArt?.eventType})`
+      testName: "Phase 23.4 / News Core V2 - Historical Immutability on Hydration & Explicit Reclassification",
+      passed: isImmutableOnHydrate && isExplicitlyReclassified,
+      message: `Immutable on hydrate: ${isImmutableOnHydrate}, Explicit reclassification: ${isExplicitlyReclassified} (primaryCat: ${reclassifiedArt?.primaryCategory}, eventType: ${reclassifiedArt?.eventType})`
     });
 
     if (fs.existsSync(staleTestDbPath)) {
       try { fs.unlinkSync(staleTestDbPath); } catch (e) {}
+    }
+    if (fs.existsSync(staleBakPath)) {
+      try { fs.unlinkSync(staleBakPath); } catch (e) {}
     }
 
     // --- TEST 17 (TEST A): Event-First IPO Intelligence
