@@ -157,6 +157,11 @@ export class SignalLifecycleEngine {
   };
 
   private constructor() {
+    if (typeof window !== 'undefined') {
+      this.persistencePath = '';
+      this.ledgerPath = '';
+      return;
+    }
     this.persistencePath = path.join(process.cwd(), 'data', 'news_signal_lifecycle.json');
     this.ledgerPath = path.join(process.cwd(), 'data', 'news_signal_historical_ledger.json');
     this.hydrate();

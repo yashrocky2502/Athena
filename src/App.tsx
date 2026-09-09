@@ -44,9 +44,10 @@ import AlertAuditPanel from "./components/AlertAuditPanel";
 import Nifty200MonitorDashboard from "./components/Nifty200MonitorDashboard";
 import { AthenaDashboard } from "./components/AthenaDashboard";
 import CommandCenterDashboard from "./components/CommandCenterDashboard";
-import { MCPOrchestrator } from "./mcp/MCPOrchestrator";
-import { LiveIntelligenceEngine } from "./services/LiveIntelligenceEngine";
 import NewsOperationsDashboard from "./components/admin/NewsOperationsDashboard";
+import AthenaDigestWorkspace from "./components/digest/AthenaDigestWorkspace";
+import ContextualSearchModal from "./components/search/ContextualSearchModal";
+import { EvidenceWorkspace } from "./components/evidence/EvidenceWorkspace";
 import { safeLocalStorage } from "./services/storage/safeStorage";
 
 export default function App() {
@@ -60,9 +61,11 @@ export default function App() {
   const searchSectionRef = useRef<HTMLDivElement>(null);
 
   // Bottom Navigation state
-  const [activeTab, setActiveTab] = useState<"home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" | "command">((): "home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" | "command" => {
+  const [activeTab, setActiveTab] = useState<"home" | "digest" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" | "command" | "portfolio">((): "home" | "digest" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" | "command" | "portfolio" => {
     try {
-      return (safeLocalStorage.getItem("athena-active-tab") as any) || "home";
+      const stored = safeLocalStorage.getItem("athena-active-tab");
+      if (stored === "command") return "digest";
+      return (stored as any) || "home";
     } catch (err) {
       console.warn("Storage failed during activeTab initialization:", err);
       return "home";
@@ -126,6 +129,7 @@ export default function App() {
   const [showAiProviderSettings, setShowAiProviderSettings] = useState(false);
   const [showNiftyMonitor, setShowNiftyMonitor] = useState(false);
   const [showAuditPanel, setShowAuditPanel] = useState(false);
+  const [showEvidenceWorkspace, setShowEvidenceWorkspace] = useState(false);
   const [settingsDefaultView, setSettingsDefaultView] = useState<"menu" | "myintel" | "research" | "watchlist" | "theme" | "notifications" | "telegram" | "developer" | "about" | "privacy" | "account" | "aiprovider">("menu");
 
   const [isAdminNews, setIsAdminNews] = useState(() => {
@@ -138,12 +142,6 @@ export default function App() {
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
-
-  // Initialize MCP Orchestrator and Live Intelligence Engine to start live background schedulers immediately
-  useEffect(() => {
-    MCPOrchestrator.getInstance();
-    LiveIntelligenceEngine.getInstance();
   }, []);
 
   // Home SSE Stream & Live Diagnostics State
@@ -293,7 +291,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSelectTab = (tab: "home" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" | "command") => {
+  const handleSelectTab = (tab: "home" | "digest" | "foryou" | "news" | "markets" | "watchlist" | "search" | "calendar" | "command" | "portfolio") => {
     setActiveTab(tab);
     // Auto-scroll back to top of page on tab switch for premium feel
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -315,8 +313,14 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500/30 selection:text-emerald-400 pb-28 sm:pb-24" id="athena-app-root">
       
-      {/* Top Header */}
-      <Header onOpenMenu={() => setShowMenu(true)} onOpenSearch={() => setShowSearch(true)} theme={theme} setTheme={setTheme} />
+      {/* Top Header with Contextual Ask ATHENA & Global Header Alerts */}
+      <Header 
+        onOpenMenu={() => setShowMenu(true)} 
+        onOpenSearch={() => setShowSearch(true)} 
+        onOpenAlertsManager={() => setShowAlertsModal(true)}
+        theme={theme} 
+        setTheme={setTheme} 
+      />
       
       {/* Navigation Drawer */}
       <NavigationDrawer 
@@ -324,6 +328,7 @@ export default function App() {
         onClose={() => setShowMenu(false)} 
         onOpenAlerts={() => setShowAlertsModal(true)} 
         onOpenProfile={() => setShowProfileModal(true)}
+        onOpenPortfolio={() => { setShowMenu(false); handleSelectTab("portfolio"); }}
         onOpenWatchlist={() => { setShowMenu(false); handleSelectTab("watchlist"); }}
         onOpenSavedResearch={() => { setSettingsDefaultView("research"); setShowSettingsModal(true); }}
         onOpenSettings={() => { setSettingsDefaultView("menu"); setShowSettingsModal(true); }}
@@ -337,6 +342,10 @@ export default function App() {
           setShowMenu(false);
           setIsAdminNews(true);
           window.history.pushState({}, "", "/admin/news");
+        }}
+        onOpenEvidenceWorkspace={() => {
+          setShowMenu(false);
+          setShowEvidenceWorkspace(true);
         }}
         developerMode={developerMode}
       />
@@ -467,19 +476,27 @@ export default function App() {
         </div>
       )}
 
-      {/* Search Overlay */}
-      {showSearch && (
-        <div className="fixed inset-0 z-50 bg-slate-950/95 p-4 pt-16 animate-in fade-in duration-300">
-           <button onClick={() => setShowSearch(false)} className="absolute top-4 right-4 text-white p-2">
-             <X size={24} />
-           </button>
-           <div className="max-w-2xl mx-auto">
-             <SearchPage onSelectCompany={(s) => { setSelectedCompanySymbol(s); setShowSearch(false); }} developerMode={developerMode} />
-           </div>
+      {/* Forensic Evidence & Provenance Overlay */}
+      {showEvidenceWorkspace && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-zinc-950 animate-in slide-in-from-bottom duration-300">
+          <EvidenceWorkspace onClose={() => setShowEvidenceWorkspace(false)} />
         </div>
       )}
 
-
+      {/* Contextual Ask ATHENA Search Overlay */}
+      {showSearch && (
+        <ContextualSearchModal
+          isOpen={showSearch}
+          onClose={() => setShowSearch(false)}
+          onNavigateToTab={(tab, param) => {
+            if (tab === 'search' && param) {
+              setSelectedCompanySymbol(param);
+            } else {
+              handleSelectTab(tab as any);
+            }
+          }}
+        />
+      )}
 
       {/* Main viewport Container */}
       <main className="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-6">
@@ -588,6 +605,12 @@ export default function App() {
               </div>
             )}
 
+            {activeTab === "digest" && (
+              <div className="animate-in fade-in duration-150">
+                <AthenaDigestWorkspace />
+              </div>
+            )}
+
             {activeTab === "search" && (
               <div className="flex flex-col gap-5 animate-in fade-in duration-150 text-left" ref={searchSectionRef}>
                 <div className="bg-slate-900/40 border border-slate-900 rounded-2xl p-5">
@@ -656,6 +679,12 @@ export default function App() {
                 <EconomicCalendar onSelectSymbol={handleTriggerSearch} onSelectNewsQuery={handleTriggerSearch} developerMode={developerMode} />
               </div>
             )}
+
+            {activeTab === "portfolio" && (
+              <div className="animate-in fade-in duration-150">
+                <PortfolioDashboard onSelectCompany={setSelectedCompanySymbol} developerMode={developerMode} />
+              </div>
+            )}
           </>
         )}
 
@@ -682,20 +711,20 @@ export default function App() {
             )}
           </button>
 
-          {/* Command Center Tab */}
+          {/* Digest Tab (Replaces Command) */}
           <button
-            onClick={() => handleSelectTab("command")}
+            onClick={() => handleSelectTab("digest")}
             className={`flex-1 flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all cursor-pointer select-none relative ${
-              activeTab === "command"
+              activeTab === "digest"
                 ? "text-indigo-400 font-bold"
                 : "text-slate-400 hover:text-slate-200"
             }`}
             style={{ minHeight: "44px" }}
-            id="cc-nav-tab"
+            id="digest-nav-tab"
           >
-            <Zap className={`h-5 w-5 transition-transform ${activeTab === "command" ? "scale-110 text-indigo-400" : ""}`} />
-            <span className="text-[10px] tracking-wide">Command</span>
-            {activeTab === "command" && (
+            <BookOpen className={`h-5 w-5 transition-transform ${activeTab === "digest" ? "scale-110 text-indigo-400" : ""}`} />
+            <span className="text-[10px] tracking-wide">Digest</span>
+            {activeTab === "digest" && (
               <span className="absolute bottom-1 h-1 w-4 rounded-full bg-indigo-500"></span>
             )}
           </button>
@@ -751,14 +780,38 @@ export default function App() {
             )}
           </button>
 
-          {/* Alerts Tab */}
+          {/* Watchlist Tab (Replacing bottom Alerts, which moved to global top header) */}
           <button
-            onClick={() => setShowAlertsModal(true)}
-            className="flex-1 flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all cursor-pointer select-none relative text-slate-400 hover:text-slate-200"
+            onClick={() => handleSelectTab("watchlist")}
+            className={`flex-1 flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all cursor-pointer select-none relative ${
+              activeTab === "watchlist"
+                ? "text-indigo-400 font-bold"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
             style={{ minHeight: "44px" }}
           >
-            <Bell className="h-5 w-5" />
-            <span className="text-[10px] tracking-wide">Alerts</span>
+            <Star className={`h-5 w-5 transition-transform ${activeTab === "watchlist" ? "scale-110" : ""}`} />
+            <span className="text-[10px] tracking-wide">Watchlist</span>
+            {activeTab === "watchlist" && (
+              <span className="absolute bottom-1 h-1 w-4 rounded-full bg-indigo-500"></span>
+            )}
+          </button>
+
+          {/* Portfolio Tab */}
+          <button
+            onClick={() => handleSelectTab("portfolio")}
+            className={`flex-1 flex flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all cursor-pointer select-none relative ${
+              activeTab === "portfolio"
+                ? "text-indigo-400 font-bold"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            style={{ minHeight: "44px" }}
+          >
+            <Briefcase className={`h-5 w-5 transition-transform ${activeTab === "portfolio" ? "scale-110 text-indigo-400" : ""}`} />
+            <span className="text-[10px] tracking-wide">Portfolio</span>
+            {activeTab === "portfolio" && (
+              <span className="absolute bottom-1 h-1 w-4 rounded-full bg-indigo-500"></span>
+            )}
           </button>
 
         </div>

@@ -11,7 +11,8 @@ import {
   Info, 
   X,
   Terminal,
-  TrendingUp
+  TrendingUp,
+  Briefcase
 } from "lucide-react";
 
 interface NavigationDrawerProps {
@@ -20,6 +21,7 @@ interface NavigationDrawerProps {
   onOpenAlerts: () => void;
   onOpenProfile: () => void;
   onOpenWatchlist: () => void;
+  onOpenPortfolio?: () => void;
   onOpenSavedResearch: () => void;
   onOpenSettings: () => void;
   onOpenAuditPanel: () => void;
@@ -30,6 +32,7 @@ interface NavigationDrawerProps {
   onOpenAbout?: () => void;
   onOpenAiProviderSettings?: () => void;
   onOpenNewsOperations?: () => void;
+  onOpenEvidenceWorkspace?: () => void;
 }
 
 export default function NavigationDrawer({ 
@@ -38,6 +41,7 @@ export default function NavigationDrawer({
   onOpenAlerts,
   onOpenProfile,
   onOpenWatchlist,
+  onOpenPortfolio,
   onOpenSavedResearch,
   onOpenSettings,
   onOpenAuditPanel,
@@ -47,10 +51,13 @@ export default function NavigationDrawer({
   onOpenHelp,
   onOpenAbout,
   onOpenAiProviderSettings,
-  onOpenNewsOperations
+  onOpenNewsOperations,
+  onOpenEvidenceWorkspace
 }: NavigationDrawerProps) {
   const menuItems = [
+    { name: "Personal Portfolio & Broker Hub", icon: Briefcase, action: () => { onClose(); onOpenPortfolio?.(); } },
     { name: "Profile", icon: User, action: () => { onClose(); onOpenProfile(); } },
+    { name: "Forensic Evidence & Provenance", icon: Shield, action: () => { onClose(); onOpenEvidenceWorkspace?.(); } },
     { name: "Watchlist", icon: BookOpen, action: () => { onClose(); onOpenWatchlist(); } },
     { name: "Alert Center", icon: Bell, action: () => { onClose(); onOpenAlerts(); } },
     { name: "Saved Research", icon: FileText, action: () => { onClose(); onOpenSavedResearch(); } },

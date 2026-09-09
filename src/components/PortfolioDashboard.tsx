@@ -29,8 +29,10 @@ import {
 import { PortfolioService } from "../services/PortfolioService";
 import { PortfolioIntelligenceService } from "../services/PortfolioIntelligenceService";
 import { useLiveMarket } from "../hooks/useLiveMarket";
+import PortfolioHub from "./portfolio/PortfolioHub";
 
 export default function PortfolioDashboard({ developerMode, onSelectCompany }: { developerMode: boolean; onSelectCompany: (s: string) => void }) {
+  const [hubMode, setHubMode] = useState<"brokerHub" | "modelPortfolios">("brokerHub");
   const portfolioService = PortfolioService.getInstance();
   const intelService = PortfolioIntelligenceService.getInstance();
 
@@ -55,9 +57,44 @@ export default function PortfolioDashboard({ developerMode, onSelectCompany }: {
   const { stocks: liveHoldingsStocks } = useLiveMarket(holdingsSymbols, "portfolio");
 
   return (
-    <div className="flex flex-col gap-6 p-6 pb-20">
-      {/* Portfolio Header */}
-      <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6">
+      {/* Top Architecture Mode Selector */}
+      <div className="flex items-center justify-between bg-slate-950/80 p-2 rounded-2xl border border-slate-800/80 mx-4 md:mx-6 mt-4">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setHubMode("brokerHub")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+              hubMode === "brokerHub"
+                ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/25"
+                : "text-slate-400 hover:text-white bg-slate-900/50"
+            }`}
+          >
+            <Briefcase className="w-4 h-4 text-indigo-300" />
+            Personal Portfolio & Intelligence Hub (API-Free Canonical)
+          </button>
+          <button
+            onClick={() => setHubMode("modelPortfolios")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+              hubMode === "modelPortfolios"
+                ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/25"
+                : "text-slate-400 hover:text-white bg-slate-900/50"
+            }`}
+          >
+            <LayoutDashboard className="w-4 h-4 text-slate-400" />
+            Thematic Models & Watchlists
+          </button>
+        </div>
+        <span className="text-[10px] font-mono text-indigo-400 hidden sm:inline pr-2">
+          Phase 26 Institutional Architecture
+        </span>
+      </div>
+
+      {hubMode === "brokerHub" ? (
+        <PortfolioHub developerMode={developerMode} onSelectCompany={onSelectCompany} />
+      ) : (
+        <div className="flex flex-col gap-6 p-6 pb-20">
+          {/* Portfolio Header */}
+          <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">
             <h1 className="text-2xl font-display font-bold text-white flex items-center gap-3">
@@ -421,6 +458,8 @@ export default function PortfolioDashboard({ developerMode, onSelectCompany }: {
           </div>
         )}
       </div>
+    </div>
+      )}
     </div>
   );
 }

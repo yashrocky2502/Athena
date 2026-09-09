@@ -174,6 +174,37 @@ export class SummaryQualityGate {
       }
     }
 
+    // Guard against contaminated raw HTML or URLs in summary
+    if (/<[a-z/][\s\S]*?>/i.test(sumText) || /https?:\/\//i.test(sumText)) {
+      return {
+        passed: false,
+        summary: "Summary unavailable — Open original source",
+        whatHappened: "Summary unavailable — Open original source",
+        whyItMatters: "",
+        keyFacts: [],
+        status: 'SOURCE_UNAVAILABLE',
+        summaryStatus: 'QUALITY_REJECTED'
+      };
+    }
+
+    // Check for Material Fact retention if body has explicit numbers/GMP
+    const bodyText = (article.body || article.cleanText || '').toLowerCase();
+    if (bodyText.includes('gmp') && /\bgmp\s+(?:at|of|is|stands at)?\s*(?:₹|rs\.?|\$)?\s*(\d+(?:\.\d+)?)\b/i.test(bodyText)) {
+      const gmpMatch = bodyText.match(/\bgmp\s+(?:at|of|is|stands at)?\s*(?:₹|rs\.?|\$)?\s*(\d+(?:\.\d+)?)\b/i);
+      if (gmpMatch && !sumTextLower.includes('gmp') && !sumTextLower.includes(gmpMatch[1])) {
+        // GMP was lost
+        return {
+          passed: false,
+          summary: "Summary unavailable — Open original source",
+          whatHappened: "Summary unavailable — Open original source",
+          whyItMatters: "",
+          keyFacts: [],
+          status: 'SOURCE_UNAVAILABLE',
+          summaryStatus: 'QUALITY_REJECTED'
+        };
+      }
+    }
+
     // Guard against summaries that are too short (less than 15 chars)
     if (sumText.length < 15) {
       return {

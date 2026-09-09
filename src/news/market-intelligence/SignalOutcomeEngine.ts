@@ -271,6 +271,11 @@ export class SignalOutcomeEngine {
   public static readonly MIN_SAMPLE_SIZE_FOR_CONFIDENCE = 5;
 
   private constructor() {
+    if (typeof window !== 'undefined') {
+      this.storagePath = '';
+      this.backupPath = '';
+      return;
+    }
     this.storagePath = path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json');
     this.backupPath = path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json.bak');
     this.hydrateFromStorage();

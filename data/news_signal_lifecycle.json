@@ -10,7 +10,7 @@
         "transitionId": "sig_persist_1::NONE::NEW::0",
         "previousState": "NEW",
         "newState": "NEW",
-        "timestamp": "2026-08-26T08:02:51.391Z",
+        "timestamp": "2026-08-30T12:48:01.563Z",
         "reason": "Initial signal compilation and entry into the continuous engine.",
         "evidence": {
           "rawScore": 88,
@@ -23,7 +23,7 @@
         "transitionId": "sig_persist_1::NEW::ACTIVE::1",
         "previousState": "NEW",
         "newState": "ACTIVE",
-        "timestamp": "2026-08-26T08:02:51.392Z",
+        "timestamp": "2026-08-30T12:48:01.563Z",
         "reason": "State updated to ACTIVE based on deterministic pipeline re-evaluation.",
         "evidence": {
           "invalidationReason": null,
@@ -40,7 +40,7 @@
     "decayFactor": 1,
     "scoreAge": 0,
     "actionability": "ACTIONABLE",
-    "createdAt": "2026-08-26T08:02:51.391Z",
+    "createdAt": "2026-08-30T12:48:01.563Z",
     "contradictionDetected": false,
     "fundamentalDirection": "BULLISH",
     "initialScore": 88,
@@ -50,7 +50,7 @@
     "volumeConfirmation": "STRONG_VOLUME_CONFIRMED",
     "fnoConfirmation": "LONG_BUILDUP",
     "lifecycleRevision": 1,
-    "lastUpdated": "2026-08-26T08:02:51.391Z",
+    "lastUpdated": "2026-08-30T12:48:01.563Z",
     "currentAlignment": "ALIGNED"
   }
 }

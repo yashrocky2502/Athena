@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { QuantStrategyDashboard } from './QuantStrategyDashboard.tsx';
+import { PortfolioIntelligenceDashboard } from './PortfolioIntelligenceDashboard.tsx';
+import { ExecutionCenterDashboard } from './ExecutionCenterDashboard.tsx';
+import { ResearchEvolutionDashboard } from './ResearchEvolutionDashboard.tsx';
+import { UnifiedIntelligenceDashboard } from './UnifiedIntelligenceDashboard.tsx';
 import { 
   Activity, TrendingUp, TrendingDown, Shield, Zap, Layers, 
   Clock, AlertTriangle, CheckCircle2, XCircle, ArrowUpRight, 
   ArrowDownRight, Calendar, ChevronRight, ChevronDown, ChevronUp, Search, 
-  RotateCw, RefreshCw, FileText, BarChart3, HelpCircle, AlertOctagon
+  RotateCw, RefreshCw, FileText, BarChart3, HelpCircle, AlertOctagon,
+  Radio, Send, Share2, Eye, ArrowRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -96,6 +102,13 @@ export default function CommandCenterDashboard() {
   const [perfQualityReport, setPerfQualityReport] = useState<any>(null);
   const [perfActiveTab, setPerfActiveTab] = useState<string>('SUMMARY');
 
+  // Market Intelligence Phase 11: Real-Time Event-to-Signal Transmission
+  const [transmissionSignals, setTransmissionSignals] = useState<any[]>([]);
+  const [transmissionObservability, setTransmissionObservability] = useState<any>(null);
+  const [selectedTransmissionSignalId, setSelectedTransmissionSignalId] = useState<string | null>(null);
+  const [transmissionFilter, setTransmissionFilter] = useState<string>('ALL');
+  const [showTelegramPreviewId, setShowTelegramPreviewId] = useState<string | null>(null);
+
   // Fetch Core Static or Dynamic Market Data (0 AI Calls)
   useEffect(() => {
     async function fetchCoreData() {
@@ -105,7 +118,8 @@ export default function CommandCenterDashboard() {
         
         const [
           pulseRes, briefRes, optionsRes, healthRes, eventsRes, signalsRes, contradRes, obsRes, lifecyclesRes, historyRes, outcomesRes, perfRes,
-          pAnalyticsRes, pSignalsRes, pSectorsRes, pRegimesRes, pSourcesRes, pRightWrongRes, pInsightsRes, pQualityRes
+          pAnalyticsRes, pSignalsRes, pSectorsRes, pRegimesRes, pSourcesRes, pRightWrongRes, pInsightsRes, pQualityRes,
+          transRes, transObsRes
         ] = await Promise.all([
           fetch('/api/v5/news/market-pulse').then(r => r.json()).catch(() => ({ success: false })),
           fetch('/api/v5/news/morning-brief').then(r => r.json()).catch(() => ({ success: false })),
@@ -126,7 +140,9 @@ export default function CommandCenterDashboard() {
           fetch('/api/v5/market-intelligence/performance/sources').then(r => r.json()).catch(() => ({ status: 'error' })),
           fetch('/api/v5/market-intelligence/performance/right-wrong').then(r => r.json()).catch(() => ({ status: 'error' })),
           fetch('/api/v5/market-intelligence/performance/insights').then(r => r.json()).catch(() => ({ status: 'error' })),
-          fetch('/api/v5/market-intelligence/performance/quality').then(r => r.json()).catch(() => ({ status: 'error' }))
+          fetch('/api/v5/market-intelligence/performance/quality').then(r => r.json()).catch(() => ({ status: 'error' })),
+          fetch('/api/v5/market-intelligence/transmission').then(r => r.json()).catch(() => ({ status: 'error' })),
+          fetch('/api/v5/market-intelligence/transmission/observability').then(r => r.json()).catch(() => ({ status: 'error' }))
         ]);
 
         if (pulseRes.success && pulseRes.data) {
@@ -188,6 +204,12 @@ export default function CommandCenterDashboard() {
         }
         if (pQualityRes.status === 'success' && pQualityRes.quality) {
           setPerfQualityReport(pQualityRes.quality);
+        }
+        if (transRes.status === 'success' && transRes.signals) {
+          setTransmissionSignals(transRes.signals || []);
+        }
+        if (transObsRes.status === 'success' && transObsRes.observability) {
+          setTransmissionObservability(transObsRes.observability);
         }
       } catch (err: any) {
         setError(err.message || 'Failed to fetch core market intelligence feeds.');
@@ -509,6 +531,334 @@ export default function CommandCenterDashboard() {
           </div>
         </div>
 
+      </div>
+
+      {/* SECTION 1.25: PHASE 11 — REAL-TIME EVENT-TO-SIGNAL TRANSMISSION & EVIDENCE GRAPH */}
+      <div className="bg-slate-900/95 border border-indigo-950/80 rounded-lg p-5 space-y-4 shadow-xl" id="phase-11-transmission-matrix">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2.5">
+            <Radio className="w-5 h-5 text-indigo-400 animate-pulse" />
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-sm font-bold uppercase tracking-wider font-mono text-white">
+                  Phase 11 — Real-Time Event-to-Signal Transmission & Evidence Flow
+                </h2>
+                <span className="px-2 py-0.5 bg-indigo-950 text-indigo-300 border border-indigo-800/60 rounded text-[10px] font-mono font-bold">
+                  LIVE PIPELINE
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 font-mono mt-0.5">
+                Continuous deterministic translation: Event → Evidence → Market Reaction → Signal Score → Lifecycle → Outcome.
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 text-[10px] font-mono text-slate-400">
+            <div>PROCESSED: <span className="text-emerald-400 font-semibold">{transmissionObservability?.eventsProcessed ?? transmissionSignals.length}</span></div>
+            <div>| CONFIRMED: <span className="text-teal-400 font-semibold">{transmissionObservability?.signalsConfirmed ?? 0}</span></div>
+            <div>| CONTRADICTED: <span className="text-rose-400 font-semibold">{transmissionObservability?.signalsContradicted ?? 0}</span></div>
+            <div>| ZERO-AI COST: <span className="text-indigo-400 font-semibold">100%</span></div>
+          </div>
+        </div>
+
+        {/* Transmission Pipeline Stages Visual Bar */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-center text-[10px] font-mono border-b border-slate-800/80 pb-3">
+          <div className="bg-slate-950/70 border border-slate-800 rounded p-2 text-slate-300">
+            <span className="text-slate-500 block">STAGE 1</span>
+            <span className="font-bold text-white">1. News Event</span>
+            <span className="text-[9px] text-slate-400 block mt-0.5">Grounded Summary</span>
+          </div>
+          <div className="bg-slate-950/70 border border-slate-800 rounded p-2 text-slate-300">
+            <span className="text-slate-500 block">STAGE 2</span>
+            <span className="font-bold text-indigo-300">2. Entity & Sector</span>
+            <span className="text-[9px] text-slate-400 block mt-0.5">Impact Mapping</span>
+          </div>
+          <div className="bg-slate-950/70 border border-slate-800 rounded p-2 text-slate-300">
+            <span className="text-slate-500 block">STAGE 3</span>
+            <span className="font-bold text-teal-300">3. Market Reaction</span>
+            <span className="text-[9px] text-slate-400 block mt-0.5">1M–1H RVOL & Gap</span>
+          </div>
+          <div className="bg-slate-950/70 border border-slate-800 rounded p-2 text-slate-300">
+            <span className="text-slate-500 block">STAGE 4</span>
+            <span className="font-bold text-amber-300">4. Transmission Score</span>
+            <span className="text-[9px] text-slate-400 block mt-0.5">0–100 Formula</span>
+          </div>
+          <div className="bg-slate-950/70 border border-slate-800 rounded p-2 text-slate-300 col-span-2 md:col-span-1">
+            <span className="text-slate-500 block">STAGE 5</span>
+            <span className="font-bold text-emerald-300">5. Actionability</span>
+            <span className="text-[9px] text-slate-400 block mt-0.5">Tradeable / Watch</span>
+          </div>
+        </div>
+
+        {/* Filter Pills */}
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-1.5 text-xs font-mono">
+            {['ALL', 'P0_CRITICAL', 'P1_HIGH', 'CONFIRMED', 'CONTRADICTED', 'TRADEABLE', 'WATCH'].map((filterKey) => (
+              <button
+                key={filterKey}
+                onClick={() => setTransmissionFilter(filterKey)}
+                className={`px-2.5 py-1 rounded transition text-[11px] font-semibold ${
+                  transmissionFilter === filterKey
+                    ? 'bg-indigo-600 text-white font-bold'
+                    : 'bg-slate-950 border border-slate-800 text-slate-400 hover:text-white'
+                }`}
+              >
+                {filterKey.replace('_', ' ')}
+              </button>
+            ))}
+          </div>
+
+          <span className="text-[11px] font-mono text-slate-500">
+            Showing {transmissionSignals.filter(s => {
+              if (transmissionFilter === 'ALL') return true;
+              if (transmissionFilter === 'P0_CRITICAL') return s.priority === 'P0_CRITICAL';
+              if (transmissionFilter === 'P1_HIGH') return s.priority === 'P1_HIGH';
+              if (transmissionFilter === 'CONFIRMED') return s.alignment === 'CONFIRMED' || s.alignment === 'STRONGLY_CONFIRMED';
+              if (transmissionFilter === 'CONTRADICTED') return s.alignment === 'CONTRADICTED';
+              if (transmissionFilter === 'TRADEABLE') return s.actionability === 'TRADEABLE';
+              if (transmissionFilter === 'WATCH') return s.actionability === 'WATCH';
+              return true;
+            }).length} Live Transmissions
+          </span>
+        </div>
+
+        {/* Live Signals Grid */}
+        <div className="space-y-4 max-h-[550px] overflow-y-auto pr-1">
+          {transmissionSignals.length === 0 ? (
+            <div className="p-8 text-center border border-dashed border-slate-800 bg-slate-950/40 rounded text-slate-500 font-mono text-xs">
+              No live event-to-signal transmissions processed yet. Synchronize market feeds to trigger the continuous transmission pipeline.
+            </div>
+          ) : (
+            transmissionSignals
+              .filter(s => {
+                if (transmissionFilter === 'ALL') return true;
+                if (transmissionFilter === 'P0_CRITICAL') return s.priority === 'P0_CRITICAL';
+                if (transmissionFilter === 'P1_HIGH') return s.priority === 'P1_HIGH';
+                if (transmissionFilter === 'CONFIRMED') return s.alignment === 'CONFIRMED' || s.alignment === 'STRONGLY_CONFIRMED';
+                if (transmissionFilter === 'CONTRADICTED') return s.alignment === 'CONTRADICTED';
+                if (transmissionFilter === 'TRADEABLE') return s.actionability === 'TRADEABLE';
+                if (transmissionFilter === 'WATCH') return s.actionability === 'WATCH';
+                return true;
+              })
+              .map((item: any) => {
+                const isSelected = selectedTransmissionSignalId === item.signalId;
+                const isP0 = item.priority === 'P0_CRITICAL';
+                const isP1 = item.priority === 'P1_HIGH';
+                const isContradicted = item.alignment === 'CONTRADICTED';
+                const rx = item.marketReaction;
+
+                return (
+                  <div
+                    key={item.signalId}
+                    className={`p-4 rounded-lg border transition bg-slate-950/80 ${
+                      isContradicted ? 'border-rose-900/60 bg-rose-950/10' :
+                      isP0 ? 'border-indigo-500/80 bg-indigo-950/10' :
+                      isP1 ? 'border-teal-500/50' : 'border-slate-800'
+                    }`}
+                  >
+                    {/* Header Row */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/60 pb-2.5">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="px-2 py-0.5 bg-slate-900 border border-slate-700 text-white font-mono font-bold text-xs rounded">
+                          {item.symbol}
+                        </span>
+                        <span className="text-[10px] font-mono text-slate-400">
+                          {item.entityResolution?.companyName || item.symbol}
+                        </span>
+                        <span className="text-[10px] font-mono px-2 py-0.5 bg-slate-900 border border-slate-800 text-slate-300 rounded">
+                          {item.entityResolution?.sector}
+                        </span>
+                        <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold border ${
+                          isP0 ? 'bg-rose-950 text-rose-300 border-rose-800' :
+                          isP1 ? 'bg-amber-950 text-amber-300 border-amber-800' : 'bg-slate-900 text-slate-400 border-slate-800'
+                        }`}>
+                          {item.priority}
+                        </span>
+                        <span className={`text-[10px] font-mono font-bold uppercase ${
+                          item.alignment === 'STRONGLY_CONFIRMED' ? 'text-emerald-400' :
+                          item.alignment === 'CONFIRMED' ? 'text-teal-400' :
+                          item.alignment === 'CONTRADICTED' ? 'text-rose-400' : 'text-slate-400'
+                        }`}>
+                          • {item.alignment}
+                        </span>
+                      </div>
+
+                      {/* Score & Actionability */}
+                      <div className="flex items-center gap-3">
+                        <div className="text-right">
+                          <span className="text-[9px] font-mono text-slate-500 block">TRANSMISSION SCORE</span>
+                          <span className={`text-base font-mono font-bold ${
+                            item.transmissionScore >= 80 ? 'text-emerald-400' :
+                            item.transmissionScore >= 60 ? 'text-teal-400' :
+                            item.transmissionScore >= 40 ? 'text-amber-400' : 'text-rose-400'
+                          }`}>
+                            {item.transmissionScore}<span className="text-xs text-slate-500">/100</span>
+                          </span>
+                        </div>
+
+                        <span className={`px-2.5 py-1 rounded text-xs font-mono font-bold border ${
+                          item.actionability === 'TRADEABLE' ? 'bg-emerald-950/80 text-emerald-300 border-emerald-700/60' :
+                          item.actionability === 'WATCH' ? 'bg-amber-950/80 text-amber-300 border-amber-700/60' :
+                          'bg-rose-950/80 text-rose-300 border-rose-700/60'
+                        }`}>
+                          {item.actionability}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Grounded Summary & Rationale */}
+                    <div className="mt-3 space-y-2">
+                      <div className="text-xs font-semibold text-white">
+                        {item.headline}
+                      </div>
+                      <p className="text-xs font-mono text-slate-300 leading-relaxed bg-slate-900/60 p-2.5 rounded border border-slate-800/40">
+                        {item.canonicalSummary}
+                      </p>
+                      {item.whyItMatters && (
+                        <p className="text-[11px] font-mono text-indigo-300/90 leading-relaxed pl-2 border-l-2 border-indigo-500/40">
+                          {item.whyItMatters}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Live Market Reaction Metrics Strip */}
+                    {rx && (
+                      <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 text-[10px] font-mono bg-slate-900/80 p-2 rounded border border-slate-800/60">
+                        <div>
+                          <span className="text-slate-500 block">TOTAL CHG</span>
+                          <span className={`font-bold text-xs ${rx.totalChangePct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                            {rx.totalChangePct >= 0 ? '+' : ''}{rx.totalChangePct}%
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">RVOL</span>
+                          <span className="font-bold text-white">{rx.rvol}×</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">VWAP GAP</span>
+                          <span className="font-bold text-slate-300">{rx.vwapDisplacementPct}%</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">5M / 15M</span>
+                          <span className="font-bold text-slate-300">
+                            {rx.windows?.w5m?.changePct ?? 0}% / {rx.windows?.w15m?.changePct ?? 0}%
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">MFE / MAE</span>
+                          <span className="font-bold text-emerald-400">+{rx.mfePct}%</span> / <span className="font-bold text-rose-400">-{rx.maePct}%</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">SEC RELATIVE</span>
+                          <span className="font-bold text-slate-300">{rx.sectorRelativePerformancePct > 0 ? '+' : ''}{rx.sectorRelativePerformancePct}%</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">PRECEDENT</span>
+                          <span className="font-bold text-teal-300">{item.historicalPrecedent?.sampleQuality || 'N/A'}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Contradiction Warnings if present */}
+                    {item.contradictions && item.contradictions.length > 0 && (
+                      <div className="mt-2.5 p-2 bg-rose-950/40 border border-rose-800/60 rounded text-[11px] font-mono text-rose-300 space-y-1">
+                        <div className="font-bold flex items-center gap-1.5">
+                          <AlertTriangle className="w-3.5 h-3.5" />
+                          <span>CONTRADICTIONS & DIVERGENCES DETECTED:</span>
+                        </div>
+                        {item.contradictions.map((c: string, cIdx: number) => (
+                          <div key={cIdx} className="pl-4 text-[10px] text-rose-400">• {c}</div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Footer Actions: Evidence Graph & Telegram Preview */}
+                    <div className="mt-3 pt-2.5 border-t border-slate-800/60 flex flex-wrap items-center justify-between gap-2">
+                      <div className="text-[10px] font-mono text-slate-500">
+                        Signal: <span className="text-slate-400">{item.signalId}</span> | Rev: {item.revision || 1}
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setShowTelegramPreviewId(showTelegramPreviewId === item.signalId ? null : item.signalId)}
+                          className="px-2.5 py-1 text-[10px] font-mono bg-slate-900 hover:bg-slate-800 text-teal-300 border border-slate-700 rounded transition flex items-center gap-1"
+                        >
+                          <Send className="w-3 h-3" />
+                          <span>Telegram Alert</span>
+                        </button>
+
+                        <button
+                          onClick={() => setSelectedTransmissionSignalId(isSelected ? null : item.signalId)}
+                          className="px-2.5 py-1 text-[10px] font-mono bg-indigo-950/60 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-800/60 rounded transition flex items-center gap-1 font-semibold"
+                        >
+                          <Layers className="w-3 h-3" />
+                          <span>{isSelected ? 'Hide Evidence Graph' : 'Inspect Evidence Graph'}</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Expandable Evidence Chain Graph Dossier */}
+                    {isSelected && item.graphDossier && (
+                      <div className="mt-4 p-4 bg-slate-950 border border-indigo-900/60 rounded-lg space-y-3 font-mono">
+                        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                          <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
+                            Transmission Provenance Graph Trace ({item.graphDossier.graphId})
+                          </span>
+                          <span className="text-[10px] text-slate-500">
+                            Deterministic Evidence Chain
+                          </span>
+                        </div>
+
+                        {/* Evidence Chain Steps */}
+                        <div className="space-y-2">
+                          {item.graphDossier.evidenceChain?.map((stage: any, sIdx: number) => (
+                            <div key={sIdx} className="flex items-start gap-2 text-xs bg-slate-900/80 p-2.5 rounded border border-slate-800/80">
+                              <span className="px-1.5 py-0.5 bg-indigo-950 text-indigo-300 border border-indigo-800/40 rounded text-[9px] font-bold">
+                                {stage.stage}
+                              </span>
+                              <div className="flex-1">
+                                <span className="font-bold text-white block">{stage.node?.label}</span>
+                                <span className="text-[11px] text-slate-400 mt-0.5 block">{stage.summary}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* 0-100 Score Mathematical Breakdown */}
+                        {item.scoreBreakdown && (
+                          <div className="mt-3 p-3 bg-slate-900/50 rounded border border-slate-800/60 text-[10px] space-y-1.5">
+                            <span className="font-bold text-slate-300 block mb-1">SCORE MATHEMATICAL BREAKDOWN (0-100):</span>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-slate-400">
+                              <div>Event Materiality: <span className="text-white font-bold">{item.scoreBreakdown.eventMateriality}/15</span></div>
+                              <div>Price Confirm: <span className="text-white font-bold">{item.scoreBreakdown.priceConfirmation}/15</span></div>
+                              <div>Volume (RVOL): <span className="text-white font-bold">{item.scoreBreakdown.volumeConfirmation}/15</span></div>
+                              <div>Sector Confirm: <span className="text-white font-bold">{item.scoreBreakdown.sectorConfirmation}/10</span></div>
+                              <div>Index Confirm: <span className="text-white font-bold">{item.scoreBreakdown.indexConfirmation}/10</span></div>
+                              <div>F&O Flow: <span className="text-white font-bold">{item.scoreBreakdown.fnoConfirmation}/15</span></div>
+                              <div>Historical Precedent: <span className="text-white font-bold">{item.scoreBreakdown.historicalPrecedent}/10</span></div>
+                              <div>Freshness/Quality: <span className="text-white font-bold">{item.scoreBreakdown.dataQualityFreshness}/10</span></div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Telegram Alert Preview Modal / Box */}
+                    {showTelegramPreviewId === item.signalId && (
+                      <div className="mt-3 p-3.5 bg-slate-900 border border-teal-800/60 rounded-lg text-xs font-mono text-slate-200">
+                        <div className="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2 text-[10px] text-teal-400 font-bold uppercase">
+                          <span>Exact Telegram Market Alert Preview (Parity with ATHENA UI)</span>
+                          <button onClick={() => setShowTelegramPreviewId(null)} className="text-slate-400 hover:text-white">✕</button>
+                        </div>
+                        <pre className="whitespace-pre-wrap font-sans text-xs leading-relaxed text-slate-300 bg-slate-950 p-3 rounded border border-slate-800"
+                             dangerouslySetInnerHTML={{ __html: item.telegramMessage || 'No telegram message generated.' }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+          )}
+        </div>
       </div>
 
       {/* SECTION 1.3: DETERMINISTIC MARKET INTELLIGENCE FUSION MATRIX */}
@@ -1845,6 +2195,18 @@ export default function CommandCenterDashboard() {
 
       </div>
 
+      {/* PHASE 12: QUANTITATIVE STRATEGY INTELLIGENCE DASHBOARD */}
+      <QuantStrategyDashboard symbol={selectedSymbol} />
+
+      {/* PHASE 13: PORTFOLIO INTELLIGENCE & POSITION DECISION DASHBOARD */}
+      <PortfolioIntelligenceDashboard symbol={selectedSymbol} />
+
+      {/* PHASE 14: EXECUTION INTELLIGENCE & DETERMINISTIC TRADE LIFECYCLE ENGINE */}
+      <ExecutionCenterDashboard />
+
+      {/* PHASE 16: AUTONOMOUS RESEARCH, REGIME DISCOVERY & STRATEGY EVOLUTION ENGINE */}
+      <ResearchEvolutionDashboard />
+
       {/* SECTION 5 & 6 & 7 & 8: ASSET INTELLIGENCE DOSSIER & TRADER ACTIONABILITY LAYER */}
       <div className="bg-slate-900/90 border border-slate-800/80 rounded-lg p-5" id="asset-intelligence-dossier-section">
         
@@ -2188,6 +2550,8 @@ export default function CommandCenterDashboard() {
         )}
 
       </div>
+
+      <UnifiedIntelligenceDashboard />
 
     </div>
   );

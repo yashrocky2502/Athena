@@ -1,0 +1,116 @@
+[
+  {
+    "id": "news_hist_01",
+    "canonicalArticleId": "art_20260720_0910",
+    "headline": "RBI Governor indicates robust macro buffers ahead of monsoon session",
+    "summary": "Reserve Bank of India reiterates liquidity stance and CPI alignment towards 4% target.",
+    "publishedAt": "2026-07-20T09:10:00.000Z",
+    "ingestedAt": "2026-07-20T09:10:12.000Z",
+    "source": "REUTERS",
+    "publisher": "Reuters Financial",
+    "entities": [
+      "NIFTY 50",
+      "RBI",
+      "BANKNIFTY"
+    ],
+    "sectors": [
+      "Banking",
+      "Macro"
+    ],
+    "sentiment": "BULLISH",
+    "catalystClassification": "MACRO_POLICY",
+    "sourceReliability": 96,
+    "evidenceReferences": [
+      "RBI_PR_20260720"
+    ],
+    "isFnO": true,
+    "schemaVersion": "v23.1",
+    "deterministicHash": "h_f10d5cf4a28830ce",
+    "provenanceId": "prov_758304a69a"
+  },
+  {
+    "id": "news_hist_02",
+    "canonicalArticleId": "art_20260720_0921",
+    "headline": "Reliance Retail signs strategic cross-border tech logistics partnership",
+    "summary": "Reliance Retail expands omnichannel logistics with green energy fleet deployment.",
+    "publishedAt": "2026-07-20T09:21:00.000Z",
+    "ingestedAt": "2026-07-20T09:21:05.000Z",
+    "source": "ECONOMIC_TIMES",
+    "publisher": "Economic Times",
+    "entities": [
+      "RELIANCE",
+      "NIFTY 50"
+    ],
+    "sectors": [
+      "Retail",
+      "Energy"
+    ],
+    "sentiment": "BULLISH",
+    "catalystClassification": "CORPORATE_EXPANSION",
+    "sourceReliability": 94,
+    "evidenceReferences": [
+      "RIL_EXCHANGE_DISCLOSURE"
+    ],
+    "isFnO": true,
+    "schemaVersion": "v23.1",
+    "deterministicHash": "h_d9b8b6fb248c9004",
+    "provenanceId": "prov_9f4477ad8a"
+  },
+  {
+    "id": "news_hist_03",
+    "canonicalArticleId": "art_20260720_1130",
+    "headline": "European natural gas prices surge amid Baltic pipeline maintenance",
+    "summary": "Global energy benchmarks see temporary spike, putting short-term pressure on emerging market import bills.",
+    "publishedAt": "2026-07-20T11:30:00.000Z",
+    "ingestedAt": "2026-07-20T11:30:45.000Z",
+    "source": "BLOOMBERG",
+    "publisher": "Bloomberg Global",
+    "entities": [
+      "CRUDE_OIL",
+      "NIFTY 50",
+      "RELIANCE"
+    ],
+    "sectors": [
+      "Commodities",
+      "Energy"
+    ],
+    "sentiment": "BEARISH",
+    "catalystClassification": "GLOBAL_COMMODITY_SHOCK",
+    "sourceReliability": 95,
+    "evidenceReferences": [
+      "ICE_ENERGY_REPORT"
+    ],
+    "isFnO": true,
+    "schemaVersion": "v23.1",
+    "deterministicHash": "h_0bde1bdb94dd42e9",
+    "provenanceId": "prov_8858d627d0"
+  },
+  {
+    "id": "news_hist_04",
+    "canonicalArticleId": "art_20260720_1315",
+    "headline": "Ministry of Petroleum clarifies domestic gas allocation formula",
+    "summary": "Refining margins protected under revised domestic pricing ceiling.",
+    "publishedAt": "2026-07-20T13:15:00.000Z",
+    "ingestedAt": "2026-07-20T13:15:20.000Z",
+    "source": "PIB_INDIA",
+    "publisher": "Press Information Bureau",
+    "entities": [
+      "RELIANCE",
+      "ONGC",
+      "OIL"
+    ],
+    "sectors": [
+      "Oil & Gas"
+    ],
+    "sentiment": "BULLISH",
+    "catalystClassification": "POLICY_CLARIFICATION",
+    "sourceReliability": 99,
+    "evidenceReferences": [
+      "MOPNG_GAZETTE_0720"
+    ],
+    "isFnO": true,
+    "schemaVersion": "v23.1",
+    "deterministicHash": "h_e3e5ff008dbb95c3",
+    "provenanceId": "prov_66eee7a97d"
+  }
+]

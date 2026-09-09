@@ -8,11 +8,15 @@ import { IntelligenceCoordinator } from "../mcp/IntelligenceCoordinator";
 import { ResearchService } from "../services/ResearchService";
 
 import { CompanyIdentityResolver } from "../lib/CompanyIdentityResolver";
+import { athenaQueryIntentRouter } from "../news/search/AthenaQueryIntentRouter";
+import { QueryIntent } from "../news/search/QueryIntentTypes";
 
 const SUGGESTED_QUERIES = [
-  { text: "What is the 12-month outlook for Reliance Industries?", label: "Reliance Analysis" },
-  { text: "Impact of the Union Budget on LTCG and STCG tax?", label: "Union Budget Tax" },
-  { text: "Is Tata Motors a Strong Buy right now with EV dominance?", label: "Tata Motors EV" },
+  { text: "Why is market down today?", label: "Market Causal Analysis" },
+  { text: "Why is Reliance falling today?", label: "Reliance Cause" },
+  { text: "What changed since morning?", label: "Intraday Delta" },
+  { text: "Why are banks falling today?", label: "Sector Analysis" },
+  { text: "What is the 12-month outlook for Reliance Industries?", label: "Reliance Outlook" },
   { text: "Which Indian defense & renewable sectors have the best growth?", label: "Breakout Sectors" }
 ];
 
@@ -124,7 +128,63 @@ export default function AiSearch({ triggerQuery, onClearTrigger, onSelectCompany
     }, 1200);
 
     try {
-      // Step 1: Try to resolve as a company or asset
+      // Step 0: Causal intelligence router for natural language market queries
+      const routed = athenaQueryIntentRouter.routeQuery(searchQuery);
+      if (
+        routed.intent === QueryIntent.MARKET_CAUSE_ANALYSIS || 
+        routed.intent === QueryIntent.INDEX_CAUSE_ANALYSIS ||
+        routed.intent === QueryIntent.STOCK_CAUSE_ANALYSIS || 
+        routed.intent === QueryIntent.SECTOR_CAUSE_ANALYSIS || 
+        routed.intent === QueryIntent.INTRADAY_CHANGE_ANALYSIS || 
+        routed.intent === QueryIntent.DAILY_DIGEST
+      ) {
+        const formattedText = `⚡ Smart Summary
+
+### What Happened
+${routed.answer.headline}
+
+### Why It Matters
+${routed.answer.primaryCause}
+
+### Market Reactions & Microstructure
+${routed.answer.marketReactions.map(r => `• ${r}`).join('\n')}
+
+### Verified Facts
+${routed.answer.facts.map(f => `• ${f}`).join('\n')}
+
+### Athena Strategic Interpretation
+${routed.answer.athenaInterpretation}
+
+### Confidence
+${routed.confidence >= 80 ? 'High' : 'Medium'} (${routed.confidence}% Validated)
+
+### Move Attribution
+${routed.answer.attributionType || 'MACRO_DRIVEN'}
+
+***
+
+## Detailed Analysis
+${routed.answer.primaryCause}
+
+${routed.answer.athenaInterpretation}
+
+${routed.answer.watchlist && routed.answer.watchlist.length > 0 ? `\n### Key Pivot Watchlist\n${routed.answer.watchlist.map(w => `• ${w}`).join('\n')}` : ''}
+`;
+
+        setResult({
+          text: formattedText,
+          sources: (routed.evidence || []).map(e => ({
+            title: `${e.source.toUpperCase()} [${e.relationshipToConclusion}]: ${e.observedValue}`,
+            url: '#',
+            publishedDate: e.timestamp
+          }))
+        });
+        setLoading(false);
+        clearInterval(stepInterval);
+        return;
+      }
+
+      // Step 1: Try to resolve as a pure company or asset lookup
       const company = await resolver.resolveCompany(searchQuery);
       if (company && (onSelectCompany || onSelectMarketAsset)) {
         const exchange = company.profile?.exchange?.toUpperCase() || "";

@@ -1,6 +1,6 @@
 {
   "name": "Athena AI",
-  "description": "AI-powered financial intelligence platform for Indian investors.",
+  "description": "Autonomous Financial Intelligence & Quantitative Trading OS with Decision Intelligence, Evidence-Backed Opportunity Engine, Market Truth, and Personal Broker Connection Hub.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

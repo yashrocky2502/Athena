@@ -16,6 +16,13 @@ export interface CanonicalArticle {
     schemaVersion: string;
 }
 
+export interface StructuredKeyNumber {
+    value: string;
+    unit?: string;
+    context: string;
+    sourceSpan?: string;
+}
+
 export interface CanonicalArticleSummary {
     articleId: string;
     headline: string;
@@ -24,9 +31,15 @@ export interface CanonicalArticleSummary {
     backgroundAndContext?: string;
     whyItMatters: string;
     keyFacts: string[];
-    importantNumbers: Array<{ value: string; context: string }>;
+    importantNumbers: Array<{ value: string; unit?: string; context: string; sourceSpan?: string }>;
     entities: string[];
     eventType: string;
+    articleType?: string;
+    quality?: 'EXCELLENT' | 'GOOD' | 'UNAVAILABLE';
+    materialFacts?: string[];
+    factCoverageScore?: number;
+    sourceCoverage?: 'FULL_BODY' | 'PARTIAL' | 'UNAVAILABLE';
+    evidenceCount?: number;
     publisher?: string;
     publishedAt?: string;
     canonicalUrl?: string;
@@ -36,6 +49,7 @@ export interface CanonicalArticleSummary {
     qualityGatePassed?: boolean;
     qualityGateScore?: number;
     qualityGateReason?: string;
+    summaryVersion?: string;
     generatedAt?: string;
     cached?: boolean;
     revision?: string;

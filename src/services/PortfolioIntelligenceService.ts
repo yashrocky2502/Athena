@@ -68,67 +68,65 @@ export class PortfolioIntelligenceService {
   public getPortfolioReview(portfolioId: string): PortfolioReview {
     const holdings = this.portfolioService.getHoldings(portfolioId);
     
+    if (holdings.length === 0) {
+      return {
+        summary: "No portfolio data yet. Add holdings, positions, or import an Excel/CSV portfolio to activate intelligence.",
+        strengths: ["No active drawdown exposure"],
+        weaknesses: ["Capital is entirely unallocated"],
+        riskConcentration: "Zero market risk exposure",
+        opportunities: ["Add core holdings or import CSV/Excel to generate opportunity linkages"],
+        monitoringItems: ["Awaiting portfolio asset entry"],
+        evidence: ["Evidence graph ready for ingestion"]
+      };
+    }
+
+    const totalInvestment = holdings.reduce((sum, h) => sum + h.investmentAmount, 0);
+    const sortedHoldings = [...holdings].sort((a, b) => b.investmentAmount - a.investmentAmount);
+    const topHolding = sortedHoldings[0];
+    const topHoldingWeight = totalInvestment > 0 ? ((topHolding.investmentAmount / totalInvestment) * 100).toFixed(1) : "0";
+
+    const sectorMap: Record<string, number> = {};
+    holdings.forEach(h => {
+      sectorMap[h.sector] = (sectorMap[h.sector] || 0) + h.investmentAmount;
+    });
+    const topSectorEntry = Object.entries(sectorMap).sort((a, b) => b[1] - a[1])[0];
+    const topSectorName = topSectorEntry ? topSectorEntry[0] : "Diversified";
+    const topSectorPct = topSectorEntry && totalInvestment > 0 ? ((topSectorEntry[1] / totalInvestment) * 100).toFixed(1) : "0";
+
     return {
-      summary: "Your portfolio is positioned defensively with a strong bias towards large-cap energy and technology leaders. Intelligence suggests a shift towards growth in mid-tier infrastructure which is currently under-represented.",
+      summary: `Your portfolio holds ${holdings.length} active positions totaling ₹${totalInvestment.toLocaleString('en-IN')}. Lead allocation is in ${topSectorName} (${topSectorPct}%) with anchor position in ${topHolding.symbol} (${topHoldingWeight}%).`,
       strengths: [
-        "High confidence in core energy holdings",
-        "Strong dividend yield from defensive positions",
-        "Low correlation between primary holdings"
+        `Core position in ${topHolding.symbol} providing structural balance`,
+        Object.keys(sectorMap).length >= 2 ? `Multi-sector exposure across ${Object.keys(sectorMap).length} sectors` : "Thematic concentration in primary sector",
+        "Deterministic position tracking without external broker API dependency"
       ],
       weaknesses: [
-        "Concentration in Energy (60%)",
-        "Limited exposure to emerging sectors (EV, FinTech)",
-        "Stagnant growth in IT services segment"
+        parseFloat(topHoldingWeight) > 35 ? `High single-stock concentration in ${topHolding.symbol} (${topHoldingWeight}%)` : "Position weights are balanced",
+        parseFloat(topSectorPct) > 50 ? `Elevated sector concentration in ${topSectorName} (${topSectorPct}%)` : "Sector spread is within standard deviation"
       ],
-      riskConcentration: "The portfolio has a high sensitivity to domestic regulatory shifts in the energy sector.",
-      opportunities: [
-        "Green energy transition in Reliance suggests long-term story strengthening.",
-        "TCS digital transformation contracts indicate quality resilience."
-      ],
-      monitoringItems: [
-        "Upcoming Reliance AGM for energy split clarity",
-        "US Fed commentary impact on IT spending",
-        "Quarterly filing from TCS regarding margin compression"
-      ],
+      riskConcentration: `The portfolio has high sensitivity to macroeconomic catalysts in ${topSectorName}.`,
+      opportunities: holdings.slice(0, 3).map(h => `${h.symbol}: Monitor quantitative setup and earnings for margin expansion.`),
+      monitoringItems: holdings.slice(0, 3).map(h => `Upcoming AGM and corporate filings for ${h.symbol}`),
       evidence: [
-        "Institutional accumulation in Energy index (Evidence Consistency: 92%)",
-        "Corporate filings indicate 15% YoY growth in digital segments",
-        "Macro indicators suggest stable interest rate regime"
+        `Verified position records for ${holdings.length} assets`,
+        "Evidence audit trail active in ATHENA Canonical Engine"
       ]
     };
   }
 
   public getPortfolioTimeline(portfolioId: string): PortfolioTimelineEvent[] {
     const holdings = this.portfolioService.getHoldings(portfolioId);
+    if (holdings.length === 0) return [];
     
-    return [
-      {
-        id: "ev-1",
-        timestamp: new Date().toISOString(),
-        type: "STORY",
-        title: "Reliance Green Energy Pivot Confirmed",
-        description: "Latest filings confirm accelerated capex for solar facilities.",
-        symbol: "RELIANCE",
-        impact: "Positive"
-      },
-      {
-        id: "ev-2",
-        timestamp: new Date(Date.now() - 86400000).toISOString(),
-        type: "MACRO",
-        title: "IT Services Sector Outlook Downgraded",
-        description: "Goldman Sachs notes cautious spending in BFSI vertical.",
-        impact: "Neutral"
-      },
-      {
-        id: "ev-3",
-        timestamp: new Date(Date.now() - 172800000).toISOString(),
-        type: "CONFIDENCE",
-        title: "Confidence Increased: TCS Quality Story",
-        description: "New contract wins strengthen the long-term quality narrative.",
-        symbol: "TCS",
-        impact: "Positive"
-      }
-    ];
+    return holdings.map((h, idx) => ({
+      id: `ev-${idx}`,
+      timestamp: h.purchaseDate || new Date().toISOString(),
+      type: "STORY",
+      title: `${h.symbol} Position Initialized`,
+      description: `Held ${h.quantity} units in ${h.sector}. ${h.notes || ''}`,
+      symbol: h.symbol,
+      impact: "Positive"
+    }));
   }
 
   private calculatePortfolioMood(holdings: PortfolioHolding[], stories: MarketStory[]): string {

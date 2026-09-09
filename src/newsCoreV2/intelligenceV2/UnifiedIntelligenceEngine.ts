@@ -95,20 +95,33 @@ export class UnifiedIntelligenceEngine {
     else if (materialityScore >= 70 || relevanceScore >= 80) urgency = "HIGH";
     else if (materialityScore >= 50 || relevanceScore >= 60) urgency = "MEDIUM";
 
-    // 5. Source-Grounded Executive Summary Construction with SourceArticleExtractionGate (Stage 8.9.10)
+    // 5. Source-Grounded Executive Summary Construction with CanonicalNewsSummaryEngine
     const { diagnostic, cleanBody } = SourceArticleExtractionGate.evaluate(article);
-    const hasSuccessfulExtraction = diagnostic.extractionStatus === 'SUCCESS' && !!cleanBody;
+    const hasSuccessfulExtraction = (diagnostic.extractionStatus === 'SUCCESS' || (cleanBody && cleanBody.length >= 30)) && !!cleanBody;
     const effectiveArticle = (cleanBody && cleanBody.length > (article.body || "").length) 
       ? { ...article, body: cleanBody } 
       : article;
 
-    let executiveSummary = hasSuccessfulExtraction
-      ? this.buildExecutiveSummary(effectiveArticle, entity.companyName, resolvedMetrics.metrics, primaryCategory, eventType)
-      : "Summary unavailable — Open original source";
+    let canonicalSummary: any = null;
+    if (hasSuccessfulExtraction) {
+      try {
+        canonicalSummary = CanonicalNewsSummaryEngine.getInstance().generateDeterministicSummary(effectiveArticle);
+      } catch (e) {
+        // fallback to standard builder if needed
+      }
+    }
 
-    let whyItMatters = hasSuccessfulExtraction
-      ? this.buildWhyItMatters(effectiveArticle, entity, resolvedMetrics.metrics, primaryCategory, eventType)
-      : "";
+    let executiveSummary = canonicalSummary?.summary && canonicalSummary.summary !== canonicalSummary.headline
+      ? canonicalSummary.summary
+      : (hasSuccessfulExtraction 
+          ? this.buildExecutiveSummary(effectiveArticle, entity.companyName, resolvedMetrics.metrics, primaryCategory, eventType)
+          : "Summary unavailable — Open original source");
+
+    let whyItMatters = canonicalSummary?.whyItMatters && canonicalSummary.whyItMatters.trim()
+      ? canonicalSummary.whyItMatters
+      : (hasSuccessfulExtraction 
+          ? this.buildWhyItMatters(effectiveArticle, entity, resolvedMetrics.metrics, primaryCategory, eventType)
+          : "");
 
     // Apply the SummaryQualityGate to ensure no headline repetition or fabricated text slips through
     const qualityEval = SummaryQualityGate.evaluate(effectiveArticle, executiveSummary);
@@ -123,7 +136,9 @@ export class UnifiedIntelligenceEngine {
     const summaryQuality = (qualityEval.passed && hasSuccessfulExtraction) ? "EXCELLENT" : "UNAVAILABLE";
 
     // 6. Key Facts Extraction
-    const keyFacts = (qualityEval.passed && hasSuccessfulExtraction) ? this.extractKeyFacts(effectiveArticle, resolvedMetrics.metrics) : [];
+    const keyFacts = (canonicalSummary?.keyFacts && canonicalSummary.keyFacts.length > 0)
+      ? canonicalSummary.keyFacts
+      : ((qualityEval.passed && hasSuccessfulExtraction) ? this.extractKeyFacts(effectiveArticle, resolvedMetrics.metrics) : []);
 
     // 7. Event-First Why It Matters (Evidence-grounded explanation)
     // Completed above during initial assignment and gate check

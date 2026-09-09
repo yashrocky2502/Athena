@@ -58,6 +58,13 @@ import { productionTruthControlPlane } from '../controlPlane/ProductionTruthCont
 import { productionTruthDriftDetector } from '../controlPlane/ProductionTruthDriftDetector.ts';
 import { SourceArticleExtractionGate } from '../intelligence/SourceArticleExtractionGate.ts';
 import { SourceArticleExtractor } from '../intelligence/SourceArticleExtractor.ts';
+import { quantStrategyIntelligenceEngine } from '../quant/QuantStrategyIntelligenceEngine.ts';
+import { strategyCandidateEngine } from '../quant/StrategyCandidateEngine.ts';
+import { strategyBacktestEngine } from '../quant/StrategyBacktestEngine.ts';
+import { strategyExpectedValueEngine } from '../quant/StrategyExpectedValueEngine.ts';
+import { strategyRobustnessEngine } from '../quant/StrategyRobustnessEngine.ts';
+import { strategyRiskGate } from '../quant/StrategyRiskGate.ts';
+import { historicalAnalogueEngine } from '../quant/HistoricalAnalogueEngine.ts';
 import { aiCostGuard } from '../guard/AICostGuard.ts';
 import { FailureDomain } from '../guard/types.ts';
 import v5EventRoutes from '../routes/v5EventRoutes.ts';
@@ -3879,6 +3886,352 @@ router.post('/market-intelligence/outcomes/observe', (req: Request, res: Respons
         res.status(500).json({ status: 'error', message: err.message });
     }
 });
+
+// ==========================================
+// PHASE 11: EVENT-TO-SIGNAL TRANSMISSION APIS
+// ==========================================
+import { eventToSignalTransmissionEngine } from '../intelligence/EventToSignalTransmissionEngine.ts';
+import { eventTransmissionGraph } from '../intelligence/EventTransmissionGraph.ts';
+
+/**
+ * GET /api/v5/market-intelligence/transmission
+ * Returns transmission signals with optional filtering by symbol, priority, alignment, actionability
+ */
+router.get('/market-intelligence/transmission', (req: Request, res: Response) => {
+    try {
+        const { symbol, priority, alignment, actionability, minScore } = req.query;
+        let signals = eventToSignalTransmissionEngine.getAllSignals();
+
+        // If no signals are cached, evaluate all current articles in newsStore
+        if (signals.length === 0) {
+            const articles = newsStore.getAllArticles().slice(0, 50);
+            for (const art of articles) {
+                eventToSignalTransmissionEngine.transmitEventToSignal(art);
+            }
+            signals = eventToSignalTransmissionEngine.getAllSignals();
+        }
+
+        if (symbol) {
+            const symStr = (symbol as string).toUpperCase();
+            signals = signals.filter(s => s.symbol === symStr);
+        }
+        if (priority) {
+            const prioStr = (priority as string).toUpperCase();
+            signals = signals.filter(s => s.priority === prioStr);
+        }
+        if (alignment) {
+            const alignStr = (alignment as string).toUpperCase();
+            signals = signals.filter(s => s.alignment === alignStr);
+        }
+        if (actionability) {
+            const actStr = (actionability as string).toUpperCase();
+            signals = signals.filter(s => s.actionability === actStr);
+        }
+        if (minScore) {
+            const scoreNum = parseInt(minScore as string, 10);
+            if (!isNaN(scoreNum)) {
+                signals = signals.filter(s => s.transmissionScore >= scoreNum);
+            }
+        }
+
+        res.json({
+            status: 'success',
+            version: 'ATHENA_TRANSMISSION_V11.0',
+            signals
+        });
+    } catch (err: any) {
+        console.error('[MarketIntelligenceAPI] Transmission signals error:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/market-intelligence/transmission/observability
+ */
+router.get('/market-intelligence/transmission/observability', (_req: Request, res: Response) => {
+    try {
+        const observability = eventToSignalTransmissionEngine.getObservability();
+        res.json({
+            status: 'success',
+            version: 'ATHENA_TRANSMISSION_V11.0',
+            observability
+        });
+    } catch (err: any) {
+        console.error('[MarketIntelligenceAPI] Transmission observability error:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/market-intelligence/transmission/graph/:signalId
+ */
+router.get('/market-intelligence/transmission/graph/:signalId', (req: Request, res: Response) => {
+    try {
+        const { signalId } = req.params;
+        const dossier = eventTransmissionGraph.getDossier(signalId);
+
+        if (!dossier) {
+            return res.status(404).json({
+                status: 'error',
+                message: `Transmission graph dossier not found for signalId: ${signalId}`
+            });
+        }
+
+        res.json({
+            status: 'success',
+            version: 'ATHENA_TRANSMISSION_V11.0',
+            dossier
+        });
+    } catch (err: any) {
+        console.error('[MarketIntelligenceAPI] Transmission graph error:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/market-intelligence/transmission/evaluate
+ */
+router.post('/market-intelligence/transmission/evaluate', (req: Request, res: Response) => {
+    try {
+        const { articleId, article } = req.body;
+        let targetArticle = article;
+
+        if (!targetArticle && articleId) {
+            targetArticle = newsStore.getAllArticles().find(a => a.id === articleId);
+        }
+
+        if (!targetArticle) {
+            return res.status(400).json({ status: 'error', message: 'Valid article or articleId required.' });
+        }
+
+        const signal = eventToSignalTransmissionEngine.transmitEventToSignal(targetArticle, true);
+
+        res.json({
+            status: 'success',
+            version: 'ATHENA_TRANSMISSION_V11.0',
+            signal
+        });
+    } catch (err: any) {
+        console.error('[MarketIntelligenceAPI] Transmission evaluation error:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+// ==========================================
+// PHASE 12: QUANTITATIVE STRATEGY INTELLIGENCE APIS
+// ==========================================
+
+/**
+ * GET /api/v5/quant/health
+ * Returns quant engine operational status & observability metrics
+ */
+router.get('/quant/health', (req: Request, res: Response) => {
+    try {
+        const observability = quantStrategyIntelligenceEngine.getObservability();
+        res.json({
+            status: 'healthy',
+            engine: 'ATHENA_QUANT_STRATEGY_INTELLIGENCE_ENGINE_V12.0',
+            observability,
+            timestamp: new Date().toISOString()
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/quant/strategies/evaluate
+ * Evaluates Phase 11 signal to canonical strategy candidates (v12_strategy_candidate)
+ */
+router.post('/quant/strategies/evaluate', (req: Request, res: Response) => {
+    try {
+        const { articleId, article, signal } = req.body;
+        let targetSignal = signal;
+
+        if (!targetSignal && (articleId || article)) {
+            let art = article;
+            if (!art && articleId) {
+                art = newsStore.getAllArticles().find(a => a.id === articleId);
+            }
+            if (art) {
+                targetSignal = eventToSignalTransmissionEngine.transmitEventToSignal(art, true);
+            }
+        }
+
+        if (!targetSignal) {
+            return res.status(400).json({ status: 'error', message: 'Valid signal, article, or articleId required.' });
+        }
+
+        const candidates = quantStrategyIntelligenceEngine.evaluateSignalToStrategies(targetSignal, true);
+        const telegramSnapshot = candidates.length > 0 ? quantStrategyIntelligenceEngine.generateTelegramQuantSnapshot(candidates[0]) : '';
+
+        res.json({
+            status: 'success',
+            version: 'ATHENA_QUANT_STRATEGY_V12.0',
+            signalId: targetSignal.signalId,
+            candidatesCount: candidates.length,
+            candidates,
+            telegramSnapshot
+        });
+    } catch (err: any) {
+        console.error('[QuantAPI] Evaluate strategies error:', err);
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/quant/strategies
+ */
+router.get('/quant/strategies', (req: Request, res: Response) => {
+    try {
+        const obs = quantStrategyIntelligenceEngine.getObservability();
+        res.json({
+            status: 'success',
+            version: 'ATHENA_QUANT_STRATEGY_V12.0',
+            observability: obs
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * GET /api/v5/quant/strategies/:id
+ */
+router.get('/quant/strategies/:id', (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        res.json({
+            status: 'success',
+            version: 'ATHENA_QUANT_STRATEGY_V12.0',
+            strategyId: id,
+            note: 'Strategy candidate details lookup'
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/quant/strategies/candidates
+ */
+router.post('/quant/strategies/candidates', (req: Request, res: Response) => {
+    try {
+        const { signal } = req.body;
+        if (!signal) {
+            return res.status(400).json({ status: 'error', message: 'Signal object required.' });
+        }
+        const candidates = strategyCandidateEngine.generateCandidatesForSignal(signal);
+        res.json({ status: 'success', candidates });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/quant/strategies/backtest
+ */
+router.post('/quant/strategies/backtest', (req: Request, res: Response) => {
+    try {
+        const { strategyType, entryPrice, stopLossPrice, targetPrice, holdingPeriodMinutes, positionSizeContractsOrQty, signal } = req.body;
+        const precedents = historicalAnalogueEngine.findHistoricalAnalogues(signal);
+        const backtest = strategyBacktestEngine.runEventConditionedBacktest({
+            strategyType,
+            entryPrice,
+            stopLossPrice,
+            targetPrice,
+            holdingPeriodMinutes,
+            positionSizeContractsOrQty,
+            historicalPrecedents: precedents,
+            signal
+        });
+        res.json({ status: 'success', backtest });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/quant/strategies/validate
+ */
+router.post('/quant/strategies/validate', (req: Request, res: Response) => {
+    try {
+        const { backtest, precedents, compatibilityScore } = req.body;
+        const robustness = strategyRobustnessEngine.validateStrategyRobustness(backtest, precedents, compatibilityScore);
+        res.json({ status: 'success', robustness });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/quant/strategies/expected-value
+ */
+router.post('/quant/strategies/expected-value', (req: Request, res: Response) => {
+    try {
+        const { backtest, capitalRequiredINR } = req.body;
+        const ev = strategyExpectedValueEngine.calculateExpectedValue(backtest, capitalRequiredINR);
+        res.json({ status: 'success', expectedValue: ev });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * POST /api/v5/quant/strategies/historical-analogues
+ */
+router.post('/quant/strategies/historical-analogues', (req: Request, res: Response) => {
+    try {
+        const { signal } = req.body;
+        const precedents = historicalAnalogueEngine.findHistoricalAnalogues(signal);
+        res.json({ status: 'success', precedents });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * PHASE 13: PORTFOLIO INTELLIGENCE & POSITION DECISION ENDPOINTS
+ */
+import { portfolioDecisionEngine } from '../portfolio/PortfolioDecisionEngine.ts';
+import { portfolioTelegramSnapshot } from '../portfolio/PortfolioTelegramSnapshot.ts';
+
+router.post('/portfolio/evaluate', (req: Request, res: Response) => {
+    try {
+        const { candidateStrategy, portfolioSnapshot, rawPositions, capitalINR, marketRegime } = req.body;
+        const snapshotInput = portfolioSnapshot || {
+            totalCapitalINR: capitalINR || 500000,
+            rawPositions: rawPositions || []
+        };
+        const decision = portfolioDecisionEngine.evaluateCandidateForPortfolio(
+            candidateStrategy,
+            snapshotInput,
+            marketRegime || 'BALANCED'
+        );
+        const telegramText = portfolioTelegramSnapshot.generateTelegramSnapshot(decision);
+        res.json({ status: 'success', decision, telegramText });
+    } catch (err: any) {
+        res.status(500).json({ status: 'error', message: err.message });
+    }
+});
+
+/**
+ * PHASE 14: EXECUTION INTELLIGENCE & TRADE LIFECYCLE ENDPOINTS
+ */
+import executionRoutes from '../routes/executionRoutes.ts';
+router.use('/execution', executionRoutes);
+
+/**
+ * PHASE 15: CLOSED-LOOP INTELLIGENCE & ADAPTIVE LEARNING ENDPOINTS
+ */
+import learningRoutes from '../routes/learningRoutes.ts';
+router.use('/learning', learningRoutes);
+
+/**
+ * PHASE 16: AUTONOMOUS RESEARCH, REGIME DISCOVERY & STRATEGY EVOLUTION ENDPOINTS
+ */
+import researchRoutes from '../routes/researchRoutes.ts';
+router.use('/research', researchRoutes);
 
 export { router as newsV5Router, stage2Store, feedService, ingestionPipeline, liveWorker as liveIngestionWorker };
 

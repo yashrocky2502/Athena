@@ -9,6 +9,10 @@ import { getHumanMarketName, MASTER_MARKET_ITEMS, searchMarketDefinitions } from
 
 import { CompanyIdentityResolver } from "../lib/CompanyIdentityResolver";
 import { CompanyDeduplicationEngine } from "../lib/CompanyDeduplicationEngine";
+import { OpportunityWorkspace } from "./opportunities/OpportunityWorkspace";
+import { TopOpportunitiesPanel } from "./opportunities/TopOpportunitiesPanel";
+import { OpportunityStore } from "../news/opportunity/OpportunityStore";
+import { Zap } from "lucide-react";
 
 interface WatchlistDashboardProps {
   onSelectCompany: (symbol: string) => void;
@@ -19,6 +23,7 @@ export default function WatchlistDashboard({ onSelectCompany, onSelectNewsQuery 
   const prefService = UserPreferenceService.getInstance();
   const identityResolver = CompanyIdentityResolver.getInstance();
   const deduplicationEngine = CompanyDeduplicationEngine.getInstance();
+  const [activeTab, setActiveTab] = useState<"WATCHLIST" | "OPPORTUNITIES">("WATCHLIST");
   const [watchlist, setWatchlist] = useState<UserCompanyPreference[]>([]);
   
   const watchlistSymbols = useMemo(() => watchlist.map(p => p.symbol), [watchlist]);
@@ -109,19 +114,63 @@ export default function WatchlistDashboard({ onSelectCompany, onSelectNewsQuery 
         <div className="flex flex-col gap-1">
           <h2 className="font-display font-bold text-2xl text-white flex items-center gap-2">
             <Star className="w-6 h-6 text-amber-400" />
-            Watchlist
+            Watchlist & Intelligence Radar
           </h2>
-          <p className="text-xs text-slate-400">Track saved stocks, indices, crypto, forex and commodities in real-time.</p>
+          <p className="text-xs text-slate-400">Track saved assets and monitor autonomous evidence-backed opportunities.</p>
         </div>
 
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all shadow-md shadow-indigo-500/20 cursor-pointer self-start sm:self-auto"
-        >
-          <Plus className="h-4 w-4" />
-          <span>Add Asset</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <div className="bg-slate-950/80 border border-slate-800 p-1 rounded-xl flex items-center gap-1">
+            <button
+              onClick={() => setActiveTab("WATCHLIST")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === "WATCHLIST"
+                  ? "bg-slate-800 text-white shadow-sm"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              Watchlist Assets ({watchlist.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("OPPORTUNITIES")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === "OPPORTUNITIES"
+                  ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <Zap className="h-3.5 w-3.5 text-indigo-400" />
+              <span>Opportunity Radar</span>
+            </button>
+          </div>
+
+          {activeTab === "WATCHLIST" && (
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all shadow-md shadow-indigo-500/20 cursor-pointer"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Add Asset</span>
+            </button>
+          )}
+        </div>
       </div>
+
+      {activeTab === "OPPORTUNITIES" ? (
+        <div className="w-full animate-in fade-in duration-150">
+          <OpportunityWorkspace onSelectCompany={onSelectCompany} />
+        </div>
+      ) : (
+        <>
+          {/* Top Opportunities Highlight inside Watchlist */}
+          <TopOpportunitiesPanel
+            opportunities={OpportunityStore.getInstance().getOpportunities()}
+            onSelectOpportunity={(opp) => {
+              if (onSelectCompany) onSelectCompany(opp.instrument);
+              setActiveTab("OPPORTUNITIES");
+            }}
+            onViewAll={() => setActiveTab("OPPORTUNITIES")}
+          />
 
       {/* Confirmation Modal for Removal */}
       <AnimatePresence>
@@ -319,6 +368,8 @@ export default function WatchlistDashboard({ onSelectCompany, onSelectNewsQuery 
           })
         )}
       </div>
+      </>
+      )}
     </div>
   );
 }

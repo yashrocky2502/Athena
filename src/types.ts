@@ -620,6 +620,7 @@ export interface AthenaAlert {
   title: string;
   description: string;
   source?: string;
+  companySymbol?: string;
   
   // Quick Investor View
   timeHorizon?: 'Short Term' | 'Medium Term' | 'Long Term';

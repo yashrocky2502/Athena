@@ -36,6 +36,11 @@ import { runTelegramRegressionSuite } from "./src/tests/telegramIntegrationRegre
 import { runLiveDatasetAudit } from "./src/tests/telegramLiveAudit.ts";
 import { newsCoreV2Router } from "./src/newsCoreV2/api/newsCoreV2Routes.ts";
 import { newsV5Router } from "./src/news/api/newsV5Routes.ts";
+import { brokerRouter } from "./src/news/api/brokerRoutes.ts";
+import { marketTruthRouter } from "./src/news/routes/marketTruthRoutes.ts";
+import { historicalTruthRouter } from "./src/news/routes/historicalTruthRoutes.ts";
+import { evidenceRouter } from "./src/news/routes/evidenceRoutes.ts";
+import { portfolioRouter } from "./src/news/portfolio/broker/portfolioRoutes.ts";
 import { newsSyncService } from "./src/newsCoreV2/sync/NewsSyncService.ts";
 import { LegacyWriterGuard } from "./src/news/isolation/LegacyWriterGuard.ts";
 import { healthMonitor } from "./src/news/monitoring/HealthMonitor.ts";
@@ -290,13 +295,25 @@ app.use(["/api/v2/news", "/api/v3/news", "/api/v2/news/*", "/api/v3/news/*"], (r
 
 app.use("/api/v3", v3Router);
 app.use("/api/v4/news", newsCoreV2Router);
+app.use("/api/v4/portfolio", portfolioRouter);
 app.use("/api/v5/news", newsV5Router);
+app.use("/api/v5/market-truth", marketTruthRouter);
+app.use("/api/v5/history", historicalTruthRouter);
+app.use("/api/v5/replay", historicalTruthRouter);
+app.use("/api/v5/time-machine", historicalTruthRouter);
+app.use("/api/v5/evidence", evidenceRouter);
+app.use("/api/broker", brokerRouter);
+app.use("/api/marketdata", brokerRouter);
 app.use("/api/v5/intelligence", (req, res, next) => {
   req.url = "/intelligence" + req.url;
   newsV5Router(req, res, next);
 });
 app.use("/api/v5/market-intelligence", (req, res, next) => {
   req.url = "/market-intelligence" + req.url;
+  newsV5Router(req, res, next);
+});
+app.use("/api/v5/learning", (req, res, next) => {
+  req.url = "/learning" + req.url;
   newsV5Router(req, res, next);
 });
 

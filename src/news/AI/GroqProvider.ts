@@ -168,15 +168,17 @@ export class GroqProvider implements IAIProvider {
         const status = err?.response?.status;
         const errorMessage = err?.response?.data?.error?.message || err?.message || 'Unknown Groq Error';
 
-        if (status === 401 || status === 403) {
-          this.healthMonitor.recordFailure('groq', `Auth error ${status}: ${errorMessage}`, status);
-          const authErr = new Error(`Groq Authentication Failed (${status}): ${errorMessage}`);
-          (authErr as any).code = 'AUTH_FAILED' as GroqErrorCode;
-          throw authErr;
-        }
+        // Handle model not found or invalid model/access errors by trying the next model
+        const isModelError =
+          status === 404 ||
+          status === 400 ||
+          errorMessage.includes('does not exist') ||
+          errorMessage.includes('do not have access to') ||
+          errorMessage.includes('decommissioned') ||
+          errorMessage.includes('model') ||
+          errorMessage.includes('not found');
 
-        // Handle model not found or invalid model errors by trying the next model
-        if (status === 404 || status === 400 || errorMessage.includes('does not exist') || errorMessage.includes('decommissioned') || errorMessage.includes('model') || errorMessage.includes('not found')) {
+        if (isModelError) {
           console.warn(`[GroqProvider] Model '${modelToUse}' unavailable (${errorMessage}). Recording poisoned model...`);
           this.healthMonitor.recordPoisonedModel(modelToUse);
           this.healthMonitor.recordFailure('groq', errorMessage, status || '404');
@@ -184,6 +186,11 @@ export class GroqProvider implements IAIProvider {
           if (attempt <= maxRetries) {
             continue;
           }
+        } else if (status === 401 || status === 403) {
+          this.healthMonitor.recordFailure('groq', `Auth error ${status}: ${errorMessage}`, status);
+          const authErr = new Error(`Groq Authentication Failed (${status}): ${errorMessage}`);
+          (authErr as any).code = 'AUTH_FAILED' as GroqErrorCode;
+          throw authErr;
         }
 
         if (status === 429) {

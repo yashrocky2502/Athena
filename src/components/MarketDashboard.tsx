@@ -4,7 +4,8 @@ import { MarketIndex, TrendingStock } from "../types";
 import { 
   TrendingUp, TrendingDown, Search, Activity, Sparkles, Globe, Coins, Box, 
   DollarSign, ListFilter, Sliders, Info, ShieldAlert, History, X, RefreshCw, 
-  Flame, ArrowUpDown, Zap, SlidersHorizontal, Check, Filter, ChevronRight 
+  Flame, ArrowUpDown, Zap, SlidersHorizontal, Check, Filter, ChevronRight,
+  ShieldCheck
 } from "lucide-react";
 import { useLiveMarket } from "../hooks/useLiveMarket";
 import { useHistoricalData } from "../hooks/useHistoricalData";
@@ -16,6 +17,10 @@ import { TrendingStockEngine, ExtendedTrendingStock } from "../services/Trending
 import ManageMarkets from "./ManageMarkets";
 import MarketMovers from "./MarketMovers";
 import { safeLocalStorage } from "../services/storage/safeStorage";
+import { MarketTruthWorkspace } from "./market-truth/MarketTruthWorkspace";
+import { OpportunityWorkspace } from "./opportunities/OpportunityWorkspace";
+import { TopOpportunitiesPanel } from "./opportunities/TopOpportunitiesPanel";
+import { OpportunityStore } from "../news/opportunity/OpportunityStore";
 
 interface MarketDashboardProps {
   onSelectStock: (query: string) => void;
@@ -24,7 +29,7 @@ interface MarketDashboardProps {
   highlightedSymbol?: string;
 }
 
-type MarketTab = "India" | "Global" | "Crypto" | "Commodities" | "Currencies";
+type MarketTab = "India" | "Global" | "Crypto" | "Commodities" | "Currencies" | "Market Truth" | "Opportunities";
 type CapFilter = "All" | "Large Cap" | "Mid Cap" | "Small Cap";
 type SortOption = 
   | "Trending Score" 
@@ -111,6 +116,24 @@ const TAB_CONFIG: Record<MarketTab, {
     stockLabel: "Forex Rates (INR)",
     currency: "₹",
     icon: DollarSign
+  },
+  "Market Truth": {
+    indices: ['^NSEI', '^BSESN', '^NSEBANK'],
+    stocks: ['RELIANCE', 'HDFCBANK', 'TCS', 'INFY'],
+    label: "Market Truth Layer",
+    indexLabel: "Authoritative Market Truth",
+    stockLabel: "Verified Equities",
+    currency: "₹",
+    icon: ShieldCheck
+  },
+  "Opportunities": {
+    indices: ['^NSEI', '^BSESN', '^NSEBANK'],
+    stocks: ['RELIANCE', 'HDFCBANK', 'TCS', 'INFY', 'TATAMOTORS'],
+    label: "Opportunities",
+    indexLabel: "Autonomous Opportunity Engine",
+    stockLabel: "Evidence-Backed Opportunities",
+    currency: "₹",
+    icon: Zap
   }
 };
 
@@ -249,7 +272,9 @@ export default function MarketDashboard({
       "Global": "Global Markets",
       "Commodities": "Commodities",
       "Currencies": "Forex",
-      "Crypto": "Crypto"
+      "Crypto": "Crypto",
+      "Market Truth": "Indian Markets",
+      "Opportunities": "Indian Markets"
     };
     const cat = tabToCat[activeTab];
     const itemsForTab = marketOrder.filter(sym => {
@@ -419,11 +444,31 @@ export default function MarketDashboard({
         })}
       </div>
 
-      {/* Main Dashboard Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* If Market Truth tab is selected, render the dedicated institutional truth layer */}
+      {activeTab === "Market Truth" ? (
+        <div className="w-full animate-in fade-in duration-150">
+          <MarketTruthWorkspace />
+        </div>
+      ) : activeTab === "Opportunities" ? (
+        <div className="w-full animate-in fade-in duration-150">
+          <OpportunityWorkspace onSelectCompany={onSelectCompany} />
+        </div>
+      ) : (
+        /* Main Dashboard Layout */
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* LEFT / MAIN COLUMN: Index Grid & Chart */}
         <div className="lg:col-span-2 flex flex-col gap-4">
+          
+          {/* Top Opportunities Highlight */}
+          <TopOpportunitiesPanel
+            opportunities={OpportunityStore.getInstance().getOpportunities()}
+            onSelectOpportunity={(opp) => {
+              if (onSelectCompany) onSelectCompany(opp.instrument);
+              setActiveTab("Opportunities");
+            }}
+            onViewAll={() => setActiveTab("Opportunities")}
+          />
           
           {/* Header Bar */}
           <div className="flex items-center justify-between px-1">
@@ -543,6 +588,7 @@ export default function MarketDashboard({
           />
         </div>
       </div>
+      )}
 
       {/* FILTER BOTTOM SHEET MODAL */}
       <AnimatePresence>
