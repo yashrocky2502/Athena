@@ -95,13 +95,34 @@ You MUST output your response in EXACTLY this Markdown format:
 `;
 
     try {
-      const response = await this.ai.models.generateContent({
-        model: "gemini-3.1-flash-lite",
-        contents: prompt,
-        config: {
-          tools: tools as any,
+      const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.7-flash", "gemini-2.5-flash"];
+      let response: any = null;
+      let lastErr: any = null;
+
+      for (const modelCandidate of candidateModels) {
+        try {
+          response = await this.ai.models.generateContent({
+            model: modelCandidate,
+            contents: prompt,
+            config: {
+              tools: tools as any,
+            }
+          });
+          if (response) break;
+        } catch (mErr: any) {
+          lastErr = mErr;
+          const msg = String(mErr?.message || mErr);
+          if (msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED")) {
+            console.warn(`[SearchOrchestrator] Model ${modelCandidate} quota exceeded, trying candidate failover...`);
+            continue;
+          }
+          throw mErr;
         }
-      });
+      }
+
+      if (!response) {
+        throw lastErr || new Error("All candidate models failed in SearchOrchestrator");
+      }
 
       searchResultText = response.text || "Analysis generated but empty.";
       promptTokenCount = response.usageMetadata?.promptTokenCount || 0;
@@ -183,9 +204,10 @@ You MUST output your response in EXACTLY this Markdown format:
       return result;
 
     } catch (error: any) {
-      const isRateLimited = error?.message?.includes("429") || error?.error?.code === 429;
+      const msg = String(error?.message || error);
+      const isRateLimited = msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED") || msg.includes("resource_exhausted") || error?.status === 429;
       if (isRateLimited) {
-        console.warn("Search Orchestrator Rate Limited");
+        console.warn("Search Orchestrator Rate Limited / Quota Exceeded");
       } else {
         console.log("Search Orchestrator Error:", error);
       }

@@ -32,14 +32,35 @@ Output a JSON array of events with the following structure:
 ]
 Only use real data. Return purely JSON.`;
 
-    const response = await this.ai.models.generateContent({
-      model: "gemini-3.1-flash-lite",
-      contents: prompt,
-      config: {
-        tools: [{ googleSearch: {} }] as any,
-        responseMimeType: "application/json"
+    const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.7-flash", "gemini-2.5-flash"];
+    let response: any = null;
+    let lastErr: any = null;
+
+    for (const modelCandidate of candidateModels) {
+      try {
+        response = await this.ai.models.generateContent({
+          model: modelCandidate,
+          contents: prompt,
+          config: {
+            tools: [{ googleSearch: {} }] as any,
+            responseMimeType: "application/json"
+          }
+        });
+        if (response) break;
+      } catch (err: any) {
+        lastErr = err;
+        const msg = String(err?.message || err);
+        if (msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED")) {
+          console.warn(`[GoogleSearchMCP] Candidate model ${modelCandidate} quota exceeded, failing over...`);
+          continue;
+        }
+        throw err;
       }
-    });
+    }
+
+    if (!response) {
+      throw lastErr || new Error("GoogleSearchMCP: All models exhausted");
+    }
 
     const rawChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
     const sourceMap = new Map<string, any>();

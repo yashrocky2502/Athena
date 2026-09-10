@@ -344,6 +344,44 @@ if (apiKey && apiKey !== "MY_GEMINI_API_KEY") {
 queryPlanner = new QueryPlanner(ai);
 searchOrchestrator = new SearchOrchestrator(ai);
 
+async function executeServerGeminiWithFailover(
+  aiClient: GoogleGenAI,
+  params: { contents: any; config?: any; defaultModel?: string }
+) {
+  const candidateModels = [
+    params.defaultModel,
+    process.env.GEMINI_MODEL,
+    "gemini-3.6-flash",
+    "gemini-3.7-flash",
+    "gemini-3.1-flash-lite",
+    "gemini-2.5-flash"
+  ].filter((m): m is string => Boolean(m) && typeof m === "string" && m.trim().length > 0);
+
+  const uniqueModels = Array.from(new Set(candidateModels));
+  let lastError: any = null;
+
+  for (const modelCandidate of uniqueModels) {
+    try {
+      const response = await aiClient.models.generateContent({
+        model: modelCandidate,
+        contents: params.contents,
+        config: params.config
+      });
+      return { response, modelUsed: modelCandidate };
+    } catch (err: any) {
+      lastError = err;
+      const msg = String(err?.message || err);
+      console.warn(`[Server AI Failover] Model ${modelCandidate} failed (${msg}). Trying next candidate model...`);
+      const isQuotaOrRateLimit = msg.includes("429") || msg.includes("RESOURCE_EXHAUSTED") || msg.includes("Quota") || msg.includes("limit");
+      if (!isQuotaOrRateLimit && !msg.includes("404") && !msg.includes("not found") && !msg.includes("503") && !msg.includes("UNAVAILABLE")) {
+        break;
+      }
+    }
+  }
+
+  throw lastError || new Error("All Gemini candidate models failed");
+}
+
 function safeParseJSON(text: string, defaultValue: any = {}): any {
   try {
     const trimmed = text.trim();
@@ -602,8 +640,8 @@ Return the report in raw JSON format matching this EXACT typescript structure:
   "confidenceScore": 85
 }`;
 
-      const response = await ai.models.generateContent({
-        model: "gemini-3.7-flash",
+      const { response } = await executeServerGeminiWithFailover(ai, {
+        defaultModel: "gemini-3.6-flash",
         contents: prompt,
         config: {
           responseMimeType: "application/json"
@@ -794,8 +832,8 @@ app.post("/api/ai/watchlist-summary", async (req, res) => {
     
     Keep analysis concise and actionable.`;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3.7-flash",
+    const { response } = await executeServerGeminiWithFailover(ai, {
+      defaultModel: "gemini-3.6-flash",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -859,8 +897,8 @@ Return a JSON object with this structure:
   }
 }`;
     
-    const response = await ai.models.generateContent({
-      model: "gemini-3.7-flash",
+    const { response } = await executeServerGeminiWithFailover(ai, {
+      defaultModel: "gemini-3.6-flash",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -940,8 +978,8 @@ Output a JSON array of events with the following structure:
 Only use real data. Return purely JSON.`;
 
     try {
-      const response = await ai.models.generateContent({
-        model: "gemini-3.7-flash",
+      const { response } = await executeServerGeminiWithFailover(ai, {
+        defaultModel: "gemini-3.6-flash",
         contents: prompt,
         config: {
           tools: [{ googleSearch: {} }] as any,
@@ -1760,8 +1798,8 @@ app.post("/api/ai/investor-briefing", async (req, res) => {
 
       Provide ONLY raw JSON. Do not include markdown codeblocks or any additional commentary.`;
 
-      const response = await ai.models.generateContent({
-        model: "gemini-3.7-flash",
+      const { response } = await executeServerGeminiWithFailover(ai, {
+        defaultModel: "gemini-3.6-flash",
         contents: prompt,
         config: { responseMimeType: "application/json" }
       });
@@ -1875,8 +1913,8 @@ app.post("/api/ai/ask-athena", async (req, res) => {
 
       Provide a detailed, institutional-grade financial briefing answering their question with numbers, financial logic, and specific strategic advice. Use crisp paragraphs or structured bullet points. Format with markdown if needed. Return a JSON object with a single field "answer".`;
 
-      const response = await ai.models.generateContent({
-        model: "gemini-3.7-flash",
+      const { response } = await executeServerGeminiWithFailover(ai, {
+        defaultModel: "gemini-3.6-flash",
         contents: prompt,
         config: { responseMimeType: "application/json" }
       });

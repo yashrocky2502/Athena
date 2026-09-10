@@ -77,19 +77,30 @@ Output your response in standard JSON format containing exactly these three fiel
   "logicalPredicate": "A clean pseudocode boolean filter statement using variables like RVOL, sentiment, deliveryPct, oiChangePct"
 }`;
 
-        const response = await client.models.generateContent({
-          model: 'gemini-3.7-flash',
-          contents: prompt,
-          config: {
-            responseMimeType: 'application/json',
-          },
-        });
+        const candidates = ['gemini-3.6-flash', 'gemini-3.7-flash', 'gemini-3.1-flash-lite', 'gemini-2.5-flash'];
+        let response: any = null;
+        for (const candidate of candidates) {
+          try {
+            response = await client.models.generateContent({
+              model: candidate,
+              contents: prompt,
+              config: {
+                responseMimeType: 'application/json',
+              },
+            });
+            if (response) break;
+          } catch (mErr: any) {
+            console.warn(`[ResearchHypothesisEngine] Candidate ${candidate} failed, trying next candidate...`);
+          }
+        }
 
-        const text = response.text || '';
-        const parsed = JSON.parse(text.trim());
-        aiSuggestedTitle = parsed.title;
-        aiSuggestedDesc = parsed.description;
-        aiSuggestedPredicate = parsed.logicalPredicate;
+        if (response) {
+          const text = response.text || '';
+          const parsed = JSON.parse(text.trim());
+          aiSuggestedTitle = parsed.title;
+          aiSuggestedDesc = parsed.description;
+          aiSuggestedPredicate = parsed.logicalPredicate;
+        }
       } catch (err) {
         console.warn('Gemini API call failed or timed out, utilizing high-fidelity local generator:', err);
       }

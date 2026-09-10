@@ -12,7 +12,10 @@ export const AIModelConfig = {
     fallback: 'gemini-3.1-flash-lite',
     candidates: [
       'gemini-3.7-flash',
-      'gemini-3.1-flash-lite'
+      'gemini-3.6-flash',
+      'gemini-3.1-flash-lite',
+      'gemini-2.5-flash',
+      'gemini-1.5-flash'
     ]
   }
 };
