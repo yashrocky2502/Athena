@@ -3142,8 +3142,10 @@ async function startServer() {
       await registry.initializeAll();
 
       // Kick off continuous background schedulers
-      runNewsSchedulerCycle();
-      newsSyncService.startScheduler();
+      if (process.env.ATHENA_LEGACY_WRITERS_ENABLED !== "false") {
+        runNewsSchedulerCycle();
+        newsSyncService.startScheduler();
+      }
     } catch (err: any) {
       console.error("[Boot Validation] Error during background initialization:", err?.message || err);
     }
