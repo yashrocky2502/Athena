@@ -71,13 +71,34 @@ Return ONLY a valid JSON object with the following schema:
   "rationale": "Short explanation of why these sources were chosen."
 }`;
 
-      const response = await this.ai.models.generateContent({
-        model: "gemini-3.1-flash-lite",
-        contents: prompt,
-        config: {
-          responseMimeType: "application/json",
+      const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.7-flash", "gemini-2.5-flash"];
+      let response: any = null;
+      let lastErr: any = null;
+
+      for (const modelCandidate of candidateModels) {
+        try {
+          response = await this.ai.models.generateContent({
+            model: modelCandidate,
+            contents: prompt,
+            config: {
+              responseMimeType: "application/json",
+            }
+          });
+          if (response) break;
+        } catch (mErr: any) {
+          lastErr = mErr;
+          const msg = String(mErr?.message || mErr);
+          if (msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED")) {
+            console.warn(`[QueryPlanner] Model ${modelCandidate} quota exceeded, trying candidate failover...`);
+            continue;
+          }
+          throw mErr;
         }
-      });
+      }
+
+      if (!response) {
+        throw lastErr || new Error("All candidate models failed in QueryPlanner");
+      }
 
       if (!response.text) throw new Error("Empty response from AI");
       const cleaned = response.text.replace(/```json\n|\n```|```/g, "").trim();
