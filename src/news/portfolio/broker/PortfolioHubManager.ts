@@ -49,13 +49,15 @@ interface PortfolioDiskStore {
 
 export class PortfolioHubManager {
   private static instance: PortfolioHubManager;
+  private storePath: string;
   private portfolios: Map<string, Portfolio> = new Map();
   private activePortfolioId: string = 'PORTFOLIO_DEFAULT';
   private timeline: PortfolioTimelineEvent[] = [];
   private imports: Map<string, PortfolioImport> = new Map();
   private tradingMode: TradingExecutionMode = 'READ_ONLY';
 
-  public constructor() {
+  public constructor(customStorePath?: string) {
+    this.storePath = customStorePath || STORE_PATH;
     this.loadFromDisk();
   }
 
@@ -72,8 +74,8 @@ export class PortfolioHubManager {
 
   private loadFromDisk(): void {
     try {
-      if (fs.existsSync(STORE_PATH)) {
-        const raw = fs.readFileSync(STORE_PATH, 'utf-8');
+      if (fs.existsSync(this.storePath)) {
+        const raw = fs.readFileSync(this.storePath, 'utf-8');
         const data: PortfolioDiskStore = JSON.parse(raw);
         if (Array.isArray(data.portfolios) && data.portfolios.length > 0) {
           this.portfolios.clear();
@@ -126,7 +128,7 @@ export class PortfolioHubManager {
 
   private saveToDisk(): void {
     try {
-      const dir = path.dirname(STORE_PATH);
+      const dir = path.dirname(this.storePath);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
@@ -138,7 +140,7 @@ export class PortfolioHubManager {
         imports: Array.from(this.imports.values())
       };
 
-      fs.writeFileSync(STORE_PATH, JSON.stringify(payload, null, 2), 'utf-8');
+      fs.writeFileSync(this.storePath, JSON.stringify(payload, null, 2), 'utf-8');
     } catch (e) {
       console.error('Failed to write portfolio store to disk:', e);
     }

@@ -12,15 +12,33 @@
  * 8. Strict AI Data Firewall (read-only verification)
  */
 
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import path from "path";
+import os from "os";
+import fs from "fs";
 import { PortfolioHubManager } from "./PortfolioHubManager.ts";
 import { CanonicalPortfolioEngine } from "./CanonicalPortfolioEngine.ts";
 
 describe("PortfolioHubManager & Canonical Engine Test Suite", () => {
   let hub: PortfolioHubManager;
+  let testStorePath: string;
 
   beforeEach(() => {
-    hub = new PortfolioHubManager();
+    testStorePath = path.join(
+      os.tmpdir(),
+      `athena_test_portfolio_${Date.now()}_${Math.random().toString(36).substring(2)}.json`
+    );
+    hub = new PortfolioHubManager(testStorePath);
+  });
+
+  afterEach(() => {
+    try {
+      if (fs.existsSync(testStorePath)) {
+        fs.unlinkSync(testStorePath);
+      }
+    } catch {
+      // Ignore cleanup error in test
+    }
   });
 
   it("should initialize with default active portfolio or create one deterministically", () => {
