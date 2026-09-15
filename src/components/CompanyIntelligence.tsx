@@ -1080,6 +1080,12 @@ export default function CompanyIntelligence({ companySymbol, onBack, developerMo
 
           {premiumReport && (
             <div className="flex items-center gap-3 self-end md:self-center">
+              {premiumReport.status === "degraded" && (
+                <span className="text-[10px] text-amber-400 font-mono bg-amber-950/40 border border-amber-500/30 px-2.5 py-1 rounded-lg flex items-center gap-1">
+                  <AlertTriangle className="h-3 w-3 text-amber-400" />
+                  AI OFFLINE (DEGRADED)
+                </span>
+              )}
               <span className="text-[10px] text-slate-400 font-mono bg-slate-950 border border-slate-900 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
                 <Clock className="h-3.5 w-3.5 text-slate-500" />
                 Updated: <strong>{getRelativeTime(premiumReport.generatedAt)}</strong>
@@ -1129,6 +1135,12 @@ export default function CompanyIntelligence({ companySymbol, onBack, developerMo
         {/* 8 Requested Dossier Components */}
         {premiumReport && !loadingReport && (
           <div className="space-y-5">
+            {premiumReport.status === "degraded" && (
+              <div className="bg-amber-950/20 border border-amber-500/30 p-3 rounded-xl flex items-center gap-2.5 text-amber-300 text-xs font-mono">
+                <AlertTriangle className="h-4 w-4 shrink-0 text-amber-400" />
+                <span>AI intelligence models are currently unavailable. Truthful degraded mode is active — fabricated metrics and synthetic claims are disabled.</span>
+              </div>
+            )}
             
             {/* 1. Business Summary */}
             <div className="bg-slate-950/50 border border-slate-900 p-4 rounded-xl">

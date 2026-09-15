@@ -344,6 +344,155 @@ if (apiKey && apiKey !== "MY_GEMINI_API_KEY") {
 queryPlanner = new QueryPlanner(ai);
 searchOrchestrator = new SearchOrchestrator(ai);
 
+function sanitizeErrorMessage(rawMessage: string): string {
+  if (!rawMessage) return "";
+  let sanitized = String(rawMessage);
+
+  // 1. Redact configured GEMINI_API_KEY if present in environment
+  const envKey = process.env.GEMINI_API_KEY;
+  if (envKey && envKey.trim().length > 5) {
+    sanitized = sanitized.split(envKey).join("[REDACTED_API_KEY]");
+  }
+
+  // 2. Redact key query params: e.g. key=AIza..., api_key=..., apiKey=...
+  sanitized = sanitized.replace(/([?&](?:api_?key|key|token)=)[^&\s]+/gi, "$1[REDACTED_KEY]");
+
+  // 3. Redact Bearer / Basic authorization tokens
+  sanitized = sanitized.replace(/(Bearer\s+)[A-Za-z0-9_\-\.]{8,}/gi, "$1[REDACTED_TOKEN]");
+  sanitized = sanitized.replace(/(Authorization:\s*)[^\r\n]+/gi, "$1[REDACTED_AUTH]");
+
+  // 4. Redact potential Google API keys (AIza...)
+  sanitized = sanitized.replace(/\bAIza[0-9A-Za-z-_]{35}\b/g, "[REDACTED_AIZA_KEY]");
+
+  return sanitized;
+}
+
+function validateGeminiResponse(response: any): { isValid: boolean; reason?: string } {
+  if (!response) {
+    return { isValid: false, reason: "Response is null or undefined" };
+  }
+
+  const candidates = response.candidates;
+  if (!Array.isArray(candidates) || candidates.length === 0) {
+    return { isValid: false, reason: "Missing or empty candidates array" };
+  }
+
+  const firstCandidate = candidates[0];
+  if (!firstCandidate) {
+    return { isValid: false, reason: "First candidate is null or undefined" };
+  }
+
+  const finishReason = String(firstCandidate.finishReason || "").toUpperCase();
+  const blockedFinishReasons = ["SAFETY", "RECITATION", "BLOCKLIST", "PROHIBITED_CONTENT", "SPII"];
+  if (blockedFinishReasons.includes(finishReason)) {
+    return { isValid: false, reason: `Blocked finish reason: ${finishReason}` };
+  }
+
+  // Extract text: check response.text or candidate parts
+  let extractedText = typeof response.text === "string" ? response.text : "";
+  if (!extractedText && firstCandidate.content?.parts && Array.isArray(firstCandidate.content.parts)) {
+    extractedText = firstCandidate.content.parts
+      .map((p: any) => (typeof p?.text === "string" ? p.text : ""))
+      .join("");
+  }
+
+  if (!extractedText || extractedText.trim().length === 0) {
+    return { isValid: false, reason: "Empty or whitespace-only response text" };
+  }
+
+  return { isValid: true };
+}
+
+function isRetryableGeminiError(err: any): boolean {
+  if (!err) return false;
+
+  // Unusable response from Gemini validation (e.g. empty text, safety finish reason) is retryable with next model candidate
+  if (err.isUnusableResponse || (typeof err.message === "string" && err.message.startsWith("UNUSABLE_RESPONSE:"))) {
+    return true;
+  }
+
+  const rawStatus = err.status ?? err.statusCode ?? err.error?.code ?? err.response?.status;
+  const status = typeof rawStatus === "number" ? rawStatus : Number(rawStatus);
+  const code = String(err.code || "");
+  const name = String(err.name || "");
+  const msg = String(err.message || err);
+
+  // 1. Permanent / non-retryable failures: HTTP 400, 401, 403, invalid keys, invalid argument
+  if (status === 400 || status === 401 || status === 403) {
+    return false;
+  }
+  if (
+    msg.includes("INVALID_ARGUMENT") ||
+    msg.includes("UNAUTHENTICATED") ||
+    msg.includes("PERMISSION_DENIED") ||
+    msg.includes("API_KEY_INVALID") ||
+    msg.includes("API key not valid") ||
+    msg.includes("API key expired") ||
+    msg.includes("401 Unauthorized") ||
+    msg.includes("401") ||
+    msg.includes("403 Forbidden") ||
+    msg.includes("403") ||
+    (msg.includes("400") && !msg.includes("404"))
+  ) {
+    return false;
+  }
+
+  // 2. Retryable HTTP status codes
+  if ([404, 429, 500, 502, 503, 504].includes(status)) {
+    return true;
+  }
+
+  // 3. Retryable error codes / names (transient network / socket / timeout)
+  if (
+    code === "ETIMEDOUT" ||
+    code === "ECONNRESET" ||
+    code === "ECONNREFUSED" ||
+    code === "EAI_AGAIN" ||
+    name === "AbortError" ||
+    name === "TimeoutError"
+  ) {
+    return true;
+  }
+
+  // 4. Retryable message signatures (explicit, conservative - NO generic "limit")
+  const isQuota =
+    msg.includes("429") ||
+    msg.includes("RESOURCE_EXHAUSTED") ||
+    msg.toLowerCase().includes("quota exceeded") ||
+    msg.toLowerCase().includes("rate limit") ||
+    msg.toLowerCase().includes("too many requests");
+
+  const isNotFound =
+    msg.includes("404") ||
+    msg.includes("NOT_FOUND") ||
+    msg.toLowerCase().includes("model not found") ||
+    msg.toLowerCase().includes("not found");
+
+  const isUnavailableOrServer =
+    msg.includes("503") ||
+    msg.includes("500") ||
+    msg.includes("502") ||
+    msg.includes("504") ||
+    msg.includes("UNAVAILABLE") ||
+    msg.toLowerCase().includes("service unavailable") ||
+    msg.includes("INTERNAL") ||
+    msg.toLowerCase().includes("internal server error") ||
+    msg.toLowerCase().includes("bad gateway") ||
+    msg.toLowerCase().includes("gateway timeout");
+
+  const isNetwork =
+    msg.toLowerCase().includes("fetch failed") ||
+    msg.includes("ETIMEDOUT") ||
+    msg.includes("ECONNRESET") ||
+    msg.includes("ECONNREFUSED") ||
+    msg.includes("EAI_AGAIN") ||
+    msg.includes("AbortError") ||
+    msg.toLowerCase().includes("socket hang up") ||
+    msg.toLowerCase().includes("network timeout");
+
+  return isQuota || isNotFound || isUnavailableOrServer || isNetwork;
+}
+
 async function executeServerGeminiWithFailover(
   aiClient: GoogleGenAI,
   params: { contents: any; config?: any; defaultModel?: string }
@@ -367,13 +516,21 @@ async function executeServerGeminiWithFailover(
         contents: params.contents,
         config: params.config
       });
+
+      const validation = validateGeminiResponse(response);
+      if (!validation.isValid) {
+        const unusableErr = new Error(`UNUSABLE_RESPONSE: ${validation.reason}`);
+        (unusableErr as any).isUnusableResponse = true;
+        throw unusableErr;
+      }
+
       return { response, modelUsed: modelCandidate };
     } catch (err: any) {
       lastError = err;
-      const msg = String(err?.message || err);
-      console.warn(`[Server AI Failover] Model ${modelCandidate} failed (${msg}). Trying next candidate model...`);
-      const isQuotaOrRateLimit = msg.includes("429") || msg.includes("RESOURCE_EXHAUSTED") || msg.includes("Quota") || msg.includes("limit");
-      if (!isQuotaOrRateLimit && !msg.includes("404") && !msg.includes("not found") && !msg.includes("503") && !msg.includes("UNAVAILABLE")) {
+      const safeMsg = sanitizeErrorMessage(String(err?.message || err));
+      console.warn(`[Server AI Failover] Model ${modelCandidate} failed (${safeMsg}). Trying next candidate model...`);
+
+      if (!isRetryableGeminiError(err)) {
         break;
       }
     }
@@ -606,6 +763,7 @@ app.post("/api/company/intelligence", async (req, res) => {
   const price = details?.price || 1500;
 
   let reportData: any = null;
+  let modelUsed: string = "offline";
 
   if (ai) {
     console.log(`[Intelligence Generation] Requesting Gemini model to build premium report for: ${cleanSymbol}`);
@@ -640,7 +798,7 @@ Return the report in raw JSON format matching this EXACT typescript structure:
   "confidenceScore": 85
 }`;
 
-      const { response } = await executeServerGeminiWithFailover(ai, {
+      const { response, modelUsed: actualModelUsed } = await executeServerGeminiWithFailover(ai, {
         defaultModel: "gemini-3.6-flash",
         contents: prompt,
         config: {
@@ -648,67 +806,102 @@ Return the report in raw JSON format matching this EXACT typescript structure:
         }
       });
 
-      reportData = safeParseJSON(response.text || "{}");
+      const parsed = safeParseJSON(response.text || "{}");
+      if (parsed && typeof parsed === "object" && parsed.executiveSummary) {
+        reportData = parsed;
+        modelUsed = actualModelUsed;
+      } else {
+        console.warn("[Intelligence Generation] Gemini returned unstructured or empty report data.");
+      }
     } catch (error: any) {
       const isRateLimited = error?.status === 429 || error?.message?.includes("429") || error?.message?.includes("Quota exceeded");
       if (isRateLimited) {
-        console.warn("[Intelligence Generation] Gemini quota limit reached, using high-fidelity fallback generator.");
+        console.warn("[Intelligence Generation] Gemini quota limit reached for all candidate models.");
       } else {
-        console.error("[Intelligence Generation] Gemini execution failed:", error?.message || error);
+        console.error("[Intelligence Generation] Gemini execution failed:", sanitizeErrorMessage(error?.message || error));
       }
     }
   }
 
-  // 3. Fallback High-Fidelity Mock Generator (If Gemini is missing or failed)
-  if (!reportData || !reportData.executiveSummary) {
-    console.log(`[Intelligence Generation] Creating high-fidelity fallback premium report for: ${cleanSymbol}`);
-    reportData = {
-      executiveSummary: `Athena's quantitative appraisal for ${companyName} reveals a robust operating model coupled with substantial long-term tailwinds in the ${sector} sector. Despite temporary macroeconomic friction and sector-specific margin pressures, the company retains superior pricing power and structural dominance in its addressable market. Capital allocation efficiency remains superior to peers.`,
-      bullCase: `• Superior cost efficiency driving structural EBITDA margin expansion.\n• Dominant market share (exceeding 30% in core segments) acts as a high barrier to entry.\n• Highly liquid balance sheet with strong debt-service coverage ratio providing downside protection.`,
-      bearCase: `• Increasing regulatory compliance standards could escalate overhead expenses.\n• Potential vulnerability to raw material/inputs inflation cycles if pricing power weakens.\n• Moderate concentration of revenue within the top 5 enterprise clients.`,
-      competitiveAdvantages: `Strong brand equity and integrated supply-chain networks. Intellectual property portfolio coupled with high client retention rates creates a formidable competitive moat in ${industry}.`,
-      businessRisks: `Technological obsolescence risks and rapid shift in customer preferences. Operational dependency on key specialized leadership.`,
-      industryOutlook: `The ${sector} space is poised for a 12-14% CAGR over the next five years, spurred by digitization, urban demand, and proactive government capital expenditure policies.`,
-      managementQuality: `Superior governance score, represented by high independent board participation. Management possesses a proven track record of prudent capital reinvestment at high Incremental RoIC.`,
-      growthDrivers: `• Inorganic expansion through targeted mid-market acquisitions.\n• Untapped semi-urban distribution channels yielding strong initial unit economics.`,
-      keyCatalysts: `• Upcoming Q-on-Q margin disclosures demonstrating operating leverage.\n• Impending regulatory greenlights for new service lines.\n• Potential inclusion in FTSE/MSCI global indices leading to passive inflows.`,
-      redFlags: `• Minor increases in inventory days outstanding over the last two quarters.\n• Unresolved tax litigation contingencies representing 1.5% of net assets.`,
-      institutionalView: `Consensus institutional stance remains highly constructive. Major sovereign wealth funds and domestic mutual funds have incrementally raised their stakes by 1.8% in the trailing 12 months, viewing the company as a key compounder.`,
-      investmentOutlook: `Outperform outlook with 18-22% expected IRR driven by earnings compounding and multiple re-rating as return ratios expand above 20%.`,
-      optionSellerView: `High probability range-bound setup. Implied Volatility (IV) percentile is currently neutral (42nd percentile). OTM Put writing below technical support levels offers attractive Theta decay with minimal gamma risk outside earnings windows.`,
-      confidenceScore: 88
+  // 3. Truthful response handling: SUCCESS vs DEGRADED FALLBACK
+  if (reportData && reportData.executiveSummary) {
+    // Valid AI-generated intelligence — save to cache and return
+    const newEntry: PremiumReportCacheEntry = {
+      companySymbol: cleanSymbol,
+      generatedAt: new Date().toISOString(),
+      report: reportData,
+      model: modelUsed,
+      version: "1.0.0"
     };
+
+    cache[cleanSymbol] = newEntry;
+    writePremiumCache(cache);
+
+    console.log(`[Cache Diagnostic Audit - Saved]`);
+    console.log(`- Cache Key: ${cleanSymbol}`);
+    console.log(`- Report Source (Cache or AI): AI`);
+    console.log(`- Model Used: ${modelUsed}`);
+    console.log(`- Written to Persistent Storage: Yes (${PREMIUM_CACHE_FILE})`);
+
+    return res.json({
+      ...newEntry,
+      diagnostic: {
+        source: "AI",
+        cacheAge: "0.00 hours (Newly Generated)",
+        generatedAt: newEntry.generatedAt,
+        model: modelUsed,
+        cacheKey: cleanSymbol,
+        hit: false,
+        missReason: missReason || "Cache entry not found or force refresh requested."
+      }
+    });
   }
 
-  // 4. Save to Cache
-  const modelUsed = ai ? "gemini-3.7-flash" : "high-fidelity-fallback-v1";
-  const newEntry: PremiumReportCacheEntry = {
-    companySymbol: cleanSymbol,
-    generatedAt: new Date().toISOString(),
-    report: reportData,
-    model: modelUsed,
-    version: "1.0.0"
+  // If Gemini was missing, failed, or returned unusable data:
+  // ABSOLUTE FINANCIAL SAFETY MANDATE:
+  // - DO NOT generate a synthetic equity research report.
+  // - DO NOT invent financial values, percentages, or metrics.
+  // - DO NOT invent confidenceScore values.
+  // - DO NOT assign a Gemini model name.
+  // - DO NOT label source as "AI".
+  // - DO NOT write to premium_report_cache.json.
+  console.warn(`[Intelligence Generation] AI intelligence unavailable for ${cleanSymbol}. Returning explicit degraded response without fabrication.`);
+
+  const degradedReport = {
+    executiveSummary: `Athena AI research intelligence is currently unavailable for ${companyName} (${cleanSymbol}). Automated analysis could not be completed due to AI service disruption or rate limits. No fabricated financial data is displayed.`,
+    bullCase: "Analysis unavailable — automated research models offline.",
+    bearCase: "Analysis unavailable — automated research models offline.",
+    competitiveAdvantages: "Data unavailable.",
+    businessRisks: "Data unavailable.",
+    industryOutlook: `Sector overview for ${sector} unavailable.`,
+    managementQuality: "Data unavailable.",
+    growthDrivers: "Data unavailable.",
+    keyCatalysts: "Data unavailable.",
+    redFlags: "Data unavailable.",
+    institutionalView: "Consensus intelligence unavailable.",
+    investmentOutlook: "Rating and target trajectory unavailable.",
+    optionSellerView: "Derivatives appraisal unavailable.",
+    available: false,
+    aiGenerated: false
   };
 
-  cache[cleanSymbol] = newEntry;
-  writePremiumCache(cache);
-
-  console.log(`[Cache Diagnostic Audit - Saved]`);
-  console.log(`- Cache Key: ${cleanSymbol}`);
-  console.log(`- Report Source (Cache or AI): AI`);
-  console.log(`- Model Used: ${modelUsed}`);
-  console.log(`- Written to Persistent Storage: Yes (${PREMIUM_CACHE_FILE})`);
-
-  res.json({
-    ...newEntry,
+  return res.json({
+    companySymbol: cleanSymbol,
+    generatedAt: new Date().toISOString(),
+    report: degradedReport,
+    model: "offline",
+    version: "1.0.0",
+    status: "degraded",
+    aiGenerated: false,
     diagnostic: {
-      source: "AI",
-      cacheAge: "0.00 hours (Newly Generated)",
-      generatedAt: newEntry.generatedAt,
-      model: modelUsed,
+      source: "Fallback",
+      cacheAge: "N/A",
+      generatedAt: new Date().toISOString(),
+      model: "offline",
       cacheKey: cleanSymbol,
       hit: false,
-      missReason: missReason || "Cache entry not found or force refresh requested."
+      missReason: missReason || "AI service unavailable",
+      degraded: true
     }
   });
 });
@@ -3152,4 +3345,26 @@ async function startServer() {
   })();
 }
 
-startServer();
+if (process.env.NODE_ENV !== "test" && !process.env.VITEST) {
+  startServer();
+}
+
+export function setAiClientForTesting(mockAi: any) {
+  ai = mockAi;
+}
+
+export function getAiClientForTesting(): any {
+  return ai;
+}
+
+export {
+  app,
+  executeServerGeminiWithFailover,
+  isRetryableGeminiError,
+  validateGeminiResponse,
+  sanitizeErrorMessage,
+  readPremiumCache,
+  writePremiumCache,
+  yahooProvider
+};
+
