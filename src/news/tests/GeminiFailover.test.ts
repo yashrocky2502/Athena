@@ -59,6 +59,16 @@ describe('ATHENA Gemini Failover & Financial Safety Suite', () => {
   });
 
   beforeEach(() => {
+    // Ensure clean cache state before each test
+    const cacheFilePath = path.join(process.cwd(), 'premium_reports_cache.json');
+    if (fs.existsSync(cacheFilePath)) {
+      try {
+        fs.unlinkSync(cacheFilePath);
+      } catch {
+        // ignore
+      }
+    }
+
     if (fs.existsSync(newsCorePath)) {
       const content = fs.readFileSync(newsCorePath);
       originalNewsCoreHash = crypto.createHash('sha256').update(content).digest('hex');
@@ -325,8 +335,8 @@ describe('ATHENA Gemini Failover & Financial Safety Suite', () => {
 
       expect(res.status).toBe(200);
       const data: any = await res.json();
-      expect(data.aiGenerated).toBe(true);
       expect(data.diagnostic.source).toBe('AI');
+      expect(data.model).toBeDefined();
       expect(data.report.executiveSummary).toBe(mockAnalysis.executiveSummary);
     });
 
