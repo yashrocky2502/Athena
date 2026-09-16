@@ -4,7 +4,8 @@ import path from "path";
 import {
   executeGeminiWithFailover,
   validateGeminiResponse,
-  isRetryableGeminiError
+  isRetryableGeminiError,
+  getCandidateModels
 } from "../news/AI/GeminiExecutor";
 import { SearchOrchestrator } from "../lib/SearchOrchestrator";
 import { ResearchHypothesisEngine } from "../news/learning/ResearchHypothesisEngine";
@@ -517,6 +518,120 @@ describe("Phase 2B: Gemini Failover Unification & Fallback Truthfulness (Tests A
           `File ${relPath} must not contain obsolete model identifier: ${pattern}`
         ).not.toContain(pattern);
       }
+    }
+  });
+
+  // O. Timeout triggers AbortSignal cancellation and cleans up on completion
+  it("O. Timeout triggers AbortSignal cancellation and cleans up on completion", async () => {
+    let capturedSignalAttempt1: AbortSignal | undefined = undefined;
+    let capturedSignalAttempt2: AbortSignal | undefined = undefined;
+
+    const mockAiClient: any = {
+      models: {
+        generateContent: vi.fn(async ({ model, config }: { model: string; config?: any }) => {
+          if (model === "gemini-3.7-flash") {
+            capturedSignalAttempt1 = config?.abortSignal;
+            // Simulate a stalled request that exceeds attempt timeout (50ms)
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve({
+                  text: "Late response",
+                  candidates: [{ finishReason: "STOP", content: { parts: [{ text: "Late response" }] } }]
+                });
+              }, 200);
+            });
+          } else {
+            capturedSignalAttempt2 = config?.abortSignal;
+            return {
+              text: "Success from fallback model",
+              candidates: [{ finishReason: "STOP", content: { parts: [{ text: "Success from fallback model" }] } }]
+            };
+          }
+        })
+      }
+    };
+
+    const result = await executeGeminiWithFailover(mockAiClient, {
+      contents: "timeout prompt",
+      callerName: "TestO",
+      attemptTimeoutMs: 50,
+      applyBackoff: false
+    });
+
+    // Verify fallback model succeeded
+    expect(result.modelUsed).toBe("gemini-3.1-flash-lite");
+    expect(result.text).toBe("Success from fallback model");
+
+    // Verify attempt 1 received an AbortSignal and was aborted by timeout
+    expect(capturedSignalAttempt1).toBeDefined();
+    expect(capturedSignalAttempt1?.aborted).toBe(true);
+
+    // Verify attempt 2 received an AbortSignal and was cleaned up on completion
+    expect(capturedSignalAttempt2).toBeDefined();
+    expect(capturedSignalAttempt2?.aborted).toBe(true);
+  });
+
+  // P. Production candidate order strictly derives from AIModelConfig.gemini.candidates
+  it("P. Production candidate order strictly derives from AIModelConfig.gemini.candidates", () => {
+    const candidates = getCandidateModels();
+    expect(candidates).toEqual([...AIModelConfig.gemini.candidates]);
+    expect(candidates).toEqual(["gemini-3.7-flash", "gemini-3.1-flash-lite"]);
+  });
+
+  // Q. Environment variable GEMINI_MODEL cannot silently replace the authoritative production cascade
+  it("Q. Environment variable GEMINI_MODEL cannot silently replace the authoritative production cascade", () => {
+    const originalEnv = process.env.GEMINI_MODEL;
+    try {
+      process.env.GEMINI_MODEL = "unauthorized-custom-model-x";
+      const candidates = getCandidateModels();
+      expect(candidates).toEqual(["gemini-3.7-flash", "gemini-3.1-flash-lite"]);
+      expect(candidates).not.toContain("unauthorized-custom-model-x");
+
+      // Also verify legacy defaultModel argument cannot override production cascade
+      const candidatesWithDefault = getCandidateModels("legacy-default-model-y");
+      expect(candidatesWithDefault).toEqual(["gemini-3.7-flash", "gemini-3.1-flash-lite"]);
+      expect(candidatesWithDefault).not.toContain("legacy-default-model-y");
+    } finally {
+      if (originalEnv === undefined) {
+        delete process.env.GEMINI_MODEL;
+      } else {
+        process.env.GEMINI_MODEL = originalEnv;
+      }
+    }
+  });
+
+  // R. Duplicate candidates are handled deterministically
+  it("R. Duplicate candidates are handled deterministically", () => {
+    const deduplicated = getCandidateModels({
+      testOnlyCandidateOverride: [
+        "gemini-3.7-flash",
+        "gemini-3.1-flash-lite",
+        "gemini-3.7-flash",
+        "gemini-3.1-flash-lite",
+        "  gemini-3.7-flash  "
+      ]
+    });
+    expect(deduplicated).toEqual(["gemini-3.7-flash", "gemini-3.1-flash-lite"]);
+  });
+
+  // S. Approved models remain strictly 3.7-flash -> 3.1-flash-lite
+  it("S. Approved models remain strictly 3.7-flash -> 3.1-flash-lite", () => {
+    expect(AIModelConfig.gemini.primary).toBe("gemini-3.7-flash");
+    expect(AIModelConfig.gemini.fallback).toBe("gemini-3.1-flash-lite");
+    expect(AIModelConfig.gemini.candidates).toEqual([
+      "gemini-3.7-flash",
+      "gemini-3.1-flash-lite"
+    ]);
+
+    const obsoleteList = [
+      "gemini-3.6-flash",
+      "gemini-2.5-flash",
+      "gemini-1.5-flash",
+      "gemini-2.0-flash"
+    ];
+
+    for (const obsolete of obsoleteList) {
+      expect(AIModelConfig.gemini.candidates).not.toContain(obsolete);
     }
   });
 });

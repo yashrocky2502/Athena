@@ -19,7 +19,15 @@ export interface OutputValidationResult<T = any> {
 export interface ExecuteGeminiOptions<T = any> {
   contents: any;
   config?: any;
+  /**
+   * Backwards-compatible parameter. Does NOT override the authoritative production cascade.
+   */
   defaultModel?: string;
+  /**
+   * Explicit test-only candidate override for mock test environments.
+   * In production, this remains undefined so AIModelConfig.gemini.candidates is authoritative.
+   */
+  testOnlyCandidateOverride?: string[];
   callerName?: string;
   attemptTimeoutMs?: number;
   totalTimeoutMs?: number;
@@ -173,24 +181,41 @@ export function isRetryableGeminiError(err: any): boolean {
   return isQuota || isNotFound || isUnavailableOrServer || isNetwork;
 }
 
+export interface CandidateModelOptions {
+  /**
+   * Explicit test-only candidate override for mock test environments.
+   * In production, this must remain undefined so that AIModelConfig.gemini.candidates
+   * is strictly authoritative.
+   */
+  testOnlyCandidateOverride?: string[];
+  /**
+   * Backwards-compatible parameter. Does NOT override the authoritative production cascade.
+   */
+  defaultModel?: string;
+}
+
 /**
- * Builds candidate model list in strict order of precedence:
- * 1. defaultModel (if provided and valid)
- * 2. process.env.GEMINI_MODEL (if valid)
- * 3. AIModelConfig.gemini.primary ("gemini-3.7-flash")
- * 4. AIModelConfig.gemini.fallback ("gemini-3.1-flash-lite")
- * Deduplicated, omitting unapproved models.
+ * Returns candidate models strictly derived from the authoritative AIModelConfig.gemini.candidates.
+ *
+ * Authoritative production cascade:
+ * 1. AIModelConfig.gemini.candidates[0] ("gemini-3.7-flash")
+ * 2. AIModelConfig.gemini.candidates[1] ("gemini-3.1-flash-lite")
+ *
+ * Environment variables (e.g. process.env.GEMINI_MODEL) and legacy defaultModel parameters
+ * CANNOT silently override this production cascade.
+ *
+ * If a test explicitly provides testOnlyCandidateOverride, that override is used (for mock test harnesses).
+ * Duplicate candidates are handled deterministically, retaining the first occurrence.
  */
-export function getCandidateModels(defaultModel?: string): string[] {
-  const rawList: (string | undefined)[] = [
-    defaultModel,
-    typeof process !== "undefined" ? process.env?.GEMINI_MODEL : undefined,
-    AIModelConfig.gemini.primary,
-    AIModelConfig.gemini.fallback
-  ];
+export function getCandidateModels(options?: string | CandidateModelOptions): string[] {
+  let candidateSource: readonly string[] = AIModelConfig.gemini.candidates;
+
+  if (options && typeof options === "object" && Array.isArray(options.testOnlyCandidateOverride)) {
+    candidateSource = options.testOnlyCandidateOverride;
+  }
 
   const unique: string[] = [];
-  for (const item of rawList) {
+  for (const item of candidateSource) {
     if (typeof item === "string") {
       const trimmed = item.trim();
       if (trimmed.length > 0 && !unique.includes(trimmed)) {
@@ -215,7 +240,10 @@ export async function executeGeminiWithFailover<T = any>(
   }
 
   const caller = options.callerName || "GeminiExecutor";
-  const candidateModels = getCandidateModels(options.defaultModel);
+  const candidateModels = getCandidateModels({
+    testOnlyCandidateOverride: options.testOnlyCandidateOverride,
+    defaultModel: options.defaultModel
+  });
   const attemptTimeoutMs = options.attemptTimeoutMs ?? 8000;
   const totalTimeoutMs = options.totalTimeoutMs ?? 25000;
   const startTime = Date.now();
@@ -231,7 +259,20 @@ export async function executeGeminiWithFailover<T = any>(
     }
 
     attempts++;
+    const attemptController = new AbortController();
     let timerId: NodeJS.Timeout | null = null;
+    let forwardAbortListener: (() => void) | null = null;
+
+    if (options.config?.abortSignal) {
+      if (options.config.abortSignal.aborted) {
+        attemptController.abort(options.config.abortSignal.reason);
+      } else {
+        forwardAbortListener = () => {
+          attemptController.abort(options.config.abortSignal.reason);
+        };
+        options.config.abortSignal.addEventListener("abort", forwardAbortListener, { once: true });
+      }
+    }
 
     try {
       const timeoutPromise = new Promise<never>((_, reject) => {
@@ -239,21 +280,37 @@ export async function executeGeminiWithFailover<T = any>(
           const timeoutErr: any = new Error(`[${caller}] Request timed out after ${attemptTimeoutMs}ms on model ${modelCandidate}`);
           timeoutErr.code = "ETIMEDOUT";
           timeoutErr.name = "TimeoutError";
+          // Officially supported by @google/genai via GenerateContentConfig.abortSignal:
+          // abort in-flight request so underlying HTTP request is not left running in the background.
+          attemptController.abort(timeoutErr);
           reject(timeoutErr);
         }, attemptTimeoutMs);
       });
 
+      // Pass abortSignal to @google/genai via config.abortSignal (officially supported in GenerateContentConfig)
+      const callConfig = {
+        ...options.config,
+        abortSignal: attemptController.signal
+      };
+
       const apiPromise = aiClient.models.generateContent({
         model: modelCandidate,
         contents: options.contents,
-        config: options.config
+        config: callConfig
       });
+
+      // Attach catch handler to apiPromise to prevent unhandled rejection if it rejects after timeout race
+      apiPromise.catch(() => {});
 
       const rawResponse: any = await Promise.race([apiPromise, timeoutPromise]);
 
       if (timerId) {
         clearTimeout(timerId);
         timerId = null;
+      }
+      if (forwardAbortListener && options.config?.abortSignal) {
+        options.config.abortSignal.removeEventListener("abort", forwardAbortListener);
+        forwardAbortListener = null;
       }
 
       // Step 1: Raw response structural validation
@@ -278,6 +335,11 @@ export async function executeGeminiWithFailover<T = any>(
         validatedData = outputValidation.data;
       }
 
+      // Requirement 3: Ensure the controller is also aborted/cleaned up when the request completes normally
+      if (!attemptController.signal.aborted) {
+        attemptController.abort();
+      }
+
       return {
         response: rawResponse,
         text: extractedText,
@@ -289,6 +351,14 @@ export async function executeGeminiWithFailover<T = any>(
       if (timerId) {
         clearTimeout(timerId);
         timerId = null;
+      }
+      if (forwardAbortListener && options.config?.abortSignal) {
+        options.config.abortSignal.removeEventListener("abort", forwardAbortListener);
+        forwardAbortListener = null;
+      }
+      // Ensure the attempt controller is aborted/cleaned up on failure/timeout as well
+      if (!attemptController.signal.aborted) {
+        attemptController.abort(err);
       }
 
       lastError = err;
