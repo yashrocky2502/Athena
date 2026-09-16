@@ -10,7 +10,7 @@ describe("ATHENA Phase 2A — Gemini Forensic Remediation Suite", () => {
     const originalApiKey = process.env.GEMINI_API_KEY;
 
     beforeEach(() => {
-      process.env.GEMINI_API_KEY = "AIzaSyTestSecretKey1234567890abcdefghijk";
+      process.env.GEMINI_API_KEY = "synthetic-test-gemini-key-not-a-secret";
     });
 
     afterEach(() => {
@@ -25,33 +25,35 @@ describe("ATHENA Phase 2A — Gemini Forensic Remediation Suite", () => {
     });
 
     it("should redact key query parameters (key=, apiKey=, api_key=, token=)", () => {
-      const urlError = "Failed GET https://generativelanguage.googleapis.com/v1beta/models?key=AIzaSySecretParamKey12345";
+      const urlError = "Failed GET https://generativelanguage.googleapis.com/v1beta/models?key=synthetic_query_param_key_12345";
       const sanitized = sanitizeErrorMessage(urlError);
-      expect(sanitized).not.toContain("AIzaSySecretParamKey12345");
+      expect(sanitized).not.toContain("synthetic_query_param_key_12345");
       expect(sanitized).toContain("key=[REDACTED_KEY]");
 
-      const paramError2 = "Failed at endpoint?apiKey=super_secret_token_123&other=val";
+      const paramError2 = "Failed at endpoint?apiKey=synthetic_test_token_sample_123&other=val";
       const sanitized2 = sanitizeErrorMessage(paramError2);
-      expect(sanitized2).not.toContain("super_secret_token_123");
+      expect(sanitized2).not.toContain("synthetic_test_token_sample_123");
       expect(sanitized2).toContain("apiKey=[REDACTED_KEY]");
     });
 
     it("should redact Bearer tokens and Authorization headers", () => {
-      const authError = "Request failed: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+      const authError = "Request failed: Authorization: Bearer synthetic_jwt_token_sample_abc123";
       const sanitized = sanitizeErrorMessage(authError);
-      expect(sanitized).not.toContain("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9");
+      expect(sanitized).not.toContain("synthetic_jwt_token_sample_abc123");
       expect(sanitized).toContain("[REDACTED_AUTH]");
 
-      const bearerOnly = "Failed with Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+      const bearerOnly = "Failed with Bearer synthetic_bearer_token_xyz_test123";
       const sanitizedBearer = sanitizeErrorMessage(bearerOnly);
-      expect(sanitizedBearer).not.toContain("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9");
+      expect(sanitizedBearer).not.toContain("synthetic_bearer_token_xyz_test123");
       expect(sanitizedBearer).toContain("Bearer [REDACTED_TOKEN]");
     });
 
     it("should redact standalone Google AIza API key strings", () => {
-      const standalone = "Error: Invalid response using key AIzaSyD3x4mpL3K3y0000000000000000000000 in client call";
+      // Obvious synthetic non-credential placeholder matching \bAIza[0-9A-Za-z-_]{35}\b
+      const syntheticAiza = "AIza" + "_SYNTHETIC_TEST_NONCE_0000000000000";
+      const standalone = `Error: Invalid response using key ${syntheticAiza} in client call`;
       const sanitized = sanitizeErrorMessage(standalone);
-      expect(sanitized).not.toContain("AIzaSyD3x4mpL3K3y0000000000000000000000");
+      expect(sanitized).not.toContain(syntheticAiza);
       expect(sanitized).toContain("[REDACTED_AIZA_KEY]");
     });
 
