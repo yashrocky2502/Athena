@@ -13,8 +13,8 @@ export class TelegramOutbox {
   private filePath: string;
   private entries: TelegramOutboxEntry[] = [];
 
-  constructor() {
-    this.filePath = path.join(process.cwd(), "data", "telegram_outbox.json");
+  constructor(customFilePath?: string) {
+    this.filePath = customFilePath || path.join(process.cwd(), "data", "telegram_outbox.json");
     this.hydrate();
   }
 
@@ -30,9 +30,29 @@ export class TelegramOutbox {
   }
 
   private save() {
+    if (!this.filePath) return;
+    const dir = path.dirname(this.filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+
+    const tempPath = `${this.filePath}.${Date.now()}_${Math.random().toString(36).substring(2, 8)}.tmp`;
     try {
-      fs.writeFileSync(this.filePath, JSON.stringify(this.entries, null, 2));
+      const jsonStr = JSON.stringify(this.entries, null, 2);
+      fs.writeFileSync(tempPath, jsonStr, "utf-8");
+
+      const tempContent = fs.readFileSync(tempPath, "utf-8");
+      const parsed = JSON.parse(tempContent);
+
+      if (!Array.isArray(parsed)) {
+        throw new Error(`[TelegramOutbox] Save validation failed: expected array for ${this.filePath}`);
+      }
+
+      fs.renameSync(tempPath, this.filePath);
     } catch (e) {
+      if (fs.existsSync(tempPath)) {
+        try { fs.unlinkSync(tempPath); } catch {}
+      }
       console.error("[TelegramOutbox] Save failed:", e);
     }
   }

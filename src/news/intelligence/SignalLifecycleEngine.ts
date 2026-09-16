@@ -156,14 +156,16 @@ export class SignalLifecycleEngine {
     EXPIRED: []
   };
 
-  private constructor() {
+  private isSaving: boolean = false;
+
+  private constructor(customPersistencePath?: string, customLedgerPath?: string) {
     if (typeof window !== 'undefined') {
       this.persistencePath = '';
       this.ledgerPath = '';
       return;
     }
-    this.persistencePath = path.join(process.cwd(), 'data', 'news_signal_lifecycle.json');
-    this.ledgerPath = path.join(process.cwd(), 'data', 'news_signal_historical_ledger.json');
+    this.persistencePath = customPersistencePath || path.join(process.cwd(), 'data', 'news_signal_lifecycle.json');
+    this.ledgerPath = customLedgerPath || path.join(process.cwd(), 'data', 'news_signal_historical_ledger.json');
     this.hydrate();
   }
 
@@ -172,6 +174,10 @@ export class SignalLifecycleEngine {
       SignalLifecycleEngine.instance = new SignalLifecycleEngine();
     }
     return SignalLifecycleEngine.instance;
+  }
+
+  public static resetInstance(customPersistencePath?: string, customLedgerPath?: string): void {
+    SignalLifecycleEngine.instance = new SignalLifecycleEngine(customPersistencePath, customLedgerPath);
   }
 
   /**
@@ -240,19 +246,58 @@ export class SignalLifecycleEngine {
     }
   }
 
+  private atomicSave(targetPath: string, data: any, expectedType: 'object' | 'array'): void {
+    if (!targetPath) return;
+    const dir = path.dirname(targetPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+
+    const tempPath = `${targetPath}.${Date.now()}_${Math.random().toString(36).substring(2, 8)}.tmp`;
+
+    try {
+      const jsonStr = JSON.stringify(data, null, 2);
+      fs.writeFileSync(tempPath, jsonStr, 'utf-8');
+
+      const tempContent = fs.readFileSync(tempPath, 'utf-8');
+      const parsed = JSON.parse(tempContent);
+
+      if (expectedType === 'object') {
+        if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+          throw new Error(`[SignalLifecycleEngine] Atomic save validation failed: expected object for ${targetPath}`);
+        }
+      } else if (expectedType === 'array') {
+        if (!Array.isArray(parsed)) {
+          throw new Error(`[SignalLifecycleEngine] Atomic save validation failed: expected array for ${targetPath}`);
+        }
+      }
+
+      fs.renameSync(tempPath, targetPath);
+    } catch (err) {
+      if (fs.existsSync(tempPath)) {
+        try { fs.unlinkSync(tempPath); } catch {}
+      }
+      throw err;
+    }
+  }
+
   /**
    * Persists active lifecycles and outcome ledger to disk
    */
   public persist(): void {
+    if (this.isSaving) return;
+    this.isSaving = true;
     try {
       const activeObj: Record<string, SignalLifecycle> = {};
       for (const [k, v] of this.lifecycles.entries()) {
         activeObj[k] = v;
       }
-      fs.writeFileSync(this.persistencePath, JSON.stringify(activeObj, null, 2), 'utf-8');
-      fs.writeFileSync(this.ledgerPath, JSON.stringify(this.historicalLedger, null, 2), 'utf-8');
+      this.atomicSave(this.persistencePath, activeObj, 'object');
+      this.atomicSave(this.ledgerPath, this.historicalLedger, 'array');
     } catch (err) {
       console.error('[SignalLifecycleEngine] Persistence error:', err);
+    } finally {
+      this.isSaving = false;
     }
   }
 

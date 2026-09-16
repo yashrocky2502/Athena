@@ -39,7 +39,7 @@ describe('PHASE 10.8 — SIGNAL OUTCOME MEASUREMENT & PERFORMANCE INTELLIGENCE',
   });
 
   afterEach(() => {
-    SignalOutcomeEngine.resetInstance();
+    SignalOutcomeEngine.resetInstance(testStoragePath, testBackupPath);
     try {
       if (fs.existsSync(tempDir)) {
         fs.rmSync(tempDir, { recursive: true, force: true });

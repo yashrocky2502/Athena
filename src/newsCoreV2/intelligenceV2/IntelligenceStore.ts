@@ -59,6 +59,11 @@ export class IntelligenceStore {
   public saveToDisk(): void {
     if (this.saveTimeout) return;
     
+    // Protect production dataset from test suite mutation
+    if ((process.env.VITEST || process.env.NODE_ENV === "test") && this.filePath.includes("news_intelligence_v2.json")) {
+      return;
+    }
+
     this.saveTimeout = setTimeout(() => {
       try {
         this.ensureDirectoryExists();

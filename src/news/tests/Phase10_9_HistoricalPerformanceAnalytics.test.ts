@@ -48,7 +48,7 @@ describe('Phase 10.9: Historical Performance Intelligence & User-Facing Analytic
   });
 
   afterEach(() => {
-    SignalOutcomeEngine.resetInstance();
+    SignalOutcomeEngine.resetInstance(testStoragePath, testBackupPath);
     try {
       if (fs.existsSync(tempDir)) {
         fs.rmSync(tempDir, { recursive: true, force: true });

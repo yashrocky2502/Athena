@@ -291,7 +291,14 @@ export class SignalOutcomeEngine {
   }
 
   public static resetInstance(customStoragePath?: string, customBackupPath?: string): void {
+    if (!customStoragePath || typeof customStoragePath !== 'string' || customStoragePath.trim() === '') {
+      throw new Error('[SignalOutcomeEngine] resetInstance() requires explicit customStoragePath and customBackupPath parameters for test isolation. Call resetInstanceForProduction() if production reset is intended.');
+    }
     SignalOutcomeEngine.instance = new SignalOutcomeEngine(customStoragePath, customBackupPath);
+  }
+
+  public static resetInstanceForProduction(): void {
+    SignalOutcomeEngine.instance = new SignalOutcomeEngine();
   }
 
   public clear(): void {
