@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import { sanitizeErrorMessage } from "../news/AI/AISanitizer";
 
 export type Intent = 
   | "Company Research"
@@ -71,7 +72,7 @@ Return ONLY a valid JSON object with the following schema:
   "rationale": "Short explanation of why these sources were chosen."
 }`;
 
-      const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.7-flash", "gemini-2.5-flash"];
+      const candidateModels = ["gemini-3.7-flash", "gemini-3.1-flash-lite"];
       let response: any = null;
       let lastErr: any = null;
 
@@ -89,7 +90,7 @@ Return ONLY a valid JSON object with the following schema:
           lastErr = mErr;
           const msg = String(mErr?.message || mErr);
           if (msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED")) {
-            console.warn(`[QueryPlanner] Model ${modelCandidate} quota exceeded, trying candidate failover...`);
+            console.warn(`[QueryPlanner] Model ${modelCandidate} quota exceeded, trying candidate failover: ${sanitizeErrorMessage(mErr)}`);
             continue;
           }
           throw mErr;
@@ -105,7 +106,7 @@ Return ONLY a valid JSON object with the following schema:
       const plan = JSON.parse(cleaned) as QueryPlan;
       return plan;
     } catch (error) {
-      console.log("QueryPlanner Error:", error);
+      console.warn("QueryPlanner Error: " + sanitizeErrorMessage(error));
       return {
         intent: "Unknown",
         requiresGoogleSearch: true,

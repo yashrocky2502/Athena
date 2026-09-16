@@ -1,6 +1,7 @@
 import { BaseMCP } from "./BaseMCP";
 import { NormalizedEvent } from "../../types";
 import { GoogleGenAI } from "@google/genai";
+import { sanitizeErrorMessage } from "../../news/AI/AISanitizer";
 
 export class GoogleSearchMCP extends BaseMCP {
   private ai: GoogleGenAI | null;
@@ -32,7 +33,7 @@ Output a JSON array of events with the following structure:
 ]
 Only use real data. Return purely JSON.`;
 
-    const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.7-flash", "gemini-2.5-flash"];
+    const candidateModels = ["gemini-3.7-flash", "gemini-3.1-flash-lite"];
     let response: any = null;
     let lastErr: any = null;
 
@@ -51,7 +52,7 @@ Only use real data. Return purely JSON.`;
         lastErr = err;
         const msg = String(err?.message || err);
         if (msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED")) {
-          console.warn(`[GoogleSearchMCP] Candidate model ${modelCandidate} quota exceeded, failing over...`);
+          console.warn(`[GoogleSearchMCP] Candidate model ${modelCandidate} quota exceeded: ${sanitizeErrorMessage(err)}`);
           continue;
         }
         throw err;
@@ -77,7 +78,7 @@ Only use real data. Return purely JSON.`;
     try {
       parsed = JSON.parse(response.text || "[]");
     } catch (e) {
-      console.log("Failed to parse GoogleSearchMCP JSON:", e);
+      console.warn("Failed to parse GoogleSearchMCP JSON: " + sanitizeErrorMessage(e));
       throw e;
     }
 

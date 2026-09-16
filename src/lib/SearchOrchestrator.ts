@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import { sanitizeErrorMessage } from "../news/AI/AISanitizer";
 import { QueryPlan } from "./QueryPlanner";
 import { ContradictionEngine } from "./ContradictionEngine";
 import { ReasoningEngine } from "./ReasoningEngine";
@@ -95,7 +96,7 @@ You MUST output your response in EXACTLY this Markdown format:
 `;
 
     try {
-      const candidateModels = ["gemini-3.1-flash-lite", "gemini-3.6-flash", "gemini-3.7-flash", "gemini-2.5-flash"];
+      const candidateModels = ["gemini-3.7-flash", "gemini-3.1-flash-lite"];
       let response: any = null;
       let lastErr: any = null;
 
@@ -113,7 +114,7 @@ You MUST output your response in EXACTLY this Markdown format:
           lastErr = mErr;
           const msg = String(mErr?.message || mErr);
           if (msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED")) {
-            console.warn(`[SearchOrchestrator] Model ${modelCandidate} quota exceeded, trying candidate failover...`);
+            console.warn(`[SearchOrchestrator] Model ${modelCandidate} quota exceeded, trying candidate failover: ${sanitizeErrorMessage(mErr)}`);
             continue;
           }
           throw mErr;
@@ -209,7 +210,7 @@ You MUST output your response in EXACTLY this Markdown format:
       if (isRateLimited) {
         console.warn("Search Orchestrator Rate Limited / Quota Exceeded");
       } else {
-        console.log("Search Orchestrator Error:", error);
+        console.warn("Search Orchestrator Error: " + sanitizeErrorMessage(error));
       }
       return this.offlineFallback(plan, startTime, isRateLimited);
     }

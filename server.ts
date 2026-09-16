@@ -49,6 +49,7 @@ import { healthMonitor } from "./src/news/monitoring/HealthMonitor.ts";
 import { getStories, addStory, updateStoryStatus, deleteStory } from "./src/lib/storyEngine.ts";
 import { QueryPlanner } from "./src/lib/QueryPlanner.ts";
 import { SearchOrchestrator } from "./src/lib/SearchOrchestrator.ts";
+import { sanitizeErrorMessage } from "./src/news/AI/AISanitizer";
 
 import { YahooFinanceProvider } from "./src/services/YahooFinanceProvider.ts";
 import { MarketMoversService } from "./src/services/MarketMoversService.ts";
@@ -344,29 +345,6 @@ if (apiKey && apiKey !== "MY_GEMINI_API_KEY") {
 queryPlanner = new QueryPlanner(ai);
 searchOrchestrator = new SearchOrchestrator(ai);
 
-function sanitizeErrorMessage(rawMessage: string): string {
-  if (!rawMessage) return "";
-  let sanitized = String(rawMessage);
-
-  // 1. Redact configured GEMINI_API_KEY if present in environment
-  const envKey = process.env.GEMINI_API_KEY;
-  if (envKey && envKey.trim().length > 5) {
-    sanitized = sanitized.split(envKey).join("[REDACTED_API_KEY]");
-  }
-
-  // 2. Redact key query params: e.g. key=AIza..., api_key=..., apiKey=...
-  sanitized = sanitized.replace(/([?&](?:api_?key|key|token)=)[^&\s]+/gi, "$1[REDACTED_KEY]");
-
-  // 3. Redact Bearer / Basic authorization tokens
-  sanitized = sanitized.replace(/(Bearer\s+)[A-Za-z0-9_\-\.]{8,}/gi, "$1[REDACTED_TOKEN]");
-  sanitized = sanitized.replace(/(Authorization:\s*)[^\r\n]+/gi, "$1[REDACTED_AUTH]");
-
-  // 4. Redact potential Google API keys (AIza...)
-  sanitized = sanitized.replace(/\bAIza[0-9A-Za-z-_]{35}\b/g, "[REDACTED_AIZA_KEY]");
-
-  return sanitized;
-}
-
 function validateGeminiResponse(response: any): { isValid: boolean; reason?: string } {
   if (!response) {
     return { isValid: false, reason: "Response is null or undefined" };
@@ -500,10 +478,8 @@ async function executeServerGeminiWithFailover(
   const candidateModels = [
     params.defaultModel,
     process.env.GEMINI_MODEL,
-    "gemini-3.6-flash",
     "gemini-3.7-flash",
-    "gemini-3.1-flash-lite",
-    "gemini-2.5-flash"
+    "gemini-3.1-flash-lite"
   ].filter((m): m is string => Boolean(m) && typeof m === "string" && m.trim().length > 0);
 
   const uniqueModels = Array.from(new Set(candidateModels));
@@ -799,7 +775,7 @@ Return the report in raw JSON format matching this EXACT typescript structure:
 }`;
 
       const { response, modelUsed: actualModelUsed } = await executeServerGeminiWithFailover(ai, {
-        defaultModel: "gemini-3.6-flash",
+        defaultModel: "gemini-3.7-flash",
         contents: prompt,
         config: {
           responseMimeType: "application/json"
@@ -1026,7 +1002,7 @@ app.post("/api/ai/watchlist-summary", async (req, res) => {
     Keep analysis concise and actionable.`;
 
     const { response } = await executeServerGeminiWithFailover(ai, {
-      defaultModel: "gemini-3.6-flash",
+      defaultModel: "gemini-3.7-flash",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -1036,7 +1012,7 @@ app.post("/api/ai/watchlist-summary", async (req, res) => {
   } catch (error: any) {
     const isRateLimited = error?.status === 429 || error?.message?.includes("429") || error?.message?.includes("Quota exceeded");
     if (!isRateLimited) {
-      console.error("Failed to generate watchlist summary:", error.message);
+      console.error("Failed to generate watchlist summary: " + sanitizeErrorMessage(error?.message || error));
     }
     res.json({ 
       importantNews: [{ 
@@ -1088,10 +1064,11 @@ Return a JSON object with this structure:
     "events": ["Event 1", "Event 2", "Event 3"],
     "watchToday": ["Thing 1", "Thing 2"]
   }
-}`;
+}
+`;
     
     const { response } = await executeServerGeminiWithFailover(ai, {
-      defaultModel: "gemini-3.6-flash",
+      defaultModel: "gemini-3.7-flash",
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
@@ -1105,7 +1082,7 @@ Return a JSON object with this structure:
   } catch (error: any) {
     const isRateLimited = error?.status === 429 || error?.message?.includes("429") || error?.message?.includes("Quota exceeded");
     if (!isRateLimited) {
-      console.error("Failed to generate market summary:", error.message);
+      console.error("Failed to generate market summary: " + sanitizeErrorMessage(error?.message || error));
     }
     res.json({
       marketMood: "Neutral",
@@ -1172,7 +1149,7 @@ Only use real data. Return purely JSON.`;
 
     try {
       const { response } = await executeServerGeminiWithFailover(ai, {
-        defaultModel: "gemini-3.6-flash",
+        defaultModel: "gemini-3.7-flash",
         contents: prompt,
         config: {
           tools: [{ googleSearch: {} }] as any,
@@ -1216,7 +1193,7 @@ Only use real data. Return purely JSON.`;
     const isQuotaError = error?.status === 429 || (error?.error && error?.error?.code === 429) || msg.includes("429") || msg.includes("RESOURCE_EXHAUSTED") || msg.includes("quota");
     
     if (!isQuotaError) {
-      console.error("GoogleSearchMCP server error:", error);
+      console.error("GoogleSearchMCP server error: " + sanitizeErrorMessage(error));
     }
     
     const fallbackResults = [
@@ -1992,7 +1969,7 @@ app.post("/api/ai/investor-briefing", async (req, res) => {
       Provide ONLY raw JSON. Do not include markdown codeblocks or any additional commentary.`;
 
       const { response } = await executeServerGeminiWithFailover(ai, {
-        defaultModel: "gemini-3.6-flash",
+        defaultModel: "gemini-3.7-flash",
         contents: prompt,
         config: { responseMimeType: "application/json" }
       });
@@ -2003,7 +1980,7 @@ app.post("/api/ai/investor-briefing", async (req, res) => {
       }
       return res.json({ success: true, aiGenerated: true, data });
     } catch (error: any) {
-      console.warn("[Server] Gemini briefing generation failed, using local heuristics engine:", error.message);
+      console.warn("[Server] Gemini briefing generation failed, using local heuristics engine: " + sanitizeErrorMessage(error?.message || error));
     }
   }
 
@@ -2107,7 +2084,7 @@ app.post("/api/ai/ask-athena", async (req, res) => {
       Provide a detailed, institutional-grade financial briefing answering their question with numbers, financial logic, and specific strategic advice. Use crisp paragraphs or structured bullet points. Format with markdown if needed. Return a JSON object with a single field "answer".`;
 
       const { response } = await executeServerGeminiWithFailover(ai, {
-        defaultModel: "gemini-3.6-flash",
+        defaultModel: "gemini-3.7-flash",
         contents: prompt,
         config: { responseMimeType: "application/json" }
       });
@@ -2118,7 +2095,7 @@ app.post("/api/ai/ask-athena", async (req, res) => {
       }
       return res.json({ success: true, aiGenerated: true, answer: data.answer });
     } catch (error: any) {
-      console.warn("[Server] Ask Athena Gemini request failed, falling back to local expert heuristics:", error.message);
+      console.warn("[Server] Ask Athena Gemini request failed, falling back to local expert heuristics: " + sanitizeErrorMessage(error?.message || error));
     }
   }
 

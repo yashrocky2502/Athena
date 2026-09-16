@@ -9,6 +9,7 @@
  */
 
 import { GoogleGenAI } from '@google/genai';
+import { sanitizeErrorMessage } from '../AI/AISanitizer';
 
 export interface ResearchHypothesis {
   hypothesisId: string;
@@ -17,10 +18,12 @@ export interface ResearchHypothesis {
   logicalPredicate: string;       // e.g. "RVOL > 2.0 && sentiment === 'POSITIVE'"
   targetVariable: string;         // e.g. "Day_1_Price_Reaction_Pct"
   marketRelevanceScore: number;    // 0 to 100
+  marketRelevance?: number;        // Alias for marketRelevanceScore
   expectedInformationGain: number; // 0 to 1
   statisticalPotential: number;   // 0 to 100
   priority: number;               // Deterministic Priority Score
-  status: 'PENDING_BACKTEST' | 'BACKTEST_RUNNING' | 'FAILED' | 'PROBABLE_EDGE' | 'REJECTED';
+  status: 'PENDING_BACKTEST' | 'BACKTEST_RUNNING' | 'FAILED' | 'PROBABLE_EDGE' | 'REJECTED' | 'unverified';
+  isDegraded?: boolean;
   generatedAt: string;
 }
 
@@ -45,7 +48,7 @@ export class ResearchHypothesisEngine {
             },
           });
         } catch (err) {
-          console.error('Error initializing GoogleGenAI client:', err);
+          console.error('[ResearchHypothesisEngine] Error initializing GoogleGenAI client: ' + sanitizeErrorMessage(err));
         }
       }
     }
@@ -60,6 +63,7 @@ export class ResearchHypothesisEngine {
     let aiSuggestedTitle = '';
     let aiSuggestedDesc = '';
     let aiSuggestedPredicate = '';
+    let isDegraded = false;
 
     if (client) {
       try {
@@ -77,37 +81,44 @@ Output your response in standard JSON format containing exactly these three fiel
   "logicalPredicate": "A clean pseudocode boolean filter statement using variables like RVOL, sentiment, deliveryPct, oiChangePct"
 }`;
 
-        const candidates = ['gemini-3.6-flash', 'gemini-3.7-flash', 'gemini-3.1-flash-lite', 'gemini-2.5-flash'];
+        const candidates = ['gemini-3.7-flash', 'gemini-3.1-flash-lite'];
         let response: any = null;
         for (const candidate of candidates) {
           try {
-            response = await client.models.generateContent({
+            const apiCall = client.models.generateContent({
               model: candidate,
               contents: prompt,
               config: {
                 responseMimeType: 'application/json',
               },
             });
+            const timeoutPromise = new Promise<never>((_, reject) => {
+              setTimeout(() => reject(new Error(`Timeout: Gemini hypothesis request exceeded 2500ms`)), 2500);
+            });
+            response = await Promise.race([apiCall, timeoutPromise]);
             if (response) break;
           } catch (mErr: any) {
-            console.warn(`[ResearchHypothesisEngine] Candidate ${candidate} failed, trying next candidate...`);
+            console.warn(`[ResearchHypothesisEngine] Candidate ${candidate} failed: ${sanitizeErrorMessage(mErr)}`);
           }
         }
 
         if (response) {
           const text = response.text || '';
           const parsed = JSON.parse(text.trim());
-          aiSuggestedTitle = parsed.title;
-          aiSuggestedDesc = parsed.description;
-          aiSuggestedPredicate = parsed.logicalPredicate;
+          if (parsed && parsed.title && parsed.description && parsed.logicalPredicate) {
+            aiSuggestedTitle = parsed.title;
+            aiSuggestedDesc = parsed.description;
+            aiSuggestedPredicate = parsed.logicalPredicate;
+          }
         }
       } catch (err) {
-        console.warn('Gemini API call failed or timed out, utilizing high-fidelity local generator:', err);
+        console.warn('[ResearchHypothesisEngine] Gemini API call failed: ' + sanitizeErrorMessage(err));
       }
     }
 
-    // Fallback/Deterministic generator if AI failed or is unconfigured
+    // Fallback/Truthful unverified generator if AI failed or is unconfigured
     if (!aiSuggestedTitle) {
+      isDegraded = true;
       const fallbacks = [
         {
           title: 'Post-Earnings Relative Volume Spillover Anomaly',
@@ -126,31 +137,49 @@ Output your response in standard JSON format containing exactly these three fiel
         }
       ];
 
-      const select = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+      const fallbackIndex = seedTopic ? Math.abs(seedTopic.length) % fallbacks.length : 0;
+      const select = fallbacks[fallbackIndex];
       aiSuggestedTitle = select.title;
       aiSuggestedDesc = select.description;
       aiSuggestedPredicate = select.predicate;
     }
 
-    // Deterministic metrics scoring
-    const marketRelevanceScore = Math.floor(65 + Math.random() * 30);
-    const expectedInformationGain = Number((0.5 + Math.random() * 0.45).toFixed(3));
-    const statisticalPotential = Math.floor(70 + Math.random() * 25);
+    // Deterministic metrics scoring — NO Math.random() fabrication
+    let marketRelevanceScore: number;
+    let expectedInformationGain: number;
+    let statisticalPotential: number;
+    let priority: number;
+    let status: ResearchHypothesis['status'];
 
-    // PRIORITY SCORE: Expected Information Gain * Market Relevance * Statistical Potential
-    const priority = Number((expectedInformationGain * marketRelevanceScore * (statisticalPotential / 100)).toFixed(2));
+    if (isDegraded) {
+      // Truthful degraded/unverified metrics
+      marketRelevanceScore = 0.0;
+      expectedInformationGain = 0.0;
+      statisticalPotential = 0.0;
+      priority = 0.0;
+      status = 'unverified';
+    } else {
+      // Deterministic verified baseline scoring
+      marketRelevanceScore = 75.0;
+      expectedInformationGain = 0.65;
+      statisticalPotential = 70.0;
+      priority = Number((expectedInformationGain * marketRelevanceScore * (statisticalPotential / 100)).toFixed(2));
+      status = 'PENDING_BACKTEST';
+    }
 
     const hypothesis: ResearchHypothesis = {
-      hypothesisId: `HYP_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
+      hypothesisId: `HYP_${Date.now()}_${this.hypotheses.length + 1}`,
       title: aiSuggestedTitle,
       description: aiSuggestedDesc,
       logicalPredicate: aiSuggestedPredicate,
       targetVariable: 'Day_1_Price_Reaction_Pct',
       marketRelevanceScore,
+      marketRelevance: marketRelevanceScore,
       expectedInformationGain,
       statisticalPotential,
       priority,
-      status: 'PENDING_BACKTEST',
+      status,
+      isDegraded,
       generatedAt: new Date().toISOString()
     };
 
