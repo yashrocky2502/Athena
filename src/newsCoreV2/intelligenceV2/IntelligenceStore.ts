@@ -6,10 +6,10 @@ export class IntelligenceStore {
   private static instance: IntelligenceStore;
   private cache: Map<string, IntelligenceRecord> = new Map();
   private filePath: string;
-  private readonly version = "27.3";
+  private readonly version = "27.4";
 
-  private constructor() {
-    this.filePath = path.join(process.cwd(), "data", "news_intelligence_v2.json");
+  public constructor(customFilePath?: string) {
+    this.filePath = customFilePath || path.join(process.cwd(), "data", "news_intelligence_v2.json");
     this.hydrateFromDisk();
   }
 

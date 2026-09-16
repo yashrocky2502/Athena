@@ -267,17 +267,19 @@ export class SignalOutcomeEngine {
   private aggregationExecutionsCount: number = 0;
   private totalEvaluationLatencyMs: number = 0;
 
+  private isSaving: boolean = false;
+
   // Minimum sample size required before asserting statistical sufficiency
   public static readonly MIN_SAMPLE_SIZE_FOR_CONFIDENCE = 5;
 
-  private constructor() {
+  public constructor(customStoragePath?: string, customBackupPath?: string) {
     if (typeof window !== 'undefined') {
       this.storagePath = '';
       this.backupPath = '';
       return;
     }
-    this.storagePath = path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json');
-    this.backupPath = path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json.bak');
+    this.storagePath = customStoragePath || path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json');
+    this.backupPath = customBackupPath || (customStoragePath ? `${customStoragePath}.bak` : path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json.bak'));
     this.hydrateFromStorage();
   }
 
@@ -288,8 +290,8 @@ export class SignalOutcomeEngine {
     return SignalOutcomeEngine.instance;
   }
 
-  public static resetInstance(): void {
-    SignalOutcomeEngine.instance = new SignalOutcomeEngine();
+  public static resetInstance(customStoragePath?: string, customBackupPath?: string): void {
+    SignalOutcomeEngine.instance = new SignalOutcomeEngine(customStoragePath, customBackupPath);
   }
 
   public clear(): void {
@@ -1199,45 +1201,95 @@ export class SignalOutcomeEngine {
   // ==========================================
 
   private saveToStorage(): void {
+    if (!this.storagePath) return;
+    if (this.isSaving) {
+      // Re-entry guard: skip overlapping synchronous invocation
+      return;
+    }
+
+    this.isSaving = true;
+    let tempPath: string | null = null;
+
     try {
       const dataDir = path.dirname(this.storagePath);
       if (!fs.existsSync(dataDir)) {
         fs.mkdirSync(dataDir, { recursive: true });
       }
 
-      const serialized = JSON.stringify(Array.from(this.outcomes.values()), null, 2);
+      const records = Array.from(this.outcomes.values());
+      const serialized = JSON.stringify(records, null, 2);
 
-      if (fs.existsSync(this.storagePath)) {
-        try {
-          fs.copyFileSync(this.storagePath, this.backupPath);
-        } catch {}
+      // Step B: Write serialized JSON to a temporary file in the same directory/filesystem
+      const randSuffix = Math.random().toString(36).substring(2, 8);
+      tempPath = `${this.storagePath}.${Date.now()}-${randSuffix}.tmp`;
+      fs.writeFileSync(tempPath, serialized, 'utf-8');
+
+      // Step C: Verify the temporary file before replacing primary
+      const readBack = fs.readFileSync(tempPath, 'utf-8');
+      const parsedTemp = JSON.parse(readBack);
+      if (!Array.isArray(parsedTemp) || parsedTemp.length !== records.length) {
+        throw new Error(`[SignalOutcomeEngine] Temp file verification failed: expected array of length ${records.length}, got ${Array.isArray(parsedTemp) ? parsedTemp.length : typeof parsedTemp}`);
       }
 
-      fs.writeFileSync(this.storagePath, serialized, 'utf-8');
-    } catch (err) {
-      console.error('[SignalOutcomeEngine] Failed to save outcomes to storage:', err);
+      // Step D: Only create/update backup from CURRENT VALID PRIMARY
+      if (fs.existsSync(this.storagePath)) {
+        try {
+          const currentPrimaryRaw = fs.readFileSync(this.storagePath, 'utf-8');
+          const currentPrimaryParsed = JSON.parse(currentPrimaryRaw);
+          if (Array.isArray(currentPrimaryParsed)) {
+            // Current primary is valid JSON array: safe to backup
+            fs.copyFileSync(this.storagePath, this.backupPath);
+          } else {
+            console.warn('[SignalOutcomeEngine] Current primary is not an array, skipping backup copy to protect existing backup');
+          }
+        } catch (backupCheckErr) {
+          console.warn('[SignalOutcomeEngine] Current primary is invalid/corrupt, skipping backup copy to protect existing backup');
+        }
+      }
+
+      // Step E: Atomically replace primary with verified temp file
+      fs.renameSync(tempPath, this.storagePath);
+      tempPath = null; // Successfully promoted to primary
+    } catch (err: any) {
+      console.error('[SignalOutcomeEngine] Failed to save outcomes to storage:', err?.message || err);
+    } finally {
+      if (tempPath && fs.existsSync(tempPath)) {
+        try {
+          fs.unlinkSync(tempPath);
+        } catch {}
+      }
+      this.isSaving = false;
     }
   }
 
   private hydrateFromStorage(): void {
+    if (!this.storagePath) return;
+    let hydratedFromPrimary = false;
+
     try {
       if (fs.existsSync(this.storagePath)) {
         const raw = fs.readFileSync(this.storagePath, 'utf-8');
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) {
-          this.outcomes.clear();
-          for (const item of parsed) {
-            if (item && item.signalId) {
-              this.outcomes.set(item.signalId, item);
+        if (raw && raw.trim()) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            this.outcomes.clear();
+            for (const item of parsed) {
+              if (item && item.signalId) {
+                this.outcomes.set(item.signalId, item);
+              }
             }
+            hydratedFromPrimary = true;
           }
         }
       }
-    } catch (err) {
-      console.warn('[SignalOutcomeEngine] Failed to hydrate from storage, attempting backup:', err);
+    } catch (err: any) {
+      console.warn('[SignalOutcomeEngine] Failed to hydrate from storage, attempting backup:', err?.message || err);
+    }
+
+    if (!hydratedFromPrimary && this.backupPath && fs.existsSync(this.backupPath)) {
       try {
-        if (fs.existsSync(this.backupPath)) {
-          const raw = fs.readFileSync(this.backupPath, 'utf-8');
+        const raw = fs.readFileSync(this.backupPath, 'utf-8');
+        if (raw && raw.trim()) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed)) {
             this.outcomes.clear();
@@ -1248,7 +1300,9 @@ export class SignalOutcomeEngine {
             }
           }
         }
-      } catch {}
+      } catch (backupErr: any) {
+        console.warn('[SignalOutcomeEngine] Failed to hydrate from backup:', backupErr?.message || backupErr);
+      }
     }
   }
 
