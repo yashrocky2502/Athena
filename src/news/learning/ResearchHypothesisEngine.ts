@@ -10,6 +10,7 @@
 
 import { GoogleGenAI } from '@google/genai';
 import { sanitizeErrorMessage } from '../AI/AISanitizer';
+import { executeGeminiWithFailover } from '../AI/GeminiExecutor';
 
 export interface ResearchHypothesis {
   hypothesisId: string;
@@ -30,11 +31,25 @@ export interface ResearchHypothesis {
 export class ResearchHypothesisEngine {
   private static hypotheses: ResearchHypothesis[] = [];
   private static genAI: GoogleGenAI | null = null;
+  private static aiClientExplicitlySet = false;
+
+  public static setAIClient(client: GoogleGenAI | null): void {
+    this.genAI = client;
+    this.aiClientExplicitlySet = true;
+  }
+
+  public static resetAIClient(): void {
+    this.genAI = null;
+    this.aiClientExplicitlySet = false;
+  }
 
   /**
    * Lazy-initializes the GoogleGenAI client with correct headers
    */
-  private static getAIClient(): GoogleGenAI | null {
+  public static getAIClient(): GoogleGenAI | null {
+    if (this.aiClientExplicitlySet) {
+      return this.genAI;
+    }
     if (!this.genAI) {
       const apiKey = process.env.GEMINI_API_KEY;
       if (apiKey && apiKey !== 'MY_GEMINI_API_KEY' && apiKey.trim() !== '') {
@@ -81,70 +96,63 @@ Output your response in standard JSON format containing exactly these three fiel
   "logicalPredicate": "A clean pseudocode boolean filter statement using variables like RVOL, sentiment, deliveryPct, oiChangePct"
 }`;
 
-        const candidates = ['gemini-3.7-flash', 'gemini-3.1-flash-lite'];
-        let response: any = null;
-        for (const candidate of candidates) {
-          try {
-            const apiCall = client.models.generateContent({
-              model: candidate,
-              contents: prompt,
-              config: {
-                responseMimeType: 'application/json',
-              },
-            });
-            const timeoutPromise = new Promise<never>((_, reject) => {
-              setTimeout(() => reject(new Error(`Timeout: Gemini hypothesis request exceeded 2500ms`)), 2500);
-            });
-            response = await Promise.race([apiCall, timeoutPromise]);
-            if (response) break;
-          } catch (mErr: any) {
-            console.warn(`[ResearchHypothesisEngine] Candidate ${candidate} failed: ${sanitizeErrorMessage(mErr)}`);
+        const execution = await executeGeminiWithFailover<{ title: string; description: string; logicalPredicate: string }>(client, {
+          contents: prompt,
+          config: {
+            responseMimeType: 'application/json',
+          },
+          callerName: 'ResearchHypothesisEngine',
+          attemptTimeoutMs: 2500,
+          validateOutput: (text: string) => {
+            try {
+              const cleaned = text.replace(/```json\n?|\n?```/g, '').trim();
+              const parsed = JSON.parse(cleaned);
+              if (
+                parsed &&
+                typeof parsed === 'object' &&
+                !Array.isArray(parsed) &&
+                typeof parsed.title === 'string' &&
+                parsed.title.trim().length > 0 &&
+                typeof parsed.description === 'string' &&
+                parsed.description.trim().length > 0 &&
+                typeof parsed.logicalPredicate === 'string' &&
+                parsed.logicalPredicate.trim().length > 0
+              ) {
+                return {
+                  isValid: true,
+                  data: {
+                    title: parsed.title.trim(),
+                    description: parsed.description.trim(),
+                    logicalPredicate: parsed.logicalPredicate.trim()
+                  }
+                };
+              }
+              return { isValid: false, reason: 'Parsed JSON missing title, description, or logicalPredicate' };
+            } catch (err: any) {
+              return { isValid: false, reason: `Failed to parse hypothesis JSON: ${sanitizeErrorMessage(err)}` };
+            }
           }
-        }
+        });
 
-        if (response) {
-          const text = response.text || '';
-          const parsed = JSON.parse(text.trim());
-          if (parsed && parsed.title && parsed.description && parsed.logicalPredicate) {
-            aiSuggestedTitle = parsed.title;
-            aiSuggestedDesc = parsed.description;
-            aiSuggestedPredicate = parsed.logicalPredicate;
-          }
+        if (execution.data) {
+          aiSuggestedTitle = execution.data.title;
+          aiSuggestedDesc = execution.data.description;
+          aiSuggestedPredicate = execution.data.logicalPredicate;
         }
       } catch (err) {
         console.warn('[ResearchHypothesisEngine] Gemini API call failed: ' + sanitizeErrorMessage(err));
       }
     }
 
-    // Fallback/Truthful unverified generator if AI failed or is unconfigured
+    // Truthful deterministic degraded content when AI generation is unavailable
     if (!aiSuggestedTitle) {
       isDegraded = true;
-      const fallbacks = [
-        {
-          title: 'Post-Earnings Relative Volume Spillover Anomaly',
-          description: 'Earnings surprises that record an RVOL > 2.5 during trending regimes possess higher drift continuation on Day 2.',
-          predicate: 'RVOL > 2.5 && eventType === "EARNINGS_SURPRISE" && regime === "TRENDING_BULL"'
-        },
-        {
-          title: 'Order Win Delivery Momentum Congruence',
-          description: 'Large order wins that show >55% delivery delivery percentage combined with rising Open Interest indicate high-conviction institutional accumulation.',
-          predicate: 'eventType === "ORDER_WIN" && deliveryPct > 55 && oiChangePct > 5'
-        },
-        {
-          title: 'High-Volatility Gap Rejection Drift',
-          description: 'During range-bound and low-volatility regimes, gaps exceeding 1.5% with RVOL < 1.0 show a 74% probability of gap filling within 90 minutes.',
-          predicate: 'Math.abs(gapPct) > 1.5 && RVOL < 1.0 && (regime === "RANGE_BOUND" || regime === "LOW_VOLATILITY")'
-        }
-      ];
-
-      const fallbackIndex = seedTopic ? Math.abs(seedTopic.length) % fallbacks.length : 0;
-      const select = fallbacks[fallbackIndex];
-      aiSuggestedTitle = select.title;
-      aiSuggestedDesc = select.description;
-      aiSuggestedPredicate = select.predicate;
+      aiSuggestedTitle = 'Unverified hypothesis unavailable';
+      aiSuggestedDesc = 'AI hypothesis generation is currently unavailable. No empirical hypothesis has been generated or validated.';
+      aiSuggestedPredicate = 'UNVERIFIED';
     }
 
-    // Deterministic metrics scoring — NO Math.random() fabrication
+    // Deterministic metrics scoring — NO synthetic claims or random numbers
     let marketRelevanceScore: number;
     let expectedInformationGain: number;
     let statisticalPotential: number;
@@ -152,7 +160,7 @@ Output your response in standard JSON format containing exactly these three fiel
     let status: ResearchHypothesis['status'];
 
     if (isDegraded) {
-      // Truthful degraded/unverified metrics
+      // Truthful degraded/unverified metrics: all empirical scores MUST remain zero
       marketRelevanceScore = 0.0;
       expectedInformationGain = 0.0;
       statisticalPotential = 0.0;

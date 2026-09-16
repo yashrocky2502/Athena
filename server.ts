@@ -50,6 +50,11 @@ import { getStories, addStory, updateStoryStatus, deleteStory } from "./src/lib/
 import { QueryPlanner } from "./src/lib/QueryPlanner.ts";
 import { SearchOrchestrator } from "./src/lib/SearchOrchestrator.ts";
 import { sanitizeErrorMessage } from "./src/news/AI/AISanitizer";
+import {
+  executeGeminiWithFailover,
+  validateGeminiResponse,
+  isRetryableGeminiError
+} from "./src/news/AI/GeminiExecutor.ts";
 
 import { YahooFinanceProvider } from "./src/services/YahooFinanceProvider.ts";
 import { MarketMoversService } from "./src/services/MarketMoversService.ts";
@@ -345,174 +350,18 @@ if (apiKey && apiKey !== "MY_GEMINI_API_KEY") {
 queryPlanner = new QueryPlanner(ai);
 searchOrchestrator = new SearchOrchestrator(ai);
 
-function validateGeminiResponse(response: any): { isValid: boolean; reason?: string } {
-  if (!response) {
-    return { isValid: false, reason: "Response is null or undefined" };
-  }
-
-  const candidates = response.candidates;
-  if (!Array.isArray(candidates) || candidates.length === 0) {
-    return { isValid: false, reason: "Missing or empty candidates array" };
-  }
-
-  const firstCandidate = candidates[0];
-  if (!firstCandidate) {
-    return { isValid: false, reason: "First candidate is null or undefined" };
-  }
-
-  const finishReason = String(firstCandidate.finishReason || "").toUpperCase();
-  const blockedFinishReasons = ["SAFETY", "RECITATION", "BLOCKLIST", "PROHIBITED_CONTENT", "SPII"];
-  if (blockedFinishReasons.includes(finishReason)) {
-    return { isValid: false, reason: `Blocked finish reason: ${finishReason}` };
-  }
-
-  // Extract text: check response.text or candidate parts
-  let extractedText = typeof response.text === "string" ? response.text : "";
-  if (!extractedText && firstCandidate.content?.parts && Array.isArray(firstCandidate.content.parts)) {
-    extractedText = firstCandidate.content.parts
-      .map((p: any) => (typeof p?.text === "string" ? p.text : ""))
-      .join("");
-  }
-
-  if (!extractedText || extractedText.trim().length === 0) {
-    return { isValid: false, reason: "Empty or whitespace-only response text" };
-  }
-
-  return { isValid: true };
-}
-
-function isRetryableGeminiError(err: any): boolean {
-  if (!err) return false;
-
-  // Unusable response from Gemini validation (e.g. empty text, safety finish reason) is retryable with next model candidate
-  if (err.isUnusableResponse || (typeof err.message === "string" && err.message.startsWith("UNUSABLE_RESPONSE:"))) {
-    return true;
-  }
-
-  const rawStatus = err.status ?? err.statusCode ?? err.error?.code ?? err.response?.status;
-  const status = typeof rawStatus === "number" ? rawStatus : Number(rawStatus);
-  const code = String(err.code || "");
-  const name = String(err.name || "");
-  const msg = String(err.message || err);
-
-  // 1. Permanent / non-retryable failures: HTTP 400, 401, 403, invalid keys, invalid argument
-  if (status === 400 || status === 401 || status === 403) {
-    return false;
-  }
-  if (
-    msg.includes("INVALID_ARGUMENT") ||
-    msg.includes("UNAUTHENTICATED") ||
-    msg.includes("PERMISSION_DENIED") ||
-    msg.includes("API_KEY_INVALID") ||
-    msg.includes("API key not valid") ||
-    msg.includes("API key expired") ||
-    msg.includes("401 Unauthorized") ||
-    msg.includes("401") ||
-    msg.includes("403 Forbidden") ||
-    msg.includes("403") ||
-    (msg.includes("400") && !msg.includes("404"))
-  ) {
-    return false;
-  }
-
-  // 2. Retryable HTTP status codes
-  if ([404, 429, 500, 502, 503, 504].includes(status)) {
-    return true;
-  }
-
-  // 3. Retryable error codes / names (transient network / socket / timeout)
-  if (
-    code === "ETIMEDOUT" ||
-    code === "ECONNRESET" ||
-    code === "ECONNREFUSED" ||
-    code === "EAI_AGAIN" ||
-    name === "AbortError" ||
-    name === "TimeoutError"
-  ) {
-    return true;
-  }
-
-  // 4. Retryable message signatures (explicit, conservative - NO generic "limit")
-  const isQuota =
-    msg.includes("429") ||
-    msg.includes("RESOURCE_EXHAUSTED") ||
-    msg.toLowerCase().includes("quota exceeded") ||
-    msg.toLowerCase().includes("rate limit") ||
-    msg.toLowerCase().includes("too many requests");
-
-  const isNotFound =
-    msg.includes("404") ||
-    msg.includes("NOT_FOUND") ||
-    msg.toLowerCase().includes("model not found") ||
-    msg.toLowerCase().includes("not found");
-
-  const isUnavailableOrServer =
-    msg.includes("503") ||
-    msg.includes("500") ||
-    msg.includes("502") ||
-    msg.includes("504") ||
-    msg.includes("UNAVAILABLE") ||
-    msg.toLowerCase().includes("service unavailable") ||
-    msg.includes("INTERNAL") ||
-    msg.toLowerCase().includes("internal server error") ||
-    msg.toLowerCase().includes("bad gateway") ||
-    msg.toLowerCase().includes("gateway timeout");
-
-  const isNetwork =
-    msg.toLowerCase().includes("fetch failed") ||
-    msg.includes("ETIMEDOUT") ||
-    msg.includes("ECONNRESET") ||
-    msg.includes("ECONNREFUSED") ||
-    msg.includes("EAI_AGAIN") ||
-    msg.includes("AbortError") ||
-    msg.toLowerCase().includes("socket hang up") ||
-    msg.toLowerCase().includes("network timeout");
-
-  return isQuota || isNotFound || isUnavailableOrServer || isNetwork;
-}
-
 async function executeServerGeminiWithFailover(
   aiClient: GoogleGenAI,
   params: { contents: any; config?: any; defaultModel?: string }
 ) {
-  const candidateModels = [
-    params.defaultModel,
-    process.env.GEMINI_MODEL,
-    "gemini-3.7-flash",
-    "gemini-3.1-flash-lite"
-  ].filter((m): m is string => Boolean(m) && typeof m === "string" && m.trim().length > 0);
+  const result = await executeGeminiWithFailover(aiClient, {
+    contents: params.contents,
+    config: params.config,
+    defaultModel: params.defaultModel,
+    callerName: "Server AI Failover"
+  });
 
-  const uniqueModels = Array.from(new Set(candidateModels));
-  let lastError: any = null;
-
-  for (const modelCandidate of uniqueModels) {
-    try {
-      const response = await aiClient.models.generateContent({
-        model: modelCandidate,
-        contents: params.contents,
-        config: params.config
-      });
-
-      const validation = validateGeminiResponse(response);
-      if (!validation.isValid) {
-        const unusableErr = new Error(`UNUSABLE_RESPONSE: ${validation.reason}`);
-        (unusableErr as any).isUnusableResponse = true;
-        throw unusableErr;
-      }
-
-      return { response, modelUsed: modelCandidate };
-    } catch (err: any) {
-      lastError = err;
-      const safeMsg = sanitizeErrorMessage(String(err?.message || err));
-      console.warn(`[Server AI Failover] Model ${modelCandidate} failed (${safeMsg}). Trying next candidate model...`);
-
-      if (!isRetryableGeminiError(err)) {
-        break;
-      }
-    }
-  }
-
-  throw lastError || new Error("All Gemini candidate models failed");
+  return { response: result.response, modelUsed: result.modelUsed };
 }
 
 function safeParseJSON(text: string, defaultValue: any = {}): any {
@@ -3328,6 +3177,8 @@ if (process.env.NODE_ENV !== "test" && !process.env.VITEST) {
 
 export function setAiClientForTesting(mockAi: any) {
   ai = mockAi;
+  queryPlanner = new QueryPlanner(ai);
+  searchOrchestrator = new SearchOrchestrator(ai);
 }
 
 export function getAiClientForTesting(): any {

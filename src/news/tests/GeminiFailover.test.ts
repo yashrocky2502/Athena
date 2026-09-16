@@ -171,9 +171,9 @@ describe('ATHENA Gemini Failover & Financial Safety Suite', () => {
 
   describe('3. Sensitive Log Sanitization (sanitizeErrorMessage)', () => {
     it('should scrub API keys from query parameters', () => {
-      const raw = 'Request to https://generativelanguage.googleapis.com/v1beta/models?key=AIzaSyA_TEST_KEY_SECRET failed';
+      const raw = 'Request to https://generativelanguage.googleapis.com/v1beta/models?key=synthetic_query_param_key_12345 failed';
       const sanitized = sanitizeErrorMessage(raw);
-      expect(sanitized).not.toContain('AIzaSyA_TEST_KEY_SECRET');
+      expect(sanitized).not.toContain('synthetic_query_param_key_12345');
       expect(sanitized).toContain('[REDACTED_KEY]');
     });
 

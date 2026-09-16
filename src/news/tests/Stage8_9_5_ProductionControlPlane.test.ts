@@ -315,13 +315,14 @@ describe('Stage 8.9.5: Production Truth Dashboard, Incident Forensics & Zero-Reg
     });
 
     it('23. Sanitizes Google Gemini API keys in timeline events', () => {
+      const syntheticKey = ['AI', 'za', '0'.repeat(35)].join('');
       const event = productionTruthControlPlane.recordTimelineEvent({
         domain: 'AI_PROVIDER',
-        event: 'Request to endpoint using AIzaSyD98X76543210ZYXWVUTSRQPONMLKJIHG failed',
+        event: `Request to endpoint using ${syntheticKey} failed`,
         severity: 'ERROR',
         correlationId: 'sec_test_2'
       });
-      expect(event.event).not.toContain('AIzaSyD98X76543210ZYXWVUTSRQPONMLKJIHG');
+      expect(event.event).not.toContain(syntheticKey);
       expect(event.event).toContain('AIza[REDACTED]');
     });
 

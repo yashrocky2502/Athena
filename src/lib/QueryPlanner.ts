@@ -1,5 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { sanitizeErrorMessage } from "../news/AI/AISanitizer";
+import { executeGeminiWithFailover } from "../news/AI/GeminiExecutor";
 
 export type Intent = 
   | "Company Research"
@@ -28,21 +29,34 @@ export interface QueryPlan {
   rationale: string;
 }
 
+const VALID_INTENTS: Intent[] = [
+  "Company Research",
+  "Market Research",
+  "Sector Research",
+  "News Search",
+  "Government Policy",
+  "RBI",
+  "SEBI",
+  "Earnings",
+  "Financial Results",
+  "Comparison",
+  "Opportunity Discovery",
+  "Risk Analysis",
+  "Timeline",
+  "General Finance",
+  "Unknown"
+];
+
 export class QueryPlanner {
   constructor(private ai: GoogleGenAI | null) {}
 
+  public setAIClient(client: GoogleGenAI | null) {
+    this.ai = client;
+  }
+
   async planQuery(query: string, history: any[] = []): Promise<QueryPlan> {
     if (!this.ai) {
-      // Fallback plan if offline
-      return {
-        intent: "Unknown",
-        requiresGoogleSearch: false,
-        requiresKnowledgeGraph: true,
-        requiresCompanyKnowledge: true,
-        requiresEventMemory: true,
-        requiresMCPConnectors: false,
-        rationale: "Offline mode fallback plan."
-      };
+      return this.safeFallbackPlan("Offline mode fallback plan.");
     }
 
     try {
@@ -72,50 +86,76 @@ Return ONLY a valid JSON object with the following schema:
   "rationale": "Short explanation of why these sources were chosen."
 }`;
 
-      const candidateModels = ["gemini-3.7-flash", "gemini-3.1-flash-lite"];
-      let response: any = null;
-      let lastErr: any = null;
+      const execution = await executeGeminiWithFailover<QueryPlan>(this.ai, {
+        contents: prompt,
+        config: {
+          responseMimeType: "application/json",
+        },
+        callerName: "QueryPlanner",
+        validateOutput: (text: string) => {
+          try {
+            const cleaned = text.replace(/```json\n?|\n?```/g, "").trim();
+            const parsed = JSON.parse(cleaned);
 
-      for (const modelCandidate of candidateModels) {
-        try {
-          response = await this.ai.models.generateContent({
-            model: modelCandidate,
-            contents: prompt,
-            config: {
-              responseMimeType: "application/json",
+            if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+              return { isValid: false, reason: "QueryPlan output is not a JSON object" };
             }
-          });
-          if (response) break;
-        } catch (mErr: any) {
-          lastErr = mErr;
-          const msg = String(mErr?.message || mErr);
-          if (msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED")) {
-            console.warn(`[QueryPlanner] Model ${modelCandidate} quota exceeded, trying candidate failover: ${sanitizeErrorMessage(mErr)}`);
-            continue;
+
+            if (typeof parsed.intent !== "string" || !parsed.intent.trim()) {
+              return { isValid: false, reason: "Missing or empty intent" };
+            }
+
+            const rawIntent = parsed.intent.trim();
+            const matchedIntent = VALID_INTENTS.find((i) => i.toLowerCase() === rawIntent.toLowerCase()) || "Unknown";
+
+            if (
+              typeof parsed.requiresGoogleSearch !== "boolean" ||
+              typeof parsed.requiresKnowledgeGraph !== "boolean" ||
+              typeof parsed.requiresCompanyKnowledge !== "boolean" ||
+              typeof parsed.requiresEventMemory !== "boolean" ||
+              typeof parsed.requiresMCPConnectors !== "boolean"
+            ) {
+              return { isValid: false, reason: "Missing or non-boolean data source requirements in QueryPlan" };
+            }
+
+            const rationale = typeof parsed.rationale === "string" && parsed.rationale.trim()
+              ? parsed.rationale.trim()
+              : "AI-derived query plan.";
+
+            return {
+              isValid: true,
+              data: {
+                intent: matchedIntent,
+                requiresGoogleSearch: parsed.requiresGoogleSearch,
+                requiresKnowledgeGraph: parsed.requiresKnowledgeGraph,
+                requiresCompanyKnowledge: parsed.requiresCompanyKnowledge,
+                requiresEventMemory: parsed.requiresEventMemory,
+                requiresMCPConnectors: parsed.requiresMCPConnectors,
+                rationale
+              }
+            };
+          } catch (err: any) {
+            return { isValid: false, reason: `Failed to parse QueryPlan JSON: ${sanitizeErrorMessage(err)}` };
           }
-          throw mErr;
         }
-      }
+      });
 
-      if (!response) {
-        throw lastErr || new Error("All candidate models failed in QueryPlanner");
-      }
-
-      if (!response.text) throw new Error("Empty response from AI");
-      const cleaned = response.text.replace(/```json\n|\n```|```/g, "").trim();
-      const plan = JSON.parse(cleaned) as QueryPlan;
-      return plan;
+      return execution.data || this.safeFallbackPlan("Fallback after execution returned no plan data.");
     } catch (error) {
       console.warn("QueryPlanner Error: " + sanitizeErrorMessage(error));
-      return {
-        intent: "Unknown",
-        requiresGoogleSearch: true,
-        requiresKnowledgeGraph: true,
-        requiresCompanyKnowledge: true,
-        requiresEventMemory: true,
-        requiresMCPConnectors: false,
-        rationale: "Failed to parse AI plan, falling back to all sources."
-      };
+      return this.safeFallbackPlan("Failed to execute AI plan, falling back to safe deterministic sources.");
     }
+  }
+
+  private safeFallbackPlan(rationale: string): QueryPlan {
+    return {
+      intent: "Unknown",
+      requiresGoogleSearch: false,
+      requiresKnowledgeGraph: true,
+      requiresCompanyKnowledge: true,
+      requiresEventMemory: true,
+      requiresMCPConnectors: false,
+      rationale
+    };
   }
 }

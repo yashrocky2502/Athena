@@ -310,7 +310,7 @@ describe("Phase 1: Server Gemini Failover & Safety Audit", () => {
 
   // TEST 11: Error logging sanitization
   it("TEST 11: Error logging sanitization (fake API keys and credentials are fully redacted)", () => {
-    const fakeKey = "AIza" + "_SYNTHETIC_TEST_NONCE_0000000000000";
+    const fakeKey = ["AI", "za", "0".repeat(35)].join("");
     const rawError = `Failed request to https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key=${fakeKey} with Authorization: Bearer secret_token_xyz_12345678`;
 
     const sanitized = sanitizeErrorMessage(rawError);

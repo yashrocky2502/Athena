@@ -4,6 +4,7 @@ import { QueryPlan } from "./QueryPlanner";
 import { ContradictionEngine } from "./ContradictionEngine";
 import { ReasoningEngine } from "./ReasoningEngine";
 import { ConflictRecord, ReasoningGraph } from "../types";
+import { executeGeminiWithFailover } from "../news/AI/GeminiExecutor";
 
 export interface EvidencePackage {
   text: string;
@@ -23,6 +24,10 @@ export class SearchOrchestrator {
   private reasoningEngine = new ReasoningEngine();
 
   constructor(private ai: GoogleGenAI | null) {}
+
+  public setAIClient(client: GoogleGenAI | null) {
+    this.ai = client;
+  }
 
   async execute(query: string, plan: QueryPlan, history: any[] = []): Promise<EvidencePackage> {
     const startTime = Date.now();
@@ -96,44 +101,24 @@ You MUST output your response in EXACTLY this Markdown format:
 `;
 
     try {
-      const candidateModels = ["gemini-3.7-flash", "gemini-3.1-flash-lite"];
-      let response: any = null;
-      let lastErr: any = null;
+      const execution = await executeGeminiWithFailover(this.ai, {
+        contents: prompt,
+        config: {
+          tools: tools as any,
+        },
+        callerName: "SearchOrchestrator"
+      });
 
-      for (const modelCandidate of candidateModels) {
-        try {
-          response = await this.ai.models.generateContent({
-            model: modelCandidate,
-            contents: prompt,
-            config: {
-              tools: tools as any,
-            }
-          });
-          if (response) break;
-        } catch (mErr: any) {
-          lastErr = mErr;
-          const msg = String(mErr?.message || mErr);
-          if (msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED")) {
-            console.warn(`[SearchOrchestrator] Model ${modelCandidate} quota exceeded, trying candidate failover: ${sanitizeErrorMessage(mErr)}`);
-            continue;
-          }
-          throw mErr;
-        }
-      }
-
-      if (!response) {
-        throw lastErr || new Error("All candidate models failed in SearchOrchestrator");
-      }
-
-      searchResultText = response.text || "Analysis generated but empty.";
-      promptTokenCount = response.usageMetadata?.promptTokenCount || 0;
-      responseTokenCount = response.usageMetadata?.candidatesTokenCount || 0;
+      const response = execution.response;
+      searchResultText = execution.text;
+      promptTokenCount = response?.usageMetadata?.promptTokenCount || 0;
+      responseTokenCount = response?.usageMetadata?.candidatesTokenCount || 0;
 
       // Extract Grounding Metadata for Original Sources
-      const rawChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
+      const rawChunks = response?.candidates?.[0]?.groundingMetadata?.groundingChunks;
       if (rawChunks && Array.isArray(rawChunks)) {
-        rawChunks.forEach((chunk) => {
-          if (chunk.web && chunk.web.uri) {
+        rawChunks.forEach((chunk: any) => {
+          if (chunk?.web && chunk.web.uri) {
             sources.push({
               title: chunk.web.title || "Web Reference",
               uri: chunk.web.uri,
@@ -144,46 +129,48 @@ You MUST output your response in EXACTLY this Markdown format:
         });
       }
 
-      if (sources.length === 0) {
-        sources.push(
-          { title: "NSE India National Stock Exchange", uri: "https://www.nseindia.com", trustRating: "Institutional", publicationTime: "Live" },
-          { title: "BSE India Bombay Stock Exchange", uri: "https://www.bseindia.com", trustRating: "Institutional", publicationTime: "Live" }
-        );
-      }
-      
+      // CRITICAL: DO NOT manufacture NSE/BSE URLs or fake evidence when grounding metadata is absent.
+      // If sources.length === 0, sources remains empty.
+
       const executionTime = Date.now() - startTime;
-      
-      // Simulate Evidence Items (would normally come from EvidenceEngine)
-      const mockEvidenceItems: any[] = sources.map((s, i) => ({
+
+      // Construct Evidence Items purely from grounded sources
+      const evidenceItems: any[] = sources.map((s, i) => ({
         id: `ev-${i}`,
         title: s.title,
         url: s.uri,
-        sourceName: "Search",
+        sourceName: "Google Search Grounding",
         sourceType: "Web",
         publishedTime: s.publicationTime || "Recent",
         retrievedTime: new Date().toISOString(),
-        trustScore: s.trustRating?.includes("High") || s.trustRating?.includes("Institutional") ? 90 : 70,
+        trustScore: 85,
         evidenceType: "News",
         relatedCompanies: [],
         relatedSectors: [],
         relatedEvents: [],
-        summary: "Extracted fact from search grounding.",
-        status: i % 3 === 0 ? "Conflicting" : "Verified",
-        conflicts: i % 3 === 0 ? ["Numbers do not match historical records."] : []
+        summary: s.title,
+        status: "Verified",
+        conflicts: []
       }));
 
-      const detectedContradictions = this.contradictionEngine.detectConflicts(mockEvidenceItems);
-      const resolvedConflicts = this.contradictionEngine.resolveConflicts(detectedContradictions, mockEvidenceItems);
-      
-      // Confidence logic based on contradictions and source trust
-      let finalConfidence = plan.requiresGoogleSearch ? 95 : 85;
-      if (detectedContradictions.length > 0) {
-        finalConfidence -= (detectedContradictions.length * 5); // penalty for unverified conflicts
+      const detectedContradictions = this.contradictionEngine.detectConflicts(evidenceItems);
+      const resolvedConflicts = this.contradictionEngine.resolveConflicts(detectedContradictions, evidenceItems);
+
+      // Truthful confidence scoring:
+      // If grounding was requested but zero sources returned, reflect ungrounded status honestly
+      let finalConfidence = 70;
+      if (sources.length > 0) {
+        finalConfidence = plan.requiresGoogleSearch ? 90 : 80;
+        if (detectedContradictions.length > 0) {
+          finalConfidence -= detectedContradictions.length * 5;
+        }
+      } else {
+        finalConfidence = plan.requiresGoogleSearch ? 35 : 60;
       }
 
       const reasoningGraph = this.reasoningEngine.generateReasoning(
         query,
-        mockEvidenceItems,
+        evidenceItems,
         sources,
         finalConfidence
       );

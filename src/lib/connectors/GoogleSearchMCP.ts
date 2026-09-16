@@ -2,6 +2,7 @@ import { BaseMCP } from "./BaseMCP";
 import { NormalizedEvent } from "../../types";
 import { GoogleGenAI } from "@google/genai";
 import { sanitizeErrorMessage } from "../../news/AI/AISanitizer";
+import { executeGeminiWithFailover } from "../../news/AI/GeminiExecutor";
 
 export class GoogleSearchMCP extends BaseMCP {
   private ai: GoogleGenAI | null;
@@ -9,6 +10,10 @@ export class GoogleSearchMCP extends BaseMCP {
   constructor(ai: GoogleGenAI | null) {
     super("Google Search Grounding", true);
     this.ai = ai;
+  }
+
+  public setAIClient(client: GoogleGenAI | null) {
+    this.ai = client;
   }
 
   protected async executeLiveFetch(query: string): Promise<NormalizedEvent[]> {
@@ -33,83 +38,81 @@ Output a JSON array of events with the following structure:
 ]
 Only use real data. Return purely JSON.`;
 
-    const candidateModels = ["gemini-3.7-flash", "gemini-3.1-flash-lite"];
-    let response: any = null;
-    let lastErr: any = null;
-
-    for (const modelCandidate of candidateModels) {
-      try {
-        response = await this.ai.models.generateContent({
-          model: modelCandidate,
-          contents: prompt,
-          config: {
-            tools: [{ googleSearch: {} }] as any,
-            responseMimeType: "application/json"
-          }
-        });
-        if (response) break;
-      } catch (err: any) {
-        lastErr = err;
-        const msg = String(err?.message || err);
-        if (msg.includes("429") || msg.includes("Quota") || msg.includes("RESOURCE_EXHAUSTED")) {
-          console.warn(`[GoogleSearchMCP] Candidate model ${modelCandidate} quota exceeded: ${sanitizeErrorMessage(err)}`);
-          continue;
-        }
-        throw err;
-      }
-    }
-
-    if (!response) {
-      throw lastErr || new Error("GoogleSearchMCP: All models exhausted");
-    }
-
-    const rawChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-    const sourceMap = new Map<string, any>();
-    
-    // Attempt to map chunks to URLs
-    rawChunks.forEach((chunk) => {
-      if (chunk.web && chunk.web.uri) {
-        // We'll use the domain or title as a key to match with generated sources
-        sourceMap.set(chunk.web.title || chunk.web.uri, chunk.web);
-      }
-    });
-
-    let parsed: any[] = [];
     try {
-      parsed = JSON.parse(response.text || "[]");
-    } catch (e) {
-      console.warn("Failed to parse GoogleSearchMCP JSON: " + sanitizeErrorMessage(e));
-      throw e;
-    }
+      const execution = await executeGeminiWithFailover<NormalizedEvent[]>(this.ai, {
+        contents: prompt,
+        config: {
+          tools: [{ googleSearch: {} }] as any,
+          responseMimeType: "application/json"
+        },
+        callerName: "GoogleSearchMCP",
+        validateOutput: (text: string, rawResponse: any) => {
+          try {
+            const cleaned = text.replace(/```json\n?|\n?```/g, "").trim();
+            const parsed = JSON.parse(cleaned);
 
-    const events: NormalizedEvent[] = [];
-    
-    // Get all available URLs from grounding
-    const availableUrls = Array.from(sourceMap.values());
+            if (!Array.isArray(parsed)) {
+              return { isValid: false, reason: "GoogleSearchMCP output is not a JSON array" };
+            }
 
-    for (let i = 0; i < parsed.length; i++) {
-      const item = parsed[i];
-      // Assign an original URL from grounding chunks if possible
-      let originalUrl = "https://www.google.com/search?q=" + encodeURIComponent(query);
-      if (i < availableUrls.length) {
-        originalUrl = availableUrls[i].uri;
-      }
+            // Extract grounding chunks if available
+            const rawChunks = rawResponse?.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+            const availableUrls: string[] = [];
+            if (Array.isArray(rawChunks)) {
+              rawChunks.forEach((chunk: any) => {
+                if (chunk?.web?.uri && typeof chunk.web.uri === "string") {
+                  availableUrls.push(chunk.web.uri);
+                }
+              });
+            }
 
-      events.push({
-        title: item.title || "Unknown Event",
-        summary: item.summary || "",
-        source: item.source || "Google Search",
-        publishedTime: item.publishedTime || new Date().toISOString(),
-        retrievedTime: new Date().toISOString(),
-        companies: item.companies || [],
-        sectors: item.sectors || [],
-        themes: item.themes || [],
-        confidence: item.confidence || 85,
-        originalUrl
+            const events: NormalizedEvent[] = [];
+            for (let i = 0; i < parsed.length; i++) {
+              const item = parsed[i];
+              if (!item || typeof item !== "object") {
+                return { isValid: false, reason: `Item at index ${i} is not a valid object` };
+              }
+              if (typeof item.title !== "string" || !item.title.trim()) {
+                return { isValid: false, reason: `Item at index ${i} is missing a required title` };
+              }
+
+              // Grounding URL rule:
+              // If grounding chunk exists, use chunk URL.
+              // If grounding URL does not exist, do not fabricate specific evidence URLs;
+              // leave originalUrl empty or generic search reference without false institutional attribution.
+              let originalUrl = "";
+              if (i < availableUrls.length) {
+                originalUrl = availableUrls[i];
+              }
+
+              events.push({
+                title: item.title.trim(),
+                summary: typeof item.summary === "string" ? item.summary.trim() : "",
+                source: typeof item.source === "string" && item.source.trim() ? item.source.trim() : "Google Search",
+                publishedTime: typeof item.publishedTime === "string" && item.publishedTime.trim()
+                  ? item.publishedTime.trim()
+                  : new Date().toISOString(),
+                retrievedTime: new Date().toISOString(),
+                companies: Array.isArray(item.companies) ? item.companies.filter((c: any) => typeof c === "string") : [],
+                sectors: Array.isArray(item.sectors) ? item.sectors.filter((s: any) => typeof s === "string") : [],
+                themes: Array.isArray(item.themes) ? item.themes.filter((t: any) => typeof t === "string") : [],
+                confidence: typeof item.confidence === "number" ? item.confidence : 85,
+                originalUrl
+              });
+            }
+
+            return { isValid: true, data: events };
+          } catch (err: any) {
+            return { isValid: false, reason: `Failed to parse GoogleSearchMCP JSON array: ${sanitizeErrorMessage(err)}` };
+          }
+        }
       });
-    }
 
-    return events;
+      return execution.data || [];
+    } catch (err: any) {
+      console.warn(`[GoogleSearchMCP] Live fetch failed: ${sanitizeErrorMessage(err)}`);
+      throw err;
+    }
   }
 
   protected async executeSimulatedFetch(query: string): Promise<NormalizedEvent[]> {

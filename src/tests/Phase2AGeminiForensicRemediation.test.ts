@@ -49,8 +49,8 @@ describe("ATHENA Phase 2A — Gemini Forensic Remediation Suite", () => {
     });
 
     it("should redact standalone Google AIza API key strings", () => {
-      // Obvious synthetic non-credential placeholder matching \bAIza[0-9A-Za-z-_]{35}\b
-      const syntheticAiza = "AIza" + "_SYNTHETIC_TEST_NONCE_0000000000000";
+      // Obvious synthetic non-credential placeholder constructed with zeroes, matching \bAIza[0-9A-Za-z-_]{35}\b
+      const syntheticAiza = ["AI", "za", "0".repeat(35)].join("");
       const standalone = `Error: Invalid response using key ${syntheticAiza} in client call`;
       const sanitized = sanitizeErrorMessage(standalone);
       expect(sanitized).not.toContain(syntheticAiza);
