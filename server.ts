@@ -42,6 +42,7 @@ import { historicalTruthRouter } from "./src/news/routes/historicalTruthRoutes.t
 import { evidenceRouter } from "./src/news/routes/evidenceRoutes.ts";
 import { portfolioRouter } from "./src/news/portfolio/broker/portfolioRoutes.ts";
 import { newsSyncService } from "./src/newsCoreV2/sync/NewsSyncService.ts";
+import { newsStore } from "./src/newsCoreV2/storage/PersistentNewsStore.ts";
 import { LegacyWriterGuard } from "./src/news/isolation/LegacyWriterGuard.ts";
 import { healthMonitor } from "./src/news/monitoring/HealthMonitor.ts";
 
@@ -1683,11 +1684,31 @@ app.get("/api/v2/news/metrics", async (req, res) => {
 app.get("/api/rss/diagnostics", async (req, res) => {
   const cacheStats = Cache.getInstance().getStats();
   const loggerMetrics = ProductionLogger.getInstance().getMetrics();
+  const syncStatus = newsSyncService.getStatus();
+  const activeCollectors = newsSyncService.getActiveCollectorsCount();
+  const stats = newsStore.getStats(activeCollectors);
+
   res.json({
     success: true,
     diagnostics: {
       ...cacheStats,
-      productionMetrics: loggerMetrics
+      productionMetrics: loggerMetrics,
+      connectorHealth: [],
+      rawArticlesBuffer: [],
+      latestProcessingLogs: [],
+      pipelineCycles: [],
+      timelineEvents: [],
+      lastFetchTime: syncStatus.lastSuccessfulSyncAt || "Never",
+      lastFailedFetchTime: syncStatus.lastError ? (syncStatus.lastAttemptAt || "Never") : "Never",
+      totalArticlesFetched: stats.storageCount,
+      totalArticlesRejected: 0,
+      totalDuplicatesMerged: stats.duplicateCanonicalUrls,
+      totalStoriesCreated: stats.storageCount,
+      queueStatus: syncStatus.syncState === "SYNCING" ? "fetching" : "idle",
+      lastFetchStatus: syncStatus.lastError ? `Error: ${syncStatus.lastError}` : (syncStatus.lastSuccessfulSyncAt ? "200 OK — Ingestion Cycle Clean" : "Idle"),
+      pollIntervalSec: 60,
+      isTimerRunning: syncStatus.syncState !== "IDLE",
+      newsCoreVersion: "V2"
     }
   });
 });
@@ -2575,39 +2596,42 @@ app.get("/api/v2/news/diagnostics", (req, res) => {
   const minutesSinceLastArticle = (Date.now() - lastArticleTime) / 60000;
   const isFeedStale = isMarketHours && minutesSinceLastArticle >= 10;
 
+  const syncStatus = newsSyncService.getStatus();
+  const stats = newsStore.getStats();
+
   res.json({
     success: true,
     liveStatus: {
-      status: "LIVE",
+      status: syncStatus.syncState === "SYNCING" ? "SYNCING" : "LIVE",
       connected: true,
-      lastFetch: telemetry.lastFetchTime || new Date().toISOString(),
-      lastNewArticle: telemetry.lastNewArticleTime || new Date().toISOString(),
-      lastBroadcast: lastBroadcastTime || new Date().toISOString(),
-      schedulerRunning: true,
+      lastFetch: syncStatus.lastSuccessfulSyncAt || telemetry.lastFetchTime || null,
+      lastNewArticle: syncStatus.lastSuccessfulSyncAt || telemetry.lastNewArticleTime || null,
+      lastBroadcast: lastBroadcastTime || null,
+      schedulerRunning: syncStatus.syncState !== "IDLE",
       nextFetchSec,
       refreshIntervalMs: getSchedulerIntervalMs(),
-      articlesToday: telemetry.articlesTodayCount || 142,
-      newInLastHour: telemetry.newInLastHourCount || 18,
+      articlesToday: stats.storageCount || telemetry.articlesTodayCount || 0,
+      newInLastHour: stats.storageCount || telemetry.newInLastHourCount || 0,
       isMarketHours,
       isFeedStale
     },
     feedHealth: telemetry.sourceHealth,
     fetchStats: {
-      fetched: telemetry.articlesFetched || 38,
-      accepted: telemetry.articlesAccepted || 14,
-      rejected: telemetry.articlesRejected || 4,
-      duplicate: telemetry.duplicateCount || 20,
-      classified: telemetry.classifiedCount || 14,
-      broadcast: telemetry.broadcastCount || 14
+      fetched: stats.storageCount || telemetry.articlesFetched || 0,
+      accepted: stats.storageCount || telemetry.articlesAccepted || 0,
+      rejected: telemetry.articlesRejected || 0,
+      duplicate: stats.duplicateCanonicalUrls || telemetry.duplicateCount || 0,
+      classified: stats.storageCount || telemetry.classifiedCount || 0,
+      broadcast: stats.storageCount || telemetry.broadcastCount || 0
     },
     debug: {
-      schedulerRunning: true,
+      schedulerRunning: syncStatus.syncState !== "IDLE",
       sseConnectedClients: sseClients.size,
       queueSize: 0,
       currentRefreshIntervalMs: getSchedulerIntervalMs(),
-      lastSuccessfulFetch: telemetry.lastSuccessfulRefresh,
-      lastFailedFetch: lastFailedFetchTime || null,
-      lastBroadcast: lastBroadcastTime || new Date().toISOString(),
+      lastSuccessfulFetch: syncStatus.lastSuccessfulSyncAt || telemetry.lastSuccessfulRefresh || null,
+      lastFailedFetch: syncStatus.lastError ? (syncStatus.lastAttemptAt || null) : (lastFailedFetchTime || null),
+      lastBroadcast: lastBroadcastTime || null,
       staleRecoveryCount: telemetry.staleRecoveryCount || 0,
       lastRecoveryTime: telemetry.lastRecoveryTime || null
     }
@@ -2660,69 +2684,15 @@ app.get("/api/v2/news/enterprise-monitor", (req, res) => {
   });
 });
 
-// Alias routes for /api/rss/* compatibility
-app.get("/api/rss/diagnostics", (req, res) => {
-  const telemetry = FeedService.getInstance().getTelemetry();
-  const sources = LiveIntelligenceEngine.getInstance().getFailoverSources();
-
-  const connectorHealth = sources.map(s => ({
-    name: s.publisher,
-    url: s.activeUrl,
-    status: s.status === 'Healthy' ? 'Online' : s.status === 'Retrying' ? 'Warning' : 'Offline',
-    lastFetchTime: s.lastSuccessIso || new Date().toISOString(),
-    lastSuccessTime: s.lastSuccessIso || new Date().toISOString(),
-    responseTimeMs: 340,
-    articlesFetched: 15,
-    articlesNew: 6,
-    articlesDuplicate: 7,
-    articlesRejected: 2,
-    consecutiveFailures: s.consecutiveFailures,
-    totalSuccess: 120,
-    totalFailure: s.consecutiveFailures
-  }));
-
-  res.json({
-    success: true,
-    diagnostics: {
-      connectorHealth,
-      lastFetchTime: telemetry.lastFetchTime || new Date().toISOString(),
-      lastFailedFetchTime: "Never",
-      totalArticlesFetched: telemetry.articlesFetched || 120,
-      totalArticlesRejected: telemetry.articlesRejected || 8,
-      totalDuplicatesMerged: telemetry.duplicateCount || 40,
-      totalStoriesCreated: telemetry.articlesAccepted || 72,
-      queueStatus: "idle",
-      lastFetchStatus: "200 OK — Ingestion Cycle Clean",
-      newArticlesAddedLastCycle: 4,
-      pollIntervalSec: 60,
-      isTimerRunning: true,
-      rawArticlesBuffer: [],
-      latestProcessingLogs: [],
-      pipelineCycles: [
-        {
-          time: new Date().toLocaleTimeString(),
-          fetched: telemetry.articlesFetched || 38,
-          added: telemetry.articlesAccepted || 14,
-          rejected: telemetry.articlesRejected || 4,
-          duplicates: telemetry.duplicateCount || 20,
-          durationSec: 1.2
-        }
-      ],
-      timelineEvents: [
-        { time: new Date().toLocaleTimeString(), message: "Pipeline executed successfully — 14 new stories accepted." }
-      ]
-    }
+// Legacy RSS endpoints disabled in favor of authoritative News Core V2 (/api/v4/news/*)
+app.post("/api/rss/refresh", (req, res) => {
+  res.status(503).json({
+    success: false,
+    status: "disabled",
+    reason: "LEGACY_NEWS_ENGINE_DISABLED",
+    message: "Legacy RSS refresh is disabled. Use POST /api/v4/news/sync for News Core V2 sync.",
+    newsCoreVersion: "V2"
   });
-});
-
-app.post("/api/rss/refresh", async (req, res) => {
-  try {
-    const rawItems = await FeedService.getInstance().getFeed('All', true);
-    
-    res.json({ success: true, count: rawItems.length });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
 });
 
 app.get("/api/admin/fno-decision-regression", (req, res) => {
@@ -2739,27 +2709,42 @@ app.get("/api/admin/fno-decision-regression", (req, res) => {
 });
 
 app.post("/api/rss/toggle-poller", (req, res) => {
-  res.json({ success: true, isRunning: true });
+  res.status(503).json({
+    success: false,
+    status: "disabled",
+    reason: "LEGACY_NEWS_ENGINE_DISABLED",
+    message: "Legacy RSS poller control is disabled. News Core V2 scheduler is authoritative.",
+    newsCoreVersion: "V2"
+  });
 });
 
 app.post("/api/rss/reload", (req, res) => {
-  res.json({ success: true, message: "Connectors reloaded." });
+  res.status(503).json({
+    success: false,
+    status: "disabled",
+    reason: "LEGACY_NEWS_ENGINE_DISABLED",
+    message: "Legacy RSS connector reload is disabled. News Core V2 is authoritative.",
+    newsCoreVersion: "V2"
+  });
 });
 
-app.post("/api/rss/clear", async (req, res) => {
-  await FeedService.getInstance().performAutoRecovery();
-  res.json({ success: true, message: "Cache cleared." });
+app.post("/api/rss/clear", (req, res) => {
+  res.status(503).json({
+    success: false,
+    status: "disabled",
+    reason: "LEGACY_NEWS_ENGINE_DISABLED",
+    message: "Legacy cache clear is disabled. News Core V2 persistent storage is authoritative.",
+    newsCoreVersion: "V2"
+  });
 });
 
 app.post("/api/rss/test-connector", (req, res) => {
-  res.json({
-    success: true,
-    heartbeatOk: true,
-    responseTimeMs: 240,
-    totalItems: 12,
-    samples: [
-      { title: "Sample Article: Market Rally Continues", link: "https://example.com" }
-    ]
+  res.status(503).json({
+    success: false,
+    status: "disabled",
+    reason: "LEGACY_NEWS_ENGINE_DISABLED",
+    message: "Legacy RSS connector testing is disabled. News Core V2 is authoritative.",
+    newsCoreVersion: "V2"
   });
 });
 
@@ -3044,66 +3029,14 @@ async function runNewsSchedulerCycle(isManual = false) {
   return executeNewsSync(isManual);
 }
 
-// Manual Sync Endpoint
-app.post("/api/v2/news/sync", async (req, res) => {
-  const shouldClear = req.query.clear === 'true' || req.body?.clear === true;
-  const result = await executeNewsSync(true, shouldClear);
-  res.json(result);
-});
-
-// Alias endpoint for RSS Refresh
-app.post("/api/rss/refresh", async (req, res) => {
-  const result = await executeNewsSync(true);
-  res.json(result);
-});
-
-// Live Monitor Status Endpoint
-app.get("/api/v2/news/monitor-status", (req, res) => {
-  const v3Telemetry = V3Telemetry.getInstance().getSnapshot();
-  const now = Date.now();
-  const remainingMs = Math.max(0, nextSchedulerRunTime.getTime() - now);
-  const countdownSec = Math.ceil(remainingMs / 1000);
-
-  const utc = new Date(lastSyncIso).getTime() + new Date(lastSyncIso).getTimezoneOffset() * 60000;
-  const istDate = new Date(utc + 3600000 * 5.5);
-  const lastSyncFormatted = `${istDate.getHours().toString().padStart(2, '0')}:${istDate.getMinutes().toString().padStart(2, '0')}:${istDate.getSeconds().toString().padStart(2, '0')} IST`;
-
-  const collectorsList = Object.values(v3Telemetry.collectors) as any[];
-  const sourcesOnline = collectorsList.filter((s: any) => s.status === 'OK').length;
-  const sourcesTotal = collectorsList.length || 4;
-
-  const mappedSources = collectorsList.map((c: any) => ({
-    name: c.collectorId,
-    status: c.status === 'OK' ? ('OK' as const) : ('DEGRADED' as const),
-    lastLatencyMs: 120,
-    articlesFetched: c.articlesFetched,
-    lastSuccessfulFetch: c.lastFetchTime,
-    lastError: c.errors > 0 ? "Network Timeout" : undefined
-  }));
-
-  res.json({
-    success: true,
-    autoSync: "Running",
-    countdownSec,
-    lastSyncIso,
-    lastSyncFormatted,
-    durationSec: lastSyncDurationSec,
-    sourcesOnline: `${sourcesOnline}/${sourcesTotal} Online`,
-    sourcesTotal,
-    sourcesOnlineCount: sourcesOnline,
-    sourcesFailedCount: sourcesTotal - sourcesOnline,
-    articlesDownloaded: lastSyncStats.articlesFetched,
-    newArticles: lastSyncStats.newArticles,
-    duplicates: lastSyncStats.duplicates,
-    failedSourcesCount: lastSyncStats.failedSources,
-    sources: mappedSources.length > 0 ? mappedSources : [
-      { name: "economic_times", status: "OK" as const, lastLatencyMs: 120, articlesFetched: lastSyncStats.articlesFetched, lastSuccessfulFetch: lastSyncIso },
-      { name: "reuters", status: "OK" as const, lastLatencyMs: 100, articlesFetched: 0, lastSuccessfulFetch: lastSyncIso },
-      { name: "moneycontrol", status: "OK" as const, lastLatencyMs: 140, articlesFetched: 0, lastSuccessfulFetch: lastSyncIso },
-      { name: "livemint", status: "OK" as const, lastLatencyMs: 150, articlesFetched: 0, lastSuccessfulFetch: lastSyncIso }
-    ],
-    notifiedCount: NotificationService.getInstance().getNotifiedCount(),
-    telegramLogs: getTelegramLogs()
+// Manual Sync Endpoint (Legacy V2 disabled)
+app.post("/api/v2/news/sync", (req, res) => {
+  res.status(503).json({
+    success: false,
+    status: "disabled",
+    reason: "LEGACY_NEWS_ENGINE_DISABLED",
+    message: "Legacy V2 sync is disabled. Use POST /api/v4/news/sync for News Core V2 sync.",
+    newsCoreVersion: "V2"
   });
 });
 

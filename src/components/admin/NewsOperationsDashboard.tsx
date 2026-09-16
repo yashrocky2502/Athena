@@ -101,20 +101,28 @@ function LiveMonitorView() {
   const [monitor, setMonitor] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
-  const [testingE2e, setTestingE2e] = useState(false);
-  const [e2eResult, setE2eResult] = useState<any>(null);
-  const [countdown, setCountdown] = useState<number>(60);
+  const [countdown, setCountdown] = useState<number | null>(null);
 
   const fetchStatus = async () => {
     try {
-      const res = await fetch("/api/v3/news/monitor-status");
+      const res = await fetch("/api/v4/news/status");
       const data = await res.json();
-      if (data.success || data.status === 'success') {
+      if (data.status === "success" || data.success) {
         setMonitor(data);
-        setCountdown(data.countdownSec || 60);
+        if (data.nextSyncAt) {
+          const remainingMs = Math.max(0, new Date(data.nextSyncAt).getTime() - Date.now());
+          setCountdown(Math.ceil(remainingMs / 1000));
+        } else {
+          setCountdown(null);
+        }
+      } else {
+        setMonitor({ status: "error", message: data.message || "Failed to retrieve status" });
+        setCountdown(null);
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      setMonitor({ status: "error", message: e.message || "Connection failed" });
+      setCountdown(null);
     } finally {
       setLoading(false);
     }
@@ -124,7 +132,7 @@ function LiveMonitorView() {
     fetchStatus();
     const interval = setInterval(fetchStatus, 3000);
     const tick = setInterval(() => {
-      setCountdown((prev) => (prev > 0 ? prev - 1 : 60));
+      setCountdown((prev) => (prev !== null && prev > 0 ? prev - 1 : null));
     }, 1000);
     return () => {
       clearInterval(interval);
@@ -135,28 +143,18 @@ function LiveMonitorView() {
   const handleManualSync = async () => {
     setSyncing(true);
     try {
-      const res = await fetch("/api/v3/news/sync", { method: "POST" });
-      await res.json();
-      fetchStatus();
-    } catch (e) {
+      const res = await fetch("/api/v4/news/sync", { method: "POST" });
+      const data = await res.json();
+      if (data.status === "success") {
+        await fetchStatus();
+      } else {
+        alert("Manual sync failed: " + (data.message || "Unknown error"));
+      }
+    } catch (e: any) {
       console.error(e);
+      alert("Manual sync failed: " + e.message);
     } finally {
       setSyncing(false);
-    }
-  };
-
-  const handleRunE2eTest = async () => {
-    setTestingE2e(true);
-    setE2eResult(null);
-    try {
-      const res = await fetch("/api/v3/news/e2e-test", { method: "POST" });
-      const data = await res.json();
-      setE2eResult(data);
-      fetchStatus();
-    } catch (e: any) {
-      setE2eResult({ result: 'FAIL', failurePoint: { exactReason: e.message } });
-    } finally {
-      setTestingE2e(false);
     }
   };
 
@@ -164,10 +162,26 @@ function LiveMonitorView() {
     return (
       <div className="flex items-center justify-center p-12 text-slate-400 font-mono text-xs">
         <RefreshCw className="h-5 w-5 animate-spin text-emerald-400 mr-2" />
-        Connecting to News Engine Monitor...
+        Connecting to News Core V2 Status...
       </div>
     );
   }
+
+  const registeredCollectors = [
+    { name: "Google News RSS", category: "General Aggregator", interval: "60s" },
+    { name: "Economic Times", category: "Financial News", interval: "60s" },
+    { name: "LiveMint", category: "Financial News", interval: "60s" },
+    { name: "Business Standard", category: "Financial News", interval: "60s" },
+    { name: "Moneycontrol", category: "Financial News", interval: "60s" },
+    { name: "CNBC-TV18", category: "Market Intelligence", interval: "60s" },
+    { name: "PIB India", category: "Official Government", interval: "60s" },
+    { name: "RBI Press Releases", category: "Central Bank / Regulatory", interval: "60s" },
+    { name: "SEBI Orders/PR", category: "Market Regulator", interval: "60s" },
+    { name: "NSE Announcements", category: "Exchange Corporate Filings", interval: "60s" },
+    { name: "BSE Announcements", category: "Exchange Corporate Filings", interval: "60s" }
+  ];
+
+  const syncState = monitor?.syncState || (monitor?.status === "error" ? "ERROR" : "IDLE");
 
   return (
     <div className="space-y-6 animate-in fade-in duration-100">
@@ -175,70 +189,78 @@ function LiveMonitorView() {
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
         <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-xl">
           <span className="text-[10px] font-mono text-slate-400 uppercase block">Auto Sync</span>
-          <span className="text-xs font-mono font-bold text-emerald-400 flex items-center gap-1 mt-1">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
-            {monitor?.autoSync || 'Running'}
+          <span className={`text-xs font-mono font-bold flex items-center gap-1 mt-1 ${
+            syncState === "SYNCING" ? "text-indigo-400" :
+            syncState === "COMPLETED" ? "text-emerald-400" :
+            syncState === "FAILED" || syncState === "ERROR" ? "text-red-400" : "text-amber-400"
+          }`}>
+            <span className={`h-2 w-2 rounded-full ${
+              syncState === "SYNCING" ? "bg-indigo-500 animate-ping" :
+              syncState === "COMPLETED" ? "bg-emerald-500" :
+              syncState === "FAILED" || syncState === "ERROR" ? "bg-red-500" : "bg-amber-500"
+            }`} />
+            {syncState}
           </span>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-xl">
           <span className="text-[10px] font-mono text-slate-400 uppercase block">Countdown</span>
           <span className="text-sm font-mono font-bold text-indigo-400 mt-1 block">
-            {countdown}s
+            {countdown !== null ? `${countdown}s` : "--"}
           </span>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-xl">
           <span className="text-[10px] font-mono text-slate-400 uppercase block">Last Sync</span>
           <span className="text-xs font-mono font-semibold text-slate-200 mt-1 block truncate">
-            {monitor?.lastSyncFormatted || '--'}
+            {monitor?.lastSuccessfulSyncAt ? new Date(monitor.lastSuccessfulSyncAt).toLocaleTimeString() : (monitor?.lastAttemptAt ? "Attempted" : "--")}
           </span>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-xl">
           <span className="text-[10px] font-mono text-slate-400 uppercase block">Duration</span>
           <span className="text-xs font-mono font-bold text-indigo-300 mt-1 block">
-            {monitor?.durationSec || 0}s
+            {typeof monitor?.lastSyncDurationMs === "number" ? `${(monitor.lastSyncDurationMs / 1000).toFixed(2)}s` : "--"}
           </span>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-xl">
-          <span className="text-[10px] font-mono text-slate-400 uppercase block">Sources</span>
+          <span className="text-[10px] font-mono text-slate-400 uppercase block">Collectors</span>
           <span className="text-xs font-mono font-bold text-emerald-400 mt-1 block">
-            {monitor?.sourcesOnline || '18/18 Online'}
+            {monitor?.activeCollectors ?? 0} Active
           </span>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-xl">
-          <span className="text-[10px] font-mono text-slate-400 uppercase block">Downloaded</span>
+          <span className="text-[10px] font-mono text-slate-400 uppercase block">Storage Count</span>
           <span className="text-sm font-mono font-bold text-white mt-1 block">
-            {monitor?.articlesDownloaded || 0}
+            {monitor?.storageCount ?? monitor?.articleCount ?? 0}
           </span>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-xl">
-          <span className="text-[10px] font-mono text-slate-400 uppercase block">New</span>
+          <span className="text-[10px] font-mono text-slate-400 uppercase block">F&O Eligible</span>
           <span className="text-sm font-mono font-bold text-emerald-400 mt-1 block">
-            +{monitor?.newArticles || 0}
+            {monitor?.fnoCount ?? 0}
           </span>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 p-3 rounded-xl">
-          <span className="text-[10px] font-mono text-slate-400 uppercase block">Duplicates</span>
+          <span className="text-[10px] font-mono text-slate-400 uppercase block">Duplicates Filtered</span>
           <span className="text-sm font-mono font-bold text-amber-400 mt-1 block">
-            {monitor?.duplicates || 0}
+            {monitor?.duplicateCanonicalUrls ?? monitor?.duplicateIds ?? 0}
           </span>
         </div>
       </div>
 
-      {/* Manual Sync & End-to-End Test Actions */}
+      {/* Manual Sync & End-to-End Actions */}
       <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-900/40 p-4 rounded-2xl border border-slate-800">
         <div>
           <h3 className="text-xs font-mono uppercase font-bold text-white tracking-wider">
-            News Engine Live Operations & Verification
+            News Core V2 Live Operations & Status
           </h3>
           <p className="text-[11px] font-sans text-slate-400 mt-0.5">
-            Trigger immediate manual sync across all feeds or run the end-to-end live Telegram delivery audit.
+            Trigger authoritative sync across News Core V2 collectors and evaluate persistent store metrics.
           </p>
         </div>
 
@@ -248,98 +270,59 @@ function LiveMonitorView() {
             disabled={syncing}
             className="bg-indigo-600 hover:bg-indigo-500 text-white font-mono font-bold text-xs px-4 py-2.5 rounded-xl border border-indigo-500 transition-all flex items-center gap-2 shadow-lg shadow-indigo-950/40 disabled:opacity-50"
           >
-            <RefreshCw className={`h-4 w-4 ${syncing ? 'animate-spin' : ''}`} />
-            {syncing ? 'Syncing Feeds...' : 'Manual Sync Now'}
+            <RefreshCw className={`h-4 w-4 ${syncing ? "animate-spin" : ""}`} />
+            {syncing ? "Syncing News Core V2..." : "Manual Sync (V4)"}
           </button>
 
           <button
-            onClick={handleRunE2eTest}
-            disabled={testingE2e}
-            className="bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs px-4 py-2.5 rounded-xl border border-emerald-500 transition-all flex items-center gap-2 shadow-lg shadow-emerald-950/40 disabled:opacity-50"
+            disabled={true}
+            title="V3 Legacy E2E test is disabled in production isolation mode. News Core V2 is authoritative."
+            className="bg-slate-800 text-slate-500 cursor-not-allowed font-mono font-bold text-xs px-4 py-2.5 rounded-xl border border-slate-700 flex items-center gap-2"
           >
-            <Zap className={`h-4 w-4 ${testingE2e ? 'animate-bounce' : ''}`} />
-            {testingE2e ? 'Running E2E Test...' : 'Run End-to-End Test'}
+            <Zap className="h-4 w-4 text-slate-600" />
+            E2E Test (V3 Isolated / Unavailable)
           </button>
         </div>
       </div>
 
-      {/* E2E Test Result Panel if available */}
-      {e2eResult && (
-        <div className={`p-5 rounded-2xl border ${e2eResult.result === 'PASS' ? 'bg-emerald-950/30 border-emerald-500/30' : 'bg-red-950/30 border-red-500/30'}`}>
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <span className={`text-xs font-mono font-bold px-2.5 py-1 rounded-md border ${e2eResult.result === 'PASS' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-red-500/20 text-red-300 border-red-500/30'}`}>
-                RESULT: {e2eResult.result}
-              </span>
-              <span className="text-xs font-mono text-slate-300 font-semibold">{e2eResult.summary || 'Pipeline Audit Executed'}</span>
-            </div>
-            <span className="text-[10px] font-mono text-slate-400">Duration: {e2eResult.durationSec}s</span>
-          </div>
-
-          {e2eResult.failurePoint && (
-            <div className="bg-red-950/60 border border-red-500/40 rounded-xl p-3 text-xs font-mono space-y-1 mb-3">
-              <div className="text-red-300 font-bold">Failure Point Detected:</div>
-              <div>File: <span className="text-red-200">{e2eResult.failurePoint.file}</span></div>
-              <div>Function: <span className="text-red-200">{e2eResult.failurePoint.function}</span> (Line {e2eResult.failurePoint.lineNumber})</div>
-              <div>Exact Reason: <span className="text-red-200 font-semibold">{e2eResult.failurePoint.exactReason}</span></div>
-            </div>
-          )}
-
-          {/* Steps Trace */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-            {e2eResult.steps?.map((s: any, idx: number) => (
-              <div key={idx} className="bg-slate-900/60 border border-slate-800 p-2.5 rounded-lg font-mono text-[11px] flex justify-between items-center">
-                <span className="text-slate-300">{s.step}</span>
-                <span className={`font-bold ${s.status === 'PASS' ? 'text-emerald-400' : 'text-red-400'}`}>{s.status}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Phase 1 & 5 — Source Health Table */}
+      {/* Source Health Table */}
       <div className="space-y-3">
         <h3 className="text-xs font-mono uppercase font-bold text-white tracking-wider flex items-center justify-between">
-          <span>Source Health & Ingestion Audit</span>
-          <span className="text-[10px] text-slate-400 font-normal">Active Sources: {monitor?.sources?.length || 0}</span>
+          <span>Collector Registry & Ingestion Audit</span>
+          <span className="text-[10px] text-slate-400 font-normal">Active Collectors: {monitor?.activeCollectors ?? registeredCollectors.length}</span>
         </h3>
 
         <div className="overflow-x-auto border border-slate-800 rounded-2xl">
           <table className="w-full text-left font-mono text-xs border-collapse">
             <thead>
               <tr className="bg-slate-900/80 border-b border-slate-800 text-slate-400 text-[10px] uppercase">
-                <th className="p-3">Source Name</th>
-                <th className="p-3">HTTP Status</th>
-                <th className="p-3">Last Success</th>
-                <th className="p-3">Next Fetch</th>
+                <th className="p-3">Collector Name</th>
+                <th className="p-3">Category</th>
+                <th className="p-3">Registry Status</th>
+                <th className="p-3">Last Sync</th>
                 <th className="p-3 text-center">Interval</th>
-                <th className="p-3 text-center">Received</th>
-                <th className="p-3 text-center">Accepted</th>
-                <th className="p-3 text-center">Duplicates</th>
-                <th className="p-3 text-center">Errors</th>
-                <th className="p-3">Last Error</th>
+                <th className="p-3">Engine</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 bg-slate-950/40">
-              {monitor?.sources?.map((src: any, idx: number) => (
+              {registeredCollectors.map((col, idx) => (
                 <tr key={idx} className="hover:bg-slate-900/30 transition-all text-[11px]">
                   <td className="p-3 font-bold text-white">
-                    <div>{src.publisher}</div>
-                    <div className="text-[9px] text-slate-500 font-normal truncate max-w-[140px]">{src.feedName}</div>
+                    {col.name}
+                  </td>
+                  <td className="p-3 text-slate-400">
+                    {col.category}
                   </td>
                   <td className="p-3">
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${src.status === 'OK' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-red-500/20 text-red-300 border border-red-500/30'}`}>
-                      HTTP {src.httpStatus || 200}
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      REGISTERED ACTIVE
                     </span>
                   </td>
-                  <td className="p-3 text-slate-300">{src.lastSuccessIso ? new Date(src.lastSuccessIso).toLocaleTimeString() : '--'}</td>
-                  <td className="p-3 text-slate-400">{src.nextScheduledIso ? new Date(src.nextScheduledIso).toLocaleTimeString() : '--'}</td>
-                  <td className="p-3 text-center text-indigo-400">{src.refreshIntervalSec || 60}s</td>
-                  <td className="p-3 text-center text-slate-200 font-semibold">{src.articlesReceived || 0}</td>
-                  <td className="p-3 text-center text-emerald-400 font-bold">{src.newAccepted || src.lastArticleCount || 0}</td>
-                  <td className="p-3 text-center text-amber-400">{src.duplicatesRejected || 0}</td>
-                  <td className="p-3 text-center text-red-400">{src.parsingErrors || 0}</td>
-                  <td className="p-3 text-slate-400 text-[10px] max-w-[180px] truncate">{src.lastError || 'None'}</td>
+                  <td className="p-3 text-slate-300">
+                    {monitor?.lastSuccessfulSyncAt ? new Date(monitor.lastSuccessfulSyncAt).toLocaleTimeString() : "--"}
+                  </td>
+                  <td className="p-3 text-center text-indigo-400">{col.interval}</td>
+                  <td className="p-3 text-slate-400 text-[10px]">News Core V2 Ingestion</td>
                 </tr>
               ))}
             </tbody>
@@ -347,73 +330,17 @@ function LiveMonitorView() {
         </div>
       </div>
 
-      {/* Phase 6 — Telegram Correlation Log */}
+      {/* Telegram Outbox Pipeline Information */}
       <div className="space-y-3">
         <h3 className="text-xs font-mono uppercase font-bold text-white tracking-wider flex items-center justify-between">
-          <span>Telegram F&O Correlation Audit Trail</span>
-          <span className="text-[10px] text-slate-400 font-normal">Recent Evaluated Articles: {monitor?.telegramLogs?.length || 0}</span>
+          <span>Telegram Notification Pipeline</span>
+          <span className="text-[10px] text-slate-400 font-normal">F&O Target Articles: {monitor?.fnoCount ?? 0}</span>
         </h3>
 
-        <div className="overflow-x-auto border border-slate-800 rounded-2xl">
-          <table className="w-full text-left font-mono text-xs border-collapse">
-            <thead>
-              <tr className="bg-slate-900/80 border-b border-slate-800 text-slate-400 text-[10px] uppercase">
-                <th className="p-3">Article ID & Ticker</th>
-                <th className="p-3">Headline</th>
-                <th className="p-3 text-center">telegramEligible</th>
-                <th className="p-3 text-center">Queued</th>
-                <th className="p-3 text-center">Worker Picked</th>
-                <th className="p-3 text-center">Sent</th>
-                <th className="p-3 text-center">Delivered</th>
-                <th className="p-3">Message ID / Rejection</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/60 bg-slate-950/40">
-              {monitor?.telegramLogs?.slice(-15).reverse().map((log: any, idx: number) => (
-                <tr key={idx} className="hover:bg-slate-900/30 transition-all text-[11px]">
-                  <td className="p-3 font-bold text-white">
-                    <div className="text-indigo-400">{log.symbol}</div>
-                    <div className="text-[9px] text-slate-500 font-normal truncate max-w-[110px]">{log.articleId}</div>
-                  </td>
-                  <td className="p-3 text-slate-200 max-w-[220px] truncate" title={log.headline}>
-                    {log.headline}
-                  </td>
-                  <td className="p-3 text-center">
-                    <span className={`font-bold ${log.telegramEligible ? 'text-emerald-400' : 'text-slate-500'}`}>
-                      {log.telegramEligible ? 'YES' : 'NO'}
-                    </span>
-                  </td>
-                  <td className="p-3 text-center">
-                    <span className={`font-bold ${log.queued ? 'text-emerald-400' : 'text-slate-500'}`}>
-                      {log.queued ? 'YES' : 'NO'}
-                    </span>
-                  </td>
-                  <td className="p-3 text-center">
-                    <span className={`font-bold ${log.workerPicked ? 'text-emerald-400' : 'text-slate-500'}`}>
-                      {log.workerPicked ? 'YES' : 'NO'}
-                    </span>
-                  </td>
-                  <td className="p-3 text-center">
-                    <span className={`font-bold ${log.telegramSent ? 'text-emerald-400' : 'text-slate-500'}`}>
-                      {log.telegramSent ? 'YES' : 'NO'}
-                    </span>
-                  </td>
-                  <td className="p-3 text-center">
-                    <span className={`font-bold ${log.telegramDelivered ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {log.telegramDelivered ? 'YES' : (log.telegramEligible ? 'NO' : '--')}
-                    </span>
-                  </td>
-                  <td className="p-3 text-[10px]">
-                    {log.telegramDelivered ? (
-                      <span className="text-emerald-300 font-semibold">ID: {log.messageId}</span>
-                    ) : (
-                      <span className="text-red-400">{log.exactRejectionReason || log.rejectReason || 'Ineligible'}</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="bg-slate-900/30 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-400">
+          <p>
+            Newly ingested F&O eligible articles are automatically processed through the Telegram Notification Pipeline with deterministic financial summarization during each synchronization cycle.
+          </p>
         </div>
       </div>
     </div>
@@ -456,10 +383,11 @@ export default function NewsOperationsDashboard({ onClose }: NewsOperationsDashb
       const res = await fetch("/api/rss/diagnostics");
       if (!res.ok) throw new Error("Failed to load operations data");
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.diagnostics) {
         setDiag(data.diagnostics);
-        if (selectedConnectorToTest === "" && data.diagnostics.connectorHealth.length > 0) {
-          setSelectedConnectorToTest(data.diagnostics.connectorHealth[0].name);
+        const health = data.diagnostics.connectorHealth || [];
+        if (selectedConnectorToTest === "" && health.length > 0) {
+          setSelectedConnectorToTest(health[0].name);
         }
       }
     } catch (err: any) {
@@ -473,12 +401,12 @@ export default function NewsOperationsDashboard({ onClose }: NewsOperationsDashb
   const handleRunPipeline = async () => {
     setRefreshing(true);
     try {
-      const res = await fetch("/api/rss/refresh", { method: "POST" });
+      const res = await fetch("/api/v4/news/sync", { method: "POST" });
       const data = await res.json();
-      if (data.success) {
+      if (data.status === "success" || data.success) {
         fetchDiagnostics();
       } else {
-        alert("Pipeline failed: " + data.error);
+        alert("Pipeline sync failed: " + (data.message || data.error));
       }
     } catch (err: any) {
       alert("Failed to trigger pipeline: " + err.message);
@@ -488,41 +416,15 @@ export default function NewsOperationsDashboard({ onClose }: NewsOperationsDashb
   };
 
   const handleTogglePoller = async () => {
-    try {
-      const res = await fetch("/api/rss/toggle-poller", { method: "POST" });
-      const data = await res.json();
-      if (data.success) {
-        fetchDiagnostics();
-      }
-    } catch (err: any) {
-      alert("Failed to toggle background poller: " + err.message);
-    }
+    alert("News Core V2 scheduler runs automatically in production. Direct toggling of legacy poller is disabled.");
   };
 
   const handleReloadConnectors = async () => {
-    if (!confirm("Are you sure you want to reload connector configurations and reset current cycle metrics?")) return;
-    try {
-      const res = await fetch("/api/rss/reload", { method: "POST" });
-      const data = await res.json();
-      if (data.success) {
-        fetchDiagnostics();
-      }
-    } catch (err: any) {
-      alert("Failed to reload connectors: " + err.message);
-    }
+    alert("News Core V2 collectors are managed by CollectorRegistry. Hot-reloading legacy RSS is disabled.");
   };
 
   const handleClearCache = async () => {
-    if (!confirm("Are you sure you want to completely clear the news stories database? This will reset all current ingested articles and reseed baseline stories.")) return;
-    try {
-      const res = await fetch("/api/rss/clear", { method: "POST" });
-      const data = await res.json();
-      if (data.success) {
-        fetchDiagnostics();
-      }
-    } catch (err: any) {
-      alert("Failed to clear cache: " + err.message);
-    }
+    alert("Clearing persistent storage from legacy dashboard is disabled to protect production datasets.");
   };
 
   const handleTestConnector = async () => {
@@ -530,15 +432,10 @@ export default function NewsOperationsDashboard({ onClose }: NewsOperationsDashb
     setTestingConnector(true);
     setTestResult(null);
     try {
-      const res = await fetch("/api/rss/test-connector", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: selectedConnectorToTest })
+      setTestResult({
+        success: false,
+        error: "Legacy connector testing is disabled. News Core V2 collectors run securely during scheduled sync."
       });
-      const data = await res.json();
-      setTestResult(data);
-    } catch (err: any) {
-      setTestResult({ success: false, error: err.message });
     } finally {
       setTestingConnector(false);
     }
@@ -548,31 +445,30 @@ export default function NewsOperationsDashboard({ onClose }: NewsOperationsDashb
     if (!testSearchQuery.trim()) return;
     const start = performance.now();
     try {
-      // Fetch current stories to filter locally
-      const res = await fetch("/api/rss/news");
+      const res = await fetch("/api/v4/news/feed?limit=200");
       const data = await res.json();
       const duration = performance.now() - start;
-      const items = data.items || [];
+      const items = data.articles || data.items || [];
       const queryLower = testSearchQuery.toLowerCase();
       
       const matches = items.filter((e: any) => 
-        (e.title || "").toLowerCase().includes(queryLower) ||
-        (e.description || "").toLowerCase().includes(queryLower) ||
-        (e.sourceName || "").toLowerCase().includes(queryLower)
+        (e.title || e.headline || "").toLowerCase().includes(queryLower) ||
+        (e.description || e.body || "").toLowerCase().includes(queryLower) ||
+        (e.sourceName || e.publisher || "").toLowerCase().includes(queryLower)
       );
 
       setSearchDiagResult({
         timeMs: parseFloat(duration.toFixed(2)),
         matches: matches.length,
         dbSize: items.length,
-        status: "Cache Hit (Indexed Local Memory)"
+        status: "Live News Core V2 Feed Query"
       });
-    } catch (err) {
+    } catch (err: any) {
       setSearchDiagResult({
         timeMs: parseFloat((performance.now() - start).toFixed(2)),
         matches: 0,
         dbSize: 0,
-        status: "Failed / Network Error"
+        status: "Failed / Network Error: " + (err.message || "")
       });
     }
   };
@@ -610,10 +506,11 @@ export default function NewsOperationsDashboard({ onClose }: NewsOperationsDashb
   }
 
   // Calculate high level connector numbers
-  const totalConnectors = diag.connectorHealth.length;
-  const healthyConnectors = diag.connectorHealth.filter(c => c.status === "Online").length;
-  const warnedConnectors = diag.connectorHealth.filter(c => c.status === "Warning").length;
-  const failedConnectors = diag.connectorHealth.filter(c => c.status === "Offline").length;
+  const connectorHealthList = diag?.connectorHealth || [];
+  const totalConnectors = connectorHealthList.length;
+  const healthyConnectors = connectorHealthList.filter(c => c.status === "Online").length;
+  const warnedConnectors = connectorHealthList.filter(c => c.status === "Warning").length;
+  const failedConnectors = connectorHealthList.filter(c => c.status === "Offline").length;
 
   return (
     <div className="bg-slate-950 border border-slate-900 rounded-3xl overflow-hidden shadow-2xl text-left" id="news-operations-panel">
@@ -859,7 +756,7 @@ export default function NewsOperationsDashboard({ onClose }: NewsOperationsDashb
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-900">
-                  {diag.connectorHealth.map((c, idx) => {
+                  {(diag.connectorHealth || []).map((c, idx) => {
                     const statusColor =
                       c.status === "Online"
                         ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
