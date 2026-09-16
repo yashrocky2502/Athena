@@ -17,16 +17,34 @@
  * 10. Persistence, Serialization & State Recovery
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 import { SignalOutcomeEngine, SignalOutcomeRecord, PriceObservation } from '../market-intelligence/SignalOutcomeEngine.ts';
 
 describe('PHASE 10.8 — SIGNAL OUTCOME MEASUREMENT & PERFORMANCE INTELLIGENCE', () => {
   let engine: SignalOutcomeEngine;
+  let tempDir: string;
+  let testStoragePath: string;
+  let testBackupPath: string;
 
   beforeEach(() => {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase10-8-test-'));
+    testStoragePath = path.join(tempDir, 'market_intelligence_outcomes.json');
+    testBackupPath = path.join(tempDir, 'market_intelligence_outcomes.json.bak');
+    SignalOutcomeEngine.resetInstance(testStoragePath, testBackupPath);
     engine = SignalOutcomeEngine.getInstance();
-    engine.clear();
     vi.restoreAllMocks();
+  });
+
+  afterEach(() => {
+    SignalOutcomeEngine.resetInstance();
+    try {
+      if (fs.existsSync(tempDir)) {
+        fs.rmSync(tempDir, { recursive: true, force: true });
+      }
+    } catch {}
   });
 
   // Helper for generating standard signal registrations

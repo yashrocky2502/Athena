@@ -24,6 +24,9 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 import { HistoricalPerformanceAnalyticsEngine } from '../market-intelligence/HistoricalPerformanceAnalyticsEngine';
 import { SignalOutcomeEngine, SignalOutcomeRecord } from '../market-intelligence/SignalOutcomeEngine';
 import { TraderTelegramFormatter } from '../telegram/TraderTelegramFormatter';
@@ -31,17 +34,26 @@ import { TraderTelegramFormatter } from '../telegram/TraderTelegramFormatter';
 describe('Phase 10.9: Historical Performance Intelligence & User-Facing Analytics', () => {
   let analyticsEngine: HistoricalPerformanceAnalyticsEngine;
   let outcomeEngine: SignalOutcomeEngine;
+  let tempDir: string;
+  let testStoragePath: string;
+  let testBackupPath: string;
 
   beforeEach(() => {
-    SignalOutcomeEngine.resetInstance();
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase10-9-test-'));
+    testStoragePath = path.join(tempDir, 'market_intelligence_outcomes.json');
+    testBackupPath = path.join(tempDir, 'market_intelligence_outcomes.json.bak');
+    SignalOutcomeEngine.resetInstance(testStoragePath, testBackupPath);
     outcomeEngine = SignalOutcomeEngine.getInstance();
-    outcomeEngine.clear();
     analyticsEngine = HistoricalPerformanceAnalyticsEngine.getInstance();
   });
 
   afterEach(() => {
-    outcomeEngine.clear();
     SignalOutcomeEngine.resetInstance();
+    try {
+      if (fs.existsSync(tempDir)) {
+        fs.rmSync(tempDir, { recursive: true, force: true });
+      }
+    } catch {}
   });
 
   // Helper to generate mock outcome records for testing

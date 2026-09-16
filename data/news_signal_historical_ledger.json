@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "signalId": "evt_1789553178870_lalf8::FUNDAMENTAL_CATALYST::2",
+    "eventId": "evt_1789553178870_lalf8",
+    "symbol": "RESILIENT",
+    "signalType": "FUNDAMENTAL_CATALYST",
+    "initialScore": 32,
+    "peakScore": 32,
+    "initialPriority": "P3_LOW",
+    "finalState": "INVALIDATED",
+    "initialAlignment": "INSUFFICIENT_EVIDENCE",
+    "finalAlignment": "INSUFFICIENT_EVIDENCE",
+    "createdAt": "2026-09-16T10:06:18.871Z",
+    "invalidatedAt": "2026-09-16T10:06:18.871Z",
+    "duration": 1
+  }
+]

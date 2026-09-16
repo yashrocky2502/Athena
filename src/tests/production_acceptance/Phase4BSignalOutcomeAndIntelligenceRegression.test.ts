@@ -31,6 +31,7 @@ describe('PHASE 4B — TARGETED REMEDIATION REGRESSION TEST SUITE', () => {
   const createMockOutcome = (signalId: string): SignalOutcomeRecord => ({
     signalId,
     eventId: `evt_${signalId}`,
+    signalType: 'EARNINGS',
     symbol: 'TCS',
     revision: 1,
     generatedAt: new Date().toISOString(),
@@ -47,11 +48,9 @@ describe('PHASE 4B — TARGETED REMEDIATION REGRESSION TEST SUITE', () => {
     targetPercent: 2.5,
     stopPrice: 3950,
     stopPercent: -1.25,
-    riskRewardRatio: 2.0,
-    mfe: 0,
-    mae: 0,
-    realizedReturn: 0,
-    outcomeClassification: 'NEUTRAL',
+    mfePercent: 0,
+    maePercent: 0,
+    outcome: 'NEUTRAL_REACTION',
     directionalAccuracy: 'INCONCLUSIVE',
     signalLifecycleState: 'ACTIVE',
     isResolved: false,
@@ -165,46 +164,33 @@ describe('PHASE 4B — TARGETED REMEDIATION REGRESSION TEST SUITE', () => {
       const store = new IntelligenceStore(testIntelPath);
       const testRecord: IntelligenceRecord = {
         articleId: 'test_art_v27_4',
+        canonicalUrl: 'https://example.com/test',
+        headline: 'Test Headline',
+        source: 'REUTERS',
+        publishedAt: new Date().toISOString(),
+        companyName: 'Test Company',
+        symbol: 'TEST',
+        entityType: 'EQUITY',
+        entityConfidence: 'HIGH',
+        fnoEligible: true,
+        fnoConfidence: 'HIGH',
+        category: 'Corporate',
+        eventType: 'EARNINGS',
+        sentiment: 'BULLISH',
+        materialityScore: 85,
+        relevanceScore: 90,
+        urgency: 'HIGH',
+        financialMetrics: [],
+        executiveSummary: 'Test executive summary',
+        keyFacts: ['Fact 1'],
+        whyItMatters: 'Why it matters',
+        marketImpact: 'Market impact',
+        risk: ['Risk 1'],
+        optionsSellerImpact: 'Options impact',
+        sourceEvidence: ['Source evidence'],
+        evidenceSpans: ['Span 1'],
         intelligenceVersion: '27.4',
-        summary: {
-          oneLine: 'Test summary line',
-          keyPoints: ['Point 1'],
-          whatHappened: 'What happened',
-          whyItMatters: 'Why it matters',
-          marketContext: 'Market context'
-        },
-        financialIntelligence: {
-          metrics: [],
-          financialContext: '',
-          guidanceChanges: ''
-        },
-        tradeImplications: {
-          directionalBias: 'NEUTRAL',
-          actionablePerspective: 'Watch',
-          riskReward: 'Balanced',
-          catalystHorizon: '1-3 days',
-          invalidationCondition: 'None'
-        },
-        sourceVerification: {
-          directQuotes: [],
-          disclosures: [],
-          isRumor: false,
-          isOfficialConfirmation: true
-        },
-        technicalContext: {
-          sectorImpact: 'Sector neutral',
-          peerComparison: 'In line'
-        },
-        marketExpectations: {
-          sentimentBaseline: 'Neutral',
-          surpriseFactor: 'None'
-        },
-        audit: {
-          generatedAt: new Date().toISOString(),
-          engineVersion: '27.4',
-          modelProvider: 'LOCAL_RULE_BASED',
-          confidenceScore: 0.95
-        }
+        generatedAt: new Date().toISOString()
       };
 
       store.set(testRecord);
