@@ -17,6 +17,7 @@ import path from 'path';
 import os from 'os';
 import crypto from 'crypto';
 import { SignalLifecycleEngine } from '../intelligence/SignalLifecycleEngine.ts';
+import { SignalOutcomeEngine } from '../market-intelligence/SignalOutcomeEngine.ts';
 import { IntelligenceStore } from '../../newsCoreV2/intelligenceV2/IntelligenceStore.ts';
 import { IntelligenceRecord } from '../../newsCoreV2/intelligenceV2/IntelligenceTypes.ts';
 
@@ -24,6 +25,8 @@ describe('PHASE 7 — INTELLIGENCE & MARKET INTELLIGENCE INTEGRITY REGRESSION', 
   let tempDir: string;
   let testLifecyclePath: string;
   let testLedgerPath: string;
+  let testOutcomePath: string;
+  let testOutcomeBakPath: string;
   let testIntelPath: string;
   let testBackupPath: string;
 
@@ -53,14 +56,18 @@ describe('PHASE 7 — INTELLIGENCE & MARKET INTELLIGENCE INTEGRITY REGRESSION', 
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase7_test_'));
     testLifecyclePath = path.join(tempDir, 'test_lifecycle.json');
     testLedgerPath = path.join(tempDir, 'test_ledger.json');
+    testOutcomePath = path.join(tempDir, 'test_outcomes.json');
+    testOutcomeBakPath = path.join(tempDir, 'test_outcomes.json.bak');
     testIntelPath = path.join(tempDir, 'test_intelligence.json');
     testBackupPath = path.join(tempDir, 'test_intelligence.json.bak');
+    SignalOutcomeEngine.resetInstance(testOutcomePath, testOutcomeBakPath);
   });
 
   afterAll(() => {
     // Restore production singletons
     try {
       SignalLifecycleEngine.resetInstanceForProduction();
+      SignalOutcomeEngine.resetInstanceForProduction();
       IntelligenceStore.resetInstanceForProduction();
     } catch {}
 
@@ -85,9 +92,12 @@ describe('PHASE 7 — INTELLIGENCE & MARKET INTELLIGENCE INTEGRITY REGRESSION', 
     try {
       if (fs.existsSync(testLifecyclePath)) fs.unlinkSync(testLifecyclePath);
       if (fs.existsSync(testLedgerPath)) fs.unlinkSync(testLedgerPath);
+      if (fs.existsSync(testOutcomePath)) fs.unlinkSync(testOutcomePath);
+      if (fs.existsSync(testOutcomeBakPath)) fs.unlinkSync(testOutcomeBakPath);
       if (fs.existsSync(testIntelPath)) fs.unlinkSync(testIntelPath);
       if (fs.existsSync(testBackupPath)) fs.unlinkSync(testBackupPath);
     } catch {}
+    SignalOutcomeEngine.resetInstance(testOutcomePath, testOutcomeBakPath);
   });
 
   function createMockIntelligenceRecord(id: string, dateIso: string, version: string = '27.4'): IntelligenceRecord {

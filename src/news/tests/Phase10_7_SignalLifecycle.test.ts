@@ -18,6 +18,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import { SignalLifecycleEngine } from '../intelligence/SignalLifecycleEngine.ts';
+import { SignalOutcomeEngine } from '../market-intelligence/SignalOutcomeEngine.ts';
 import { MarketSignal } from '../intelligence/MarketIntelligenceFusionEngine.ts';
 
 describe('PHASE 10.7 — SIGNAL LIFECYCLE, DECAY & ACTIONS', () => {
@@ -25,16 +26,22 @@ describe('PHASE 10.7 — SIGNAL LIFECYCLE, DECAY & ACTIONS', () => {
   let tempDir: string;
   let testLifecyclePath: string;
   let testLedgerPath: string;
+  let testOutcomePath: string;
+  let testOutcomeBakPath: string;
 
   beforeAll(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase10_7_test_'));
     testLifecyclePath = path.join(tempDir, 'test_lifecycle.json');
     testLedgerPath = path.join(tempDir, 'test_ledger.json');
+    testOutcomePath = path.join(tempDir, 'test_outcomes.json');
+    testOutcomeBakPath = path.join(tempDir, 'test_outcomes.json.bak');
     SignalLifecycleEngine.resetInstance(testLifecyclePath, testLedgerPath);
+    SignalOutcomeEngine.resetInstance(testOutcomePath, testOutcomeBakPath);
   });
 
   afterAll(() => {
     SignalLifecycleEngine.resetInstanceForProduction();
+    SignalOutcomeEngine.resetInstanceForProduction();
     try {
       if (fs.existsSync(tempDir)) {
         fs.rmSync(tempDir, { recursive: true, force: true });
@@ -44,8 +51,10 @@ describe('PHASE 10.7 — SIGNAL LIFECYCLE, DECAY & ACTIONS', () => {
 
   beforeEach(() => {
     SignalLifecycleEngine.resetInstance(testLifecyclePath, testLedgerPath);
+    SignalOutcomeEngine.resetInstance(testOutcomePath, testOutcomeBakPath);
     engine = SignalLifecycleEngine.getInstance();
     engine.clear();
+    SignalOutcomeEngine.getInstance().clear();
     vi.restoreAllMocks();
   });
 

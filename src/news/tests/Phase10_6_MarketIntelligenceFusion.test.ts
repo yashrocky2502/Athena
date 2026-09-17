@@ -23,22 +23,29 @@ import { MarketConfirmationDossier } from '../intelligence/MarketConfirmationEng
 import { ProductionDossier } from '../intelligence/TraderDecisionSupportEngine.ts';
 import { MarketDataProviderManager } from '../market-data/MarketDataProvider.ts';
 import { SignalLifecycleEngine } from '../intelligence/SignalLifecycleEngine.ts';
+import { SignalOutcomeEngine } from '../market-intelligence/SignalOutcomeEngine.ts';
 
 describe('PHASE 10.6 — REAL-TIME MARKET INTELLIGENCE FUSION & SIGNAL RANKING', () => {
   let engine: MarketIntelligenceFusionEngine;
   let tempDir: string;
   let testLifecyclePath: string;
   let testLedgerPath: string;
+  let testOutcomePath: string;
+  let testOutcomeBakPath: string;
 
   beforeAll(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase10_6_test_'));
     testLifecyclePath = path.join(tempDir, 'test_lifecycle.json');
     testLedgerPath = path.join(tempDir, 'test_ledger.json');
+    testOutcomePath = path.join(tempDir, 'test_outcomes.json');
+    testOutcomeBakPath = path.join(tempDir, 'test_outcomes.json.bak');
     SignalLifecycleEngine.resetInstance(testLifecyclePath, testLedgerPath);
+    SignalOutcomeEngine.resetInstance(testOutcomePath, testOutcomeBakPath);
   });
 
   afterAll(() => {
     SignalLifecycleEngine.resetInstanceForProduction();
+    SignalOutcomeEngine.resetInstanceForProduction();
     try {
       if (fs.existsSync(tempDir)) {
         fs.rmSync(tempDir, { recursive: true, force: true });
@@ -74,9 +81,11 @@ describe('PHASE 10.6 — REAL-TIME MARKET INTELLIGENCE FUSION & SIGNAL RANKING',
 
   beforeEach(() => {
     SignalLifecycleEngine.resetInstance(testLifecyclePath, testLedgerPath);
+    SignalOutcomeEngine.resetInstance(testOutcomePath, testOutcomeBakPath);
     engine = MarketIntelligenceFusionEngine.getInstance();
     engine.clear();
     SignalLifecycleEngine.getInstance().clear();
+    SignalOutcomeEngine.getInstance().clear();
     // Reset telemetry
     MarketDataProviderManager.telemetry.providerConflictCount = 0;
   });

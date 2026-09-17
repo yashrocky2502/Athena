@@ -106,6 +106,14 @@ export class JsonNewsStore implements INewsStore {
     }
 
     private async persistToDisk(): Promise<void> {
+        // Test isolation guard: never mutate canonical news_stage2_store.json during test execution
+        const isTestEnv = !!(process.env.VITEST || process.env.NODE_ENV === 'test');
+        const isProdPath = path.resolve(this.filePath) === path.resolve(path.join(process.cwd(), 'data', 'news_stage2_store.json')) ||
+                           path.resolve(this.filePath) === path.resolve(path.join(process.cwd(), 'data', 'news_stage2_store.json.bak'));
+        if (isTestEnv && isProdPath) {
+            return;
+        }
+
         const dir = path.dirname(this.filePath);
         const randomSuffix = Math.random().toString(36).substring(2, 9);
         const tempPath = `${this.filePath}.tmp.${process.pid}.${Date.now()}.${randomSuffix}`;

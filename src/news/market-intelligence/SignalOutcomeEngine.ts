@@ -272,6 +272,14 @@ export class SignalOutcomeEngine {
   // Minimum sample size required before asserting statistical sufficiency
   public static readonly MIN_SAMPLE_SIZE_FOR_CONFIDENCE = 5;
 
+  public static isProductionStoragePath(targetPath: string): boolean {
+    if (!targetPath) return false;
+    const normalized = path.resolve(targetPath);
+    const prodPrimary = path.resolve(path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json'));
+    const prodBackup = path.resolve(path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json.bak'));
+    return normalized === prodPrimary || normalized === prodBackup;
+  }
+
   public constructor(customStoragePath?: string, customBackupPath?: string) {
     if (typeof window !== 'undefined') {
       this.storagePath = '';
@@ -291,8 +299,13 @@ export class SignalOutcomeEngine {
   }
 
   public static resetInstance(customStoragePath?: string, customBackupPath?: string): void {
-    if (!customStoragePath || typeof customStoragePath !== 'string' || customStoragePath.trim() === '') {
+    if (!customStoragePath || typeof customStoragePath !== 'string' || customStoragePath.trim() === '' ||
+        !customBackupPath || typeof customBackupPath !== 'string' || customBackupPath.trim() === '') {
       throw new Error('[SignalOutcomeEngine] resetInstance() requires explicit customStoragePath and customBackupPath parameters for test isolation. Call resetInstanceForProduction() if production reset is intended.');
+    }
+    const isTestEnv = !!(process.env.VITEST || process.env.NODE_ENV === 'test');
+    if (isTestEnv && (SignalOutcomeEngine.isProductionStoragePath(customStoragePath) || SignalOutcomeEngine.isProductionStoragePath(customBackupPath))) {
+      throw new Error('[SignalOutcomeEngine] resetInstance() cannot bind test execution to canonical production storage path.');
     }
     SignalOutcomeEngine.instance = new SignalOutcomeEngine(customStoragePath, customBackupPath);
   }
@@ -1209,6 +1222,13 @@ export class SignalOutcomeEngine {
 
   private saveToStorage(): void {
     if (!this.storagePath) return;
+
+    // Test isolation guard: never mutate canonical production files during test execution
+    const isTestEnv = !!(process.env.VITEST || process.env.NODE_ENV === 'test');
+    if (isTestEnv && (SignalOutcomeEngine.isProductionStoragePath(this.storagePath) || SignalOutcomeEngine.isProductionStoragePath(this.backupPath))) {
+      return;
+    }
+
     if (this.isSaving) {
       // Re-entry guard: skip overlapping synchronous invocation
       return;
