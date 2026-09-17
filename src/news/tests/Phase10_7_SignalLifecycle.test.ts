@@ -13,14 +13,37 @@
  * - Force evaluation and manual invalidation API methods
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { signalLifecycleEngine, SignalLifecycleEngine } from '../intelligence/SignalLifecycleEngine.ts';
+import { describe, it, expect, beforeEach, beforeAll, afterAll, vi } from 'vitest';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
+import { SignalLifecycleEngine } from '../intelligence/SignalLifecycleEngine.ts';
 import { MarketSignal } from '../intelligence/MarketIntelligenceFusionEngine.ts';
 
 describe('PHASE 10.7 — SIGNAL LIFECYCLE, DECAY & ACTIONS', () => {
   let engine: SignalLifecycleEngine;
+  let tempDir: string;
+  let testLifecyclePath: string;
+  let testLedgerPath: string;
+
+  beforeAll(() => {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase10_7_test_'));
+    testLifecyclePath = path.join(tempDir, 'test_lifecycle.json');
+    testLedgerPath = path.join(tempDir, 'test_ledger.json');
+    SignalLifecycleEngine.resetInstance(testLifecyclePath, testLedgerPath);
+  });
+
+  afterAll(() => {
+    SignalLifecycleEngine.resetInstanceForProduction();
+    try {
+      if (fs.existsSync(tempDir)) {
+        fs.rmSync(tempDir, { recursive: true, force: true });
+      }
+    } catch {}
+  });
 
   beforeEach(() => {
+    SignalLifecycleEngine.resetInstance(testLifecyclePath, testLedgerPath);
     engine = SignalLifecycleEngine.getInstance();
     engine.clear();
     vi.restoreAllMocks();

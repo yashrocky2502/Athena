@@ -99,7 +99,9 @@ export class PersistentNewsStore {
         } else {
           console.warn(`[PersistentNewsStore] SUSPICIOUS SHRINK DETECTED ON HYDRATION: Primary has ${primaryParsed.length} records, but backup has ${backupParsed.length}. Automatically restoring from backup.`);
           chosenArticles = backupParsed;
-          fs.writeFileSync(this.filePath, JSON.stringify(backupParsed, null, 2), "utf-8");
+          if (!((process.env.VITEST || process.env.NODE_ENV === "test") && this.filePath.includes("news_core_v2.json"))) {
+            fs.writeFileSync(this.filePath, JSON.stringify(backupParsed, null, 2), "utf-8");
+          }
         }
       } else if (primaryParsed) {
         chosenArticles = primaryParsed;
@@ -132,6 +134,11 @@ export class PersistentNewsStore {
    * Saves articles atomically to disk with strict backup safety and dataset shrink protection.
    */
   private async saveToDisk(force = false): Promise<void> {
+    // Protect production dataset from test suite mutation
+    if ((process.env.VITEST || process.env.NODE_ENV === "test") && this.filePath.includes("news_core_v2.json")) {
+      return;
+    }
+
     if (!LegacyWriterGuard.isLegacyWritersEnabled()) {
       console.log(`[PersistentNewsStore] Suppressed disk save to ${this.filePath} (ATHENA_LEGACY_WRITERS_ENABLED=false)`);
       return;

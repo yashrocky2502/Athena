@@ -32,7 +32,7 @@ import { LiveMarketReactionEngine, MarketReactionSnapshot } from './LiveMarketRe
 import { MarketVolumeConfirmationEngine, VolumeConfirmationSnapshot } from './MarketVolumeConfirmationEngine.ts';
 import { FnoPositioningEngine, FnoPositioningSnapshot, OptionFlowClassification } from './FnoPositioningEngine.ts';
 import { marketDataProviderManager, MarketDataProviderManager } from '../market-data/MarketDataProvider.ts';
-import { signalLifecycleEngine } from './SignalLifecycleEngine.ts';
+import { SignalLifecycleEngine } from './SignalLifecycleEngine.ts';
 
 export type SignalPriority = 'P0_CRITICAL' | 'P1_HIGH' | 'P2_MEDIUM' | 'P3_LOW' | 'WATCH_ONLY';
 
@@ -412,7 +412,7 @@ export class MarketIntelligenceFusionEngine {
 
     // Evaluate via continuous lifecycle engine
     try {
-      const lc = signalLifecycleEngine.evaluateSignal(signal, event, marketConfirmation);
+      const lc = SignalLifecycleEngine.getInstance().evaluateSignal(signal, event, marketConfirmation);
       signal.lifecycleState = lc.currentState as any;
       signal.signalScore = lc.decayedScore;
     } catch (lcError) {

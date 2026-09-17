@@ -177,11 +177,20 @@ export class SignalLifecycleEngine {
   }
 
   public static resetInstance(customPersistencePath?: string, customLedgerPath?: string): void {
+    if (!customPersistencePath || typeof customPersistencePath !== 'string' || customPersistencePath.trim() === '' ||
+        !customLedgerPath || typeof customLedgerPath !== 'string' || customLedgerPath.trim() === '') {
+      throw new Error('[SignalLifecycleEngine] resetInstance() requires explicit customPersistencePath and customLedgerPath parameters for test isolation. Call resetInstanceForProduction() if production reset is intended.');
+    }
     SignalLifecycleEngine.instance = new SignalLifecycleEngine(customPersistencePath, customLedgerPath);
   }
 
+  public static resetInstanceForProduction(): void {
+    SignalLifecycleEngine.instance = new SignalLifecycleEngine();
+  }
+
   /**
-   * Reset instance (mainly for testing)
+   * Reset in-memory state (mainly for testing).
+   * Note: This strictly clears in-memory structures and NEVER deletes files from disk.
    */
   public clear(): void {
     this.lifecycles.clear();
@@ -190,12 +199,6 @@ export class SignalLifecycleEngine {
     this.telegramDispatchCount = 0;
     this.duplicateSuppressionCount = 0;
     this.transitionCount = 0;
-    
-    // Delete files for test isolation if exists
-    try {
-      if (fs.existsSync(this.persistencePath)) fs.unlinkSync(this.persistencePath);
-      if (fs.existsSync(this.ledgerPath)) fs.unlinkSync(this.ledgerPath);
-    } catch {}
   }
 
   /**
@@ -248,6 +251,14 @@ export class SignalLifecycleEngine {
 
   private atomicSave(targetPath: string, data: any, expectedType: 'object' | 'array'): void {
     if (!targetPath) return;
+
+    // Protect production dataset from test suite mutation
+    const isProdPath = (targetPath === path.join(process.cwd(), 'data', 'news_signal_lifecycle.json') ||
+                        targetPath === path.join(process.cwd(), 'data', 'news_signal_historical_ledger.json'));
+    if ((process.env.VITEST || process.env.NODE_ENV === 'test') && isProdPath) {
+      return;
+    }
+
     const dir = path.dirname(targetPath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });

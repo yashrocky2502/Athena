@@ -12,17 +12,39 @@
  * - Observability Telemetry Counters
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, beforeAll, afterAll } from 'vitest';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
 import { marketIntelligenceFusionEngine, MarketIntelligenceFusionEngine } from '../intelligence/MarketIntelligenceFusionEngine.ts';
 import { NewsEvent } from '../types/NewsEvent.ts';
 import { NewsArticle } from '../types/Article.ts';
 import { MarketConfirmationDossier } from '../intelligence/MarketConfirmationEngine.ts';
 import { ProductionDossier } from '../intelligence/TraderDecisionSupportEngine.ts';
 import { MarketDataProviderManager } from '../market-data/MarketDataProvider.ts';
-import { signalLifecycleEngine } from '../intelligence/SignalLifecycleEngine.ts';
+import { SignalLifecycleEngine } from '../intelligence/SignalLifecycleEngine.ts';
 
 describe('PHASE 10.6 — REAL-TIME MARKET INTELLIGENCE FUSION & SIGNAL RANKING', () => {
   let engine: MarketIntelligenceFusionEngine;
+  let tempDir: string;
+  let testLifecyclePath: string;
+  let testLedgerPath: string;
+
+  beforeAll(() => {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'phase10_6_test_'));
+    testLifecyclePath = path.join(tempDir, 'test_lifecycle.json');
+    testLedgerPath = path.join(tempDir, 'test_ledger.json');
+    SignalLifecycleEngine.resetInstance(testLifecyclePath, testLedgerPath);
+  });
+
+  afterAll(() => {
+    SignalLifecycleEngine.resetInstanceForProduction();
+    try {
+      if (fs.existsSync(tempDir)) {
+        fs.rmSync(tempDir, { recursive: true, force: true });
+      }
+    } catch {}
+  });
 
   // Set up mock inputs
   const mockEvent: any = {
@@ -51,9 +73,10 @@ describe('PHASE 10.6 — REAL-TIME MARKET INTELLIGENCE FUSION & SIGNAL RANKING',
   };
 
   beforeEach(() => {
+    SignalLifecycleEngine.resetInstance(testLifecyclePath, testLedgerPath);
     engine = MarketIntelligenceFusionEngine.getInstance();
     engine.clear();
-    signalLifecycleEngine.clear();
+    SignalLifecycleEngine.getInstance().clear();
     // Reset telemetry
     MarketDataProviderManager.telemetry.providerConflictCount = 0;
   });
