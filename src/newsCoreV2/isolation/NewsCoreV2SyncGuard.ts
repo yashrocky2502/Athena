@@ -16,19 +16,19 @@ export class NewsCoreV2SyncGuard {
 
   /**
    * Determines whether authoritative News Core V2 sync is enabled.
-   * Defaults to TRUE (enabled) unless explicitly disabled via ATHENA_NEWS_CORE_V2_SYNC_ENABLED=false.
+   * Defaults to FALSE (disabled) unless explicitly enabled via ATHENA_NEWS_CORE_V2_SYNC_ENABLED=true or "1".
    */
   public static isSyncEnabled(): boolean {
     if (this.runtimeOverride !== null) {
       return this.runtimeOverride;
     }
 
-    const envVal = process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED;
-    if (envVal === "false" || envVal === "0") {
-      return false;
+    const envVal = (process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED || "").trim().toLowerCase();
+    if (envVal === "true" || envVal === "1") {
+      return true;
     }
 
-    return true;
+    return false;
   }
 
   /**

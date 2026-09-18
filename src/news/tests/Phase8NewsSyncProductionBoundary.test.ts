@@ -224,6 +224,7 @@ describe("ATHENA Phase 8: News Core V2 Production Sync & Isolation Boundary", ()
   });
 
   it("G. Collector failure or timeout does not fabricate articles", async () => {
+    NewsCoreV2SyncGuard.setSyncEnabled(true);
     const tempStorePath = path.join(dataDir, `test_store_fail_${Date.now()}.json`);
     const mockStore = new PersistentNewsStore(tempStorePath);
 

@@ -139,7 +139,9 @@ export class PersistentNewsStore {
       return;
     }
 
-    if (!NewsCoreV2SyncGuard.isSyncEnabled()) {
+    // Protect production dataset from un-enabled sync
+    const isProd = this.filePath.includes("news_core_v2.json");
+    if (isProd && !NewsCoreV2SyncGuard.isSyncEnabled()) {
       console.log(`[PersistentNewsStore] Suppressed disk save to ${this.filePath} (ATHENA_NEWS_CORE_V2_SYNC_ENABLED=false)`);
       return;
     }
