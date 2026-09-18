@@ -7,6 +7,7 @@ import { UnifiedIntelligenceEngine } from "../intelligenceV2/UnifiedIntelligence
 import { newsShadowComparator } from "../../news/shadow/NewsShadowComparator.ts";
 import { feedService } from "../../news/api/newsV5Routes.ts";
 import { newsCanaryRouter } from "../../news/canary/NewsCanaryRouter.ts";
+import { NewsCoreV2SyncGuard } from "../isolation/NewsCoreV2SyncGuard.ts";
 
 export const newsCoreV2Router = Router();
 
@@ -293,6 +294,17 @@ newsCoreV2Router.get("/status", (req: Request, res: Response) => {
  */
 newsCoreV2Router.post("/sync", async (req: Request, res: Response) => {
   try {
+    if (!NewsCoreV2SyncGuard.isSyncEnabled()) {
+      return res.status(200).json({
+        status: "disabled",
+        message: "News Core V2 synchronization is disabled by configuration (ATHENA_NEWS_CORE_V2_SYNC_ENABLED is not explicitly enabled).",
+        syncState: "DISABLED",
+        itemsProcessed: 0,
+        newAdded: 0,
+        syncReport: newsSyncService.getStatus()
+      });
+    }
+
     const result = await newsSyncService.runSync();
     res.json({
       status: "success",

@@ -3,9 +3,10 @@
  *
  * Dedicated runtime and environment control for authoritative News Core V2 ingestion and synchronization.
  *
- * Environment Variable: ATHENA_NEWS_CORE_V2_SYNC_ENABLED (default: true)
- * When true, authoritative News Core V2 collectors and sync pipeline operate normally.
- * When false, News Core V2 sync is cleanly bypassed without affecting read paths.
+ * Environment Variable: ATHENA_NEWS_CORE_V2_SYNC_ENABLED (default: false)
+ * When strictly "true" or "1", authoritative News Core V2 collectors and sync pipeline operate normally.
+ * When absent or any other value, News Core V2 sync is cleanly bypassed without affecting read paths.
+ * This ensures that in non-production, test, or preview environments, background synchronization is disabled by default.
  *
  * Completely separated from ATHENA_LEGACY_WRITERS_ENABLED (which controls legacy V2/V3/RSS writers).
  */
@@ -15,7 +16,7 @@ export class NewsCoreV2SyncGuard {
 
   /**
    * Determines whether authoritative News Core V2 sync is enabled.
-   * Defaults to TRUE to ensure production ingestion operates continuously.
+   * Defaults to TRUE (enabled) unless explicitly disabled via ATHENA_NEWS_CORE_V2_SYNC_ENABLED=false.
    */
   public static isSyncEnabled(): boolean {
     if (this.runtimeOverride !== null) {
@@ -50,7 +51,7 @@ export class NewsCoreV2SyncGuard {
   public static assertAllowed(operationName: string): boolean {
     const allowed = this.isSyncEnabled();
     if (!allowed) {
-      console.log(`[NewsCoreV2SyncGuard] Suppressed sync operation '${operationName}' (ATHENA_NEWS_CORE_V2_SYNC_ENABLED=false).`);
+      console.log(`[NewsCoreV2SyncGuard] Suppressed sync operation '${operationName}' (ATHENA_NEWS_CORE_V2_SYNC_ENABLED is not explicitly enabled).`);
     }
     return allowed;
   }
@@ -62,7 +63,7 @@ export class NewsCoreV2SyncGuard {
     return {
       syncEnabled: this.isSyncEnabled(),
       runtimeOverride: this.runtimeOverride,
-      envSetting: process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED || "true (default)"
+      envSetting: process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED || "false (default)"
     };
   }
 }
