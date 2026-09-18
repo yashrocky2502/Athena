@@ -302,9 +302,9 @@ describe('ATHENA STAGE 4.3 — AI Provider Production Reliability & Model Availa
   });
 
   describe('7. News Engine Canonical Storage Integrity', () => {
-    it('should ensure data/news_stage2_store.json and .bak remain untouched and valid', () => {
-      const primaryPath = path.join(process.cwd(), 'data/news_stage2_store.json');
-      const backupPath = path.join(process.cwd(), 'data/news_stage2_store.json.bak');
+    it('should ensure data/news_core_v2.json and .bak remain untouched and valid', () => {
+      const primaryPath = path.join(process.cwd(), 'data/news_core_v2.json');
+      const backupPath = path.join(process.cwd(), 'data/news_core_v2.json.bak');
 
       expect(fs.existsSync(primaryPath)).toBe(true);
       expect(fs.existsSync(backupPath)).toBe(true);

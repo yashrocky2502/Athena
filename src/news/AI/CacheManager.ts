@@ -73,9 +73,33 @@ export class CacheManager {
   }
 
   public set(key: string, response: AIResponse, category: NewsCacheCategory = 'Default'): void {
+    // Cache Integrity Gate: Never cache invalid, empty, or low-confidence/rejected responses
+    if (!response || typeof response !== 'object') {
+      return;
+    }
+    if (!response.text || typeof response.text !== 'string' || response.text.trim().length < 10) {
+      return;
+    }
+    if (typeof response.confidence === 'number' && response.confidence < 70) {
+      return;
+    }
+
     const ttlSeconds = this.TTLS[category] || this.TTLS['Default'];
     const expiresAt = Date.now() + ttlSeconds * 1000;
-    this.cache.set(key, { response, expiresAt });
+    // Deep clone/freeze response snapshot to prevent caller mutation from altering cache identity
+    const clonedResponse: AIResponse = {
+      text: response.text,
+      provider: response.provider,
+      confidence: response.confidence,
+      promptTokens: response.promptTokens,
+      completionTokens: response.completionTokens,
+      totalTokens: response.totalTokens,
+      latencyMs: response.latencyMs,
+      costEstimate: response.costEstimate,
+      fallbackUsed: Boolean(response.fallbackUsed),
+      model: response.model
+    };
+    this.cache.set(key, { response: clonedResponse, expiresAt });
   }
 
   public getStats() {

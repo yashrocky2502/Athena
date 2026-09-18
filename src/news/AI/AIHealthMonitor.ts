@@ -16,6 +16,18 @@ export interface ProviderHealth {
   lastSuccessTime?: string;
 }
 
+/**
+ * ATHENA — AI Health Monitor State Machine
+ *
+ * State Transitions:
+ * - [Healthy] -> (1-2 consecutive non-fatal errors) -> [Degraded]
+ * - [Healthy/Degraded] -> (>= 3 consecutive errors OR successRate < 60%) -> [Unhealthy]
+ * - [Healthy/Degraded] -> (401/403/AUTH_FAILED) -> [Unhealthy] (immediate, consecutiveFailures = 10)
+ * - [Healthy/Degraded] -> (429/RESOURCE_EXHAUSTED/Quota) -> [Unhealthy] (immediate, consecutiveFailures = 5)
+ * - [Healthy/Degraded] -> (404/Model decommissioned) -> [Unchanged provider status, poisoned model recorded]
+ * - [Unhealthy] -> (cooldown elapsed > 3 mins) -> [Degraded] (consecutiveFailures = 0, probe allowed)
+ * - [Degraded/Unhealthy] -> (recordSuccess) -> [Healthy (>=90%) | Degraded (>=70%) | Unhealthy (<70%)] (consecutiveFailures = 0)
+ */
 export class AIHealthMonitor {
   private static instance: AIHealthMonitor;
 
@@ -86,7 +98,7 @@ export class AIHealthMonitor {
     p.successRatePercentage = Math.round((p.successCount / p.totalCalls) * 1000) / 10;
 
     // Status evaluation
-    if (p.successRatePercentage >= 90) {
+    if (p.successRatePercentage >= 90 || (p.consecutiveFailures === 0 && p.totalCalls < 5)) {
       p.status = 'Healthy';
     } else if (p.successRatePercentage >= 70) {
       p.status = 'Degraded';
@@ -148,7 +160,7 @@ export class AIHealthMonitor {
 
     p.successRatePercentage = Math.round((p.successCount / p.totalCalls) * 1000) / 10;
 
-    if (p.consecutiveFailures >= 3 || p.successRatePercentage < 60) {
+    if (p.consecutiveFailures >= 3 || (p.totalCalls >= 5 && p.successRatePercentage < 60)) {
       p.status = 'Unhealthy';
     } else {
       p.status = 'Degraded';

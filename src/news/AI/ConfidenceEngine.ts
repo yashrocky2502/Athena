@@ -69,12 +69,13 @@ export class ConfidenceEngine {
 
     // 3. Entity Consistency
     let entityConsistencyScore = 95;
-    if (sourceFacts?.issuerName && sourceFacts.issuerName !== 'UNKNOWN ISSUER') {
-      const issuer = String(sourceFacts.issuerName).toLowerCase();
+    const entityName = sourceFacts?.issuerName || sourceFacts?.companyName || sourceFacts?.issuer;
+    if (entityName && entityName !== 'UNKNOWN ISSUER' && entityName !== 'UNKNOWN') {
+      const issuer = String(entityName).toLowerCase();
       const firstWord = issuer.split(/\s+/)[0];
       if (firstWord && firstWord.length > 2 && !genLower.includes(firstWord)) {
         entityConsistencyScore = 40;
-        issues.push(`Issuer name (${sourceFacts.issuerName}) missing from generated summary`);
+        issues.push(`Entity name (${entityName}) missing from generated summary`);
       }
     }
 

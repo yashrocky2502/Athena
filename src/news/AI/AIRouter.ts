@@ -130,7 +130,8 @@ export class AIRouter {
           aiController.recordCallSuccess();
           response = {
             ...groqResp,
-            confidence: evalResult.score
+            confidence: evalResult.score,
+            fallbackUsed: false
           };
         } else {
           console.warn(`[AI Router] Groq confidence score low (${evalResult.score}/100): ${evalResult.issues.join('; ')}. Failing over to Gemini Flash.`);
@@ -174,8 +175,10 @@ export class AIRouter {
     if (!response) {
       console.log('[AI Router] Dispatching request to Final Fallback: Athena Local Intelligence Engine');
       const localResp = await this.localProvider.generate(requestOptions);
+      const localEval = ConfidenceEngine.evaluate(localResp.text, requestOptions.facts, input.body);
       response = {
         ...localResp,
+        confidence: localEval.score,
         fallbackUsed: true
       };
     }
@@ -188,14 +191,16 @@ export class AIRouter {
 
   /**
    * Direct compatible router generation path.
+   * Enforces the authoritative minimum integrity pipeline:
+   * provider response -> validation -> ConfidenceEngine -> truthful attribution -> cache
    */
   public async generateWithRouter(options: AIRequestOptions): Promise<AIResponse> {
-    let response: AIResponse | null = null;
-    
+    const aiController = AIOperationsController.getInstance();
+
     // Check Cache
     const cacheKey = this.cacheManager.generateKey({
       url: options.url,
-      title: options.headline || options.prompt.slice(0, 50),
+      title: options.headline || (options.prompt ? options.prompt.slice(0, 50) : 'direct_prompt'),
       publisher: options.publisher,
       articleHash: options.prompt ? String(options.prompt.length) : undefined,
       promptVersion: 'v5_direct',
@@ -204,30 +209,81 @@ export class AIRouter {
     
     const cached = this.cacheManager.get(cacheKey);
     if (cached) {
+      aiController.recordCacheHit();
       if (options.streamingCallback) {
         options.streamingCallback('final', cached.text);
       }
       return cached;
     }
 
+    if (!aiController.isAIEnabled()) {
+      aiController.recordAvoidedCall('AI_DISABLED');
+      const localResp = await this.localProvider.generate(options);
+      const localEval = ConfidenceEngine.evaluate(localResp.text, options.facts, options.prompt);
+      const localFinal: AIResponse = {
+        ...localResp,
+        confidence: localEval.score,
+        fallbackUsed: true
+      };
+      this.cacheManager.set(cacheKey, localFinal, 'Market News');
+      return localFinal;
+    }
+
+    let response: AIResponse | null = null;
+
+    // 1. Try Groq
     if (this.groqProvider.isHealthy()) {
       try {
-        response = await this.groqProvider.generate(options);
-      } catch (err) {
-        console.warn(`[AIRouter] direct groq failed: ${err}`);
+        aiController.recordCallAttempt('groq');
+        const groqResp = await this.groqProvider.generate(options);
+        const evalResult = ConfidenceEngine.evaluate(groqResp.text, options.facts, options.prompt);
+        if (evalResult.passed) {
+          aiController.recordCallSuccess();
+          response = {
+            ...groqResp,
+            confidence: evalResult.score,
+            fallbackUsed: false
+          };
+        } else {
+          console.warn(`[AIRouter] direct groq low confidence (${evalResult.score}): ${evalResult.issues.join('; ')}`);
+        }
+      } catch (err: any) {
+        aiController.recordCallFailure(err?.message || String(err));
+        console.warn(`[AIRouter] direct groq failed: ${err?.message || err}`);
       }
     }
     
+    // 2. Try Gemini
     if (!response && this.geminiProvider.isHealthy()) {
       try {
-        response = await this.geminiProvider.generate(options);
-      } catch (err) {
-        console.warn(`[AIRouter] direct gemini failed: ${err}`);
+        aiController.recordCallAttempt('gemini');
+        const geminiResp = await this.geminiProvider.generate(options);
+        const evalResult = ConfidenceEngine.evaluate(geminiResp.text, options.facts, options.prompt);
+        if (evalResult.passed) {
+          aiController.recordCallSuccess();
+          response = {
+            ...geminiResp,
+            confidence: evalResult.score,
+            fallbackUsed: true
+          };
+        } else {
+          console.warn(`[AIRouter] direct gemini low confidence (${evalResult.score}): ${evalResult.issues.join('; ')}`);
+        }
+      } catch (err: any) {
+        aiController.recordCallFailure(err?.message || String(err));
+        console.warn(`[AIRouter] direct gemini failed: ${err?.message || err}`);
       }
     }
     
+    // 3. Deterministic Local Fallback
     if (!response) {
-      response = await this.localProvider.generate(options);
+      const localResp = await this.localProvider.generate(options);
+      const localEval = ConfidenceEngine.evaluate(localResp.text, options.facts, options.prompt);
+      response = {
+        ...localResp,
+        confidence: localEval.score,
+        fallbackUsed: true
+      };
     }
     
     this.cacheManager.set(cacheKey, response, 'Market News');

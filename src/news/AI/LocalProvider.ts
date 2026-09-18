@@ -1,6 +1,7 @@
 import { IAIProvider, AIRequestOptions, AIResponse, ProviderType } from './AIProvider';
 import { AIHealthMonitor } from './AIHealthMonitor';
 import { CostTracker } from './CostTracker';
+import { ConfidenceEngine } from './ConfidenceEngine';
 
 export class LocalProvider implements IAIProvider {
   public readonly providerName: ProviderType = 'local';
@@ -25,11 +26,15 @@ export class LocalProvider implements IAIProvider {
     let summaryText = '';
 
     // Check if facts contains pre-extracted corporate filing or structured facts
-    const issuerName = facts.companyName || facts.issuerName || facts.issuer || 'The disclosing company';
+    const issuerName = facts.companyName || facts.issuerName || facts.issuer || (options.publisher ? options.publisher : undefined);
     const filingType = facts.announcementType || facts.filingType || options.domainType || 'Corporate Disclosure';
 
     const execParts: string[] = [];
-    execParts.push(`${issuerName} submitted a formal regulatory communication regarding ${filingType}.`);
+    if (issuerName) {
+      execParts.push(`${issuerName} reported an update regarding ${filingType}.`);
+    } else {
+      execParts.push(`Disclosure recorded regarding ${filingType}.`);
+    }
 
     if (facts.revenue) execParts.push(`Reported total revenue stood at ${facts.revenue}.`);
     if (facts.pat) execParts.push(`Net profit after tax (PAT) reached ${facts.pat}.`);
@@ -53,25 +58,41 @@ export class LocalProvider implements IAIProvider {
 
     // Key Highlights
     const highlights: string[] = [];
-    if (facts.companyName) highlights.push(`• Entity: ${facts.companyName}`);
-    if (facts.announcementType) highlights.push(`• Filing Category: ${facts.announcementType}`);
+    if (facts.companyName || facts.issuerName || facts.issuer) {
+      highlights.push(`• Entity: ${facts.companyName || facts.issuerName || facts.issuer}`);
+    }
+    if (facts.announcementType || facts.filingType) {
+      highlights.push(`• Filing Category: ${facts.announcementType || facts.filingType}`);
+    }
     if (facts.revenue) highlights.push(`• Revenue: ${facts.revenue}`);
     if (facts.pat) highlights.push(`• PAT: ${facts.pat}`);
     if (facts.orderBook) highlights.push(`• Order Book: ${facts.orderBook}`);
     if (facts.contractValue) highlights.push(`• Contract Value: ${facts.contractValue}`);
+    if (facts.dividend) highlights.push(`• Dividend: ${facts.dividend}`);
+    if (facts.bonusRatio) highlights.push(`• Bonus Ratio: ${facts.bonusRatio}`);
+    if (facts.splitRatio) highlights.push(`• Split Ratio: ${facts.splitRatio}`);
     if (facts.meetingDate) highlights.push(`• Meeting Date: ${facts.meetingDate}`);
 
     if (highlights.length < 3) {
       highlights.push(`• Primary Event: ${headline}`);
-      highlights.push(`• Disclosure Status: Verified Official Regulatory Release`);
-      highlights.push(`• Filing Authority: Exchange Regulatory Mechanism`);
+      const sourceName = options.publisher || facts.publisher || facts.source;
+      if (sourceName) {
+        highlights.push(`• Disclosing Source: ${sourceName}`);
+      } else {
+        highlights.push(`• Record Type: Corporate / Market Disclosure`);
+      }
+      if (facts.filingDate || facts.date) {
+        highlights.push(`• Filing Date: ${facts.filingDate || facts.date}`);
+      } else {
+        highlights.push(`• Processing Mode: Deterministic Fact-Grounded Extraction`);
+      }
     }
 
     const whyItMatters = facts.announcementType === 'Quarterly Results'
-      ? 'Reflects core operational performance and top-line momentum over the reported financial period.'
-      : 'Ensures statutory transparency and compliance with mandatory regulatory disclosure frameworks.';
+      ? 'Reflects reported financial and operational metrics for the period.'
+      : 'Provides factual disclosure regarding corporate and market developments.';
 
-    const investorTakeaway = 'Track official exchange filings and upcoming corporate announcements for operational updates.';
+    const investorTakeaway = 'Track official company announcements and disclosures for further updates.';
 
     summaryText = `Executive Summary\n${executiveSummary}\n\nKey Highlights\n${highlights.join('\n')}\n\nWhy It Matters\n${whyItMatters}\n\nInvestor Takeaway\n${investorTakeaway}`;
 
@@ -83,6 +104,9 @@ export class LocalProvider implements IAIProvider {
     const costEstimate = this.costTracker.trackUsage('local', promptTokens, completionTokens, latencyMs);
     this.healthMonitor.recordSuccess('local', latencyMs, totalTokens);
 
+    // Compute measured post-generation confidence evaluation
+    const evalResult = ConfidenceEngine.evaluate(summaryText, facts, options.prompt);
+
     if (options.streamingCallback) {
       options.streamingCallback('final', summaryText);
     }
@@ -90,7 +114,7 @@ export class LocalProvider implements IAIProvider {
     return {
       text: summaryText,
       provider: 'local',
-      confidence: 85,
+      confidence: evalResult.score,
       promptTokens,
       completionTokens,
       totalTokens,

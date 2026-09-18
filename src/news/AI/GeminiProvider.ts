@@ -145,6 +145,7 @@ export class GeminiProvider implements IAIProvider {
         return {
           text,
           provider: 'gemini',
+          model: modelToUse,
           confidence: 90,
           promptTokens,
           completionTokens,
@@ -156,8 +157,18 @@ export class GeminiProvider implements IAIProvider {
       } catch (err: any) {
         lastError = err;
         const msg = String(err?.message || err);
+        const msgLower = msg.toLowerCase();
 
-        const isModelErr = msg.includes('404') || msg.includes('not found') || msg.includes('decommissioned') || msg.includes('does not exist') || msg.includes('invalid model');
+        // 1. Auth Failures (Fail-Fast: 1 attempt)
+        const isAuthErr = msgLower.includes('401') || msgLower.includes('403') || msgLower.includes('api key') || msgLower.includes('invalid api key') || msgLower.includes('unauthenticated') || msgLower.includes('permission_denied');
+        if (isAuthErr) {
+          console.warn(`[GeminiProvider] Auth failure: ${msg}`);
+          this.healthMonitor.recordFailure('gemini', msg, '401');
+          break;
+        }
+
+        // 2. Model Specific Availability / Decommission Errors (Poison model, retry next candidate)
+        const isModelErr = msgLower.includes('404') || msgLower.includes('not found') || msgLower.includes('decommissioned') || msgLower.includes('does not exist') || msgLower.includes('invalid model');
         if (isModelErr) {
           console.warn(`[GeminiProvider] Model '${modelToUse}' unavailable (${msg}). Recording poisoned model...`);
           this.healthMonitor.recordPoisonedModel(modelToUse);
@@ -169,14 +180,15 @@ export class GeminiProvider implements IAIProvider {
           break;
         }
 
-        const isAuthErr = msg.includes('401') || msg.includes('403') || msg.includes('API key') || msg.includes('invalid api key') || msg.includes('invalid key');
-        if (isAuthErr) {
-          console.warn(`[GeminiProvider] Auth failure: ${msg}`);
-          this.healthMonitor.recordFailure('gemini', msg, '401');
+        // 3. Generic 400 Bad Request (Fail-Fast: 1 attempt)
+        if (msgLower.includes('400') || msgLower.includes('invalid_argument') || msgLower.includes('bad request')) {
+          console.warn(`[GeminiProvider] Bad request / invalid argument: ${msg}`);
+          this.healthMonitor.recordFailure('gemini', msg, '400');
           break;
         }
 
-        if (msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED') || msg.includes('quota') || msg.includes('limit')) {
+        // 4. Rate Limit / Quota Exceeded (429 / RESOURCE_EXHAUSTED) (Retry next candidate model)
+        if (msgLower.includes('429') || msgLower.includes('resource_exhausted') || msgLower.includes('quota') || msgLower.includes('rate limit')) {
           console.warn(`[GeminiProvider] Quota/rate limit exceeded on model ${modelToUse} (attempt ${attempt + 1}/${candidateModels.length})`);
           this.healthMonitor.recordFailure('gemini', msg, '429');
           attempt++;
@@ -188,7 +200,8 @@ export class GeminiProvider implements IAIProvider {
           break;
         }
 
-        if (msg.includes('503') || msg.includes('UNAVAILABLE') || msg.includes('high demand') || msg.includes('timeout')) {
+        // 5. Transient Server Errors 5xx / Timeouts (Retry next candidate model)
+        if (msgLower.includes('500') || msgLower.includes('502') || msgLower.includes('503') || msgLower.includes('504') || msgLower.includes('unavailable') || msgLower.includes('high demand') || msgLower.includes('timeout') || msgLower.includes('econnreset') || msgLower.includes('fetch failed')) {
           let cleanMessage = msg;
           try {
             const parsed = JSON.parse(msg.replace(/^.*?({.*}).*$/, '$1'));

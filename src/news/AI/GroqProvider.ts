@@ -154,6 +154,7 @@ export class GroqProvider implements IAIProvider {
         return {
           text,
           provider: 'groq',
+          model: modelToUse,
           confidence: 95,
           promptTokens,
           completionTokens,
@@ -167,18 +168,30 @@ export class GroqProvider implements IAIProvider {
         const latencyMs = Date.now() - startTime;
         const status = err?.response?.status;
         const errorMessage = err?.response?.data?.error?.message || err?.message || 'Unknown Groq Error';
+        const errorLower = errorMessage.toLowerCase();
 
-        // Handle model not found or invalid model/access errors by trying the next model
-        const isModelError =
+        // 1. Authentication & Authorization Errors (Fail-Fast: 1 attempt, do not retry other models)
+        if (status === 401 || status === 403) {
+          this.healthMonitor.recordFailure('groq', `Auth error ${status}: ${errorMessage}`, status);
+          const authErr = new Error(`Groq Authentication Failed (${status}): ${errorMessage}`);
+          (authErr as any).code = 'AUTH_FAILED' as GroqErrorCode;
+          throw authErr;
+        }
+
+        // 2. Model Specific Availability / Decommission Errors (Poison model, retry next candidate)
+        const isModelSpecificError =
           status === 404 ||
-          status === 400 ||
-          errorMessage.includes('does not exist') ||
-          errorMessage.includes('do not have access to') ||
-          errorMessage.includes('decommissioned') ||
-          errorMessage.includes('model') ||
-          errorMessage.includes('not found');
+          (status === 400 && (
+            errorLower.includes('does not exist') ||
+            errorLower.includes('do not have access to') ||
+            errorLower.includes('decommissioned') ||
+            errorLower.includes('model not found') ||
+            errorLower.includes('unknown model')
+          )) ||
+          errorLower.includes('decommissioned') ||
+          errorLower.includes('does not exist');
 
-        if (isModelError) {
+        if (isModelSpecificError) {
           console.warn(`[GroqProvider] Model '${modelToUse}' unavailable (${errorMessage}). Recording poisoned model...`);
           this.healthMonitor.recordPoisonedModel(modelToUse);
           this.healthMonitor.recordFailure('groq', errorMessage, status || '404');
@@ -186,13 +199,15 @@ export class GroqProvider implements IAIProvider {
           if (attempt <= maxRetries) {
             continue;
           }
-        } else if (status === 401 || status === 403) {
-          this.healthMonitor.recordFailure('groq', `Auth error ${status}: ${errorMessage}`, status);
-          const authErr = new Error(`Groq Authentication Failed (${status}): ${errorMessage}`);
-          (authErr as any).code = 'AUTH_FAILED' as GroqErrorCode;
-          throw authErr;
+        } else if (status === 400) {
+          // Generic 400 Bad Request (Invalid parameters / malformed request -> Fail-Fast: 1 attempt)
+          this.healthMonitor.recordFailure('groq', `Invalid request parameters: ${errorMessage}`, 400);
+          const badReqErr = new Error(`Groq Bad Request (400): ${errorMessage}`);
+          (badReqErr as any).code = 'INVALID_REQUEST' as GroqErrorCode;
+          throw badReqErr;
         }
 
+        // 3. Rate Limit / Quota Exceeded (429) (Retry next candidate model; if all exhausted, mark quota exceeded)
         if (status === 429) {
           console.warn(`[GroqProvider] Rate limit reached on model ${modelToUse}: ${errorMessage}`);
           attempt++;
@@ -206,7 +221,8 @@ export class GroqProvider implements IAIProvider {
           throw rateErr;
         }
 
-        if (err.code === 'ECONNABORTED' || errorMessage.includes('timeout')) {
+        // 4. Timeouts & Connection Failures (Retry next candidate model)
+        if (err.code === 'ECONNABORTED' || errorLower.includes('timeout') || err.name === 'TimeoutError') {
           console.warn(`[GroqProvider] Request timed out on attempt ${attempt + 1}`);
           this.healthMonitor.recordFailure('groq', `Timeout after ${this.TIMEOUT_MS}ms`);
           attempt++;
@@ -218,6 +234,7 @@ export class GroqProvider implements IAIProvider {
           throw timeErr;
         }
 
+        // 5. Server Errors 5xx (Retry next candidate model)
         if (status >= 500 && status < 600) {
           console.warn(`[GroqProvider] Server error ${status} on attempt ${attempt + 1}`);
           this.healthMonitor.recordFailure('groq', `Server error ${status}: ${errorMessage}`);
