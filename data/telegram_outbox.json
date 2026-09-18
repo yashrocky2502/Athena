@@ -1,1 +1,232 @@
-[]
+[
+  {
+    "articleId": "v2_f9257719637278a2",
+    "payload": {
+      "id": "v2_f9257719637278a2",
+      "canonicalUrl": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-market-nikes-position-in-dow-jones-index-comes-under-pressure/articleshow/134329444.cms",
+      "headline": "US Market: Nike’s position in Dow Jones index comes under pressure",
+      "body": "Nike faces growing speculation over its future in the Dow after being removed from the S&P 100. Its weak share performance, low price and declining market value have raised questions about whether the sportswear giant could eventually exit the blue-chip index.",
+      "source": {
+        "publisher": "Economic Times",
+        "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-market-nikes-position-in-dow-jones-index-comes-under-pressure/articleshow/134329444.cms",
+        "collectionMethod": "RSS"
+      },
+      "publishedAt": "2026-09-18T07:48:31.000Z",
+      "collectedAt": "2026-09-18T08:14:04.875Z",
+      "category": "Global",
+      "sentiment": "NEUTRAL",
+      "relevanceScore": 100,
+      "primaryCategory": "Global",
+      "secondaryCategories": [],
+      "eventType": "MACRO",
+      "categoryConfidence": "HIGH",
+      "classificationEvidence": [
+        "[Global] Global market/fed macro keywords matched in headline"
+      ],
+      "fno": {
+        "eligible": false,
+        "symbol": null,
+        "confidence": "NONE",
+        "decision": "EXCLUDE",
+        "reason": "No canonical F&O entity identified in headline"
+      },
+      "summary": "Nike faces growing speculation over its future in the Dow after being removed from the S&P 100. Its weak share performance, low price and declining market value have raised questions about whether the sportswear giant could eventually exit the blue-chip index.",
+      "whatChanged": [
+        "Nike faces growing speculation over its future in the Dow after being removed from the S&P 100.",
+        "Its weak share performance, low price and declining market value have raised questions about whether the sportswear giant could eventually exit the blue-chip index."
+      ],
+      "keyMetrics": [],
+      "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
+      "marketImpact": "No actionable F&O setup from this article alone.",
+      "riskWatchpoints": [
+        "No explicit operational or financial risk factors identified in source text."
+      ],
+      "summaryConfidence": 60,
+      "summaryProcessingMode": "DETERMINISTIC"
+    },
+    "attempts": 0
+  },
+  {
+    "articleId": "v2_75c5d89da5f8d6cc",
+    "payload": {
+      "id": "v2_75c5d89da5f8d6cc",
+      "canonicalUrl": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/rising-oil-borrowing-costs-fuel-stagflation-fears-for-global-economy/articleshow/134329348.cms",
+      "headline": "Rising oil, borrowing costs fuel stagflation fears for global economy",
+      "body": "Middle East conflict-driven energy price spikes and rising global borrowing costs are reviving inflation risks while threatening economic growth. Brent crude remains above $100, government bond yields have surged, and households face higher fuel, energy and mortgage costs. Despite resilient economic activity and AI investment, prolonged pressures could create a challenging stagflationary environment.",
+      "source": {
+        "publisher": "Economic Times",
+        "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/rising-oil-borrowing-costs-fuel-stagflation-fears-for-global-economy/articleshow/134329348.cms",
+        "collectionMethod": "RSS"
+      },
+      "publishedAt": "2026-09-18T07:42:48.000Z",
+      "collectedAt": "2026-09-18T08:14:04.875Z",
+      "category": "Economy",
+      "sentiment": "NEUTRAL",
+      "relevanceScore": 100,
+      "primaryCategory": "Economy",
+      "secondaryCategories": [
+        "Commodities"
+      ],
+      "eventType": "MACRO",
+      "categoryConfidence": "MEDIUM",
+      "classificationEvidence": [
+        "[Economy] Economy/regulatory keywords matched in body",
+        "[Commodities] Commodity assets/futures matched in body (1)"
+      ],
+      "fno": {
+        "eligible": false,
+        "symbol": null,
+        "confidence": "NONE",
+        "decision": "EXCLUDE",
+        "reason": "No canonical F&O entity identified in headline"
+      },
+      "summary": "Rising prices witnessed positive momentum with spot prices trading at $100, in market trade. The precious metal received strong upward momentum following comments from Federal Reserve officials signaling increased probability of interest rate cuts and softer US Treasury yields. Middle East conflict-driven energy price spikes and rising global borrowing costs are reviving inflation risks while threatening economic growth.",
+      "whatChanged": [
+        "Spot Price: $100,",
+        "Middle East conflict-driven energy price spikes and rising global borrowing costs are reviving inflation risks while threatening economic growth.",
+        "Brent crude remains above $100, government bond yields have surged, and households face higher fuel, energy and mortgage costs."
+      ],
+      "keyMetrics": [],
+      "whyItMatters": "Precious metal and commodity price trajectories reflect global macroeconomic liquidity, sovereign bond yields, currency debasement hedges, and safe-haven risk dynamics.",
+      "marketImpact": "No actionable F&O setup from this article alone.",
+      "riskWatchpoints": [
+        "No explicit operational or financial risk factors identified in source text."
+      ],
+      "summaryConfidence": 60,
+      "summaryProcessingMode": "DETERMINISTIC"
+    },
+    "attempts": 0
+  },
+  {
+    "articleId": "v2_5b7a7b79eacaf8fe",
+    "payload": {
+      "id": "v2_5b7a7b79eacaf8fe",
+      "canonicalUrl": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQS2ZSR1RhNTFZLTFnb25vdWtiQng4aFJEcG95Tk5LT0pzOFBWRS1BZUxfUzJkRWNZd0c0NU93cjlSMGVqN1U5VVNaSnVKTGFHNVVBTWxvU3cyUWJHdlJvd2FNdWhPaERTRnN4WnY3MjZIekVfb0tFeWNSTnFQM3M2R3NmOWQ5aVVSTUJldS12OGhaRmRHTnBweGRjYU0yZUx2SElSdWpZQjE5OF82UXFObWIyX2tCeElrbXBBb19zZ25pOEtH0gHKAUFVX3lxTE1WQm14MWJBX19PZnF4dXZ1U3phNTdzb1BCamRyNHJkS3hwRmlFUGRoWmlWN0JadkJCejQyRWtYZkR1U01FT21GZXRad21yRG1ZYldudmQ5VmJSY05ZNUN1bXRrYW1VWEhDdzVJc0h1T1JPQmhucF9VejAtRlcwU2I4Q1ZSd2VhY0Y3UGJrWnk0bFE3Uy1zNEQ4NFJyX09KdktQbUlXOWJPZ2c1ZnJMZF85N01Dbk1FVW1hV1l2SDN4TUZuOVJ4d1RPM2c?oc=5",
+      "headline": "Nithari case convict Surendra Koli allegedly dies by suicide in Haridwar - Moneycontrol.com",
+      "body": "<a href=\"https://news.google.com/rss/articles/CBMixAFBVV95cUxQS2ZSR1RhNTFZLTFnb25vdWtiQng4aFJEcG95Tk5LT0pzOFBWRS1BZUxfUzJkRWNZd0c0NU93cjlSMGVqN1U5VVNaSnVKTGFHNVVBTWxvU3cyUWJHdlJvd2FNdWhPaERTRnN4WnY3MjZIekVfb0tFeWNSTnFQM3M2R3NmOWQ5aVVSTUJldS12OGhaRmRHTnBweGRjYU0yZUx2SElSdWpZQjE5OF82UXFObWIyX2tCeElrbXBBb19zZ25pOEtH0gHKAUFVX3lxTE1WQm14MWJBX19PZnF4dXZ1U3phNTdzb1BCamRyNHJkS3hwRmlFUGRoWmlWN0JadkJCejQyRWtYZkR1U01FT21GZXRad21yRG1ZYldudmQ5VmJSY05ZNUN1bXRrYW1VWEhDdzVJc0h1T1JPQmhucF9VejAtRlcwU2I4Q1ZSd2VhY0Y3UGJrWnk0bFE3Uy1zNEQ4NFJyX09KdktQbUlXOWJPZ2c1ZnJMZF85N01Dbk1FVW1hV1l2SDN4TUZuOVJ4d1RPM2c?oc=5\" target=\"_blank\">Nithari case convict Surendra Koli allegedly dies by suicide in Haridwar</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+      "source": {
+        "publisher": "Moneycontrol",
+        "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQS2ZSR1RhNTFZLTFnb25vdWtiQng4aFJEcG95Tk5LT0pzOFBWRS1BZUxfUzJkRWNZd0c0NU93cjlSMGVqN1U5VVNaSnVKTGFHNVVBTWxvU3cyUWJHdlJvd2FNdWhPaERTRnN4WnY3MjZIekVfb0tFeWNSTnFQM3M2R3NmOWQ5aVVSTUJldS12OGhaRmRHTnBweGRjYU0yZUx2SElSdWpZQjE5OF82UXFObWIyX2tCeElrbXBBb19zZ25pOEtH0gHKAUFVX3lxTE1WQm14MWJBX19PZnF4dXZ1U3phNTdzb1BCamRyNHJkS3hwRmlFUGRoWmlWN0JadkJCejQyRWtYZkR1U01FT21GZXRad21yRG1ZYldudmQ5VmJSY05ZNUN1bXRrYW1VWEhDdzVJc0h1T1JPQmhucF9VejAtRlcwU2I4Q1ZSd2VhY0Y3UGJrWnk0bFE3Uy1zNEQ4NFJyX09KdktQbUlXOWJPZ2c1ZnJMZF85N01Dbk1FVW1hV1l2SDN4TUZuOVJ4d1RPM2c?oc=5",
+        "collectionMethod": "RSS"
+      },
+      "publishedAt": "2026-09-18T08:01:43.000Z",
+      "collectedAt": "2026-09-18T08:14:04.875Z",
+      "category": "Other",
+      "sentiment": "NEUTRAL",
+      "relevanceScore": 85,
+      "primaryCategory": "Other",
+      "secondaryCategories": [],
+      "eventType": "OTHER",
+      "categoryConfidence": "LOW",
+      "classificationEvidence": [
+        "Default fallback classification for general news story"
+      ],
+      "fno": {
+        "eligible": false,
+        "symbol": null,
+        "confidence": "NONE",
+        "decision": "EXCLUDE",
+        "reason": "No canonical F&O entity identified in headline"
+      },
+      "summary": "Summary unavailable — Open original source",
+      "whatChanged": [],
+      "keyMetrics": [],
+      "whyItMatters": "",
+      "marketImpact": "No actionable F&O setup from this article alone.",
+      "riskWatchpoints": [
+        "No explicit operational or financial risk factors identified in source text."
+      ],
+      "summaryConfidence": 60,
+      "summaryProcessingMode": "DETERMINISTIC"
+    },
+    "attempts": 0
+  },
+  {
+    "articleId": "v2_cab75f740f3507af",
+    "payload": {
+      "id": "v2_cab75f740f3507af",
+      "canonicalUrl": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOX0h4M0xuZjBOc3BKTEdUVWUwM0IycUtPeHhHRW1SbVV0R1U4WWNNMkxxZVFQalB2WFloMlN4dERYb1dsbE9zN3JSU1ozVHFOT1hpdFZtY045WFZGa0w4NzRhaGtWc19oajJKeDI0SEFtUGpraVhoWXNjQVZSZ1QxVQ?oc=5",
+      "headline": "Department of Social Justice and Empowerment Observes ‘SWACHHATA HI SEVA’ Campaign 2026 - PIB",
+      "body": "<a href=\"https://news.google.com/rss/articles/CBMigAFBVV95cUxOX0h4M0xuZjBOc3BKTEdUVWUwM0IycUtPeHhHRW1SbVV0R1U4WWNNMkxxZVFQalB2WFloMlN4dERYb1dsbE9zN3JSU1ozVHFOT1hpdFZtY045WFZGa0w4NzRhaGtWc19oajJKeDI0SEFtUGpraVhoWXNjQVZSZ1QxVQ?oc=5\" target=\"_blank\">Department of Social Justice and Empowerment Observes ‘SWACHHATA HI SEVA’ Campaign 2026</a> <font color=\"#6f6f6f\">PIB</font>",
+      "source": {
+        "publisher": "Press Information Bureau",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOX0h4M0xuZjBOc3BKTEdUVWUwM0IycUtPeHhHRW1SbVV0R1U4WWNNMkxxZVFQalB2WFloMlN4dERYb1dsbE9zN3JSU1ozVHFOT1hpdFZtY045WFZGa0w4NzRhaGtWc19oajJKeDI0SEFtUGpraVhoWXNjQVZSZ1QxVQ?oc=5",
+        "collectionMethod": "RSS"
+      },
+      "publishedAt": "2026-09-17T08:31:00.000Z",
+      "collectedAt": "2026-09-18T08:14:04.875Z",
+      "category": "Other",
+      "sentiment": "NEUTRAL",
+      "relevanceScore": 65,
+      "primaryCategory": "Other",
+      "secondaryCategories": [],
+      "eventType": "OTHER",
+      "categoryConfidence": "LOW",
+      "classificationEvidence": [
+        "Default fallback classification for general news story"
+      ],
+      "fno": {
+        "eligible": false,
+        "symbol": null,
+        "confidence": "NONE",
+        "decision": "EXCLUDE",
+        "reason": "No canonical F&O entity identified in headline"
+      },
+      "summary": "Summary unavailable — Open original source",
+      "whatChanged": [],
+      "keyMetrics": [],
+      "whyItMatters": "",
+      "marketImpact": "No actionable F&O setup from this article alone.",
+      "riskWatchpoints": [
+        "No explicit operational or financial risk factors identified in source text."
+      ],
+      "summaryConfidence": 60,
+      "summaryProcessingMode": "DETERMINISTIC"
+    },
+    "attempts": 0
+  },
+  {
+    "articleId": "v2_f3ea0589a49098c7",
+    "payload": {
+      "id": "v2_f3ea0589a49098c7",
+      "canonicalUrl": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOU3lQNHk2UWdXUjhsWFVpSGdseE1QUjQwV21iQzk3OFlfUklBTVVxa0FtUFVMNWk4MmFyeFdlSnhhc2NqWGs4SWJDeklkamdQRUI0NDYtNVFZSlQyT3ZuZGZ1YllVLXlNVlctX3NCaWlGaEVCSDhvNzkxTDEySXdub180Sjd2Zm5tSkF6Z2Z2UWxSVWFlaHdWeTN4MzVTOEVlZ3d5MVZlbm9td9IBrwFBVV95cUxQb01jSUdkSFZDM0h3Y2M3VThsNklkNUt6eU9ONDRpOEM1cllsUzUzSElNVzZQMVFzREZxV1ptbDNSbFcwb3VKd1Exa2lnbGFteHF3M2xhWVMxNGdfaWVjUXNOeld1QmlVMU1yeXd0ZFNxTjVwVXM1V0kydmlvZkp4ZjFyZFVObm5ldW9TMDZYSG05Z3d0bjdMU080Uml2YUpIc21aT2ZVamg4cjU2WThj?oc=5",
+      "headline": "Corporate Announcements On The Bse - business-standard.com",
+      "body": "<a href=\"https://news.google.com/rss/articles/CBMiqgFBVV95cUxOU3lQNHk2UWdXUjhsWFVpSGdseE1QUjQwV21iQzk3OFlfUklBTVVxa0FtUFVMNWk4MmFyeFdlSnhhc2NqWGs4SWJDeklkamdQRUI0NDYtNVFZSlQyT3ZuZGZ1YllVLXlNVlctX3NCaWlGaEVCSDhvNzkxTDEySXdub180Sjd2Zm5tSkF6Z2Z2UWxSVWFlaHdWeTN4MzVTOEVlZ3d5MVZlbm9td9IBrwFBVV95cUxQb01jSUdkSFZDM0h3Y2M3VThsNklkNUt6eU9ONDRpOEM1cllsUzUzSElNVzZQMVFzREZxV1ptbDNSbFcwb3VKd1Exa2lnbGFteHF3M2xhWVMxNGdfaWVjUXNOeld1QmlVMU1yeXd0ZFNxTjVwVXM1V0kydmlvZkp4ZjFyZFVObm5ldW9TMDZYSG05Z3d0bjdMU080Uml2YUpIc21aT2ZVamg4cjU2WThj?oc=5\" target=\"_blank\">Corporate Announcements On The Bse</a> <font color=\"#6f6f6f\">business-standard.com</font>",
+      "source": {
+        "publisher": "BSE",
+        "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOU3lQNHk2UWdXUjhsWFVpSGdseE1QUjQwV21iQzk3OFlfUklBTVVxa0FtUFVMNWk4MmFyeFdlSnhhc2NqWGs4SWJDeklkamdQRUI0NDYtNVFZSlQyT3ZuZGZ1YllVLXlNVlctX3NCaWlGaEVCSDhvNzkxTDEySXdub180Sjd2Zm5tSkF6Z2Z2UWxSVWFlaHdWeTN4MzVTOEVlZ3d5MVZlbm9td9IBrwFBVV95cUxQb01jSUdkSFZDM0h3Y2M3VThsNklkNUt6eU9ONDRpOEM1cllsUzUzSElNVzZQMVFzREZxV1ptbDNSbFcwb3VKd1Exa2lnbGFteHF3M2xhWVMxNGdfaWVjUXNOeld1QmlVMU1yeXd0ZFNxTjVwVXM1V0kydmlvZkp4ZjFyZFVObm5ldW9TMDZYSG05Z3d0bjdMU080Uml2YUpIc21aT2ZVamg4cjU2WThj?oc=5",
+        "collectionMethod": "RSS"
+      },
+      "publishedAt": "2013-01-28T08:00:00.000Z",
+      "collectedAt": "2026-09-18T08:14:04.875Z",
+      "category": "Exchange",
+      "sentiment": "NEUTRAL",
+      "relevanceScore": 85,
+      "primaryCategory": "Exchange",
+      "secondaryCategories": [],
+      "eventType": "EXCHANGE_NOTICE",
+      "categoryConfidence": "HIGH",
+      "classificationEvidence": [
+        "[Exchange] Exchange regulatory/circular indicators matched in headline"
+      ],
+      "fno": {
+        "eligible": false,
+        "symbol": "BSE",
+        "confidence": "HIGH",
+        "decision": "EXCLUDE",
+        "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
+      },
+      "summary": "Summary unavailable — Open original source",
+      "whatChanged": [],
+      "keyMetrics": [],
+      "whyItMatters": "",
+      "marketImpact": "No actionable F&O setup from this article alone.",
+      "riskWatchpoints": [
+        "No explicit operational or financial risk factors identified in source text."
+      ],
+      "summaryConfidence": 75,
+      "summaryProcessingMode": "DETERMINISTIC"
+    },
+    "attempts": 0
+  }
+]

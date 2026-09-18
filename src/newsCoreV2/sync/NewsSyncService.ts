@@ -8,7 +8,7 @@ import { NewsArticleV2 } from "../domain/NewsArticle.ts";
 import { newsStore, PersistentNewsStore } from "../storage/PersistentNewsStore.ts";
 import { SummaryEngine } from "../summary/SummaryEngine.ts";
 import crypto from "crypto";
-import { LegacyWriterGuard } from "../../news/isolation/LegacyWriterGuard.ts";
+import { NewsCoreV2SyncGuard } from "../isolation/NewsCoreV2SyncGuard.ts";
 
 import { TelegramOutbox, TelegramOutboxEntry } from "../storage/TelegramOutbox.ts";
 
@@ -29,15 +29,20 @@ export class NewsSyncService {
   private timer: NodeJS.Timeout | null = null;
 
   // ... (existing constructor)
-  constructor(store?: PersistentNewsStore) {
-    this.collectorRegistry = new CollectorRegistry();
-    this.store = store || newsStore;
-    this.outbox = new TelegramOutbox();
+  constructor(arg1?: PersistentNewsStore | CollectorRegistry, arg2?: PersistentNewsStore, customOutbox?: TelegramOutbox) {
+    if (arg1 instanceof CollectorRegistry) {
+      this.collectorRegistry = arg1;
+      this.store = arg2 || newsStore;
+    } else {
+      this.collectorRegistry = new CollectorRegistry();
+      this.store = (arg1 as PersistentNewsStore) || newsStore;
+    }
+    this.outbox = customOutbox || new TelegramOutbox();
     this.startOutboxProcessor();
   }
 
   private startOutboxProcessor(): void {
-    setInterval(async () => {
+    const timer = setInterval(async () => {
       const entries = this.outbox.getEntries();
       for (const entry of entries) {
         // Implement retry logic with backoff
@@ -56,6 +61,9 @@ export class NewsSyncService {
         }
       }
     }, 60000); // Check outbox every minute
+    if (timer.unref) {
+      timer.unref();
+    }
   }
 
   public getStatus(): SyncStatusReport {
@@ -80,6 +88,10 @@ export class NewsSyncService {
   public startScheduler(): void {
     if (this.timer) {
       clearInterval(this.timer);
+    }
+    if (!NewsCoreV2SyncGuard.isSyncEnabled()) {
+      console.log("[NewsSyncService] Scheduler not started: ATHENA_NEWS_CORE_V2_SYNC_ENABLED=false");
+      return;
     }
     this.scheduleNextRun();
     this.timer = setInterval(() => {
@@ -110,8 +122,8 @@ export class NewsSyncService {
    * Executes a full synchronization pipeline with strict timeout protection and guaranteed terminal state.
    */
   public async runSync(): Promise<{ status: SyncState; itemsProcessed: number; newAdded: number }> {
-    if (!LegacyWriterGuard.isLegacyWritersEnabled()) {
-      console.log("[NewsSyncService] Legacy news sync skipped: ATHENA_LEGACY_WRITERS_ENABLED=false");
+    if (!NewsCoreV2SyncGuard.isSyncEnabled()) {
+      console.log("[NewsSyncService] News Core V2 sync skipped: ATHENA_NEWS_CORE_V2_SYNC_ENABLED=false");
       this.syncState = "IDLE";
       return { status: "IDLE", itemsProcessed: 0, newAdded: 0 };
     }

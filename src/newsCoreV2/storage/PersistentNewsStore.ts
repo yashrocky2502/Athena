@@ -4,7 +4,7 @@ import { NewsArticleV2 } from "../domain/NewsArticle";
 import { CanonicalDeduplicator } from "../deduplication/CanonicalDeduplicator";
 import { FNOEligibilityEngine } from "../fno/FNOEligibilityEngine";
 import { NewsClassifier } from "../classification/NewsClassifier";
-import { LegacyWriterGuard } from "../../news/isolation/LegacyWriterGuard";
+import { NewsCoreV2SyncGuard } from "../isolation/NewsCoreV2SyncGuard";
 
 export interface NewsStoreStats {
   storageCount: number;
@@ -139,8 +139,8 @@ export class PersistentNewsStore {
       return;
     }
 
-    if (!LegacyWriterGuard.isLegacyWritersEnabled()) {
-      console.log(`[PersistentNewsStore] Suppressed disk save to ${this.filePath} (ATHENA_LEGACY_WRITERS_ENABLED=false)`);
+    if (!NewsCoreV2SyncGuard.isSyncEnabled()) {
+      console.log(`[PersistentNewsStore] Suppressed disk save to ${this.filePath} (ATHENA_NEWS_CORE_V2_SYNC_ENABLED=false)`);
       return;
     }
 

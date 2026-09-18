@@ -119,11 +119,11 @@ export class NewsNormalizer {
    * Standardized article normalization method.
    */
   public static normalizeArticle(raw: Partial<NewsArticleV2>): NewsArticleV2 {
-    const headline = this.cleanText(raw.headline || "Untitled Market Report");
-    const body = this.cleanText(raw.body || raw.headline || "");
-    const publishedAt = this.normalizeDate(raw.publishedAt);
+    const headline = this.cleanText(raw.headline || "");
+    const body = this.cleanText(raw.body || headline);
+    const publishedAt = raw.publishedAt ? this.normalizeDate(raw.publishedAt) : (raw.collectedAt || new Date().toISOString());
     const canonicalUrl = this.normalizeCanonicalUrl(
-      raw.canonicalUrl || raw.source?.url || `https://athena.news/v2/${Date.now()}`
+      raw.canonicalUrl || raw.source?.url || ""
     );
     const id = raw.id || `v2_${CanonicalDeduplicator.generateContentHash(headline, canonicalUrl).slice(0, 16)}`;
     const fno = raw.fno || FNOEligibilityEngine.evaluate(headline, body);

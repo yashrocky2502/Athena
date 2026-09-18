@@ -15,6 +15,7 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { LegacyWriterGuard } from '../isolation/LegacyWriterGuard.ts';
+import { NewsCoreV2SyncGuard } from '../../newsCoreV2/isolation/NewsCoreV2SyncGuard.ts';
 import { NewsCanaryRouter } from '../canary/NewsCanaryRouter.ts';
 import { newsStore } from '../../newsCoreV2/storage/PersistentNewsStore.ts';
 import { newsSyncService } from '../../newsCoreV2/sync/NewsSyncService.ts';
@@ -37,10 +38,12 @@ describe('Stage 3.4: Legacy Writer Isolation & Canary Preparation Suite', () => 
 
     beforeEach(() => {
         LegacyWriterGuard.resetToDefault();
+        NewsCoreV2SyncGuard.resetToDefault();
     });
 
     afterEach(() => {
         LegacyWriterGuard.resetToDefault();
+        NewsCoreV2SyncGuard.resetToDefault();
     });
 
     it('1. LegacyWriterGuard defaults to true to preserve existing operations', () => {
@@ -55,8 +58,8 @@ describe('Stage 3.4: Legacy Writer Isolation & Canary Preparation Suite', () => 
         expect(LegacyWriterGuard.assertAllowed('TestOpDisabled')).toBe(false);
     });
 
-    it('3. NewsSyncService.runSync cleanly skips execution when legacy writers are disabled', async () => {
-        LegacyWriterGuard.setLegacyWritersEnabled(false);
+    it('3. NewsSyncService.runSync cleanly skips execution when News Core V2 sync is disabled', async () => {
+        NewsCoreV2SyncGuard.setSyncEnabled(false);
         
         const result = await newsSyncService.runSync();
         expect(result.status).toBe('IDLE');
@@ -72,7 +75,7 @@ describe('Stage 3.4: Legacy Writer Isolation & Canary Preparation Suite', () => 
 
         LegacyWriterGuard.setLegacyWritersEnabled(false);
 
-        // Attempt legacy sync run while isolated
+        // Attempt sync run while isolated
         await newsSyncService.runSync();
 
         const v2ShaAfter = computeSha256(v2StorePath);

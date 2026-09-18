@@ -16,12 +16,18 @@ import {
 export class CollectorRegistry {
   private collectors: NewsCollector[] = [];
 
-  constructor() {
-    this.registerDefaultCollectors();
+  constructor(loadDefaults: boolean = true) {
+    if (loadDefaults) {
+      this.registerDefaultCollectors();
+    }
   }
 
   public registerCollector(collector: NewsCollector): void {
     this.collectors.push(collector);
+  }
+
+  public register(collector: NewsCollector): void {
+    this.registerCollector(collector);
   }
 
   private registerDefaultCollectors(): void {

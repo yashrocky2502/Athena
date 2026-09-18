@@ -44,6 +44,7 @@ import { portfolioRouter } from "./src/news/portfolio/broker/portfolioRoutes.ts"
 import { newsSyncService } from "./src/newsCoreV2/sync/NewsSyncService.ts";
 import { newsStore } from "./src/newsCoreV2/storage/PersistentNewsStore.ts";
 import { LegacyWriterGuard } from "./src/news/isolation/LegacyWriterGuard.ts";
+import { NewsCoreV2SyncGuard } from "./src/newsCoreV2/isolation/NewsCoreV2SyncGuard.ts";
 import { healthMonitor } from "./src/news/monitoring/HealthMonitor.ts";
 
 
@@ -3094,8 +3095,10 @@ async function startServer() {
       await registry.initializeAll();
 
       // Kick off continuous background schedulers
-      if (process.env.ATHENA_LEGACY_WRITERS_ENABLED !== "false") {
+      if (LegacyWriterGuard.isLegacyWritersEnabled()) {
         runNewsSchedulerCycle();
+      }
+      if (NewsCoreV2SyncGuard.isSyncEnabled()) {
         newsSyncService.startScheduler();
       }
     } catch (err: any) {
