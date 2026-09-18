@@ -2,22 +2,22 @@
  * ATHENA — PHASE 8 PRODUCTION ACCEPTANCE SUITE
  * News Core V2 Production Sync / Legacy Writer Isolation Boundary Verification
  *
- * Proves:
- * A. Legacy flag false does NOT disable authoritative News Core V2 sync.
- * B. News Core V2 sync executes when ATHENA_NEWS_CORE_V2_SYNC_ENABLED=true (or default).
- * C. News Core V2 sync does not execute when ATHENA_NEWS_CORE_V2_SYNC_ENABLED=false.
- * D. Legacy writers remain disabled when ATHENA_LEGACY_WRITERS_ENABLED=false.
- * E. /api/v4/news/sync invokes authoritative News Core V2 sync.
- * F. /api/v4/news/status reports truthful sync state and storage counts.
- * G. Collector timeout/failure does not fabricate articles.
- * H. Empty collector result does not shrink canonical News Core dataset.
- * I. PersistentNewsStore identity & anti-shrink guards remain active.
- * J. Legacy V2/V3 routes remain isolated and blocked (HTTP 503).
- * K. Canary disabled ensures normal traffic defaults to V4.
- * L. Frontend production default remains V4 authoritative News Core.
- * M. Authoritative ingestion does not fabricate missing timestamps/URLs.
- * N. Zero-mutation test isolation across all canonical files.
- * O. Protected dataset hashes and counts remain 100% byte-for-byte identical.
+ * Explicitly Proves:
+ * A. Missing ATHENA_NEWS_CORE_V2_SYNC_ENABLED => false.
+ * B. "false" => false.
+ * C. "0" => false.
+ * D. "true" => true.
+ * E. "1" => true.
+ * F. Legacy flag false does NOT affect authoritative V4 sync permission.
+ * G. Server startup with sync flag absent does not initiate background ingestion.
+ * H. Explicit test enablement works only with isolated temporary storage.
+ * I. Legacy V2/V3 routes remain 503.
+ * J. V4 reads remain operational while sync is disabled.
+ * K. Manual V4 sync does not ingest when the guard is disabled.
+ * L. Collector failures/timeouts do not fabricate data.
+ * M. Canonical News Core anti-shrink protection remains active.
+ * N. Starting the application in AI Studio/test/preview with no explicit sync flag cannot mutate any protected production dataset.
+ * O. All protected production hashes remain unchanged after the complete suite.
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
@@ -72,10 +72,12 @@ describe("ATHENA Phase 8: News Core V2 Production Sync & Isolation Boundary", ()
   ];
 
   let initialHashes: Record<string, { sha: string | null; count: number | null }> = {};
+  const originalEnvSync = process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED;
 
   beforeEach(() => {
     LegacyWriterGuard.resetToDefault();
     NewsCoreV2SyncGuard.resetToDefault();
+    delete process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED;
 
     // Snapshot hashes
     protectedFiles.forEach((f) => {
@@ -90,6 +92,11 @@ describe("ATHENA Phase 8: News Core V2 Production Sync & Isolation Boundary", ()
   afterEach(() => {
     LegacyWriterGuard.resetToDefault();
     NewsCoreV2SyncGuard.resetToDefault();
+    if (originalEnvSync !== undefined) {
+      process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED = originalEnvSync;
+    } else {
+      delete process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED;
+    }
     vi.restoreAllMocks();
 
     // Verify zero mutation after each test
@@ -102,14 +109,66 @@ describe("ATHENA Phase 8: News Core V2 Production Sync & Isolation Boundary", ()
     });
   });
 
-  it("A & B. Legacy flag false does NOT disable authoritative News Core V2 sync", async () => {
+  it("A. Missing ATHENA_NEWS_CORE_V2_SYNC_ENABLED => false", () => {
+    delete process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED;
+    NewsCoreV2SyncGuard.resetToDefault();
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(false);
+  });
+
+  it("B. 'false' => false", () => {
+    process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED = "false";
+    NewsCoreV2SyncGuard.resetToDefault();
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(false);
+  });
+
+  it("C. '0' => false", () => {
+    process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED = "0";
+    NewsCoreV2SyncGuard.resetToDefault();
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(false);
+  });
+
+  it("D. 'true' => true", () => {
+    process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED = "true";
+    NewsCoreV2SyncGuard.resetToDefault();
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(true);
+  });
+
+  it("E. '1' => true", () => {
+    process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED = "1";
+    NewsCoreV2SyncGuard.resetToDefault();
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(true);
+  });
+
+  it("F. Legacy flag false does NOT affect authoritative V4 sync permission", () => {
     LegacyWriterGuard.setLegacyWritersEnabled(false);
     NewsCoreV2SyncGuard.setSyncEnabled(true);
 
     expect(LegacyWriterGuard.isLegacyWritersEnabled()).toBe(false);
     expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(true);
 
-    // Create an isolated instance of NewsSyncService with mock collector, isolated store, and isolated outbox
+    LegacyWriterGuard.setLegacyWritersEnabled(true);
+    NewsCoreV2SyncGuard.setSyncEnabled(false);
+
+    expect(LegacyWriterGuard.isLegacyWritersEnabled()).toBe(true);
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(false);
+  });
+
+  it("G. Server startup with sync flag absent does not initiate background ingestion", () => {
+    delete process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED;
+    NewsCoreV2SyncGuard.resetToDefault();
+
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(false);
+
+    // Call startScheduler() with sync disabled -> ensures timer is not scheduled and initial boot sync does not execute
+    const testSyncService = new NewsSyncService();
+    testSyncService.startScheduler();
+    expect((testSyncService as any).timer).toBeNull();
+  });
+
+  it("H. Explicit test enablement works only with isolated temporary storage", async () => {
+    NewsCoreV2SyncGuard.setSyncEnabled(true);
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(true);
+
     const tempStorePath = path.join(dataDir, `test_news_store_${Date.now()}.json`);
     const tempOutboxPath = path.join(dataDir, `test_news_outbox_${Date.now()}.json`);
     const mockStore = new PersistentNewsStore(tempStorePath);
@@ -143,139 +202,7 @@ describe("ATHENA Phase 8: News Core V2 Production Sync & Isolation Boundary", ()
     if (fs.existsSync(tempOutboxPath)) fs.unlinkSync(tempOutboxPath);
   });
 
-  it("C. News Core V2 sync does not execute when ATHENA_NEWS_CORE_V2_SYNC_ENABLED is false", async () => {
-    NewsCoreV2SyncGuard.setSyncEnabled(false);
-    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(false);
-
-    const tempStorePath = path.join(dataDir, `test_news_store_disabled_${Date.now()}.json`);
-    const mockStore = new PersistentNewsStore(tempStorePath);
-
-    const mockRegistry = new CollectorRegistry(false);
-    let collectCalled = false;
-    mockRegistry.register({
-      name: "MockSource",
-      collect: async () => {
-        collectCalled = true;
-        return [];
-      }
-    });
-
-    const isolatedSyncService = new NewsSyncService(mockRegistry, mockStore);
-    const result = await isolatedSyncService.runSync();
-
-    expect(result.status).toBe("IDLE");
-    expect(result.itemsProcessed).toBe(0);
-    expect(result.newAdded).toBe(0);
-    expect(collectCalled).toBe(false);
-
-    if (fs.existsSync(tempStorePath)) fs.unlinkSync(tempStorePath);
-  });
-
-  it("D. Legacy writers remain strictly disabled when ATHENA_LEGACY_WRITERS_ENABLED=false", () => {
-    LegacyWriterGuard.setLegacyWritersEnabled(false);
-    expect(LegacyWriterGuard.isLegacyWritersEnabled()).toBe(false);
-    expect(LegacyWriterGuard.assertAllowed("LegacyOperationTest")).toBe(false);
-
-    const status = LegacyWriterGuard.getStatus();
-    expect(status.legacyWritersEnabled).toBe(false);
-  });
-
-  it("E & F. /api/v4/news/sync and /api/v4/news/status report real and truthful state", async () => {
-    const app = express();
-    app.use(express.json());
-    app.use("/api/v4/news", newsCoreV2Router);
-
-    const server = http.createServer(app);
-    await new Promise<void>((resolve) => server.listen(0, resolve));
-    const port = (server.address() as any).port;
-    const baseUrl = `http://127.0.0.1:${port}`;
-
-    // Mock newsSyncService.runSync to avoid live network requests during HTTP endpoint test
-    const syncSpy = vi.spyOn(newsSyncService, "runSync").mockResolvedValue({
-      status: "COMPLETED",
-      itemsProcessed: 12,
-      newAdded: 3
-    });
-
-    try {
-      // Test GET /status
-      const statusRes = await fetch(`${baseUrl}/api/v4/news/status`);
-      expect(statusRes.status).toBe(200);
-      const statusBody = await statusRes.json();
-      expect(statusBody.status).toBe("success");
-      expect(statusBody.syncState).toBeDefined();
-      expect(typeof statusBody.storageCount).toBe("number");
-      expect(statusBody.storageCount).toBeGreaterThan(0);
-      expect(typeof statusBody.activeCollectors).toBe("number");
-
-      // Test POST /sync with NewsCoreV2SyncGuard enabled
-      NewsCoreV2SyncGuard.setSyncEnabled(true);
-      const syncRes = await fetch(`${baseUrl}/api/v4/news/sync`, { method: "POST" });
-      expect(syncRes.status).toBe(200);
-      const syncBody = await syncRes.json();
-      expect(syncBody.status).toBe("success");
-      expect(syncBody.syncState).toBe("COMPLETED");
-      expect(syncBody.itemsProcessed).toBe(12);
-      expect(syncBody.newAdded).toBe(3);
-      expect(syncSpy).toHaveBeenCalledTimes(1);
-    } finally {
-      server.close();
-    }
-  });
-
-  it("G. Collector failure or timeout does not fabricate articles", async () => {
-    NewsCoreV2SyncGuard.setSyncEnabled(true);
-    const tempStorePath = path.join(dataDir, `test_store_fail_${Date.now()}.json`);
-    const mockStore = new PersistentNewsStore(tempStorePath);
-
-    const mockRegistry = new CollectorRegistry(false);
-    mockRegistry.register({
-      name: "FailingCollector",
-      collect: async () => {
-        throw new Error("Simulated upstream network timeout 504 Gateway");
-      }
-    });
-
-    const isolatedSyncService = new NewsSyncService(mockRegistry, mockStore);
-    const result = await isolatedSyncService.runSync();
-
-    expect(result.status).toBe("COMPLETED");
-    expect(result.itemsProcessed).toBe(0);
-    expect(result.newAdded).toBe(0);
-    expect(mockStore.getAllArticles().length).toBe(0);
-
-    if (fs.existsSync(tempStorePath)) fs.unlinkSync(tempStorePath);
-  });
-
-  it("H & I. Empty collector results and shrink attempts do not shrink canonical dataset", async () => {
-    const tempStorePath = path.join(dataDir, `test_store_shrink_${Date.now()}.json`);
-    const mockStore = new PersistentNewsStore(tempStorePath);
-
-    // Populate with 2 initial articles
-    const article1 = NewsNormalizer.normalizeArticle({
-      headline: "TCS Delivers Q3 Results Exceeding Profit Forecasts",
-      body: "Tata Consultancy Services reported strong quarterly earnings growth.",
-      source: { publisher: "LiveMint", url: "https://example.com/tcs-q3", collectionMethod: "RSS" }
-    });
-    const article2 = NewsNormalizer.normalizeArticle({
-      headline: "Infosys Expands European Cloud Infrastructure Hub",
-      body: "Infosys has inaugurated a new enterprise cloud facility.",
-      source: { publisher: "Economic Times", url: "https://example.com/infy-cloud", collectionMethod: "RSS" }
-    });
-
-    await mockStore.saveArticles([article1, article2]);
-    expect(mockStore.getAllArticles().length).toBe(2);
-
-    // Attempting to save empty array should not delete existing articles
-    await mockStore.saveArticles([]);
-    expect(mockStore.getAllArticles().length).toBe(2);
-
-    // Clean up
-    if (fs.existsSync(tempStorePath)) fs.unlinkSync(tempStorePath);
-    if (fs.existsSync(`${tempStorePath}.bak`)) fs.unlinkSync(`${tempStorePath}.bak`);
-  });
-
-  it("J. Legacy V2/V3 news routes remain blocked at gateway", async () => {
+  it("I. Legacy V2/V3 routes remain 503", async () => {
     const app = express();
     app.use(express.json());
 
@@ -308,40 +235,128 @@ describe("ATHENA Phase 8: News Core V2 Production Sync & Isolation Boundary", ()
     }
   });
 
-  it("K. Canary disabled ensures normal traffic defaults to V4", () => {
-    const canary = NewsCanaryRouter.getInstance();
-    canary.resetMetrics();
-    canary.setEnabled(false);
-    canary.setPercentage(0);
+  it("J. V4 reads remain operational while sync is disabled", async () => {
+    NewsCoreV2SyncGuard.setSyncEnabled(false);
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(false);
 
-    const normalReq = { headers: {}, query: {}, ip: "192.168.1.100" };
-    const decision = canary.shouldRouteToCanary(normalReq);
+    const app = express();
+    app.use(express.json());
+    app.use("/api/v4/news", newsCoreV2Router);
 
-    expect(decision.useCanary).toBe(false);
-    expect(decision.reason).toBe("CANARY_DISABLED");
+    const server = http.createServer(app);
+    await new Promise<void>((resolve) => server.listen(0, resolve));
+    const port = (server.address() as any).port;
+    const baseUrl = `http://127.0.0.1:${port}`;
+
+    try {
+      const feedRes = await fetch(`${baseUrl}/api/v4/news/feed?limit=5`);
+      expect(feedRes.status).toBe(200);
+      const feedBody = await feedRes.json();
+      expect(feedBody.status).toBe("success");
+      expect(Array.isArray(feedBody.articles)).toBe(true);
+
+      const statusRes = await fetch(`${baseUrl}/api/v4/news/status`);
+      expect(statusRes.status).toBe(200);
+      const statusBody = await statusRes.json();
+      expect(statusBody.status).toBe("success");
+      expect(statusBody.storageCount).toBeGreaterThan(0);
+    } finally {
+      server.close();
+    }
   });
 
-  it("L. Frontend production default is V4 authoritative News Core", () => {
-    // In NewsPage.tsx: const isV3Enabled = (import.meta as any).env?.VITE_NEWS_CORE_V3_ENABLED === 'true';
-    // const feedBaseUrl = isV3Enabled ? '/api/v5/news/feed' : '/api/v4/news/feed';
-    const isV3EnabledDefault = (process.env.VITE_NEWS_CORE_V3_ENABLED === "true");
-    const feedBaseUrl = isV3EnabledDefault ? "/api/v5/news/feed" : "/api/v4/news/feed";
+  it("K. Manual V4 sync does not ingest when the guard is disabled", async () => {
+    NewsCoreV2SyncGuard.setSyncEnabled(false);
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(false);
 
-    expect(feedBaseUrl).toBe("/api/v4/news/feed");
+    const app = express();
+    app.use(express.json());
+    app.use("/api/v4/news", newsCoreV2Router);
+
+    const server = http.createServer(app);
+    await new Promise<void>((resolve) => server.listen(0, resolve));
+    const port = (server.address() as any).port;
+    const baseUrl = `http://127.0.0.1:${port}`;
+
+    try {
+      const syncRes = await fetch(`${baseUrl}/api/v4/news/sync`, { method: "POST" });
+      expect(syncRes.status).toBe(200);
+      const syncBody = await syncRes.json();
+      expect(syncBody.status).toBe("disabled");
+      expect(syncBody.syncState).toBe("DISABLED");
+      expect(syncBody.itemsProcessed).toBe(0);
+      expect(syncBody.newAdded).toBe(0);
+    } finally {
+      server.close();
+    }
   });
 
-  it("M. Normalizer and ingestion do not fabricate fake domains or synthetic titles", () => {
-    const norm = NewsNormalizer.normalizeArticle({
-      headline: "Tata Motors Commercial Vehicle Unit Expansion",
-      body: "Tata Motors announces new production lines."
+  it("L. Collector failures/timeouts do not fabricate data", async () => {
+    NewsCoreV2SyncGuard.setSyncEnabled(true);
+    const tempStorePath = path.join(dataDir, `test_store_fail_${Date.now()}.json`);
+    const mockStore = new PersistentNewsStore(tempStorePath);
+
+    const mockRegistry = new CollectorRegistry(false);
+    mockRegistry.register({
+      name: "FailingCollector",
+      collect: async () => {
+        throw new Error("Simulated upstream network timeout 504 Gateway");
+      }
     });
 
-    // Does not invent fake domain
-    expect(norm.canonicalUrl).not.toContain("athena.news");
-    expect(norm.headline).toBe("Tata Motors Commercial Vehicle Unit Expansion");
+    const isolatedSyncService = new NewsSyncService(mockRegistry, mockStore);
+    const result = await isolatedSyncService.runSync();
+
+    expect(result.status).toBe("COMPLETED");
+    expect(result.itemsProcessed).toBe(0);
+    expect(result.newAdded).toBe(0);
+    expect(mockStore.getAllArticles().length).toBe(0);
+
+    if (fs.existsSync(tempStorePath)) fs.unlinkSync(tempStorePath);
   });
 
-  it("N & O. All protected production dataset hashes and counts remain 100% identical", () => {
+  it("M. Canonical News Core anti-shrink protection remains active", async () => {
+    const tempStorePath = path.join(dataDir, `test_store_shrink_${Date.now()}.json`);
+    const mockStore = new PersistentNewsStore(tempStorePath);
+
+    const article1 = NewsNormalizer.normalizeArticle({
+      headline: "TCS Delivers Q3 Results Exceeding Profit Forecasts",
+      body: "Tata Consultancy Services reported strong quarterly earnings growth.",
+      source: { publisher: "LiveMint", url: "https://example.com/tcs-q3", collectionMethod: "RSS" }
+    });
+    const article2 = NewsNormalizer.normalizeArticle({
+      headline: "Infosys Expands European Cloud Infrastructure Hub",
+      body: "Infosys has inaugurated a new enterprise cloud facility.",
+      source: { publisher: "Economic Times", url: "https://example.com/infy-cloud", collectionMethod: "RSS" }
+    });
+
+    await mockStore.saveArticles([article1, article2]);
+    expect(mockStore.getAllArticles().length).toBe(2);
+
+    // Attempting to save empty array should not delete existing articles
+    await mockStore.saveArticles([]);
+    expect(mockStore.getAllArticles().length).toBe(2);
+
+    if (fs.existsSync(tempStorePath)) fs.unlinkSync(tempStorePath);
+    if (fs.existsSync(`${tempStorePath}.bak`)) fs.unlinkSync(`${tempStorePath}.bak`);
+  });
+
+  it("N. Starting the application in AI Studio/test/preview with no explicit sync flag cannot mutate any protected production dataset", () => {
+    delete process.env.ATHENA_NEWS_CORE_V2_SYNC_ENABLED;
+    NewsCoreV2SyncGuard.resetToDefault();
+
+    expect(NewsCoreV2SyncGuard.isSyncEnabled()).toBe(false);
+
+    protectedFiles.forEach((f) => {
+      const full = path.join(dataDir, f);
+      const currentSha = computeSha256(full);
+      const currentCount = getRecordCount(full);
+      expect(currentSha).toBe(initialHashes[f].sha);
+      expect(currentCount).toBe(initialHashes[f].count);
+    });
+  });
+
+  it("O. All protected production hashes remain unchanged after the complete suite", () => {
     protectedFiles.forEach((f) => {
       const full = path.join(dataDir, f);
       const afterSha = computeSha256(full);

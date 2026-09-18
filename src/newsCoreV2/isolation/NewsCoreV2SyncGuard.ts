@@ -3,12 +3,20 @@
  *
  * Dedicated runtime and environment control for authoritative News Core V2 ingestion and synchronization.
  *
- * Environment Variable: ATHENA_NEWS_CORE_V2_SYNC_ENABLED (default: false)
- * When strictly "true" or "1", authoritative News Core V2 collectors and sync pipeline operate normally.
- * When absent or any other value, News Core V2 sync is cleanly bypassed without affecting read paths.
- * This ensures that in non-production, test, or preview environments, background synchronization is disabled by default.
+ * Semantics:
+ * - When ATHENA_NEWS_CORE_V2_SYNC_ENABLED is exactly "true" or "1": returns true
+ * - When absent: returns false
+ * - When "false" or "0": returns false
+ * - Any other value: returns false
  *
- * Completely separated from ATHENA_LEGACY_WRITERS_ENABLED (which controls legacy V2/V3/RSS writers).
+ * Environment rules:
+ * - Development / Test / Preview / AI Studio: sync disabled unless explicitly enabled.
+ * - Production: sync must also be explicitly enabled through ATHENA_NEWS_CORE_V2_SYNC_ENABLED=true or "1".
+ *
+ * Independent isolation boundary:
+ * - Completely separated from ATHENA_LEGACY_WRITERS_ENABLED.
+ * - ATHENA_LEGACY_WRITERS_ENABLED controls legacy V2/V3/RSS writers.
+ * - ATHENA_NEWS_CORE_V2_SYNC_ENABLED controls authoritative News Core V2 ingestion and background scheduling.
  */
 
 export class NewsCoreV2SyncGuard {
