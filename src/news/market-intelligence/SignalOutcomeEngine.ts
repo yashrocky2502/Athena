@@ -92,7 +92,7 @@ export interface ForensicTimelineEvent {
 }
 
 export interface SignalOutcomeRecord {
-  signalId: string; // Primary identity: ${eventId}::${signalType}::${symbol}::rev${revision}
+  signalId: string; // Canonical identity: ${eventId}::${signalType}::${revision} (or legacy 4-part alias for historical records)
   eventId?: string;
   signalType: string;
   symbol: string;
@@ -247,6 +247,7 @@ export interface OutcomeTelemetry {
   averageEvaluationLatencyMs: number;
   evaluationLatencyMs: number;
   observationsProcessed: number;
+  unlinkedLifecycleUpdates?: number;
   aiCalls: 0;
   aiCallCount: 0; // Strictly zero AI calls
 }
@@ -256,6 +257,7 @@ export class SignalOutcomeEngine {
   private readonly storagePath: string;
   private readonly backupPath: string;
   private outcomes: Map<string, SignalOutcomeRecord> = new Map();
+  private aliasMap: Map<string, string> = new Map();
   private observationStore: Map<string, MarketObservationTick[]> = new Map();
   
   // Telemetry metrics
@@ -266,6 +268,7 @@ export class SignalOutcomeEngine {
   private insufficientDataOutcomesCount: number = 0;
   private aggregationExecutionsCount: number = 0;
   private totalEvaluationLatencyMs: number = 0;
+  private unlinkedLifecycleUpdateCount: number = 0;
 
   private isSaving: boolean = false;
 
@@ -316,6 +319,7 @@ export class SignalOutcomeEngine {
 
   public clear(): void {
     this.outcomes.clear();
+    this.aliasMap.clear();
     this.observationStore.clear();
     this.outcomeEvaluationsCount = 0;
     this.marketObservationsConsumedCount = 0;
@@ -324,7 +328,44 @@ export class SignalOutcomeEngine {
     this.insufficientDataOutcomesCount = 0;
     this.aggregationExecutionsCount = 0;
     this.totalEvaluationLatencyMs = 0;
+    this.unlinkedLifecycleUpdateCount = 0;
     this.saveToStorage();
+  }
+
+  /**
+   * Register bidirectional lookup aliases between canonical 3-part ID and legacy 4-part ID.
+   */
+  private registerAliases(record: SignalOutcomeRecord): void {
+    if (!record || !record.eventId || !record.signalType) return;
+    const revision = record.revision || 1;
+    const canonicalKey = `${record.eventId}::${record.signalType}::${revision}`;
+    const legacyKey = `${record.eventId}::${record.signalType}::${record.symbol}::rev${revision}`;
+
+    if (record.signalId !== canonicalKey) {
+      this.aliasMap.set(canonicalKey, record.signalId);
+    }
+    if (record.signalId !== legacyKey) {
+      this.aliasMap.set(legacyKey, record.signalId);
+    }
+  }
+
+  /**
+   * Resolves a SignalOutcomeRecord by exact signalId or through compatibility alias map.
+   */
+  private resolveRecord(id: string): SignalOutcomeRecord | undefined {
+    if (!id) return undefined;
+    const direct = this.outcomes.get(id);
+    if (direct) return direct;
+
+    const aliasedId = this.aliasMap.get(id);
+    if (aliasedId) {
+      return this.outcomes.get(aliasedId);
+    }
+    return undefined;
+  }
+
+  public getUnlinkedLifecycleUpdateCount(): number {
+    return this.unlinkedLifecycleUpdateCount;
   }
 
   /**
@@ -332,6 +373,7 @@ export class SignalOutcomeEngine {
    */
   public recordOutcome(record: SignalOutcomeRecord): void {
     this.outcomes.set(record.signalId, record);
+    this.registerAliases(record);
     if (record.isResolved) {
       this.completedOutcomesCount++;
     } else {
@@ -372,11 +414,16 @@ export class SignalOutcomeEngine {
   }): SignalOutcomeRecord {
     const startTime = Date.now();
     const revision = signal.revision || 1;
+    // Canonical format: ${eventId}::${signalType}::${revision}
+    // If canonical signalId is provided upstream (e.g. from Fusion/Lifecycle), use it directly.
+    // If omitted, fallback to legacy 4-part synthesis for compatibility with legacy test callers.
     const signalId = signal.signalId || `${signal.eventId}::${signal.signalType}::${signal.symbol}::rev${revision}`;
     const generatedAt = signal.generatedAt || new Date().toISOString();
 
-    if (this.outcomes.has(signalId)) {
-      return this.outcomes.get(signalId)!;
+    // Idempotent registration: return existing record if already registered under signalId or alias
+    const existing = this.resolveRecord(signalId);
+    if (existing) {
+      return existing;
     }
 
     const direction = signal.direction || 'BULLISH';
@@ -454,6 +501,7 @@ export class SignalOutcomeEngine {
     };
 
     this.outcomes.set(signalId, newRecord);
+    this.registerAliases(newRecord);
     this.saveToStorage();
 
     const latency = Date.now() - startTime;
@@ -470,7 +518,7 @@ export class SignalOutcomeEngine {
     const startTime = Date.now();
     this.outcomeEvaluationsCount++;
 
-    const record = this.outcomes.get(signalId);
+    const record = this.resolveRecord(signalId);
     if (!record) {
       throw new Error(`Signal outcome record not found for id: ${signalId}`);
     }
@@ -903,8 +951,12 @@ export class SignalOutcomeEngine {
     reason?: string,
     contradictionDetected: boolean = false
   ): SignalOutcomeRecord | null {
-    const record = this.outcomes.get(signalId);
-    if (!record) return null;
+    const record = this.resolveRecord(signalId);
+    if (!record) {
+      this.unlinkedLifecycleUpdateCount++;
+      console.warn(`[SignalOutcomeEngine] updateSignalLifecycleState: Outcome record not found for signalId: "${signalId}". No state update applied.`);
+      return null;
+    }
 
     record.signalLifecycleState = state;
     if (contradictionDetected) {
@@ -1144,7 +1196,7 @@ export class SignalOutcomeEngine {
   // ==========================================
 
   public getOutcomeRecord(signalId: string): SignalOutcomeRecord | null {
-    return this.outcomes.get(signalId) || null;
+    return this.resolveRecord(signalId) || null;
   }
 
   public getAllOutcomeRecords(filter?: {
@@ -1211,6 +1263,7 @@ export class SignalOutcomeEngine {
       averageEvaluationLatencyMs: avgLatency,
       evaluationLatencyMs: avgLatency,
       observationsProcessed: this.marketObservationsConsumedCount,
+      unlinkedLifecycleUpdates: this.unlinkedLifecycleUpdateCount,
       aiCalls: 0,
       aiCallCount: 0
     };
@@ -1300,9 +1353,11 @@ export class SignalOutcomeEngine {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed)) {
             this.outcomes.clear();
+            this.aliasMap.clear();
             for (const item of parsed) {
               if (item && item.signalId) {
                 this.outcomes.set(item.signalId, item);
+                this.registerAliases(item);
               }
             }
             hydratedFromPrimary = true;
@@ -1320,9 +1375,11 @@ export class SignalOutcomeEngine {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed)) {
             this.outcomes.clear();
+            this.aliasMap.clear();
             for (const item of parsed) {
               if (item && item.signalId) {
                 this.outcomes.set(item.signalId, item);
+                this.registerAliases(item);
               }
             }
           }

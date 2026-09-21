@@ -537,6 +537,7 @@ export class SignalLifecycleEngine {
         : ((fDir === 'NEGATIVE' || fDir === 'BEARISH') ? 'BEARISH' : 'NEUTRAL');
       
       SignalOutcomeEngine.getInstance().registerActionableSignal({
+        signalId: lifecycle.signalId,
         eventId: signal.eventId,
         signalType: signal.signalType,
         symbol: signal.symbol,
@@ -554,13 +555,18 @@ export class SignalLifecycleEngine {
         sourceTier: ((signal as any).sourceCount && (signal as any).sourceCount > 1) ? 'multi-source' : 'Tier 1'
       });
 
-      SignalOutcomeEngine.getInstance().updateSignalLifecycleState(
+      const updatedOutcome = SignalOutcomeEngine.getInstance().updateSignalLifecycleState(
         lifecycle.signalId,
         lifecycle.currentState,
         invalidationReason || `Lifecycle state evaluated as ${lifecycle.currentState}`,
         lifecycle.contradictionDetected
       );
-    } catch {}
+      if (!updatedOutcome) {
+        console.warn(`[SignalLifecycleEngine] updateSignalLifecycleState returned null for signalId: ${lifecycle.signalId}`);
+      }
+    } catch (outcomeErr) {
+      console.warn(`[SignalLifecycleEngine] Failed to synchronize outcome for signalId ${lifecycle.signalId}:`, outcomeErr);
+    }
 
     lifecycle.lastUpdated = nowStr;
     this.persist();
@@ -723,6 +729,13 @@ export class SignalLifecycleEngine {
   }
 
   /**
+   * Get a specific lifecycle by canonical signalId
+   */
+  public getLifecycle(signalId: string): SignalLifecycle | undefined {
+    return this.lifecycles.get(signalId);
+  }
+
+  /**
    * Returns outcome ledger history
    */
   public getHistoricalLedger(): HistoricalOutcome[] {
@@ -805,13 +818,18 @@ export class SignalLifecycleEngine {
     }
 
     try {
-      SignalOutcomeEngine.getInstance().updateSignalLifecycleState(
+      const updatedOutcome = SignalOutcomeEngine.getInstance().updateSignalLifecycleState(
         lc.signalId,
         'INVALIDATED',
         reason || 'Manual Operator Invalidation',
         false
       );
-    } catch {}
+      if (!updatedOutcome) {
+        console.warn(`[SignalLifecycleEngine] manualInvalidation: Outcome record not found for signalId: ${lc.signalId}`);
+      }
+    } catch (outcomeErr) {
+      console.warn(`[SignalLifecycleEngine] manualInvalidation error for signalId ${lc.signalId}:`, outcomeErr);
+    }
 
     this.persist();
     return true;
