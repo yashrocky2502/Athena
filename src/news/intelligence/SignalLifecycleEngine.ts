@@ -530,7 +530,8 @@ export class SignalLifecycleEngine {
 
     // Phase 10.8: Register or update SignalOutcomeEngine
     try {
-      const initialPrice = (confirmation as any)?.quote?.price || confirmation?.priceReaction?.percentagePriceChange || (signal as any).marketPrice || 100;
+      const rawPrice = (confirmation as any)?.quote?.price ?? (signal as any).marketPrice ?? (signal as any).initialPrice;
+      const initialPrice = (typeof rawPrice === 'number' && isFinite(rawPrice) && rawPrice > 0) ? rawPrice : undefined;
       const fDir = signal.fundamentalDirection as string;
       const dir = (fDir === 'POSITIVE' || fDir === 'BULLISH')
         ? 'BULLISH'

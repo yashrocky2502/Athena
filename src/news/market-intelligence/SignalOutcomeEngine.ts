@@ -11,6 +11,7 @@
 import fs from 'fs';
 import path from 'path';
 import { SignalLifecycleState } from '../intelligence/SignalLifecycleEngine.ts';
+import type { IMarketObservationIngestor } from '../market-data/ObservationTrustBridge.ts';
 
 export type SignalOutcomeType =
   | 'TARGET_REACHED'
@@ -45,15 +46,73 @@ export type MarketRegimeType =
 
 export type MarketSessionType = 'PRE_MARKET' | 'REGULAR_MARKET' | 'POST_MARKET' | 'CLOSED';
 
+export type ObservationProvenanceSource =
+  | 'REAL_EXCHANGE'
+  | 'BROKER_FEED'
+  | 'APPROVED_MARKET_PROVIDER'
+  | 'MANUAL_INTERNAL'
+  | 'SYNTHETIC_TEST';
+
+export interface ObservationProvenance {
+  sourceType: ObservationProvenanceSource;
+  provider: string; // e.g. 'NSE', 'BSE', 'ZERODHA', 'YAHOO_FINANCE', 'MANUAL_OPERATOR', 'TEST_HARNESS'
+  exchange?: string;
+  sourceConfidence?: number; // 0.0 to 1.0
+  verifiedAt?: string;
+  feedTimestamp?: string;
+  traceId?: string;
+  operatorId?: string;
+  manualReason?: string;
+  notes?: string;
+}
+
 export interface MarketObservationTick {
+  signalId?: string;
+  symbol?: string; // Optional on input for legacy callers, normalized in engine
   timestamp: string; // ISO string
   price: number;
   high?: number;
   low?: number;
   volume?: number;
+  provenance?: ObservationProvenance | ObservationProvenanceSource;
+  dedupKey?: string;
 }
 
 export type PriceObservation = MarketObservationTick;
+
+export interface ObservationValidationError {
+  field: string;
+  message: string;
+  code:
+    | 'MISSING_TIMESTAMP'
+    | 'INVALID_TIMESTAMP'
+    | 'FUTURE_TIMESTAMP'
+    | 'FUTURE_TIMESTAMP_DRIFT'
+    | 'NON_FINITE_PRICE'
+    | 'NON_POSITIVE_PRICE'
+    | 'INVALID_PRICE'
+    | 'INVALID_HIGH_LOW_BOUNDS'
+    | 'PRICE_EXCEEDS_HIGH_BOUND'
+    | 'PRICE_BELOW_LOW_BOUND'
+    | 'MISSING_SIGNAL_ID'
+    | 'UNKNOWN_SIGNAL'
+    | 'SIGNAL_NOT_FOUND'
+    | 'SYMBOL_MISMATCH'
+    | 'MISSING_PROVENANCE'
+    | 'UNSUPPORTED_PROVENANCE'
+    | 'INVALID_PROVENANCE_SOURCE'
+    | 'MALFORMED_OBSERVATION_ARRAY'
+    | 'MALFORMED_OBSERVATION_OBJECT'
+    | 'MISSING_SYMBOL';
+  index?: number;
+  value?: any;
+}
+
+export interface ObservationValidationResult {
+  isValid: boolean;
+  errors: ObservationValidationError[];
+  validatedTicks: MarketObservationTick[];
+}
 
 export interface TimeBucketEvaluation {
   bucket: '5m' | '15m' | '30m' | '60m' | '1session' | '1d' | '3d' | '5d';
@@ -74,6 +133,7 @@ export interface ForensicTimelineEvent {
   eventType:
     | 'SIGNAL_GENERATED'
     | 'MARKET_OBSERVATION'
+    | 'MANUAL_MARKET_OBSERVATION'
     | 'LIFECYCLE_CHANGE'
     | 'LIFECYCLE_TRANSITION'
     | 'MFE_EXPANSION'
@@ -105,6 +165,8 @@ export interface SignalOutcomeRecord {
   priority?: PriorityTier | string;
   initialAlignment?: string;
   signalLifecycleState?: SignalLifecycleState | string;
+  isProductionRecord?: boolean;
+  isMissingInitialPrice?: boolean;
   
   // Categorical dimensions
   direction?: 'BULLISH' | 'BEARISH' | 'NEUTRAL';
@@ -252,7 +314,7 @@ export interface OutcomeTelemetry {
   aiCallCount: 0; // Strictly zero AI calls
 }
 
-export class SignalOutcomeEngine {
+export class SignalOutcomeEngine implements IMarketObservationIngestor {
   private static instance: SignalOutcomeEngine;
   private readonly storagePath: string;
   private readonly backupPath: string;
@@ -281,6 +343,22 @@ export class SignalOutcomeEngine {
     const prodPrimary = path.resolve(path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json'));
     const prodBackup = path.resolve(path.join(process.cwd(), 'data', 'market_intelligence_outcomes.json.bak'));
     return normalized === prodPrimary || normalized === prodBackup;
+  }
+
+  public isProductionActive(): boolean {
+    return SignalOutcomeEngine.isProductionStoragePath(this.storagePath) || process.env.NODE_ENV === 'production';
+  }
+
+  public getStoragePath(): string {
+    return this.storagePath;
+  }
+
+  public getBackupPath(): string {
+    return this.backupPath;
+  }
+
+  public getRecord(signalId: string): SignalOutcomeRecord | undefined {
+    return this.resolveRecord(signalId);
   }
 
   public constructor(customStoragePath?: string, customBackupPath?: string) {
@@ -382,6 +460,301 @@ export class SignalOutcomeEngine {
     this.saveToStorage();
   }
 
+  /**
+   * Validates a single incoming market observation tick against strict integrity rules.
+   */
+  public validateObservationTick(
+    recordOrSignalId: SignalOutcomeRecord | string,
+    obs: any,
+    index?: number,
+    options?: { allowLegacyFallback?: boolean }
+  ): { isValid: boolean; error?: ObservationValidationError; normalized?: MarketObservationTick } {
+    const record = typeof recordOrSignalId === 'string'
+      ? this.resolveRecord(recordOrSignalId)
+      : recordOrSignalId;
+
+    if (!record) {
+      return {
+        isValid: false,
+        error: {
+          field: 'signalId',
+          message: `Signal outcome record not found for: ${typeof recordOrSignalId === 'string' ? recordOrSignalId : 'unknown'}`,
+          code: 'SIGNAL_NOT_FOUND',
+          index
+        }
+      };
+    }
+
+    if (!obs || typeof obs !== 'object') {
+      return {
+        isValid: false,
+        error: {
+          field: 'observation',
+          message: 'Observation item must be a non-null object',
+          code: 'MALFORMED_OBSERVATION_OBJECT',
+          index,
+          value: obs
+        }
+      };
+    }
+
+    // 1. Missing timestamp
+    if (!obs.timestamp || typeof obs.timestamp !== 'string') {
+      return {
+        isValid: false,
+        error: {
+          field: 'timestamp',
+          message: 'Observation timestamp is required and must be an ISO string',
+          code: 'MISSING_TIMESTAMP',
+          index,
+          value: obs.timestamp
+        }
+      };
+    }
+
+    // 2. Invalid timestamp
+    const timeMs = new Date(obs.timestamp).getTime();
+    if (isNaN(timeMs)) {
+      return {
+        isValid: false,
+        error: {
+          field: 'timestamp',
+          message: `Observation timestamp '${obs.timestamp}' is not a valid date`,
+          code: 'INVALID_TIMESTAMP',
+          index,
+          value: obs.timestamp
+        }
+      };
+    }
+
+    // 3. Future timestamp (1 minute drift tolerance unless legacy test fallback is explicitly permitted)
+    const now = Date.now();
+    const allowFutureDrift = !this.isProductionActive() && options?.allowLegacyFallback === true;
+    if (!allowFutureDrift && timeMs > now + 60000) {
+      return {
+        isValid: false,
+        error: {
+          field: 'timestamp',
+          message: `Observation timestamp '${obs.timestamp}' is in the future (>60s drift)`,
+          code: 'FUTURE_TIMESTAMP_DRIFT',
+          index,
+          value: obs.timestamp
+        }
+      };
+    }
+
+    // 4. Non-finite / non-positive price
+    if (typeof obs.price !== 'number' || !isFinite(obs.price) || obs.price <= 0) {
+      return {
+        isValid: false,
+        error: {
+          field: 'price',
+          message: `Observation price must be a finite number strictly greater than 0, received ${obs.price}`,
+          code: 'INVALID_PRICE',
+          index,
+          value: obs.price
+        }
+      };
+    }
+
+    // 5. High / Low bounds check
+    const high = typeof obs.high === 'number' && isFinite(obs.high) ? obs.high : undefined;
+    const low = typeof obs.low === 'number' && isFinite(obs.low) ? obs.low : undefined;
+
+    if (high !== undefined && low !== undefined && low > high) {
+      return {
+        isValid: false,
+        error: {
+          field: 'high_low',
+          message: `Observation low price (${low}) cannot exceed high price (${high})`,
+          code: 'INVALID_HIGH_LOW_BOUNDS',
+          index,
+          value: { high, low }
+        }
+      };
+    }
+
+    if (high !== undefined && obs.price > high) {
+      return {
+        isValid: false,
+        error: {
+          field: 'high',
+          message: `Observation price (${obs.price}) exceeds specified high (${high})`,
+          code: 'PRICE_EXCEEDS_HIGH_BOUND',
+          index,
+          value: { price: obs.price, high }
+        }
+      };
+    }
+
+    if (low !== undefined && obs.price < low) {
+      return {
+        isValid: false,
+        error: {
+          field: 'low',
+          message: `Observation price (${obs.price}) is below specified low (${low})`,
+          code: 'PRICE_BELOW_LOW_BOUND',
+          index,
+          value: { price: obs.price, low }
+        }
+      };
+    }
+
+    // 6. Symbol binding & mismatch check
+    const sym = (obs.symbol || (options?.allowLegacyFallback ? record.symbol : undefined)) as string | undefined;
+    if (!sym || typeof sym !== 'string' || sym.trim() === '') {
+      return {
+        isValid: false,
+        error: {
+          field: 'symbol',
+          message: 'Observation must explicitly specify symbol matching the security',
+          code: 'MISSING_SYMBOL',
+          index,
+          value: obs.symbol
+        }
+      };
+    }
+
+    if (record.symbol && sym.trim().toUpperCase() !== record.symbol.trim().toUpperCase()) {
+      return {
+        isValid: false,
+        error: {
+          field: 'symbol',
+          message: `Observation symbol '${sym}' does not match signal symbol '${record.symbol}'`,
+          code: 'SYMBOL_MISMATCH',
+          index,
+          value: sym
+        }
+      };
+    }
+
+    // 7. Provenance check
+    let prov = obs.provenance;
+    if (!prov) {
+      if (options?.allowLegacyFallback && !this.isProductionActive()) {
+        prov = { sourceType: 'SYNTHETIC_TEST', provider: 'TEST_LEGACY_CALLER' };
+      } else {
+        return {
+          isValid: false,
+          error: {
+            field: 'provenance',
+            message: 'Observation provenance is required',
+            code: 'MISSING_PROVENANCE',
+            index,
+            value: obs.provenance
+          }
+        };
+      }
+    }
+
+    const validSources: ObservationProvenanceSource[] = [
+      'REAL_EXCHANGE',
+      'BROKER_FEED',
+      'APPROVED_MARKET_PROVIDER',
+      'MANUAL_INTERNAL',
+      'SYNTHETIC_TEST'
+    ];
+
+    const sType: ObservationProvenanceSource = typeof prov === 'string' ? (prov as any) : prov?.sourceType;
+    if (!validSources.includes(sType)) {
+      return {
+        isValid: false,
+        error: {
+          field: 'provenance.sourceType',
+          message: `Unsupported observation provenance source: '${sType}'. Allowed: ${validSources.join(', ')}`,
+          code: 'INVALID_PROVENANCE_SOURCE',
+          index,
+          value: sType
+        }
+      };
+    }
+
+    const normalizedProv: ObservationProvenance = typeof prov === 'string'
+      ? { sourceType: sType, provider: sType }
+      : {
+          sourceType: sType,
+          provider: prov.provider || sType,
+          exchange: prov.exchange || 'NSE',
+          sourceConfidence: prov.sourceConfidence ?? (sType === 'REAL_EXCHANGE' ? 1.0 : sType === 'BROKER_FEED' ? 0.95 : 0.8),
+          verifiedAt: prov.verifiedAt || new Date().toISOString(),
+          feedTimestamp: prov.feedTimestamp,
+          traceId: prov.traceId,
+          operatorId: prov.operatorId,
+          manualReason: prov.manualReason,
+          notes: prov.notes
+        };
+
+    const normalized: MarketObservationTick = {
+      signalId: record.signalId,
+      symbol: sym.trim().toUpperCase(),
+      timestamp: obs.timestamp,
+      price: obs.price,
+      high: high !== undefined ? high : obs.price,
+      low: low !== undefined ? low : obs.price,
+      volume: typeof obs.volume === 'number' && isFinite(obs.volume) ? obs.volume : 0,
+      provenance: normalizedProv
+    };
+
+    return { isValid: true, normalized };
+  }
+
+  /**
+   * Validates an array of observations against a target signalId.
+   */
+  public validateObservations(
+    signalId: string,
+    observations: any[],
+    options?: { allowLegacyFallback?: boolean }
+  ): { isValid: boolean; errors: ObservationValidationError[]; validatedTicks: MarketObservationTick[] } {
+    const errors: ObservationValidationError[] = [];
+    const validatedTicks: MarketObservationTick[] = [];
+
+    if (!signalId || typeof signalId !== 'string' || signalId.trim() === '') {
+      errors.push({
+        field: 'signalId',
+        message: 'signalId is required and must be a non-empty string',
+        code: 'MISSING_SIGNAL_ID'
+      });
+      return { isValid: false, errors, validatedTicks };
+    }
+
+    const record = this.resolveRecord(signalId);
+    if (!record) {
+      errors.push({
+        field: 'signalId',
+        message: `Signal outcome record not found for id: ${signalId}`,
+        code: 'UNKNOWN_SIGNAL',
+        value: signalId
+      });
+      return { isValid: false, errors, validatedTicks };
+    }
+
+    if (!observations || !Array.isArray(observations)) {
+      errors.push({
+        field: 'observations',
+        message: 'observations must be an array',
+        code: 'MALFORMED_OBSERVATION_ARRAY',
+        value: observations
+      });
+      return { isValid: false, errors, validatedTicks };
+    }
+
+    for (let i = 0; i < observations.length; i++) {
+      const res = this.validateObservationTick(record, observations[i], i, options);
+      if (!res.isValid && res.error) {
+        errors.push(res.error);
+      } else if (res.normalized) {
+        validatedTicks.push(res.normalized);
+      }
+    }
+
+    return {
+      isValid: errors.length === 0,
+      errors,
+      validatedTicks
+    };
+  }
+
   // ==========================================
   // 1. SIGNAL OUTCOME CREATION & RECORDING
   // ==========================================
@@ -393,7 +766,7 @@ export class SignalOutcomeEngine {
     symbol: string;
     revision?: number;
     generatedAt?: string;
-    initialPrice: number;
+    initialPrice?: number;
     initialMarketState?: string;
     initialCompositeScore?: number;
     initialPriority?: PriorityTier | string;
@@ -427,23 +800,38 @@ export class SignalOutcomeEngine {
     }
 
     const direction = signal.direction || 'BULLISH';
+    const effectivePriority = signal.priority || signal.initialPriority || 'P1_HIGH';
+
+    // Strict Market Observation Trust Boundary (Phase 10B-1):
+    // Never synthesize or fallback to 100.0 if initial quote is missing.
+    const rawPrice = signal.initialPrice;
+    const hasValidInitialPrice = typeof rawPrice === 'number' && isFinite(rawPrice) && rawPrice > 0;
+    const initialPrice = hasValidInitialPrice ? rawPrice : undefined;
+
     const targetPercent = signal.targetPercent || (direction === 'BULLISH' ? 2.0 : direction === 'BEARISH' ? -2.0 : 0.5);
     const stopPercent = signal.stopPercent || (direction === 'BULLISH' ? -2.0 : direction === 'BEARISH' ? 2.0 : -1.0);
-    const targetPrice = signal.targetPrice || (signal.initialPrice * (1 + targetPercent / 100));
-    const stopPrice = signal.stopPrice || (signal.initialPrice * (1 + stopPercent / 100));
-    const effectivePriority = signal.priority || signal.initialPriority || 'P1_HIGH';
+
+    const targetPrice = hasValidInitialPrice
+      ? (signal.targetPrice || (initialPrice! * (1 + targetPercent / 100)))
+      : undefined;
+    const stopPrice = hasValidInitialPrice
+      ? (signal.stopPrice || (initialPrice! * (1 + stopPercent / 100)))
+      : undefined;
 
     const initialTimeline: ForensicTimelineEvent = {
       timestamp: generatedAt,
       eventType: 'SIGNAL_GENERATED',
-      description: `Actionable signal generated for ${signal.symbol} (${direction}) at ₹${signal.initialPrice}`,
-      price: signal.initialPrice,
+      description: hasValidInitialPrice
+        ? `Actionable signal generated for ${signal.symbol} (${direction}) at ₹${initialPrice}`
+        : `Actionable signal generated for ${signal.symbol} (${direction}) without verified initial market quote (awaiting observation)`,
+      price: initialPrice,
       details: {
         initialScore: signal.initialCompositeScore,
         priority: effectivePriority,
         alignment: signal.initialAlignment,
         targetPrice,
-        stopPrice
+        stopPrice,
+        marketDataStatus: hasValidInitialPrice ? 'INITIAL_PRICE_VERIFIED' : 'MISSING_INITIAL_PRICE'
       }
     };
 
@@ -454,14 +842,16 @@ export class SignalOutcomeEngine {
       symbol: signal.symbol,
       revision,
       generatedAt,
-      initialPrice: signal.initialPrice,
+      initialPrice,
       initialMarketState: signal.initialMarketState || 'ACTIVE',
       initialCompositeScore: signal.initialCompositeScore ?? 75,
       initialPriority: effectivePriority,
       priority: effectivePriority,
       initialAlignment: signal.initialAlignment || 'ALIGNED',
       signalLifecycleState: signal.signalLifecycleState || 'ACTIVE',
-      
+      isProductionRecord: this.isProductionActive(),
+      isMissingInitialPrice: !hasValidInitialPrice,
+
       direction,
       targetPrice,
       stopPrice,
@@ -472,18 +862,18 @@ export class SignalOutcomeEngine {
       sourceTier: signal.sourceTier || 'Tier 1',
       marketRegime: signal.marketRegime || 'NEUTRAL',
       marketSession: signal.marketSession || this.getMarketSession(generatedAt),
-      dataFreshness: signal.dataFreshness || 'REAL_TIME',
+      dataFreshness: signal.dataFreshness || (hasValidInitialPrice ? 'REAL_TIME' : 'PENDING_INITIAL_QUOTE'),
 
       mfePercent: 0,
       maePercent: 0,
       mfeAbsolute: 0,
       maeAbsolute: 0,
-      peakPrice: signal.initialPrice,
-      troughPrice: signal.initialPrice,
-      maxFavorablePrice: signal.initialPrice,
-      maxAdversePrice: signal.initialPrice,
-      lastObservedPrice: signal.initialPrice,
-      lastObservedTimestamp: generatedAt,
+      peakPrice: initialPrice,
+      troughPrice: initialPrice,
+      maxFavorablePrice: initialPrice,
+      maxAdversePrice: initialPrice,
+      lastObservedPrice: initialPrice,
+      lastObservedTimestamp: hasValidInitialPrice ? generatedAt : undefined,
       observationCount: 0,
 
       timeBuckets: {},
@@ -514,7 +904,50 @@ export class SignalOutcomeEngine {
   // 2. MFE / MAE & OBSERVATION CONSUMPTION
   // ==========================================
 
-  public ingestMarketObservations(signalId: string, observations: MarketObservationTick[]): SignalOutcomeRecord {
+  public ingestTrustedMarketObservations(
+    signalId: string,
+    observations: MarketObservationTick[]
+  ): {
+    success: boolean;
+    outcome?: SignalOutcomeRecord;
+    errors?: ObservationValidationError[];
+  } {
+    const validation = this.validateObservations(signalId, observations, { allowLegacyFallback: false });
+    if (!validation.isValid) {
+      return {
+        success: false,
+        errors: validation.errors
+      };
+    }
+
+    try {
+      const outcome = this.ingestMarketObservations(signalId, validation.validatedTicks, {
+        isInternalTrusted: true,
+        allowLegacyFallback: false
+      });
+      return {
+        success: true,
+        outcome
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        errors: [
+          {
+            field: 'ingestion',
+            message: err?.message || 'Ingestion failed',
+            code: 'MALFORMED_OBSERVATION_ARRAY'
+          }
+        ]
+      };
+    }
+  }
+
+  public ingestMarketObservations(
+    signalId: string,
+    observations: MarketObservationTick[],
+    options?: { isInternalTrusted?: boolean; allowLegacyFallback?: boolean }
+  ): SignalOutcomeRecord {
     const startTime = Date.now();
     this.outcomeEvaluationsCount++;
 
@@ -527,36 +960,79 @@ export class SignalOutcomeEngine {
       return record;
     }
 
-    this.marketObservationsConsumedCount += observations.length;
+    // Validate observations
+    const validation = this.validateObservations(signalId, observations, {
+      allowLegacyFallback: options?.allowLegacyFallback ?? !this.isProductionActive()
+    });
+    if (!validation.isValid) {
+      const firstErr = validation.errors[0];
+      throw new Error(`Observation validation failed: ${firstErr.message} (code: ${firstErr.code})`);
+    }
+
+    const validatedObservations = validation.validatedTicks;
+    if (validatedObservations.length === 0) {
+      return record;
+    }
 
     // Filter observations at or after signal generation
-    const signalGenTime = new Date(record.generatedAt).getTime();
-    const validObservations = observations.filter(obs => new Date(obs.timestamp).getTime() >= signalGenTime);
+    const signalGenTime = new Date(record.generatedAt || 0).getTime();
+    const validObservations = validatedObservations.filter(
+      obs => new Date(obs.timestamp).getTime() >= signalGenTime
+    );
 
     if (validObservations.length === 0) {
       return record;
     }
 
-    // Merge and sort
+    // Dedup key builder
+    const getTickDedupKey = (t: MarketObservationTick) => {
+      const sType = typeof t.provenance === 'string' ? t.provenance : t.provenance?.sourceType || 'UNKNOWN';
+      return t.dedupKey || `${record.signalId}::${t.symbol || record.symbol}::${t.timestamp}::${t.price}::${sType}`;
+    };
+
     const existingTicks = this.observationStore.get(signalId) || [];
-    const mergedTicks = [...existingTicks, ...validObservations].sort(
+    const existingKeys = new Set(existingTicks.map(getTickDedupKey));
+
+    // Filter to only new unique ticks
+    const newUniqueTicks: MarketObservationTick[] = [];
+    for (const t of validObservations) {
+      const k = getTickDedupKey(t);
+      if (!existingKeys.has(k)) {
+        existingKeys.add(k);
+        t.dedupKey = k;
+        newUniqueTicks.push(t);
+      }
+    }
+
+    // If no new unique ticks, return existing record without mutating counts or state
+    if (newUniqueTicks.length === 0) {
+      return record;
+    }
+
+    this.marketObservationsConsumedCount += newUniqueTicks.length;
+
+    // Merge and sort
+    const mergedTicks = [...existingTicks, ...newUniqueTicks].sort(
       (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
     );
 
-    const dedupedTicks: MarketObservationTick[] = [];
-    const seenTimes = new Set<string>();
-    for (const t of mergedTicks) {
-      if (!seenTimes.has(t.timestamp)) {
-        seenTimes.add(t.timestamp);
-        dedupedTicks.push(t);
-      }
-    }
-    this.observationStore.set(signalId, dedupedTicks);
-    record.observationCount = dedupedTicks.length;
+    this.observationStore.set(signalId, mergedTicks);
+    record.observationCount = mergedTicks.length;
 
+    // Strict missing initial price guard:
+    // If initial price is missing or not a positive finite number, outcomes cannot be resolved
     const initialPrice = record.initialPrice;
-    if (initialPrice <= 0) {
+    if (typeof initialPrice !== 'number' || !isFinite(initialPrice) || initialPrice <= 0) {
       record.outcome = 'INSUFFICIENT_MARKET_DATA';
+      record.directionalAccuracy = 'UNRESOLVED';
+      record.isResolved = false;
+      record.isCorrect = false;
+      record.isMissingInitialPrice = true;
+      const lastTick = mergedTicks[mergedTicks.length - 1];
+      record.lastObservedPrice = lastTick.price;
+      record.lastObservedTimestamp = lastTick.timestamp;
+      record.updatedAt = new Date().toISOString();
+      this.saveToStorage();
       return record;
     }
 
@@ -570,7 +1046,7 @@ export class SignalOutcomeEngine {
     let targetHitTime: string | undefined;
     let stopHitTime: string | undefined;
 
-    for (const obs of dedupedTicks) {
+    for (const obs of mergedTicks) {
       const p = obs.price;
       const high = obs.high !== undefined ? obs.high : p;
       const low = obs.low !== undefined ? obs.low : p;
@@ -608,12 +1084,12 @@ export class SignalOutcomeEngine {
 
     record.peakPrice = highestObserved;
     record.troughPrice = lowestObserved;
-    const lastTick = dedupedTicks[dedupedTicks.length - 1];
+    const lastTick = mergedTicks[mergedTicks.length - 1];
     record.lastObservedPrice = lastTick.price;
     record.lastObservedTimestamp = lastTick.timestamp;
 
-    const prevMfe = record.mfePercent;
-    const prevMae = record.maePercent;
+    const prevMfe = record.mfePercent ?? 0;
+    const prevMae = record.maePercent ?? 0;
 
     if (record.direction === 'BULLISH') {
       record.maxFavorablePrice = highestObserved;
@@ -648,7 +1124,7 @@ export class SignalOutcomeEngine {
     }
 
     // Record expansion timeline events
-    if (record.mfePercent > prevMfe && record.mfePercent > 0) {
+    if (record.mfePercent !== undefined && record.mfePercent > prevMfe && record.mfePercent > 0) {
       record.timeline.push({
         timestamp: record.mfeTimestamp || lastTick.timestamp,
         eventType: 'MFE_EXPANSION',
@@ -657,7 +1133,7 @@ export class SignalOutcomeEngine {
         details: { mfePercent: record.mfePercent }
       });
     }
-    if (record.maePercent > prevMae && record.maePercent > 0) {
+    if (record.maePercent !== undefined && record.maePercent > prevMae && record.maePercent > 0) {
       record.timeline.push({
         timestamp: record.maeTimestamp || lastTick.timestamp,
         eventType: 'MAE_EXPANSION',
@@ -668,9 +1144,9 @@ export class SignalOutcomeEngine {
     }
 
     // Evaluate Time-Buckets
-    this.evaluateTimeBuckets(record, dedupedTicks);
+    this.evaluateTimeBuckets(record, mergedTicks);
 
-    // Evaluate Outcome and Accuracy
+    // Evaluate Outcome and Accuracy with Provenance Awareness
     this.evaluateOutcomeClassification(record, targetHit, stopHit, targetHitTime, stopHitTime);
 
     record.updatedAt = new Date().toISOString();
@@ -777,6 +1253,35 @@ export class SignalOutcomeEngine {
       record.priorityAccuracy = 'PENDING_EVALUATION';
       record.lifecyclePredictionAccuracy = 'PENDING_DATA';
       return;
+    }
+
+    // Strict Provenance Guard (Phase 10B-1):
+    // In production storage or on production records, SYNTHETIC_TEST data can NEVER resolve outcomes.
+    const allTicks = this.observationStore.get(record.signalId) || [];
+    const isAllSynthetic = allTicks.length > 0 && allTicks.every(t => {
+      const s = typeof t.provenance === 'string' ? t.provenance : t.provenance?.sourceType;
+      return s === 'SYNTHETIC_TEST';
+    });
+
+    if ((this.isProductionActive() || record.isProductionRecord) && isAllSynthetic) {
+      record.outcome = 'INSUFFICIENT_MARKET_DATA';
+      record.directionalAccuracy = 'UNRESOLVED';
+      record.isCorrect = false;
+      record.isResolved = false;
+      record.priorityAccuracy = 'PENDING_EVALUATION';
+      record.lifecyclePredictionAccuracy = 'PENDING_DATA';
+      record.invalidationReason = 'SYNTHETIC_OBSERVATIONS_CANNOT_RESOLVE_PRODUCTION_OUTCOME';
+      return;
+    }
+
+    const hasManual = allTicks.some(t => {
+      const s = typeof t.provenance === 'string' ? t.provenance : t.provenance?.sourceType;
+      return s === 'MANUAL_INTERNAL';
+    });
+    if (hasManual) {
+      record.resolutionType = 'MANUAL_INTERNAL';
+    } else if (allTicks.length > 0) {
+      record.resolutionType = 'REAL_MARKET_DATA';
     }
 
     const mfe = record.mfePercent;
@@ -1396,9 +1901,19 @@ export class SignalOutcomeEngine {
     return Math.max(0, Math.round((e - s) / 1000));
   }
 
-  private getMarketSession(isoString: string): MarketSessionType {
+  public getMarketSession(isoString: string): MarketSessionType {
     const d = new Date(isoString);
-    const hours = d.getUTCHours() + 5.5; // IST
+    if (isNaN(d.getTime())) return 'CLOSED';
+    // Indian Standard Time is UTC + 5:30 (330 minutes)
+    const istOffsetMs = 330 * 60 * 1000;
+    const istDate = new Date(d.getTime() + istOffsetMs);
+
+    const istDay = istDate.getUTCDay(); // 0 = Sun, 6 = Sat
+    if (istDay === 0 || istDay === 6) {
+      return 'CLOSED';
+    }
+
+    const hours = istDate.getUTCHours() + (istDate.getUTCMinutes() / 60);
     if (hours >= 9.0 && hours < 9.25) return 'PRE_MARKET';
     if (hours >= 9.25 && hours <= 15.5) return 'REGULAR_MARKET';
     if (hours > 15.5 && hours <= 16.0) return 'POST_MARKET';

@@ -3865,16 +3865,60 @@ router.get('/market-intelligence/performance/:symbolOrType', (req: Request, res:
 
 /**
  * POST /api/v5/market-intelligence/outcomes/observe
- * Ingests price/market observation ticks to update MFE/MAE and outcomes
+ * Phase 10B-1 Trust Boundary:
+ * External untrusted HTTP injection cannot directly mutate production market outcomes.
+ * In production mode, external calls are rejected with 403.
+ * In test/dev mode, incoming observations are validated strictly and tagged as SYNTHETIC_TEST.
  */
 router.post('/market-intelligence/outcomes/observe', (req: Request, res: Response) => {
     try {
-        const { signalId, observations } = req.body;
-        if (!signalId || !observations || !Array.isArray(observations)) {
-            return res.status(400).json({ status: 'error', message: 'signalId and observations array are required.' });
+        if (signalOutcomeEngine.isProductionActive()) {
+            return res.status(403).json({
+                status: 'error',
+                code: 'UNTRUSTED_EXTERNAL_OBSERVATION_REJECTED',
+                message: 'External HTTP mutation of production market outcomes is forbidden. Market observations must be supplied via trusted internal provider workers with verified provenance.'
+            });
         }
 
-        const outcome = signalOutcomeEngine.ingestMarketObservations(signalId, observations);
+        const { signalId, observations } = req.body;
+        if (!signalId || !observations || !Array.isArray(observations)) {
+            return res.status(400).json({
+                status: 'error',
+                code: 'MALFORMED_REQUEST',
+                message: 'signalId and observations array are required.'
+            });
+        }
+
+        const record = signalOutcomeEngine.getRecord(signalId);
+        if (!record) {
+            return res.status(404).json({
+                status: 'error',
+                code: 'SIGNAL_NOT_FOUND',
+                message: `Signal outcome record not found for id: ${signalId}`
+            });
+        }
+
+        // Tag all HTTP observations as untrusted synthetic test data
+        const taggedObservations = observations.map((obs: any) => ({
+            ...obs,
+            symbol: obs.symbol || record.symbol,
+            provenance: obs.provenance || {
+                sourceType: 'SYNTHETIC_TEST',
+                provider: 'UNTRUSTED_EXTERNAL_HTTP'
+            }
+        }));
+
+        const validation = signalOutcomeEngine.validateObservations(signalId, taggedObservations);
+        if (!validation.isValid) {
+            return res.status(400).json({
+                status: 'error',
+                code: 'OBSERVATION_VALIDATION_FAILED',
+                message: 'One or more observations failed validation rules.',
+                errors: validation.errors
+            });
+        }
+
+        const outcome = signalOutcomeEngine.ingestMarketObservations(signalId, validation.validatedTicks);
 
         res.json({
             status: 'success',
