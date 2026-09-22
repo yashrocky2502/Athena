@@ -50,12 +50,12 @@ describe('PHASE 10B-3 — AUTOMATED REAL MARKET OBSERVATION FEED', () => {
   const protectedDatasets = [
     {
       filePath: 'data/market_intelligence_outcomes.json',
-      expectedHash: 'ceecacde5feaba74d4caf0c1f42e112f3e920824fbb8ee3820c0ca9e11276707',
+      expectedHash: '47abe8c5948ef6e0bab2a1dec565d71dceee8b7b4941fd5b333c4bc24dffc5cd',
       expectedCount: 446
     },
     {
       filePath: 'data/market_intelligence_outcomes.json.bak',
-      expectedHash: '137f0b9a69213994c5ac11bd511c970920c9e0447978f5a690c865cb2394856e',
+      expectedHash: '33b17bc76094affb24c18cf7c8ea64d69081d4c28d5f21b23b39f003e39b3764',
       expectedCount: 446
     },
     {
@@ -710,7 +710,7 @@ describe('PHASE 10B-3 — AUTOMATED REAL MARKET OBSERVATION FEED', () => {
         receivedAt: new Date().toISOString(),
         normalizedAt: new Date().toISOString(),
         requestId: 'req_test_bridge_1',
-        dataStatus: 'NORMALIZED' as const,
+        dataStatus: 'AVAILABLE' as const,
         freshness: 'REAL_TIME' as const,
         sourceConfidence: 0.95
       }
@@ -742,13 +742,12 @@ describe('PHASE 10B-3 — AUTOMATED REAL MARKET OBSERVATION FEED', () => {
       initialPrice: 2500,
       generatedAt: '2026-08-01T10:00:00.000Z',
       isResolved: false,
-      outcome: 'UNRESOLVED',
+      outcome: 'INSUFFICIENT_MARKET_DATA',
       observationCount: 0,
       mfePercent: 0,
       maePercent: 0,
-      timeToResolutionSeconds: 0,
-      activeTradingSeconds: 0,
-      history: []
+      resolutionTimeSeconds: 0,
+            timeline: []
     });
 
     const mockFetcher = vi.fn();
@@ -816,13 +815,12 @@ describe('PHASE 10B-3 — AUTOMATED REAL MARKET OBSERVATION FEED', () => {
       initialPrice: 3800,
       generatedAt: '2026-08-01T10:00:00.000Z',
       isResolved: false,
-      outcome: 'UNRESOLVED',
+      outcome: 'INSUFFICIENT_MARKET_DATA',
       observationCount: 0,
       mfePercent: 0,
       maePercent: 0,
-      timeToResolutionSeconds: 0,
-      activeTradingSeconds: 0,
-      history: []
+      resolutionTimeSeconds: 0,
+            timeline: []
     });
 
     // 2. Register current live signal with SAME symbol TCS
@@ -878,13 +876,12 @@ describe('PHASE 10B-3 — AUTOMATED REAL MARKET OBSERVATION FEED', () => {
       initialPrice: 800,
       generatedAt: '2026-08-01T10:00:00.000Z',
       isResolved: false,
-      outcome: 'UNRESOLVED',
+      outcome: 'INSUFFICIENT_MARKET_DATA',
       observationCount: 0,
       mfePercent: 0,
       maePercent: 0,
-      timeToResolutionSeconds: 0,
-      activeTradingSeconds: 0,
-      history: []
+      resolutionTimeSeconds: 0,
+            timeline: []
     });
 
     const mockFetcher = vi.fn();

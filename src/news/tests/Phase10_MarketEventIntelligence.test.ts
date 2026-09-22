@@ -193,7 +193,7 @@ describe('Phase 10: Market Intelligence & Event-Centric Capabilities', () => {
       const msg = TraderTelegramFormatter.format(assessment);
       expect(msg).toContain('ATHENA MARKET ALERT');
       expect(msg).toContain('RELIANCE INDUSTRIES');
-      expect(msg).toContain('Executive Summary');
+      expect(msg).toContain('CANONICAL NEWS SUMMARY');
       expect(msg).toContain('F&O Intelligence');
       expect(msg).toContain('PCR:</b> 1.24');
     });
