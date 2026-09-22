@@ -78,9 +78,10 @@ export class NseProviderAdapter implements IMarketDataProvider {
 
       const raw = await resp.json();
       const norm = MarketDataNormalizer.normalizeEquity(raw, {
-        provider: this.name,
-        providerType: 'OFFICIAL_EXCHANGE',
-        exchange: 'NSE'
+        provider: raw.provenance?.provider || 'YAHOO_FINANCE',
+        providerType: raw.provenance?.providerType || 'AUTHORIZED_PROVIDER',
+        exchange: raw.provenance?.exchange || 'NSE',
+        sourceConfidence: raw.provenance?.sourceConfidence ?? 0.95
       });
 
       if (!norm) {

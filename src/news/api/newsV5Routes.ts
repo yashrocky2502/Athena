@@ -28,6 +28,7 @@ import { marketDataProviderManager, MarketDataProviderManager } from '../market-
 import { MarketDataCircuitBreaker } from '../market-data/MarketDataCircuitBreaker.ts';
 import { MarketDataNormalizer } from '../market-data/MarketDataNormalizer.ts';
 import { MarketSessionEngine } from '../market-data/MarketSessionEngine.ts';
+import { yahooMarketDataService } from '../market-data/server/YahooMarketDataService.ts';
 import { MarketPulseEngine } from '../intelligence/MarketPulseEngine.ts';
 import { SectorIntelligenceEngine } from '../intelligence/SectorIntelligenceEngine.ts';
 import { MorningBriefEngine } from '../intelligence/MorningBriefEngine.ts';
@@ -3192,6 +3193,55 @@ router.post('/market-data/mode', (req, res) => {
         });
     } catch (err: any) {
         res.status(400).json({ status: 'error', message: err.message });
+    }
+});
+
+// 3b. Exchange-Specific Equity Observations (Phase 10B-2)
+router.get('/market-data/nse/equity', async (req, res) => {
+    try {
+        const symbol = req.query.symbol as string;
+        const result = await yahooMarketDataService.fetchEquityObservation(symbol, 'NSE');
+        if (result.cached) {
+            res.setHeader('X-Cache', 'HIT');
+        }
+        if (result.observation) {
+            return res.status(result.status).json(result.observation);
+        }
+        return res.status(result.status).json({ error: result.error });
+    } catch (err: any) {
+        return res.status(502).json({ error: err.message || 'Internal proxy error' });
+    }
+});
+
+router.get('/market-data/bse/equity', async (req, res) => {
+    try {
+        const symbol = req.query.symbol as string;
+        const result = await yahooMarketDataService.fetchEquityObservation(symbol, 'BSE');
+        if (result.cached) {
+            res.setHeader('X-Cache', 'HIT');
+        }
+        if (result.observation) {
+            return res.status(result.status).json(result.observation);
+        }
+        return res.status(result.status).json({ error: result.error });
+    } catch (err: any) {
+        return res.status(502).json({ error: err.message || 'Internal proxy error' });
+    }
+});
+
+router.get('/market-data/fallback/equity', async (req, res) => {
+    try {
+        const symbol = req.query.symbol as string;
+        const result = await yahooMarketDataService.fetchEquityObservation(symbol, 'FALLBACK');
+        if (result.cached) {
+            res.setHeader('X-Cache', 'HIT');
+        }
+        if (result.observation) {
+            return res.status(result.status).json(result.observation);
+        }
+        return res.status(result.status).json({ error: result.error });
+    } catch (err: any) {
+        return res.status(502).json({ error: err.message || 'Internal proxy error' });
     }
 });
 

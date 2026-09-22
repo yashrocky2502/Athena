@@ -42,7 +42,7 @@ export function convertEquityObservationToTick(
 
   if (pType === 'OFFICIAL_EXCHANGE') {
     sourceType = 'REAL_EXCHANGE';
-  } else if (pType === 'AUTHORIZED_PROVIDER') {
+  } else if (pType === 'AUTHORIZED_PROVIDER' || pType === 'FALLBACK_PROVIDER') {
     sourceType = 'APPROVED_MARKET_PROVIDER';
   } else if (pType === 'TEST_PROVIDER') {
     sourceType = 'SYNTHETIC_TEST';

@@ -102,6 +102,7 @@ import { NewsEngineV3 } from "./src/news/NewsEngineV3/core/NewsEngineV3.ts";
 import { V3Telemetry } from "./src/news/NewsEngineV3/telemetry/V3Telemetry.ts";
 import { V3RawArticle, V3Story, V3PublisherId } from "./src/news/NewsEngineV3/types/V3Types.ts";
 import { marketDataProviderManager } from "./src/news/market-data/MarketDataProvider.ts";
+import { yahooMarketDataService } from "./src/news/market-data/server/YahooMarketDataService.ts";
 import { CollectorRegistry } from "./src/news/NewsEngineV3/collectorRegistry/CollectorRegistry.ts";
 import { EconomicTimesCollector } from "./src/news/NewsEngineV3/collectors/EconomicTimesCollector.ts";
 import { ReutersCollector } from "./src/news/NewsEngineV3/collectors/ReutersCollector.ts";
@@ -1141,6 +1142,58 @@ app.get("/api/market/movers", async (req, res) => {
   } catch (error: any) {
     console.error("[Server] Error fetching market movers:", error);
     res.status(500).json({ success: false, error: error.message || "Failed to fetch market movers" });
+  }
+});
+
+// ============================================================================
+// ATHENA PHASE 10B-2: REAL MARKET DATA PROVIDER PROXY ROUTES
+// Narrowly scoped, zero-AI-cost, truthfully attributed equity quote proxy
+// ============================================================================
+app.get("/api/market-data/nse/equity", async (req, res) => {
+  try {
+    const symbol = req.query.symbol as string;
+    const result = await yahooMarketDataService.fetchEquityObservation(symbol, 'NSE');
+    if (result.cached) {
+      res.setHeader('X-Cache', 'HIT');
+    }
+    if (result.observation) {
+      return res.status(result.status).json(result.observation);
+    }
+    return res.status(result.status).json({ error: result.error });
+  } catch (err: any) {
+    return res.status(502).json({ error: err.message || 'Internal proxy error' });
+  }
+});
+
+app.get("/api/market-data/bse/equity", async (req, res) => {
+  try {
+    const symbol = req.query.symbol as string;
+    const result = await yahooMarketDataService.fetchEquityObservation(symbol, 'BSE');
+    if (result.cached) {
+      res.setHeader('X-Cache', 'HIT');
+    }
+    if (result.observation) {
+      return res.status(result.status).json(result.observation);
+    }
+    return res.status(result.status).json({ error: result.error });
+  } catch (err: any) {
+    return res.status(502).json({ error: err.message || 'Internal proxy error' });
+  }
+});
+
+app.get("/api/market-data/fallback/equity", async (req, res) => {
+  try {
+    const symbol = req.query.symbol as string;
+    const result = await yahooMarketDataService.fetchEquityObservation(symbol, 'FALLBACK');
+    if (result.cached) {
+      res.setHeader('X-Cache', 'HIT');
+    }
+    if (result.observation) {
+      return res.status(result.status).json(result.observation);
+    }
+    return res.status(result.status).json({ error: result.error });
+  } catch (err: any) {
+    return res.status(502).json({ error: err.message || 'Internal proxy error' });
   }
 });
 

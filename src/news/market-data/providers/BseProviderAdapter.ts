@@ -71,9 +71,10 @@ export class BseProviderAdapter implements IMarketDataProvider {
 
       const raw = await resp.json();
       const norm = MarketDataNormalizer.normalizeEquity(raw, {
-        provider: this.name,
-        providerType: 'OFFICIAL_EXCHANGE',
-        exchange: 'BSE'
+        provider: raw.provenance?.provider || 'YAHOO_FINANCE',
+        providerType: raw.provenance?.providerType || 'AUTHORIZED_PROVIDER',
+        exchange: raw.provenance?.exchange || 'BSE',
+        sourceConfidence: raw.provenance?.sourceConfidence ?? 0.95
       });
 
       if (!norm) {
