@@ -28,6 +28,7 @@ import { marketDataProviderManager, MarketDataProviderManager } from '../market-
 import { MarketDataCircuitBreaker } from '../market-data/MarketDataCircuitBreaker.ts';
 import { MarketDataNormalizer } from '../market-data/MarketDataNormalizer.ts';
 import { MarketSessionEngine } from '../market-data/MarketSessionEngine.ts';
+import { automatedMarketObservationFeed } from '../market-data/AutomatedMarketObservationFeed.ts';
 import { MarketPulseEngine } from '../intelligence/MarketPulseEngine.ts';
 import { SectorIntelligenceEngine } from '../intelligence/SectorIntelligenceEngine.ts';
 import { MorningBriefEngine } from '../intelligence/MorningBriefEngine.ts';
@@ -3141,7 +3142,8 @@ router.get('/observability/market-data', (req, res) => {
             circuitBreakers: statuses,
             providers: providerStatus,
             normalizerTelemetry: MarketDataNormalizer.telemetry,
-            telemetry: MarketDataProviderManager.telemetry
+            telemetry: MarketDataProviderManager.telemetry,
+            feedTelemetry: automatedMarketObservationFeed.getTelemetry()
         });
     } catch (err: any) {
         res.status(500).json({ status: 'error', message: err.message });

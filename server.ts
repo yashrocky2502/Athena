@@ -103,6 +103,7 @@ import { V3Telemetry } from "./src/news/NewsEngineV3/telemetry/V3Telemetry.ts";
 import { V3RawArticle, V3Story, V3PublisherId } from "./src/news/NewsEngineV3/types/V3Types.ts";
 import { marketDataProviderManager } from "./src/news/market-data/MarketDataProvider.ts";
 import { yahooMarketDataService } from "./src/news/market-data/server/YahooMarketDataService.ts";
+import { automatedMarketObservationFeed } from "./src/news/market-data/AutomatedMarketObservationFeed.ts";
 import { CollectorRegistry } from "./src/news/NewsEngineV3/collectorRegistry/CollectorRegistry.ts";
 import { EconomicTimesCollector } from "./src/news/NewsEngineV3/collectors/EconomicTimesCollector.ts";
 import { ReutersCollector } from "./src/news/NewsEngineV3/collectors/ReutersCollector.ts";
@@ -3154,6 +3155,7 @@ async function startServer() {
       if (NewsCoreV2SyncGuard.isSyncEnabled()) {
         newsSyncService.startScheduler();
       }
+      automatedMarketObservationFeed.start();
     } catch (err: any) {
       console.error("[Boot Validation] Error during background initialization:", err?.message || err);
     }
