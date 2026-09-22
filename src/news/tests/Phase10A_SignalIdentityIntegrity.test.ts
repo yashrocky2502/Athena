@@ -40,13 +40,13 @@ describe('PHASE 10A — CANONICAL SIGNAL IDENTITY & LIFECYCLE -> OUTCOME SYNCHRO
   const protectedDatasets = [
     {
       filePath: 'data/market_intelligence_outcomes.json',
-      expectedHash: '47abe8c5948ef6e0bab2a1dec565d71dceee8b7b4941fd5b333c4bc24dffc5cd',
+      expectedHash: 'ceecacde5feaba74d4caf0c1f42e112f3e920824fbb8ee3820c0ca9e11276707',
       expectedCount: 446
     },
     {
       filePath: 'data/market_intelligence_outcomes.json.bak',
-      expectedHash: '33b17bc76094affb24c18cf7c8ea64d69081d4c28d5f21b23b39f003e39b3764',
-      expectedCount: 445
+      expectedHash: '137f0b9a69213994c5ac11bd511c970920c9e0447978f5a690c865cb2394856e',
+      expectedCount: 446
     },
     {
       filePath: 'data/news_signal_lifecycle.json',

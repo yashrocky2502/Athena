@@ -24,6 +24,55 @@ import { SignalOutcomeEngine, SignalOutcomeRecord } from '../market-intelligence
 import { YahooMarketDataService } from './server/YahooMarketDataService.ts';
 import { ObservationTrustBridge } from './ObservationTrustBridge.ts';
 import { MarketSessionEngine, SessionState } from './MarketSessionEngine.ts';
+import { marketIntelligenceFusionEngine, MarketIntelligenceFusionEngine } from '../intelligence/MarketIntelligenceFusionEngine.ts';
+
+export interface LiveSignalReference {
+  signalId: string;
+  symbol: string;
+  signalType?: string;
+  revision?: number;
+  direction?: 'BULLISH' | 'BEARISH' | 'NEUTRAL' | string;
+  lifecycleState?: string;
+  priority?: string;
+  generatedAt?: string;
+  isActionable?: boolean;
+}
+
+export interface ILiveSignalSource {
+  getActiveLiveSignals(): LiveSignalReference[];
+}
+
+export class FusionEngineLiveSignalSource implements ILiveSignalSource {
+  private fusionEngine?: MarketIntelligenceFusionEngine;
+
+  constructor(fusionEngine?: MarketIntelligenceFusionEngine) {
+    this.fusionEngine = fusionEngine;
+  }
+
+  public getActiveLiveSignals(): LiveSignalReference[] {
+    try {
+      const engine = this.fusionEngine || marketIntelligenceFusionEngine;
+      if (!engine || typeof engine.rankMarketSignals !== 'function') {
+        return [];
+      }
+      const signals = engine.rankMarketSignals();
+      if (!Array.isArray(signals)) return [];
+      return signals.map(s => ({
+        signalId: s.signalId,
+        symbol: s.symbol,
+        signalType: s.signalType,
+        revision: s.revision,
+        direction: s.fundamentalDirection,
+        lifecycleState: s.lifecycleState,
+        priority: s.priority,
+        generatedAt: s.timestamp,
+        isActionable: s.lifecycleState === 'ACTIVE' || s.lifecycleState === 'CONFIRMED' || s.lifecycleState === 'WEAKENING'
+      }));
+    } catch {
+      return [];
+    }
+  }
+}
 
 export interface ObservationFeedTelemetry {
   cyclesStarted: number;
@@ -56,6 +105,7 @@ export interface ObservationFeedOptions {
   exchange?: 'NSE' | 'BSE' | 'FALLBACK'; // default: 'NSE'
   allowOffHoursForTesting?: boolean; // bypass market session check for test simulation
   autoStartInTest?: boolean; // override test environment safety lock
+  liveSignalSource?: ILiveSignalSource | (() => LiveSignalReference[]) | null;
 }
 
 export interface CycleExecutionResult {
@@ -83,6 +133,8 @@ export class AutomatedMarketObservationFeed {
   private readonly trustBridge: ObservationTrustBridge;
   private readonly sessionEngine: typeof MarketSessionEngine;
   private readonly options: ObservationFeedOptions;
+  private liveSignalSource?: ILiveSignalSource | (() => LiveSignalReference[]) | null;
+  private readonly localLiveSignals: Map<string, LiveSignalReference> = new Map();
 
   private telemetry: ObservationFeedTelemetry = {
     cyclesStarted: 0,
@@ -117,6 +169,25 @@ export class AutomatedMarketObservationFeed {
       autoStartInTest: false,
       ...options
     };
+    this.liveSignalSource = options?.liveSignalSource !== undefined ? options.liveSignalSource : undefined;
+  }
+
+  public registerLiveSignal(signal: LiveSignalReference): void {
+    if (signal && signal.signalId) {
+      this.localLiveSignals.set(signal.signalId, signal);
+    }
+  }
+
+  public unregisterLiveSignal(signalId: string): void {
+    this.localLiveSignals.delete(signalId);
+  }
+
+  public clearLiveSignals(): void {
+    this.localLiveSignals.clear();
+  }
+
+  public setLiveSignalSource(source?: ILiveSignalSource | (() => LiveSignalReference[]) | null): void {
+    this.liveSignalSource = source;
   }
 
   public static getInstance(options?: ObservationFeedOptions): AutomatedMarketObservationFeed {
@@ -287,17 +358,40 @@ export class AutomatedMarketObservationFeed {
         };
       }
 
-      // 3. Signal-Driven Symbol Collection
-      // Obtain currently actionable, unresolved signals from SignalOutcomeEngine
-      const allRecords = this.signalOutcomeEngine.getAllOutcomeRecords();
-      const actionableRecords = allRecords.filter(r => {
-        if (r.isResolved) return false;
-        const state = (r.signalLifecycleState || '').toUpperCase();
-        if (state === 'EXPIRED' || state === 'INVALIDATED') return false;
-        return true;
-      });
+      // 3. Live-Signal Collection from Authoritative Live Source Only
+      // SAFETY DIRECTIVE: Never query SignalOutcomeEngine.getAllOutcomeRecords() to discover signals.
+      // The 446 historical records in SignalOutcomeEngine must NEVER enter live automated observation.
+      const rawLiveSignals: LiveSignalReference[] = [];
 
-      if (actionableRecords.length === 0) {
+      if (this.liveSignalSource) {
+        try {
+          if (typeof this.liveSignalSource === 'function') {
+            const res = this.liveSignalSource();
+            if (Array.isArray(res)) rawLiveSignals.push(...res);
+          } else if (typeof this.liveSignalSource.getActiveLiveSignals === 'function') {
+            const res = this.liveSignalSource.getActiveLiveSignals();
+            if (Array.isArray(res)) rawLiveSignals.push(...res);
+          }
+        } catch (sourceErr: any) {
+          console.warn('[AutomatedMarketObservationFeed] Live signal source query error (failing closed):', sourceErr?.message || sourceErr);
+        }
+      } else if (this.liveSignalSource === undefined) {
+        // Default: Query MarketIntelligenceFusionEngine
+        try {
+          const defaultSource = new FusionEngineLiveSignalSource();
+          rawLiveSignals.push(...defaultSource.getActiveLiveSignals());
+        } catch {}
+      }
+
+      // Include locally registered live signals
+      for (const sig of this.localLiveSignals.values()) {
+        if (!rawLiveSignals.some(s => s.signalId === sig.signalId)) {
+          rawLiveSignals.push(sig);
+        }
+      }
+
+      if (rawLiveSignals.length === 0) {
+        // Fail closed: zero live signals found -> zero observation ingestion
         const durationMs = Date.now() - cycleStart;
         this.telemetry.lastCycleDurationMs = durationMs;
         this.telemetry.lastCycleTimestamp = timestamp;
@@ -324,8 +418,25 @@ export class AutomatedMarketObservationFeed {
         };
       }
 
-      // 4. Symbol Validation, Filtering & Deduplication Grouping
-      const symbolMap = new Map<string, SignalOutcomeRecord[]>();
+      // 4. Actionability Filtering, Symbol Validation & Deduplication Grouping
+      const actionableRecords = rawLiveSignals.filter(r => {
+        if (!r.signalId || !r.symbol) return false;
+        const state = (r.lifecycleState || 'ACTIVE').toUpperCase();
+        if (state === 'EXPIRED' || state === 'INVALIDATED' || state === 'SUPPRESSED') return false;
+        if (r.isActionable === false) return false;
+
+        // If an outcome record exists in SignalOutcomeEngine, verify it is unresolved
+        const existingOutcome = this.signalOutcomeEngine.getOutcomeRecord(r.signalId);
+        if (existingOutcome) {
+          if (existingOutcome.isResolved) return false;
+          const outState = (existingOutcome.signalLifecycleState || '').toUpperCase();
+          if (outState === 'EXPIRED' || outState === 'INVALIDATED') return false;
+        }
+
+        return true;
+      });
+
+      const symbolMap = new Map<string, LiveSignalReference[]>();
       let skippedInvalid = 0;
 
       for (const record of actionableRecords) {
@@ -377,7 +488,7 @@ export class AutomatedMarketObservationFeed {
 
             const equityObs = fetchResult.observation;
 
-            // Submit verified EquityObservation through ObservationTrustBridge for each target signal
+            // Submit verified EquityObservation through ObservationTrustBridge for each target live signal
             for (const signalRecord of signalsForSymbol) {
               const ingestRes = this.trustBridge.ingestTrustedEquityObservations(
                 signalRecord.signalId,
