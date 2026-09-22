@@ -251,9 +251,9 @@ describe('PHASE 10B-2 — REAL MARKET DATA PROVIDER BRIDGE', () => {
   });
 
   // ==========================================================================
-  // TEST F: Missing Provider Quote Never Fabricates Price
+  // TEST F: Strict No-Fabrication / Fail-Closed on Missing OHLC or Price
   // ==========================================================================
-  it('TEST F: Missing price in upstream payload returns error and never fabricates prices', async () => {
+  it('TEST F1: Missing price in upstream payload returns error and never fabricates prices', async () => {
     const emptyPayload = {
       chart: {
         result: [
@@ -278,6 +278,207 @@ describe('PHASE 10B-2 — REAL MARKET DATA PROVIDER BRIDGE', () => {
     expect(result.status).toBe(502);
     expect(result.observation).toBeUndefined();
     expect(result.error).toContain('No valid price data');
+  });
+
+  it('TEST F2: Missing open field in upstream payload returns 502 and does NOT silently replace with LTP', async () => {
+    const payloadMissingOpen = {
+      chart: {
+        result: [
+          {
+            meta: {
+              symbol: 'NO_OPEN.NS',
+              regularMarketPrice: 2500.0,
+              regularMarketDayHigh: 2550.0,
+              regularMarketDayLow: 2480.0,
+              previousClose: 2490.0,
+              regularMarketVolume: 100000
+              // regularMarketOpen is missing
+            },
+            indicators: {
+              quote: [
+                {
+                  // open series is empty/missing
+                  high: [2550.0],
+                  low: [2480.0],
+                  close: [2500.0]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    };
+
+    yahooMarketDataService.setFetcher(async () => {
+      return new Response(JSON.stringify(payloadMissingOpen), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    });
+
+    const result = await yahooMarketDataService.fetchEquityObservation('NO_OPEN', 'NSE');
+    expect(result.status).toBe(502);
+    expect(result.observation).toBeUndefined();
+    expect(result.error).toContain('Incomplete upstream OHLC data');
+    expect(result.error).toContain('open');
+  });
+
+  it('TEST F3: Missing high field in upstream payload returns 502 and does NOT silently replace with LTP', async () => {
+    const payloadMissingHigh = {
+      chart: {
+        result: [
+          {
+            meta: {
+              symbol: 'NO_HIGH.NS',
+              regularMarketPrice: 2500.0,
+              regularMarketOpen: 2490.0,
+              regularMarketDayLow: 2480.0,
+              previousClose: 2490.0,
+              regularMarketVolume: 100000
+              // regularMarketDayHigh is missing
+            },
+            indicators: {
+              quote: [
+                {
+                  open: [2490.0],
+                  low: [2480.0],
+                  close: [2500.0]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    };
+
+    yahooMarketDataService.setFetcher(async () => {
+      return new Response(JSON.stringify(payloadMissingHigh), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    });
+
+    const result = await yahooMarketDataService.fetchEquityObservation('NO_HIGH', 'NSE');
+    expect(result.status).toBe(502);
+    expect(result.observation).toBeUndefined();
+    expect(result.error).toContain('Incomplete upstream OHLC data');
+    expect(result.error).toContain('high');
+  });
+
+  it('TEST F4: Missing low field in upstream payload returns 502 and does NOT silently replace with LTP', async () => {
+    const payloadMissingLow = {
+      chart: {
+        result: [
+          {
+            meta: {
+              symbol: 'NO_LOW.NS',
+              regularMarketPrice: 2500.0,
+              regularMarketOpen: 2490.0,
+              regularMarketDayHigh: 2550.0,
+              previousClose: 2490.0,
+              regularMarketVolume: 100000
+              // regularMarketDayLow is missing
+            },
+            indicators: {
+              quote: [
+                {
+                  open: [2490.0],
+                  high: [2550.0],
+                  close: [2500.0]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    };
+
+    yahooMarketDataService.setFetcher(async () => {
+      return new Response(JSON.stringify(payloadMissingLow), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    });
+
+    const result = await yahooMarketDataService.fetchEquityObservation('NO_LOW', 'NSE');
+    expect(result.status).toBe(502);
+    expect(result.observation).toBeUndefined();
+    expect(result.error).toContain('Incomplete upstream OHLC data');
+    expect(result.error).toContain('low');
+  });
+
+  it('TEST F5: Missing previousClose in upstream payload returns 502 and does NOT silently replace with LTP', async () => {
+    const payloadMissingPrevClose = {
+      chart: {
+        result: [
+          {
+            meta: {
+              symbol: 'NO_PREV.NS',
+              regularMarketPrice: 2500.0,
+              regularMarketOpen: 2490.0,
+              regularMarketDayHigh: 2550.0,
+              regularMarketDayLow: 2480.0,
+              regularMarketVolume: 100000
+              // previousClose and chartPreviousClose are missing
+            },
+            indicators: {
+              quote: [
+                {
+                  open: [2490.0],
+                  high: [2550.0],
+                  low: [2480.0]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    };
+
+    yahooMarketDataService.setFetcher(async () => {
+      return new Response(JSON.stringify(payloadMissingPrevClose), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    });
+
+    const result = await yahooMarketDataService.fetchEquityObservation('NO_PREV', 'NSE');
+    expect(result.status).toBe(502);
+    expect(result.observation).toBeUndefined();
+    expect(result.error).toContain('Incomplete upstream OHLC data');
+    expect(result.error).toContain('previousClose');
+  });
+
+  it('TEST F6: Mathematically invalid upstream OHLC bounds (high < open, high < ltp, low > ltp) are rejected with 502', async () => {
+    const invalidBoundsPayload = {
+      chart: {
+        result: [
+          {
+            meta: {
+              symbol: 'BAD_BOUNDS.NS',
+              regularMarketPrice: 2600.0, // LTP is 2600
+              regularMarketOpen: 2500.0,
+              regularMarketDayHigh: 2550.0, // High is 2550 < LTP (2600)!
+              regularMarketDayLow: 2480.0,
+              previousClose: 2490.0,
+              regularMarketVolume: 100000
+            }
+          }
+        ]
+      }
+    };
+
+    yahooMarketDataService.setFetcher(async () => {
+      return new Response(JSON.stringify(invalidBoundsPayload), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    });
+
+    const result = await yahooMarketDataService.fetchEquityObservation('BAD_BOUNDS', 'NSE');
+    expect(result.status).toBe(502);
+    expect(result.observation).toBeUndefined();
+    expect(result.error).toContain('violates mathematical bounds');
   });
 
   // ==========================================================================

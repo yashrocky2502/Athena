@@ -27,6 +27,7 @@ export type FetcherFunction = (url: string, init?: RequestInit) => Promise<Respo
 
 export class YahooMarketDataService {
   private static instance: YahooMarketDataService;
+  private static reqCounter = 0;
 
   // In-memory short-lived quote cache: Key format "${EXCHANGE}:${CANONICAL_SYMBOL}"
   private cache = new Map<string, CacheEntry>();
@@ -252,61 +253,110 @@ export class YahooMarketDataService {
     const result = data?.chart?.result?.[0];
     const meta = result?.meta;
 
-    if (!meta || typeof meta.regularMarketPrice !== 'number' || isNaN(meta.regularMarketPrice) || meta.regularMarketPrice <= 0) {
+    if (!meta || typeof meta.regularMarketPrice !== 'number' || isNaN(meta.regularMarketPrice) || !isFinite(meta.regularMarketPrice) || meta.regularMarketPrice <= 0) {
       return { status: 502, error: `No valid price data returned upstream for ${yahooTicker}` };
     }
 
     const ltp = meta.regularMarketPrice;
-    const prevClose = typeof meta.chartPreviousClose === 'number' && meta.chartPreviousClose > 0
-      ? meta.chartPreviousClose
-      : (typeof meta.previousClose === 'number' && meta.previousClose > 0 ? meta.previousClose : ltp);
 
-    // Safely extract Open, High, Low with fallback to LTP/prevClose
+    // Helper to find a valid positive finite number from indicator series array
+    const findValidNumberFromArray = (arr: any): number | undefined => {
+      if (!Array.isArray(arr)) return undefined;
+      for (let i = arr.length - 1; i >= 0; i--) {
+        const v = arr[i];
+        if (typeof v === 'number' && !isNaN(v) && isFinite(v) && v > 0) {
+          return v;
+        }
+      }
+      return undefined;
+    };
+
     const rawQuoteIndicator = result?.indicators?.quote?.[0];
-    const indicatorOpen = Array.isArray(rawQuoteIndicator?.open)
-      ? rawQuoteIndicator.open.find((v: any) => typeof v === 'number' && !isNaN(v) && v > 0)
-      : undefined;
 
-    const rawOpen = typeof meta.regularMarketOpen === 'number' && meta.regularMarketOpen > 0
-      ? meta.regularMarketOpen
-      : (indicatorOpen !== undefined ? indicatorOpen : ltp);
+    // 1. Open (strictly from upstream regularMarketOpen or indicator open series)
+    let open: number | undefined = undefined;
+    if (typeof meta.regularMarketOpen === 'number' && !isNaN(meta.regularMarketOpen) && isFinite(meta.regularMarketOpen) && meta.regularMarketOpen > 0) {
+      open = meta.regularMarketOpen;
+    } else {
+      open = findValidNumberFromArray(rawQuoteIndicator?.open);
+    }
 
-    const rawHigh = typeof meta.regularMarketDayHigh === 'number' && meta.regularMarketDayHigh > 0
-      ? meta.regularMarketDayHigh
-      : Math.max(ltp, rawOpen);
+    // 2. High (strictly from upstream regularMarketDayHigh or indicator high series)
+    let high: number | undefined = undefined;
+    if (typeof meta.regularMarketDayHigh === 'number' && !isNaN(meta.regularMarketDayHigh) && isFinite(meta.regularMarketDayHigh) && meta.regularMarketDayHigh > 0) {
+      high = meta.regularMarketDayHigh;
+    } else {
+      high = findValidNumberFromArray(rawQuoteIndicator?.high);
+    }
 
-    const rawLow = typeof meta.regularMarketDayLow === 'number' && meta.regularMarketDayLow > 0
-      ? meta.regularMarketDayLow
-      : Math.min(ltp, rawOpen);
+    // 3. Low (strictly from upstream regularMarketDayLow or indicator low series)
+    let low: number | undefined = undefined;
+    if (typeof meta.regularMarketDayLow === 'number' && !isNaN(meta.regularMarketDayLow) && isFinite(meta.regularMarketDayLow) && meta.regularMarketDayLow > 0) {
+      low = meta.regularMarketDayLow;
+    } else {
+      low = findValidNumberFromArray(rawQuoteIndicator?.low);
+    }
 
-    const volume = typeof meta.regularMarketVolume === 'number' && meta.regularMarketVolume >= 0
-      ? meta.regularMarketVolume
-      : 0;
+    // 4. Previous Close (strictly from upstream chartPreviousClose, previousClose, or close series)
+    let prevClose: number | undefined = undefined;
+    if (typeof meta.chartPreviousClose === 'number' && !isNaN(meta.chartPreviousClose) && isFinite(meta.chartPreviousClose) && meta.chartPreviousClose > 0) {
+      prevClose = meta.chartPreviousClose;
+    } else if (typeof meta.previousClose === 'number' && !isNaN(meta.previousClose) && isFinite(meta.previousClose) && meta.previousClose > 0) {
+      prevClose = meta.previousClose;
+    } else {
+      prevClose = findValidNumberFromArray(rawQuoteIndicator?.close);
+    }
 
-    // Enforce strict deterministic OHLC mathematical bounds (high >= open, high >= ltp, low <= open, low <= ltp)
-    const open = rawOpen;
-    const high = Math.max(rawHigh, open, ltp);
-    const low = Math.min(rawLow, open, ltp);
+    // STRICT NO-FABRICATION / FAIL-CLOSED (Phase 10B-2 Remediation):
+    // Missing required numerical market fields MUST NOT be derived from LTP, synthetic offsets, or random math!
+    if (open === undefined || high === undefined || low === undefined || prevClose === undefined) {
+      const missingFields: string[] = [];
+      if (open === undefined) missingFields.push('open');
+      if (high === undefined) missingFields.push('high');
+      if (low === undefined) missingFields.push('low');
+      if (prevClose === undefined) missingFields.push('previousClose');
+      return {
+        status: 502,
+        error: `Incomplete upstream OHLC data for ${yahooTicker}: missing ${missingFields.join(', ')}`
+      };
+    }
+
+    // Enforce mathematical consistency on authentic upstream values
+    if (high < low || high < open || high < ltp || low > open || low > ltp) {
+      return {
+        status: 502,
+        error: `Upstream OHLC data violates mathematical bounds for ${yahooTicker} (O:${open}, H:${high}, L:${low}, LTP:${ltp})`
+      };
+    }
+
+    // Volume (from upstream meta or indicator)
+    let volume = 0;
+    if (typeof meta.regularMarketVolume === 'number' && !isNaN(meta.regularMarketVolume) && isFinite(meta.regularMarketVolume) && meta.regularMarketVolume >= 0) {
+      volume = meta.regularMarketVolume;
+    } else if (Array.isArray(rawQuoteIndicator?.volume)) {
+      const v = findValidNumberFromArray(rawQuoteIndicator.volume);
+      if (v !== undefined) volume = v;
+    }
 
     // Source timestamp (regularMarketTime is seconds epoch)
-    const obsTime = meta.regularMarketTime
+    const obsTime = meta.regularMarketTime && typeof meta.regularMarketTime === 'number' && meta.regularMarketTime > 0
       ? new Date(meta.regularMarketTime * 1000).toISOString()
       : new Date().toISOString();
 
     const rxTime = new Date().toISOString();
     const freshness = MarketDataNormalizer.getFreshness(obsTime);
 
-    // Truthful Provenance Contract (Phase 10B-2)
-    // Yahoo Finance observations are AUTHORIZED_PROVIDER / APPROVED_MARKET_PROVIDER, NEVER OFFICIAL_EXCHANGE.
-    const providerType: ProviderType = exchange === 'FALLBACK' ? 'FALLBACK_PROVIDER' : 'AUTHORIZED_PROVIDER';
+    // Truthful Provenance Contract (Phase 10B-2 Remediation)
+    // Yahoo Finance observations are AUTHORIZED_PROVIDER, NEVER OFFICIAL_EXCHANGE.
+    // The FALLBACK route queries Yahoo Finance directly as an alternate route, attributing YAHOO_FINANCE / AUTHORIZED_PROVIDER.
     const provenance: MarketDataProvenance = {
       provider: 'YAHOO_FINANCE',
-      providerType,
+      providerType: 'AUTHORIZED_PROVIDER',
       exchange: effectiveExchange,
       observedAt: obsTime,
       receivedAt: rxTime,
       normalizedAt: rxTime,
-      requestId: `req_ydp_${Math.random().toString(36).substr(2, 9)}`,
+      requestId: `req_ydp_${Date.now()}_${++YahooMarketDataService.reqCounter}`,
       dataStatus: freshness === 'EXPIRED' ? 'EXPIRED' : (freshness === 'STALE' ? 'STALE' : 'AVAILABLE'),
       freshness: freshness as DataFreshness,
       sourceConfidence: 0.95
