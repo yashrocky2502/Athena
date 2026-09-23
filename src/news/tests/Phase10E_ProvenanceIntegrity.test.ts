@@ -24,6 +24,7 @@ import { ObservationTrustBridge } from '../market-data/ObservationTrustBridge.ts
 import {
   SignalProvenance,
   resolveSignalProvenance,
+  validateProvenance,
   deriveSourceTierString,
   createUnknownProvenance,
   createSyntheticTestProvenance
@@ -1060,6 +1061,95 @@ describe('PHASE 10E — MARKET SIGNAL PROVENANCE INTEGRITY', () => {
       expect(fusion.getObservability().zeroAiExecutions).toBeGreaterThan(0);
       const transmissionObs = eventToSignalTransmissionEngine.getObservability();
       expect(transmissionObs.aiInvocationCount).toBe(0);
+    });
+
+    it('T. Existing VERIFIED provenance with unknown publisher must NOT remain VERIFIED', () => {
+      const prov: SignalProvenance = {
+        status: 'VERIFIED',
+        primarySource: {
+          articleId: 'real-article-123',
+          publisher: 'RandomUnknownPublisherXYZ',
+          tier: 2
+        },
+        supportingSources: [],
+        sourceCount: 1
+      };
+      const validated = validateProvenance(prov);
+      expect(validated.status).not.toBe('VERIFIED');
+    });
+
+    it('U. Existing VERIFIED provenance with recognized publisher remains VERIFIED when all required fields are valid', () => {
+      const prov: SignalProvenance = {
+        status: 'VERIFIED',
+        primarySource: {
+          articleId: 'art-reuters-123',
+          publisher: 'Reuters',
+          tier: 2,
+          sourceUrl: 'https://reuters.com/markets/stocks'
+        },
+        supportingSources: [],
+        sourceCount: 1
+      };
+      const validated = validateProvenance(prov);
+      expect(validated.status).toBe('VERIFIED');
+      expect(validated.primarySource?.publisher).toBe('Reuters');
+    });
+
+    it('V. Existing VERIFIED provenance with known publisher but invalid/mismatched URL must not remain VERIFIED', () => {
+      const prov: SignalProvenance = {
+        status: 'VERIFIED',
+        primarySource: {
+          articleId: 'art-reuters-123',
+          publisher: 'Reuters',
+          tier: 2,
+          sourceUrl: 'https://moneycontrol.com/mismatched-article'
+        },
+        supportingSources: [],
+        sourceCount: 1
+      };
+      const validated = validateProvenance(prov);
+      expect(validated.status).not.toBe('VERIFIED');
+      expect(validated.status).toBe('UNVERIFIED');
+    });
+
+    it('W. Existing PARTIALLY_VERIFIED provenance must not be upgraded merely by validateProvenance()', () => {
+      const prov: SignalProvenance = {
+        status: 'PARTIALLY_VERIFIED',
+        primarySource: {
+          articleId: 'art-reuters-123',
+          publisher: 'Reuters',
+          tier: 2
+        },
+        supportingSources: [],
+        sourceCount: 1
+      };
+      const validated = validateProvenance(prov);
+      expect(validated.status).toBe('PARTIALLY_VERIFIED');
+    });
+
+    it('X. Existing UNVERIFIED provenance must not be upgraded', () => {
+      const prov: SignalProvenance = {
+        status: 'UNVERIFIED',
+        primarySource: {
+          articleId: 'art-reuters-123',
+          publisher: 'Reuters',
+          tier: 2
+        },
+        supportingSources: [],
+        sourceCount: 1
+      };
+      const validated = validateProvenance(prov);
+      expect(validated.status).toBe('UNVERIFIED');
+    });
+
+    it('Y. Existing UNKNOWN provenance must remain UNKNOWN', () => {
+      const prov: SignalProvenance = {
+        status: 'UNKNOWN',
+        supportingSources: [],
+        sourceCount: 0
+      };
+      const validated = validateProvenance(prov);
+      expect(validated.status).toBe('UNKNOWN');
     });
   });
 });

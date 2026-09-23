@@ -77,8 +77,9 @@ export function isRecognizedPublisher(publisher?: string, url?: string): boolean
     pub.includes('sebi') || pub.includes('rbi') || pub.includes('nse') || pub.includes('bse') ||
     pub.includes('mcx') || pub.includes('pib') || pub.includes('government') ||
     pub.includes('filing') || pub.includes('investor relations') || pub.includes('exchange') ||
+    pub.includes('forex factory') ||
     u.includes('sebi.gov.in') || u.includes('rbi.org.in') || u.includes('nseindia.com') ||
-    u.includes('bseindia.com') || u.includes('pib.gov.in')
+    u.includes('bseindia.com') || u.includes('pib.gov.in') || u.includes('forexfactory.com')
   ) {
     return true;
   }
@@ -88,8 +89,9 @@ export function isRecognizedPublisher(publisher?: string, url?: string): boolean
     pub.includes('reuters') || pub.includes('economic times') || pub.includes('business standard') ||
     pub.includes('cnbc') || pub.includes('moneycontrol') || pub.includes('livemint') ||
     pub.includes('bloomberg') || pub.includes('pti') || pub.includes('press trust') ||
+    pub === 'et' || pub === 'bs' ||
     u.includes('economictimes') || u.includes('business-standard') || u.includes('moneycontrol') ||
-    u.includes('livemint') || u.includes('reuters') || u.includes('cnbctv18')
+    u.includes('livemint') || u.includes('reuters') || u.includes('cnbctv18') || u.includes('bloomberg')
   ) {
     return true;
   }
@@ -99,7 +101,7 @@ export function isRecognizedPublisher(publisher?: string, url?: string): boolean
     pub.includes('financial express') || pub.includes('zee business') || pub.includes('ndtv profit') ||
     pub.includes('business today') || pub.includes('fortune') || pub.includes('mint') ||
     pub.includes('businessline') || u.includes('financialexpress') || u.includes('zeebiz') ||
-    u.includes('ndtvprofit') || u.includes('businesstoday')
+    u.includes('ndtvprofit') || u.includes('businesstoday') || u.includes('thehindubusinessline')
   ) {
     return true;
   }
@@ -111,8 +113,9 @@ export function isRecognizedPublisher(publisher?: string, url?: string): boolean
  * Validates whether a primary source meets all criteria for VERIFIED status:
  * 1. non-empty articleId (and not a synthetic fallback)
  * 2. non-empty publisher (recognized, non-generic)
- * 3. valid sourceUrl when provided (no domain mismatch)
- * 4. valid tier 1–4 resolved deterministically
+ * 3. publisher/source identity is recognized by existing deterministic authority rules
+ * 4. valid tier 1–4, either explicitly supplied or deterministically resolved
+ * 5. valid sourceUrl when provided (valid syntax and no domain mismatch)
  */
 export function isAuthoritativePrimarySource(source?: SignalSourceProvenance): boolean {
   if (!source || typeof source !== 'object') return false;
@@ -132,16 +135,19 @@ export function isAuthoritativePrimarySource(source?: SignalSourceProvenance): b
   if (isGenericOrUntrustedPublisher(source.publisher)) {
     return false;
   }
+  if (!isRecognizedPublisher(source.publisher, source.sourceUrl)) {
+    return false;
+  }
 
   // 3. Tier check
   if (typeof source.tier !== 'number' || !Number.isInteger(source.tier) || source.tier < 1 || source.tier > 4) {
     return false;
   }
 
-  // 4. URL check (if provided, must not have domain mismatch)
+  // 4. URL check (if provided, must be valid syntax and must not have domain mismatch)
   if (source.sourceUrl && typeof source.sourceUrl === 'string' && source.sourceUrl.trim()) {
     const urlCheck = SourceAuthorityRanker.getInstance().validateSourceUrl(source.sourceUrl, source.publisher);
-    if (urlCheck.domainMismatch) {
+    if (!urlCheck.isValid || urlCheck.domainMismatch) {
       return false;
     }
   }
@@ -178,20 +184,18 @@ export function validateProvenance(provenance: SignalProvenance): SignalProvenan
       provenance.primarySource.publisher.trim().toUpperCase() !== 'UNKNOWN';
     const isUntrusted = isGenericOrUntrustedPublisher(provenance.primarySource?.publisher);
 
+    let hasDomainMismatch = false;
     if (provenance.primarySource?.sourceUrl && provenance.primarySource?.publisher) {
       const urlCheck = SourceAuthorityRanker.getInstance().validateSourceUrl(
         provenance.primarySource.sourceUrl,
         provenance.primarySource.publisher
       );
-      if (urlCheck.domainMismatch) {
-        return {
-          ...provenance,
-          status: 'UNVERIFIED'
-        };
+      if (!urlCheck.isValid || urlCheck.domainMismatch) {
+        hasDomainMismatch = true;
       }
     }
 
-    if (isUntrusted) {
+    if (hasDomainMismatch || isUntrusted) {
       return {
         ...provenance,
         status: 'UNVERIFIED'
@@ -484,7 +488,7 @@ export function resolveSignalProvenance(
   // - recognized source identity
   // - valid tier (1–4)
   // - no domain mismatch
-  if (hasArticleId && hasValidPublisher && !isUntrustedPub && typeof resolvedTier === 'number' && resolvedTier >= 1 && resolvedTier <= 4) {
+  if (isAuthoritativePrimarySource(primaryCandidate)) {
     return {
       status: 'VERIFIED',
       primarySource: primaryCandidate,
