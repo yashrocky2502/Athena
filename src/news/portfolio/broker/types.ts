@@ -454,6 +454,7 @@ export interface PortfolioImportRow {
   averagePrice: number;
   currentPrice?: number;
   sector?: string;
+  isin?: string;
   optionType?: 'CALL' | 'PUT';
   strikePrice?: number;
   expiryDate?: string;

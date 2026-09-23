@@ -437,23 +437,45 @@ export default function PortfolioHub({
     if (!file) return;
 
     setImportFilename(file.name);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const content = event.target?.result as string;
-      setImportContent(content);
-      handlePreviewFile(file.name, content);
-    };
-    reader.readAsText(file);
+    const isExcel = file.name.toLowerCase().endsWith('.xlsx') || file.name.toLowerCase().endsWith('.xls');
+
+    if (isExcel) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const buffer = event.target?.result as ArrayBuffer;
+        const bytes = new Uint8Array(buffer);
+        let binary = '';
+        for (let i = 0; i < bytes.byteLength; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        const base64 = btoa(binary);
+        handlePreviewFile(file.name, base64, 'EXCEL');
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const content = event.target?.result as string;
+        setImportContent(content);
+        handlePreviewFile(file.name, content, 'CSV');
+      };
+      reader.readAsText(file);
+    }
   };
 
-  const handlePreviewFile = async (name: string, content: string) => {
+  const handlePreviewFile = async (name: string, content: string, sourceType?: 'EXCEL' | 'CSV') => {
     try {
       const res = await fetch("/api/v4/portfolio/import/preview", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filename: name, content })
+        body: JSON.stringify({ filename: name, content, sourceType })
       }).then(r => r.json());
 
+      if (res.error) {
+        showNotification(res.error, "error");
+        setImportPreview(null);
+        return;
+      }
       setImportPreview(res);
     } catch (err: any) {
       showNotification("Failed to preview file: " + err.message, "error");
@@ -1630,6 +1652,17 @@ export default function PortfolioHub({
                     </tbody>
                   </table>
                 </div>
+
+                {importPreview.errors && importPreview.errors.length > 0 && (
+                  <div className="mt-3 p-3 rounded-lg bg-red-950/40 border border-red-500/30 text-xs text-red-300 space-y-1">
+                    {importPreview.errors.slice(0, 5).map((err: string, eIdx: number) => (
+                      <div key={eIdx} className="flex items-center gap-2">
+                        <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                        <span>{err}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>

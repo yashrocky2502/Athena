@@ -1,5 +1,5 @@
 {
-  "activePortfolioId": "PORTFOLIO_DEFAULT",
+  "activePortfolioId": "PORTFOLIO_1790155762042_4042e8",
   "portfolios": [
     {
       "id": "PORTFOLIO_DEFAULT",
@@ -2947,6 +2947,421 @@
         }
       ],
       "cashBalanceINR": 0
+    },
+    {
+      "id": "PORTFOLIO_1790155469022_0488ea",
+      "name": "Excel Import Test Portfolio",
+      "description": "",
+      "baseCurrency": "INR",
+      "createdAt": "2026-09-23T09:24:29.022Z",
+      "updatedAt": "2026-09-23T09:24:29.033Z",
+      "status": "ACTIVE",
+      "cashINR": 0,
+      "holdings": [
+        {
+          "id": "HLD_NSE_KOTAKBANK_1790155469031",
+          "symbol": "KOTAKBANK",
+          "exchange": "NSE",
+          "isin": "INE_KOTAKBANK",
+          "assetClass": "EQUITY",
+          "quantity": 75,
+          "averagePrice": 1750,
+          "currentPrice": 1820,
+          "marketValueINR": 136500,
+          "unrealizedPnLINR": 5250,
+          "unrealizedPnLPct": 4,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Banking",
+          "source": "MANUAL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:24:29.031Z"
+        },
+        {
+          "id": "HLD_NSE_ASIANPAINT_1790155469033",
+          "symbol": "ASIANPAINT",
+          "exchange": "NSE",
+          "isin": "INE_ASIANPAINT",
+          "assetClass": "EQUITY",
+          "quantity": 30,
+          "averagePrice": 2850,
+          "currentPrice": 2990,
+          "marketValueINR": 89700,
+          "unrealizedPnLINR": 4200,
+          "unrealizedPnLPct": 4.91,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Consumer",
+          "source": "MANUAL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:24:29.033Z"
+        }
+      ],
+      "positions": [],
+      "orders": [],
+      "transactions": [
+        {
+          "id": "TX_1790155469031_d5ad8a",
+          "portfolioId": "PORTFOLIO_1790155469022_0488ea",
+          "timestamp": "2026-09-23T09:24:29.031Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "KOTAKBANK",
+          "quantity": 75,
+          "price": 1750,
+          "fees": 0,
+          "notes": "Manual purchase of 75 units of KOTAKBANK (EQUITY)"
+        },
+        {
+          "id": "TX_1790155469033_640c64",
+          "portfolioId": "PORTFOLIO_1790155469022_0488ea",
+          "timestamp": "2026-09-23T09:24:29.033Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "ASIANPAINT",
+          "quantity": 30,
+          "price": 2850,
+          "fees": 0,
+          "notes": "Manual purchase of 30 units of ASIANPAINT (EQUITY)"
+        }
+      ],
+      "cashBalanceINR": 0
+    },
+    {
+      "id": "PORTFOLIO_1790155515261_429542",
+      "name": "Excel Import Test Portfolio",
+      "description": "",
+      "baseCurrency": "INR",
+      "createdAt": "2026-09-23T09:25:15.261Z",
+      "updatedAt": "2026-09-23T09:25:15.272Z",
+      "status": "ACTIVE",
+      "cashINR": 0,
+      "holdings": [
+        {
+          "id": "HLD_NSE_KOTAKBANK_1790155515270",
+          "symbol": "KOTAKBANK",
+          "exchange": "NSE",
+          "isin": "INE237A01028",
+          "assetClass": "EQUITY",
+          "quantity": 75,
+          "averagePrice": 1750,
+          "currentPrice": 1820,
+          "marketValueINR": 136500,
+          "unrealizedPnLINR": 5250,
+          "unrealizedPnLPct": 4,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Banking",
+          "source": "EXCEL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:25:15.270Z"
+        },
+        {
+          "id": "HLD_NSE_ASIANPAINT_1790155515272",
+          "symbol": "ASIANPAINT",
+          "exchange": "NSE",
+          "isin": "INE021A01026",
+          "assetClass": "EQUITY",
+          "quantity": 30,
+          "averagePrice": 2850,
+          "currentPrice": 2990,
+          "marketValueINR": 89700,
+          "unrealizedPnLINR": 4200,
+          "unrealizedPnLPct": 4.91,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Consumer",
+          "source": "EXCEL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:25:15.272Z"
+        }
+      ],
+      "positions": [],
+      "orders": [],
+      "transactions": [
+        {
+          "id": "TX_1790155515271_3bfc03",
+          "portfolioId": "PORTFOLIO_1790155515261_429542",
+          "timestamp": "2026-09-23T09:25:15.271Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "KOTAKBANK",
+          "quantity": 75,
+          "price": 1750,
+          "fees": 0,
+          "notes": "Manual purchase of 75 units of KOTAKBANK (EQUITY)"
+        },
+        {
+          "id": "TX_1790155515272_f5033c",
+          "portfolioId": "PORTFOLIO_1790155515261_429542",
+          "timestamp": "2026-09-23T09:25:15.272Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "ASIANPAINT",
+          "quantity": 30,
+          "price": 2850,
+          "fees": 0,
+          "notes": "Manual purchase of 30 units of ASIANPAINT (EQUITY)"
+        }
+      ],
+      "cashBalanceINR": 0
+    },
+    {
+      "id": "PORTFOLIO_1790155539454_a35d26",
+      "name": "Excel Import Test Portfolio",
+      "description": "",
+      "baseCurrency": "INR",
+      "createdAt": "2026-09-23T09:25:39.455Z",
+      "updatedAt": "2026-09-23T09:25:39.467Z",
+      "status": "ACTIVE",
+      "cashINR": 0,
+      "holdings": [
+        {
+          "id": "HLD_NSE_KOTAKBANK_1790155539465",
+          "symbol": "KOTAKBANK",
+          "exchange": "NSE",
+          "isin": "INE237A01028",
+          "assetClass": "EQUITY",
+          "quantity": 75,
+          "averagePrice": 1750,
+          "currentPrice": 1820,
+          "marketValueINR": 136500,
+          "unrealizedPnLINR": 5250,
+          "unrealizedPnLPct": 4,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Banking",
+          "source": "EXCEL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:25:39.465Z"
+        },
+        {
+          "id": "HLD_NSE_ASIANPAINT_1790155539467",
+          "symbol": "ASIANPAINT",
+          "exchange": "NSE",
+          "isin": "INE021A01026",
+          "assetClass": "EQUITY",
+          "quantity": 30,
+          "averagePrice": 2850,
+          "currentPrice": 2990,
+          "marketValueINR": 89700,
+          "unrealizedPnLINR": 4200,
+          "unrealizedPnLPct": 4.91,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Consumer",
+          "source": "EXCEL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:25:39.467Z"
+        }
+      ],
+      "positions": [],
+      "orders": [],
+      "transactions": [
+        {
+          "id": "TX_1790155539465_b80082",
+          "portfolioId": "PORTFOLIO_1790155539454_a35d26",
+          "timestamp": "2026-09-23T09:25:39.465Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "KOTAKBANK",
+          "quantity": 75,
+          "price": 1750,
+          "fees": 0,
+          "notes": "Manual purchase of 75 units of KOTAKBANK (EQUITY)"
+        },
+        {
+          "id": "TX_1790155539467_7631b5",
+          "portfolioId": "PORTFOLIO_1790155539454_a35d26",
+          "timestamp": "2026-09-23T09:25:39.467Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "ASIANPAINT",
+          "quantity": 30,
+          "price": 2850,
+          "fees": 0,
+          "notes": "Manual purchase of 30 units of ASIANPAINT (EQUITY)"
+        }
+      ],
+      "cashBalanceINR": 0
+    },
+    {
+      "id": "PORTFOLIO_1790155709843_03a694",
+      "name": "Excel Import Test Portfolio",
+      "description": "",
+      "baseCurrency": "INR",
+      "createdAt": "2026-09-23T09:28:29.844Z",
+      "updatedAt": "2026-09-23T09:28:29.868Z",
+      "status": "ACTIVE",
+      "cashINR": 0,
+      "holdings": [
+        {
+          "id": "HLD_NSE_KOTAKBANK_1790155709866",
+          "symbol": "KOTAKBANK",
+          "exchange": "NSE",
+          "isin": "INE237A01028",
+          "assetClass": "EQUITY",
+          "quantity": 75,
+          "averagePrice": 1750,
+          "currentPrice": 1820,
+          "marketValueINR": 136500,
+          "unrealizedPnLINR": 5250,
+          "unrealizedPnLPct": 4,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Banking",
+          "source": "EXCEL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:28:29.866Z"
+        },
+        {
+          "id": "HLD_NSE_ASIANPAINT_1790155709868",
+          "symbol": "ASIANPAINT",
+          "exchange": "NSE",
+          "isin": "INE021A01026",
+          "assetClass": "EQUITY",
+          "quantity": 30,
+          "averagePrice": 2850,
+          "currentPrice": 2990,
+          "marketValueINR": 89700,
+          "unrealizedPnLINR": 4200,
+          "unrealizedPnLPct": 4.91,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Consumer",
+          "source": "EXCEL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:28:29.868Z"
+        }
+      ],
+      "positions": [],
+      "orders": [],
+      "transactions": [
+        {
+          "id": "TX_1790155709866_61c0c4",
+          "portfolioId": "PORTFOLIO_1790155709843_03a694",
+          "timestamp": "2026-09-23T09:28:29.866Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "KOTAKBANK",
+          "quantity": 75,
+          "price": 1750,
+          "fees": 0,
+          "notes": "Manual purchase of 75 units of KOTAKBANK (EQUITY)"
+        },
+        {
+          "id": "TX_1790155709868_72e895",
+          "portfolioId": "PORTFOLIO_1790155709843_03a694",
+          "timestamp": "2026-09-23T09:28:29.868Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "ASIANPAINT",
+          "quantity": 30,
+          "price": 2850,
+          "fees": 0,
+          "notes": "Manual purchase of 30 units of ASIANPAINT (EQUITY)"
+        }
+      ],
+      "cashBalanceINR": 0
+    },
+    {
+      "id": "PORTFOLIO_1790155762042_4042e8",
+      "name": "Excel Import Test Portfolio",
+      "description": "",
+      "baseCurrency": "INR",
+      "createdAt": "2026-09-23T09:29:22.043Z",
+      "updatedAt": "2026-09-23T09:29:22.062Z",
+      "status": "ACTIVE",
+      "cashINR": 0,
+      "holdings": [
+        {
+          "id": "HLD_NSE_KOTAKBANK_1790155762056",
+          "symbol": "KOTAKBANK",
+          "exchange": "NSE",
+          "isin": "INE237A01028",
+          "assetClass": "EQUITY",
+          "quantity": 75,
+          "averagePrice": 1750,
+          "currentPrice": 1820,
+          "marketValueINR": 136500,
+          "unrealizedPnLINR": 5250,
+          "unrealizedPnLPct": 4,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Banking",
+          "source": "EXCEL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:29:22.056Z"
+        },
+        {
+          "id": "HLD_NSE_ASIANPAINT_1790155762062",
+          "symbol": "ASIANPAINT",
+          "exchange": "NSE",
+          "isin": "INE021A01026",
+          "assetClass": "EQUITY",
+          "quantity": 30,
+          "averagePrice": 2850,
+          "currentPrice": 2990,
+          "marketValueINR": 89700,
+          "unrealizedPnLINR": 4200,
+          "unrealizedPnLPct": 4.91,
+          "realizedPnLINR": 0,
+          "dayPnLINR": 0,
+          "dayChangePct": 0,
+          "sector": "Consumer",
+          "source": "EXCEL",
+          "purchaseDate": "2026-09-23",
+          "normalizedAt": "2026-09-23T09:29:22.062Z"
+        }
+      ],
+      "positions": [],
+      "orders": [],
+      "transactions": [
+        {
+          "id": "TX_1790155762056_e27216",
+          "portfolioId": "PORTFOLIO_1790155762042_4042e8",
+          "timestamp": "2026-09-23T09:29:22.056Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "KOTAKBANK",
+          "quantity": 75,
+          "price": 1750,
+          "fees": 0,
+          "notes": "Manual purchase of 75 units of KOTAKBANK (EQUITY)"
+        },
+        {
+          "id": "TX_1790155762062_100f62",
+          "portfolioId": "PORTFOLIO_1790155762042_4042e8",
+          "timestamp": "2026-09-23T09:29:22.062Z",
+          "currency": "INR",
+          "source": "MANUAL",
+          "type": "BUY",
+          "symbol": "ASIANPAINT",
+          "quantity": 30,
+          "price": 2850,
+          "fees": 0,
+          "notes": "Manual purchase of 30 units of ASIANPAINT (EQUITY)"
+        }
+      ],
+      "cashBalanceINR": 0
     }
   ],
   "timeline": [
@@ -3851,5 +4266,21 @@
       "severity": "INFO"
     }
   ],
-  "imports": []
+  "imports": [
+    {
+      "id": "IMP_1790155762064_2120af",
+      "filename": "holdings-RKN570.xlsx",
+      "uploadedAt": "2026-09-23T09:29:22.064Z",
+      "sourceType": "EXCEL",
+      "checksum": "1f930ce53e5bed67830d3a9b638e7f582378d84ba015b32af4c864e662334cc2",
+      "status": "IMPORTED",
+      "rowCount": 2,
+      "validationErrors": [],
+      "summary": {
+        "totalHoldings": 2,
+        "totalPositions": 0,
+        "estimatedValueINR": 226200
+      }
+    }
+  ]
 }

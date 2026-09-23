@@ -27,6 +27,7 @@ import {
   CanonicalOrder,
   PortfolioImport,
   PortfolioImportRow,
+  PortfolioSourceType,
   BrokerConnectionState,
   BrokerConnectionStatus,
   TradingExecutionMode,
@@ -345,6 +346,8 @@ export class PortfolioHubManager {
       currentPrice?: number;
       purchaseDate?: string;
       sector?: string;
+      isin?: string;
+      source?: PortfolioSourceType;
       notes?: string;
       assetClass?: 'EQUITY' | 'ETF';
     },
@@ -357,6 +360,8 @@ export class PortfolioHubManager {
       currentPrice?: number;
       purchaseDate?: string;
       sector?: string;
+      isin?: string;
+      source?: PortfolioSourceType;
       notes?: string;
       assetClass?: 'EQUITY' | 'ETF';
     }
@@ -395,6 +400,7 @@ export class PortfolioHubManager {
       holding = {
         ...existing,
         displayName: params.displayName || existing.displayName,
+        isin: params.isin || existing.isin,
         quantity: newQty,
         averagePrice: newAvgPrice,
         currentPrice: Number(currentPrice.toFixed(2)),
@@ -413,7 +419,7 @@ export class PortfolioHubManager {
         symbol,
         displayName: params.displayName,
         exchange,
-        isin: `INE_${symbol}`,
+        isin: params.isin || `INE_${symbol}`,
         assetClass,
         quantity: params.quantity,
         averagePrice: Number(params.averagePrice.toFixed(2)),
@@ -425,7 +431,7 @@ export class PortfolioHubManager {
         dayPnLINR: 0,
         dayChangePct: 0,
         sector,
-        source: 'MANUAL',
+        source: params.source || 'MANUAL',
         purchaseDate: params.purchaseDate || now.split('T')[0],
         notes: params.notes,
         normalizedAt: now
@@ -1039,7 +1045,9 @@ export class PortfolioHubManager {
           quantity: row.quantity,
           averagePrice: row.averagePrice,
           currentPrice: row.currentPrice || row.averagePrice,
-          sector: row.sector
+          sector: row.sector,
+          isin: row.isin,
+          source: sourceType
         });
         importedCount++;
       }
