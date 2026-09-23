@@ -16,7 +16,10 @@ import {
   PriorityTier,
   MarketRegimeType,
   SignalOutcomeType,
-  DirectionalAccuracyType
+  DirectionalAccuracyType,
+  MetricAvailabilityStatus,
+  EvaluatedCategory,
+  categorizeOutcomeRecord
 } from './SignalOutcomeEngine.ts';
 import { HistoricalEventEngine } from '../intelligence/HistoricalEventEngine.ts';
 import { MarketPulseEngine } from '../intelligence/MarketPulseEngine.ts';
@@ -49,16 +52,24 @@ export interface PerformanceFilter {
 
 export interface CorePerformanceSummary extends SampleMetadata {
   totalEvaluated: number;
+  directionallyEvaluableCount: number;
   resolvedSignals: number;
   unresolvedSignals: number;
   correctSignals: number;
   incorrectSignals: number;
+  correctCount: number;
+  incorrectCount: number;
+  contradictedCount: number;
+  expiredInconclusiveCount: number;
   neutralSignals: number;
   insufficientDataSignals: number;
+  insufficientMarketDataCount?: number;
 
   directionalAccuracyPct: number;
+  accuracyStatus: MetricAvailabilityStatus;
   winRatePct?: number;
   confirmationAccuracyPct: number;
+  confirmationAccuracyStatus?: MetricAvailabilityStatus;
   contradictionRatePct: number;
   invalidationRatePct: number;
   expiryRatePct: number;
@@ -67,6 +78,8 @@ export interface CorePerformanceSummary extends SampleMetadata {
   medianMFE: number;
   averageMAE: number;
   medianMAE: number;
+  mfeStatus: MetricAvailabilityStatus;
+  maeStatus: MetricAvailabilityStatus;
 
   averageMfePct?: number;
   medianMfePct?: number;
@@ -80,22 +93,37 @@ export interface CorePerformanceSummary extends SampleMetadata {
   evaluatedSignalsCount?: number;
 
   averageResolutionTimeSeconds: number;
+  resolutionTimeStatus: MetricAvailabilityStatus;
   averageTimeToConfirmationSeconds: number;
+  confirmationTimeStatus: MetricAvailabilityStatus;
   averageTimeToInvalidationSeconds: number;
+  invalidationTimeStatus: MetricAvailabilityStatus;
   formattedAvgResolutionTime: string;
+  pnlStatus: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL';
 }
 
 export interface SignalTypePerformanceSlice extends SampleMetadata {
   signalType: string;
   eventType?: string;
+  directionallyEvaluableCount?: number;
+  correctCount?: number;
+  incorrectCount?: number;
+  expiredInconclusiveCount?: number;
+  accuracyStatus?: MetricAvailabilityStatus;
   directionalAccuracyPct: number;
+  winRatePct?: number;
   averageMFE: number;
   averageMAE: number;
   medianMFE: number;
   medianMAE: number;
+  mfeStatus?: MetricAvailabilityStatus;
+  maeStatus?: MetricAvailabilityStatus;
   averageResolutionTimeSeconds: number;
+  resolutionTimeStatus?: MetricAvailabilityStatus;
   formattedAvgResolutionTime: string;
   contradictionRatePct: number;
+  sampleStatus?: string;
+  pnlStatus?: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL';
   wordingNotice: 'Historical performance (Descriptive only)';
 }
 
@@ -103,30 +131,49 @@ export interface SectorPerformanceSlice extends SampleMetadata {
   sector: string;
   signalCount: number;
   resolvedCount: number;
+  directionallyEvaluableCount?: number;
+  correctCount?: number;
+  incorrectCount?: number;
+  expiredInconclusiveCount?: number;
+  accuracyStatus?: MetricAvailabilityStatus;
   historicalAccuracyPct: number;
   directionalAccuracyPct?: number;
   averageMFE: number;
   averageMAE: number;
+  mfeStatus?: MetricAvailabilityStatus;
+  maeStatus?: MetricAvailabilityStatus;
   averageReactionPct: number;
   contradictionRatePct: number;
   strongestEventType: string;
   weakestEventType: string;
   sectorRank: number;
+  pnlStatus?: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL';
 }
 
 export interface RegimePerformanceSlice extends SampleMetadata {
   regime: string;
+  marketRegime?: string;
   signalCount: number;
+  directionallyEvaluableCount?: number;
+  correctCount?: number;
+  incorrectCount?: number;
+  expiredInconclusiveCount?: number;
+  accuracyStatus?: MetricAvailabilityStatus;
   historicalAccuracyPct: number;
+  directionalAccuracyPct?: number;
   averageMFE: number;
   averageMAE: number;
+  mfeStatus?: MetricAvailabilityStatus;
+  maeStatus?: MetricAvailabilityStatus;
   contradictionRatePct: number;
   bySignalType: Record<string, {
     signalType: string;
     sampleSize: number;
     accuracyPct: number;
+    accuracyStatus?: MetricAvailabilityStatus;
     averageMFE: number;
   }>;
+  pnlStatus?: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL';
   wordingNotice: 'Historical observation (No causal inference)';
 }
 
@@ -134,22 +181,39 @@ export interface SourceAuthoritySlice extends SampleMetadata {
   sourceCategory: string; // 'Tier 1' | 'Tier 2' | 'Tier 3' | 'Single Source' | 'Multi Source'
   sourceTier?: string;
   reliabilityScore?: number;
+  directionallyEvaluableCount?: number;
+  correctCount?: number;
+  incorrectCount?: number;
+  expiredInconclusiveCount?: number;
+  accuracyStatus?: MetricAvailabilityStatus;
   accuracyPct: number;
   contradictionRatePct: number;
   averageMFE: number;
   averageMAE: number;
+  mfeStatus?: MetricAvailabilityStatus;
+  maeStatus?: MetricAvailabilityStatus;
   averageResolutionTimeSeconds: number;
+  resolutionTimeStatus?: MetricAvailabilityStatus;
+  pnlStatus?: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL';
 }
 
 export interface PriorityEffectivenessSlice extends SampleMetadata {
   priority: string; // 'P0_CRITICAL' | 'P1_HIGH' | 'P2_MEDIUM' | 'P3_LOW'
+  directionallyEvaluableCount?: number;
+  correctCount?: number;
+  incorrectCount?: number;
+  expiredInconclusiveCount?: number;
+  accuracyStatus?: MetricAvailabilityStatus;
   historicalAccuracyPct: number;
   accuracyPct?: number;
   averageReactionPct: number;
   averageMFE: number;
   averageMAE: number;
+  mfeStatus?: MetricAvailabilityStatus;
+  maeStatus?: MetricAvailabilityStatus;
   falsePositiveRatePct: number;
   unresolvedRatePct: number;
+  pnlStatus?: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL';
 }
 
 export interface WhatAthenaGotRightWrongReport {
@@ -179,13 +243,21 @@ export interface TrendTimeBucketPoint extends SampleMetadata {
   periodLabel: string; // e.g., '2026-W34' or '2026-08-25'
   startDate: string;
   endDate: string;
+  directionallyEvaluableCount?: number;
+  correctCount?: number;
+  incorrectCount?: number;
+  expiredInconclusiveCount?: number;
+  accuracyStatus?: MetricAvailabilityStatus;
   directionalAccuracyPct: number;
   signalVolume: number;
   averageMFE: number;
   averageMAE: number;
+  mfeStatus?: MetricAvailabilityStatus;
+  maeStatus?: MetricAvailabilityStatus;
   contradictionRatePct: number;
   invalidationRatePct: number;
   unresolvedRatePct: number;
+  pnlStatus?: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL';
 }
 
 export interface PerformanceTrendReport {
@@ -351,19 +423,63 @@ export class HistoricalPerformanceAnalyticsEngine {
 
     const totalEvaluated = outcomes.length;
     const resolvedSignals = outcomes.filter(o => o.isResolved).length;
-    const unresolvedSignals = outcomes.filter(o => !o.isResolved && (o.outcome || (o as any).evaluatedOutcome) !== 'INSUFFICIENT_MARKET_DATA').length;
-    const correctSignals = outcomes.filter(o => o.isCorrect || (o as any).evaluatedOutcome === 'CORRECT' || (o as any).directionalAccuracy === 'ACCURATE' || (o as any).directionalAccuracy === 'CORRECT').length;
-    const incorrectSignals = outcomes.filter(o => !o.isCorrect && (o as any).evaluatedOutcome !== 'CORRECT' && (o as any).directionalAccuracy !== 'ACCURATE' && (o.isResolved || (o as any).directionalAccuracy === 'INCORRECT')).length;
-    const neutralSignals = outcomes.filter(o => o.outcome === 'NEUTRAL_REACTION' || (o as any).evaluatedOutcome === 'NEUTRAL_REACTION' || (o as any).directionalAccuracy === 'NEUTRAL').length;
-    const insufficientDataSignals = outcomes.filter(o => o.outcome === 'INSUFFICIENT_MARKET_DATA' || (o as any).evaluatedOutcome === 'INSUFFICIENT_MARKET_DATA').length;
 
-    const directionalAccuracyPct = resolvedSignals > 0
-      ? parseFloat(((correctSignals / resolvedSignals) * 100).toFixed(1))
+    let correctCount = 0;
+    let incorrectCount = 0;
+    let neutralCount = 0;
+    let contradictedCount = 0;
+    let expiredInconclusiveCount = 0;
+    let insufficientMarketDataCount = 0;
+    let unresolvedCount = 0;
+
+    for (const o of outcomes) {
+      const cat = categorizeOutcomeRecord(o);
+      switch (cat) {
+        case 'CORRECT':
+          correctCount++;
+          break;
+        case 'INCORRECT':
+          incorrectCount++;
+          break;
+        case 'NEUTRAL':
+          neutralCount++;
+          break;
+        case 'CONTRADICTED':
+          contradictedCount++;
+          break;
+        case 'EXPIRED_INCONCLUSIVE':
+          expiredInconclusiveCount++;
+          break;
+        case 'INSUFFICIENT_MARKET_DATA':
+          insufficientMarketDataCount++;
+          break;
+        case 'UNRESOLVED':
+          unresolvedCount++;
+          break;
+      }
+    }
+
+    const directionallyEvaluableCount = correctCount + incorrectCount;
+    const unresolvedSignals = unresolvedCount + insufficientMarketDataCount;
+    const correctSignals = correctCount;
+    const incorrectSignals = incorrectCount;
+    const neutralSignals = neutralCount;
+    const insufficientDataSignals = insufficientMarketDataCount;
+
+    const accuracyStatus: MetricAvailabilityStatus = directionallyEvaluableCount > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+    const directionalAccuracyPct = directionallyEvaluableCount > 0
+      ? parseFloat(((correctCount / directionallyEvaluableCount) * 100).toFixed(1))
       : 0;
 
-    const confirmedCount = outcomes.filter(o => (o.signalLifecycleState as string) === 'CONFIRMED' || o.outcome === 'TARGET_REACHED' || (o as any).evaluatedOutcome === 'CORRECT' || o.outcome === 'POSITIVE_REACTION').length;
-    const confirmationAccuracyPct = totalEvaluated > 0
-      ? parseFloat(((confirmedCount / totalEvaluated) * 100).toFixed(1))
+    const confirmedList = outcomes.filter(o => (o.signalLifecycleState as string) === 'CONFIRMED' || o.outcome === 'TARGET_REACHED' || (o as any).evaluatedOutcome === 'CORRECT' || o.outcome === 'POSITIVE_REACTION');
+    const confirmedEvaluable = confirmedList.filter(o => {
+      const cat = categorizeOutcomeRecord(o);
+      return cat === 'CORRECT' || cat === 'INCORRECT';
+    });
+    const confirmedCorrect = confirmedList.filter(o => categorizeOutcomeRecord(o) === 'CORRECT').length;
+    const confirmationAccuracyStatus: MetricAvailabilityStatus = confirmedEvaluable.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+    const confirmationAccuracyPct = confirmedEvaluable.length > 0
+      ? parseFloat(((confirmedCorrect / confirmedEvaluable.length) * 100).toFixed(1))
       : 0;
 
     const contradictionCount = outcomes.filter(o => o.contradictionDetected || o.outcome === 'CONTRADICTED' || (o as any).evaluatedOutcome === 'CONTRADICTED' || (o.signalLifecycleState as string) === 'CONTRADICTED').length;
@@ -381,24 +497,62 @@ export class HistoricalPerformanceAnalyticsEngine {
       ? parseFloat(((expiryCount / totalEvaluated) * 100).toFixed(1))
       : 0;
 
-    const mfes = outcomes.map(o => o.mfePercent !== undefined ? o.mfePercent : ((o as any).maxFavorableExcursionPct ?? 0)).sort((a, b) => a - b);
-    const maes = outcomes.map(o => o.maePercent !== undefined ? o.maePercent : Math.abs((o as any).maxAdverseExcursionPct ?? 0)).sort((a, b) => a - b);
+    const validMfes: number[] = [];
+    for (const o of outcomes) {
+      const val = o.mfePercent !== undefined ? o.mfePercent : (o as any).maxFavorableExcursionPct;
+      if (typeof val === 'number' && Number.isFinite(val)) {
+        validMfes.push(val);
+      }
+    }
+    validMfes.sort((a, b) => a - b);
 
-    const averageMFE = mfes.length > 0 ? parseFloat((mfes.reduce((a, b) => a + b, 0) / mfes.length).toFixed(2)) : 0;
-    const medianMFE = mfes.length > 0 ? parseFloat((mfes[Math.floor(mfes.length / 2)] ?? 0).toFixed(2)) : 0;
-    const averageMAE = maes.length > 0 ? parseFloat((maes.reduce((a, b) => a + b, 0) / maes.length).toFixed(2)) : 0;
-    const medianMAE = maes.length > 0 ? parseFloat((maes[Math.floor(maes.length / 2)] ?? 0).toFixed(2)) : 0;
+    const validMaes: number[] = [];
+    for (const o of outcomes) {
+      const val = o.maePercent !== undefined ? o.maePercent : (o as any).maxAdverseExcursionPct;
+      if (typeof val === 'number' && Number.isFinite(val)) {
+        validMaes.push(Math.abs(val));
+      }
+    }
+    validMaes.sort((a, b) => a - b);
 
-    const resTimes = outcomes.map(o => o.resolutionTimeSeconds || 3600);
-    const averageResolutionTimeSeconds = resTimes.length > 0 ? Math.round(resTimes.reduce((a, b) => a + b, 0) / resTimes.length) : 0;
+    const mfeStatus: MetricAvailabilityStatus = validMfes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+    const maeStatus: MetricAvailabilityStatus = validMaes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
 
-    const confTimes = outcomes.filter(o => o.timeToTargetSeconds !== undefined).map(o => o.timeToTargetSeconds!);
-    const averageTimeToConfirmationSeconds = confTimes.length > 0 ? Math.round(confTimes.reduce((a, b) => a + b, 0) / confTimes.length) : averageResolutionTimeSeconds;
+    const averageMFE = validMfes.length > 0 ? parseFloat((validMfes.reduce((a, b) => a + b, 0) / validMfes.length).toFixed(2)) : 0;
+    const medianMFE = validMfes.length > 0 ? parseFloat((validMfes[Math.floor(validMfes.length / 2)] ?? 0).toFixed(2)) : 0;
+    const averageMAE = validMaes.length > 0 ? parseFloat((validMaes.reduce((a, b) => a + b, 0) / validMaes.length).toFixed(2)) : 0;
+    const medianMAE = validMaes.length > 0 ? parseFloat((validMaes[Math.floor(validMaes.length / 2)] ?? 0).toFixed(2)) : 0;
 
-    const invTimes = outcomes.filter(o => o.timeToInvalidationSeconds !== undefined).map(o => o.timeToInvalidationSeconds!);
-    const averageTimeToInvalidationSeconds = invTimes.length > 0 ? Math.round(invTimes.reduce((a, b) => a + b, 0) / invTimes.length) : averageResolutionTimeSeconds;
+    const validResTimes: number[] = [];
+    for (const o of outcomes) {
+      if (typeof o.resolutionTimeSeconds === 'number' && Number.isFinite(o.resolutionTimeSeconds) && o.resolutionTimeSeconds > 0) {
+        validResTimes.push(o.resolutionTimeSeconds);
+      }
+    }
+    const resolutionTimeStatus: MetricAvailabilityStatus = validResTimes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+    const averageResolutionTimeSeconds = validResTimes.length > 0 ? Math.round(validResTimes.reduce((a, b) => a + b, 0) / validResTimes.length) : 0;
 
-    const mfeMaeRatio = averageMAE > 0 ? (averageMFE / averageMAE).toFixed(2) : 'N/A';
+    const validConfTimes: number[] = [];
+    for (const o of outcomes) {
+      if (typeof o.timeToTargetSeconds === 'number' && Number.isFinite(o.timeToTargetSeconds) && o.timeToTargetSeconds > 0) {
+        validConfTimes.push(o.timeToTargetSeconds);
+      }
+    }
+    const confirmationTimeStatus: MetricAvailabilityStatus = validConfTimes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+    const averageTimeToConfirmationSeconds = validConfTimes.length > 0 ? Math.round(validConfTimes.reduce((a, b) => a + b, 0) / validConfTimes.length) : 0;
+
+    const validInvTimes: number[] = [];
+    for (const o of outcomes) {
+      if (typeof o.timeToInvalidationSeconds === 'number' && Number.isFinite(o.timeToInvalidationSeconds) && o.timeToInvalidationSeconds > 0) {
+        validInvTimes.push(o.timeToInvalidationSeconds);
+      }
+    }
+    const invalidationTimeStatus: MetricAvailabilityStatus = validInvTimes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+    const averageTimeToInvalidationSeconds = validInvTimes.length > 0 ? Math.round(validInvTimes.reduce((a, b) => a + b, 0) / validInvTimes.length) : 0;
+
+    const mfeMaeRatio = (mfeStatus === 'MEASURABLE' && maeStatus === 'MEASURABLE' && averageMAE > 0)
+      ? (averageMFE / averageMAE).toFixed(2)
+      : 'N/A';
 
     this.totalAggregationLatencyMs += Date.now() - startTime;
 
@@ -408,16 +562,24 @@ export class HistoricalPerformanceAnalyticsEngine {
       totalEvaluated,
       totalSignals: totalEvaluated,
       evaluatedSignalsCount: totalEvaluated,
+      directionallyEvaluableCount,
       resolvedSignals,
       unresolvedSignals,
       correctSignals,
       incorrectSignals,
+      correctCount,
+      incorrectCount,
+      contradictedCount,
+      expiredInconclusiveCount,
       neutralSignals,
       insufficientDataSignals,
+      insufficientMarketDataCount,
 
       directionalAccuracyPct,
+      accuracyStatus,
       winRatePct: directionalAccuracyPct,
       confirmationAccuracyPct,
+      confirmationAccuracyStatus,
       contradictionRatePct,
       invalidationRatePct,
       expiryRatePct,
@@ -426,6 +588,8 @@ export class HistoricalPerformanceAnalyticsEngine {
       medianMFE,
       averageMAE,
       medianMAE,
+      mfeStatus,
+      maeStatus,
 
       averageMfePct: averageMFE,
       medianMfePct: medianMFE,
@@ -434,9 +598,13 @@ export class HistoricalPerformanceAnalyticsEngine {
       mfeMaeRatio,
 
       averageResolutionTimeSeconds,
+      resolutionTimeStatus,
       averageTimeToConfirmationSeconds,
+      confirmationTimeStatus,
       averageTimeToInvalidationSeconds,
-      formattedAvgResolutionTime: this.formatSeconds(averageResolutionTimeSeconds)
+      invalidationTimeStatus,
+      formattedAvgResolutionTime: resolutionTimeStatus === 'INSUFFICIENT_DATA' ? 'N/A' : this.formatSeconds(averageResolutionTimeSeconds),
+      pnlStatus: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL'
     };
   }
 
@@ -461,21 +629,47 @@ export class HistoricalPerformanceAnalyticsEngine {
 
     for (const [key, sliceRecords] of groups.entries()) {
       const sampleMeta = this.evaluateSampleQuality(sliceRecords.length);
-      const resolved = sliceRecords.filter(o => o.isResolved);
-      const correct = sliceRecords.filter(o => o.isCorrect || (o as any).evaluatedOutcome === 'CORRECT');
+      const evaluable = sliceRecords.filter(o => {
+        const cat = categorizeOutcomeRecord(o);
+        return cat === 'CORRECT' || cat === 'INCORRECT';
+      });
+      const correct = sliceRecords.filter(o => categorizeOutcomeRecord(o) === 'CORRECT');
       const contradiction = sliceRecords.filter(o => o.contradictionDetected || o.outcome === 'CONTRADICTED');
+      const expiredInconclusive = sliceRecords.filter(o => categorizeOutcomeRecord(o) === 'EXPIRED_INCONCLUSIVE');
 
-      const accPct = resolved.length > 0 ? parseFloat(((correct.length / resolved.length) * 100).toFixed(1)) : 0;
-      const mfes = sliceRecords.map(o => o.mfePercent !== undefined ? o.mfePercent : ((o as any).maxFavorableExcursionPct ?? 0)).sort((a, b) => a - b);
-      const maes = sliceRecords.map(o => o.maePercent !== undefined ? o.maePercent : Math.abs((o as any).maxAdverseExcursionPct ?? 0)).sort((a, b) => a - b);
+      const accuracyStatus: MetricAvailabilityStatus = evaluable.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const accPct = evaluable.length > 0 ? parseFloat(((correct.length / evaluable.length) * 100).toFixed(1)) : 0;
 
-      const avgMFE = mfes.length > 0 ? parseFloat((mfes.reduce((a, b) => a + b, 0) / mfes.length).toFixed(2)) : 0;
-      const medianMFE = mfes.length > 0 ? parseFloat((mfes[Math.floor(mfes.length / 2)] ?? 0).toFixed(2)) : 0;
-      const avgMAE = maes.length > 0 ? parseFloat((maes.reduce((a, b) => a + b, 0) / maes.length).toFixed(2)) : 0;
-      const medianMAE = maes.length > 0 ? parseFloat((maes[Math.floor(maes.length / 2)] ?? 0).toFixed(2)) : 0;
+      const validMfes: number[] = [];
+      for (const o of sliceRecords) {
+        const val = o.mfePercent !== undefined ? o.mfePercent : (o as any).maxFavorableExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMfes.push(val);
+      }
+      validMfes.sort((a, b) => a - b);
 
-      const resTimes = sliceRecords.map(o => o.resolutionTimeSeconds || 3600);
-      const avgResTimeSec = resTimes.length > 0 ? Math.round(resTimes.reduce((a, b) => a + b, 0) / resTimes.length) : 0;
+      const validMaes: number[] = [];
+      for (const o of sliceRecords) {
+        const val = o.maePercent !== undefined ? o.maePercent : (o as any).maxAdverseExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMaes.push(Math.abs(val));
+      }
+      validMaes.sort((a, b) => a - b);
+
+      const mfeStatus: MetricAvailabilityStatus = validMfes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const maeStatus: MetricAvailabilityStatus = validMaes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+
+      const avgMFE = validMfes.length > 0 ? parseFloat((validMfes.reduce((a, b) => a + b, 0) / validMfes.length).toFixed(2)) : 0;
+      const medianMFE = validMfes.length > 0 ? parseFloat((validMfes[Math.floor(validMfes.length / 2)] ?? 0).toFixed(2)) : 0;
+      const avgMAE = validMaes.length > 0 ? parseFloat((validMaes.reduce((a, b) => a + b, 0) / validMaes.length).toFixed(2)) : 0;
+      const medianMAE = validMaes.length > 0 ? parseFloat((validMaes[Math.floor(validMaes.length / 2)] ?? 0).toFixed(2)) : 0;
+
+      const validResTimes: number[] = [];
+      for (const o of sliceRecords) {
+        if (typeof o.resolutionTimeSeconds === 'number' && Number.isFinite(o.resolutionTimeSeconds) && o.resolutionTimeSeconds > 0) {
+          validResTimes.push(o.resolutionTimeSeconds);
+        }
+      }
+      const resolutionTimeStatus: MetricAvailabilityStatus = validResTimes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const avgResTimeSec = validResTimes.length > 0 ? Math.round(validResTimes.reduce((a, b) => a + b, 0) / validResTimes.length) : 0;
       const contradictionRatePct = sliceRecords.length > 0 ? parseFloat(((contradiction.length / sliceRecords.length) * 100).toFixed(1)) : 0;
 
       const sampleStatus = sampleMeta.sampleQuality === 'VALID_HISTORICAL_SAMPLE' ? 'VALID' : sampleMeta.sampleQuality === 'LIMITED_SAMPLE' ? 'LIMITED' : 'INSUFFICIENT';
@@ -484,16 +678,25 @@ export class HistoricalPerformanceAnalyticsEngine {
         ...sampleMeta,
         signalType: key,
         eventType: sliceRecords[0]?.eventCategory,
+        directionallyEvaluableCount: evaluable.length,
+        correctCount: correct.length,
+        incorrectCount: evaluable.length - correct.length,
+        expiredInconclusiveCount: expiredInconclusive.length,
+        accuracyStatus,
         winRatePct: accPct,
         directionalAccuracyPct: accPct,
         averageMFE: avgMFE,
         averageMAE: avgMAE,
         medianMFE,
         medianMAE,
+        mfeStatus,
+        maeStatus,
         averageResolutionTimeSeconds: avgResTimeSec,
-        formattedAvgResolutionTime: this.formatSeconds(avgResTimeSec),
+        resolutionTimeStatus,
+        formattedAvgResolutionTime: resolutionTimeStatus === 'INSUFFICIENT_DATA' ? 'N/A' : this.formatSeconds(avgResTimeSec),
         contradictionRatePct,
         sampleStatus,
+        pnlStatus: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL',
         wordingNotice: 'Historical performance (Descriptive only)'
       };
 
@@ -523,17 +726,39 @@ export class HistoricalPerformanceAnalyticsEngine {
 
     for (const [sec, recs] of groups.entries()) {
       const sampleMeta = this.evaluateSampleQuality(recs.length);
-      const resolved = recs.filter(o => o.isResolved);
-      const correct = recs.filter(o => o.isCorrect || (o as any).evaluatedOutcome === 'CORRECT');
+      const evaluable = recs.filter(o => {
+        const cat = categorizeOutcomeRecord(o);
+        return cat === 'CORRECT' || cat === 'INCORRECT';
+      });
+      const correct = recs.filter(o => categorizeOutcomeRecord(o) === 'CORRECT');
       const contradictions = recs.filter(o => o.contradictionDetected || o.outcome === 'CONTRADICTED');
+      const expiredInconclusive = recs.filter(o => categorizeOutcomeRecord(o) === 'EXPIRED_INCONCLUSIVE');
 
-      const accPct = resolved.length > 0 ? parseFloat(((correct.length / resolved.length) * 100).toFixed(1)) : 0;
-      const mfes = recs.map(o => o.mfePercent !== undefined ? o.mfePercent : ((o as any).maxFavorableExcursionPct ?? 0));
-      const maes = recs.map(o => o.maePercent !== undefined ? o.maePercent : Math.abs((o as any).maxAdverseExcursionPct ?? 0));
+      const accuracyStatus: MetricAvailabilityStatus = evaluable.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const accPct = evaluable.length > 0 ? parseFloat(((correct.length / evaluable.length) * 100).toFixed(1)) : 0;
 
-      const avgMFE = mfes.length > 0 ? parseFloat((mfes.reduce((a, b) => a + b, 0) / mfes.length).toFixed(2)) : 0;
-      const avgMAE = maes.length > 0 ? parseFloat((maes.reduce((a, b) => a + b, 0) / maes.length).toFixed(2)) : 0;
-      const avgReactionPct = parseFloat((avgMFE - avgMAE).toFixed(2));
+      const validMfes: number[] = [];
+      for (const o of recs) {
+        const val = o.mfePercent !== undefined ? o.mfePercent : (o as any).maxFavorableExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMfes.push(val);
+      }
+      validMfes.sort((a, b) => a - b);
+
+      const validMaes: number[] = [];
+      for (const o of recs) {
+        const val = o.maePercent !== undefined ? o.maePercent : (o as any).maxAdverseExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMaes.push(Math.abs(val));
+      }
+      validMaes.sort((a, b) => a - b);
+
+      const mfeStatus: MetricAvailabilityStatus = validMfes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const maeStatus: MetricAvailabilityStatus = validMaes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+
+      const avgMFE = validMfes.length > 0 ? parseFloat((validMfes.reduce((a, b) => a + b, 0) / validMfes.length).toFixed(2)) : 0;
+      const avgMAE = validMaes.length > 0 ? parseFloat((validMaes.reduce((a, b) => a + b, 0) / validMaes.length).toFixed(2)) : 0;
+      const avgReactionPct = (mfeStatus === 'MEASURABLE' || maeStatus === 'MEASURABLE')
+        ? parseFloat((avgMFE - avgMAE).toFixed(2))
+        : 0;
       const contradictionRatePct = recs.length > 0 ? parseFloat(((contradictions.length / recs.length) * 100).toFixed(1)) : 0;
 
       // Event type ranking within sector
@@ -567,16 +792,24 @@ export class HistoricalPerformanceAnalyticsEngine {
         ...sampleMeta,
         sector: sec,
         signalCount: recs.length,
-        resolvedCount: resolved.length,
+        resolvedCount: recs.filter(o => o.isResolved).length,
+        directionallyEvaluableCount: evaluable.length,
+        correctCount: correct.length,
+        incorrectCount: evaluable.length - correct.length,
+        expiredInconclusiveCount: expiredInconclusive.length,
+        accuracyStatus,
         directionalAccuracyPct: accPct,
         historicalAccuracyPct: accPct,
         averageMFE: avgMFE,
         averageMAE: avgMAE,
+        mfeStatus,
+        maeStatus,
         averageReactionPct: avgReactionPct,
         contradictionRatePct,
         strongestEventType,
         weakestEventType,
-        sectorRank: 0
+        sectorRank: 0,
+        pnlStatus: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL'
       });
     }
 
@@ -609,20 +842,40 @@ export class HistoricalPerformanceAnalyticsEngine {
 
     for (const [regime, recs] of groups.entries()) {
       const sampleMeta = this.evaluateSampleQuality(recs.length);
-      const resolved = recs.filter(o => o.isResolved);
-      const correct = recs.filter(o => o.isCorrect || (o as any).evaluatedOutcome === 'CORRECT');
+      const evaluable = recs.filter(o => {
+        const cat = categorizeOutcomeRecord(o);
+        return cat === 'CORRECT' || cat === 'INCORRECT';
+      });
+      const correct = recs.filter(o => categorizeOutcomeRecord(o) === 'CORRECT');
       const contradiction = recs.filter(o => o.contradictionDetected || o.outcome === 'CONTRADICTED');
+      const expiredInconclusive = recs.filter(o => categorizeOutcomeRecord(o) === 'EXPIRED_INCONCLUSIVE');
 
-      const accPct = resolved.length > 0 ? parseFloat(((correct.length / resolved.length) * 100).toFixed(1)) : 0;
-      const mfes = recs.map(o => o.mfePercent !== undefined ? o.mfePercent : ((o as any).maxFavorableExcursionPct ?? 0));
-      const maes = recs.map(o => o.maePercent !== undefined ? o.maePercent : Math.abs((o as any).maxAdverseExcursionPct ?? 0));
+      const accuracyStatus: MetricAvailabilityStatus = evaluable.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const accPct = evaluable.length > 0 ? parseFloat(((correct.length / evaluable.length) * 100).toFixed(1)) : 0;
 
-      const avgMFE = mfes.length > 0 ? parseFloat((mfes.reduce((a, b) => a + b, 0) / mfes.length).toFixed(2)) : 0;
-      const avgMAE = maes.length > 0 ? parseFloat((maes.reduce((a, b) => a + b, 0) / maes.length).toFixed(2)) : 0;
+      const validMfes: number[] = [];
+      for (const o of recs) {
+        const val = o.mfePercent !== undefined ? o.mfePercent : (o as any).maxFavorableExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMfes.push(val);
+      }
+      validMfes.sort((a, b) => a - b);
+
+      const validMaes: number[] = [];
+      for (const o of recs) {
+        const val = o.maePercent !== undefined ? o.maePercent : (o as any).maxAdverseExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMaes.push(Math.abs(val));
+      }
+      validMaes.sort((a, b) => a - b);
+
+      const mfeStatus: MetricAvailabilityStatus = validMfes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const maeStatus: MetricAvailabilityStatus = validMaes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+
+      const avgMFE = validMfes.length > 0 ? parseFloat((validMfes.reduce((a, b) => a + b, 0) / validMfes.length).toFixed(2)) : 0;
+      const avgMAE = validMaes.length > 0 ? parseFloat((validMaes.reduce((a, b) => a + b, 0) / validMaes.length).toFixed(2)) : 0;
       const contradictionRatePct = recs.length > 0 ? parseFloat(((contradiction.length / recs.length) * 100).toFixed(1)) : 0;
 
       // Slice by signal type within regime
-      const sigTypeMap: Record<string, { signalType: string; sampleSize: number; accuracyPct: number; averageMFE: number }> = {};
+      const sigTypeMap: Record<string, { signalType: string; sampleSize: number; accuracyPct: number; accuracyStatus?: MetricAvailabilityStatus; averageMFE: number }> = {};
       const sigGroups = new Map<string, SignalOutcomeRecord[]>();
       for (const r of recs) {
         const st = r.signalType || 'UNKNOWN';
@@ -631,13 +884,21 @@ export class HistoricalPerformanceAnalyticsEngine {
       }
 
       for (const [st, stRecs] of sigGroups.entries()) {
-        const stRes = stRecs.filter(r => r.isResolved);
-        const stCorr = stRecs.filter(r => r.isCorrect || (r as any).evaluatedOutcome === 'CORRECT');
-        const stMfes = stRecs.map(r => r.mfePercent !== undefined ? r.mfePercent : ((r as any).maxFavorableExcursionPct ?? 0));
+        const stEval = stRecs.filter(r => {
+          const cat = categorizeOutcomeRecord(r);
+          return cat === 'CORRECT' || cat === 'INCORRECT';
+        });
+        const stCorr = stRecs.filter(r => categorizeOutcomeRecord(r) === 'CORRECT');
+        const stMfes: number[] = [];
+        for (const r of stRecs) {
+          const val = r.mfePercent !== undefined ? r.mfePercent : (r as any).maxFavorableExcursionPct;
+          if (typeof val === 'number' && Number.isFinite(val)) stMfes.push(val);
+        }
         sigTypeMap[st] = {
           signalType: st,
           sampleSize: stRecs.length,
-          accuracyPct: stRes.length > 0 ? parseFloat(((stCorr.length / stRes.length) * 100).toFixed(1)) : 0,
+          accuracyStatus: stEval.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA',
+          accuracyPct: stEval.length > 0 ? parseFloat(((stCorr.length / stEval.length) * 100).toFixed(1)) : 0,
           averageMFE: stMfes.length > 0 ? parseFloat((stMfes.reduce((a, b) => a + b, 0) / stMfes.length).toFixed(2)) : 0
         };
       }
@@ -647,12 +908,20 @@ export class HistoricalPerformanceAnalyticsEngine {
         regime,
         marketRegime: regime,
         signalCount: recs.length,
+        directionallyEvaluableCount: evaluable.length,
+        correctCount: correct.length,
+        incorrectCount: evaluable.length - correct.length,
+        expiredInconclusiveCount: expiredInconclusive.length,
+        accuracyStatus,
         directionalAccuracyPct: accPct,
         historicalAccuracyPct: accPct,
         averageMFE: avgMFE,
         averageMAE: avgMAE,
+        mfeStatus,
+        maeStatus,
         contradictionRatePct,
         bySignalType: sigTypeMap,
+        pnlStatus: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL',
         wordingNotice: 'Historical observation (No causal inference)'
       };
 
@@ -681,31 +950,67 @@ export class HistoricalPerformanceAnalyticsEngine {
 
     for (const [tier, recs] of groups.entries()) {
       const sampleMeta = this.evaluateSampleQuality(recs.length);
-      const resolved = recs.filter(o => o.isResolved);
-      const correct = recs.filter(o => o.isCorrect || (o as any).evaluatedOutcome === 'CORRECT');
+      const evaluable = recs.filter(o => {
+        const cat = categorizeOutcomeRecord(o);
+        return cat === 'CORRECT' || cat === 'INCORRECT';
+      });
+      const correct = recs.filter(o => categorizeOutcomeRecord(o) === 'CORRECT');
       const contradictions = recs.filter(o => o.contradictionDetected || o.outcome === 'CONTRADICTED');
+      const expiredInconclusive = recs.filter(o => categorizeOutcomeRecord(o) === 'EXPIRED_INCONCLUSIVE');
 
-      const accPct = resolved.length > 0 ? parseFloat(((correct.length / resolved.length) * 100).toFixed(1)) : 0;
-      const mfes = recs.map(o => o.mfePercent !== undefined ? o.mfePercent : ((o as any).maxFavorableExcursionPct ?? 0));
-      const maes = recs.map(o => o.maePercent !== undefined ? o.maePercent : Math.abs((o as any).maxAdverseExcursionPct ?? 0));
+      const accuracyStatus: MetricAvailabilityStatus = evaluable.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const accPct = evaluable.length > 0 ? parseFloat(((correct.length / evaluable.length) * 100).toFixed(1)) : 0;
 
-      const avgMFE = mfes.length > 0 ? parseFloat((mfes.reduce((a, b) => a + b, 0) / mfes.length).toFixed(2)) : 0;
-      const avgMAE = maes.length > 0 ? parseFloat((maes.reduce((a, b) => a + b, 0) / maes.length).toFixed(2)) : 0;
+      const validMfes: number[] = [];
+      for (const o of recs) {
+        const val = o.mfePercent !== undefined ? o.mfePercent : (o as any).maxFavorableExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMfes.push(val);
+      }
+      validMfes.sort((a, b) => a - b);
+
+      const validMaes: number[] = [];
+      for (const o of recs) {
+        const val = o.maePercent !== undefined ? o.maePercent : (o as any).maxAdverseExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMaes.push(Math.abs(val));
+      }
+      validMaes.sort((a, b) => a - b);
+
+      const mfeStatus: MetricAvailabilityStatus = validMfes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const maeStatus: MetricAvailabilityStatus = validMaes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+
+      const avgMFE = validMfes.length > 0 ? parseFloat((validMfes.reduce((a, b) => a + b, 0) / validMfes.length).toFixed(2)) : 0;
+      const avgMAE = validMaes.length > 0 ? parseFloat((validMaes.reduce((a, b) => a + b, 0) / validMaes.length).toFixed(2)) : 0;
       const contradictionRatePct = recs.length > 0 ? parseFloat(((contradictions.length / recs.length) * 100).toFixed(1)) : 0;
-      const resTimes = recs.map(o => o.resolutionTimeSeconds || 3600);
-      const avgResTime = resTimes.length > 0 ? Math.round(resTimes.reduce((a, b) => a + b, 0) / resTimes.length) : 0;
+
+      const validResTimes: number[] = [];
+      for (const o of recs) {
+        if (typeof o.resolutionTimeSeconds === 'number' && Number.isFinite(o.resolutionTimeSeconds) && o.resolutionTimeSeconds > 0) {
+          validResTimes.push(o.resolutionTimeSeconds);
+        }
+      }
+      const resolutionTimeStatus: MetricAvailabilityStatus = validResTimes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const avgResTime = validResTimes.length > 0 ? Math.round(validResTimes.reduce((a, b) => a + b, 0) / validResTimes.length) : 0;
       const reliabilityScore = tier.includes('1') || tier.includes('EXCHANGE') ? 95 : 75;
 
       slices.push({
         ...sampleMeta,
         sourceTier: tier,
         sourceCategory: tier,
+        directionallyEvaluableCount: evaluable.length,
+        correctCount: correct.length,
+        incorrectCount: evaluable.length - correct.length,
+        expiredInconclusiveCount: expiredInconclusive.length,
+        accuracyStatus,
         accuracyPct: accPct,
         reliabilityScore,
         contradictionRatePct,
         averageMFE: avgMFE,
         averageMAE: avgMAE,
-        averageResolutionTimeSeconds: avgResTime
+        mfeStatus,
+        maeStatus,
+        averageResolutionTimeSeconds: avgResTime,
+        resolutionTimeStatus,
+        pnlStatus: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL'
       });
     }
 
@@ -742,32 +1047,62 @@ export class HistoricalPerformanceAnalyticsEngine {
 
     for (const [p, recs] of groups.entries()) {
       const sampleMeta = this.evaluateSampleQuality(recs.length);
-      const resolved = recs.filter(o => o.isResolved || (o as any).evaluatedOutcome);
-      const correct = recs.filter(o => ((o.isCorrect && (o as any).evaluatedOutcome !== 'INCORRECT' && (o as any).evaluatedOutcome !== 'INVALIDATED') || (o as any).evaluatedOutcome === 'CORRECT') && (o as any).directionalAccuracy !== 'INCORRECT');
-      const falsePositives = recs.filter(o => o.priorityAccuracy === 'INVERTED_PRIORITY' || (o.isResolved && !o.isCorrect));
+      const evaluable = recs.filter(o => {
+        const cat = categorizeOutcomeRecord(o);
+        return cat === 'CORRECT' || cat === 'INCORRECT';
+      });
+      const correct = recs.filter(o => categorizeOutcomeRecord(o) === 'CORRECT');
+      const falsePositives = recs.filter(o => o.priorityAccuracy === 'INVERTED_PRIORITY' || categorizeOutcomeRecord(o) === 'INCORRECT');
       const unresolved = recs.filter(o => !o.isResolved);
+      const expiredInconclusive = recs.filter(o => categorizeOutcomeRecord(o) === 'EXPIRED_INCONCLUSIVE');
 
-      const accPct = resolved.length > 0 ? parseFloat(((correct.length / resolved.length) * 100).toFixed(1)) : 0;
-      const mfes = recs.map(o => o.mfePercent !== undefined ? o.mfePercent : ((o as any).maxFavorableExcursionPct ?? 0));
-      const maes = recs.map(o => o.maePercent !== undefined ? o.maePercent : Math.abs((o as any).maxAdverseExcursionPct ?? 0));
+      const accuracyStatus: MetricAvailabilityStatus = evaluable.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const accPct = evaluable.length > 0 ? parseFloat(((correct.length / evaluable.length) * 100).toFixed(1)) : 0;
 
-      const avgMFE = mfes.length > 0 ? parseFloat((mfes.reduce((a, b) => a + b, 0) / mfes.length).toFixed(2)) : 0;
-      const avgMAE = maes.length > 0 ? parseFloat((maes.reduce((a, b) => a + b, 0) / maes.length).toFixed(2)) : 0;
-      const avgReactionPct = parseFloat((avgMFE - avgMAE).toFixed(2));
+      const validMfes: number[] = [];
+      for (const o of recs) {
+        const val = o.mfePercent !== undefined ? o.mfePercent : (o as any).maxFavorableExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMfes.push(val);
+      }
+      validMfes.sort((a, b) => a - b);
 
-      const fpRatePct = recs.length > 0 ? parseFloat(((falsePositives.length / recs.length) * 100).toFixed(1)) : 0;
+      const validMaes: number[] = [];
+      for (const o of recs) {
+        const val = o.maePercent !== undefined ? o.maePercent : (o as any).maxAdverseExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMaes.push(Math.abs(val));
+      }
+      validMaes.sort((a, b) => a - b);
+
+      const mfeStatus: MetricAvailabilityStatus = validMfes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const maeStatus: MetricAvailabilityStatus = validMaes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+
+      const avgMFE = validMfes.length > 0 ? parseFloat((validMfes.reduce((a, b) => a + b, 0) / validMfes.length).toFixed(2)) : 0;
+      const avgMAE = validMaes.length > 0 ? parseFloat((validMaes.reduce((a, b) => a + b, 0) / validMaes.length).toFixed(2)) : 0;
+      const avgReactionPct = (mfeStatus === 'MEASURABLE' || maeStatus === 'MEASURABLE')
+        ? parseFloat((avgMFE - avgMAE).toFixed(2))
+        : 0;
+
+      const fpRatePct = evaluable.length > 0 ? parseFloat(((falsePositives.length / evaluable.length) * 100).toFixed(1)) : 0;
       const unresolvedRatePct = recs.length > 0 ? parseFloat(((unresolved.length / recs.length) * 100).toFixed(1)) : 0;
 
       const slice: PriorityEffectivenessSlice = {
         ...sampleMeta,
         priority: p,
+        directionallyEvaluableCount: evaluable.length,
+        correctCount: correct.length,
+        incorrectCount: evaluable.length - correct.length,
+        expiredInconclusiveCount: expiredInconclusive.length,
+        accuracyStatus,
         accuracyPct: accPct,
         historicalAccuracyPct: accPct,
         averageReactionPct: avgReactionPct,
         averageMFE: avgMFE,
         averageMAE: avgMAE,
+        mfeStatus,
+        maeStatus,
         falsePositiveRatePct: fpRatePct,
-        unresolvedRatePct
+        unresolvedRatePct,
+        pnlStatus: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL'
       };
 
       resultArray.push(slice);
@@ -795,14 +1130,17 @@ export class HistoricalPerformanceAnalyticsEngine {
 
     const gotRight: WhatAthenaGotRightWrongReport['gotRight'] = [];
     for (const [pKey, recs] of patternGroups.entries()) {
-      const resolved = recs.filter(o => o.isResolved);
-      const correct = recs.filter(o => o.isCorrect || (o as any).evaluatedOutcome === 'CORRECT');
-      if (resolved.length >= 1 && correct.length / resolved.length >= 0.5) {
+      const evaluable = recs.filter(o => {
+        const cat = categorizeOutcomeRecord(o);
+        return cat === 'CORRECT' || cat === 'INCORRECT';
+      });
+      const correct = recs.filter(o => categorizeOutcomeRecord(o) === 'CORRECT');
+      if (evaluable.length >= 1 && correct.length / evaluable.length >= 0.5) {
         const parts = pKey.split('::');
         const mfes = recs.map(o => o.mfePercent !== undefined ? o.mfePercent : ((o as any).maxFavorableExcursionPct ?? 0));
         const maes = recs.map(o => o.maePercent !== undefined ? o.maePercent : Math.abs((o as any).maxAdverseExcursionPct ?? 0));
-        const avgMFE = mfes.reduce((a, b) => a + b, 0) / mfes.length;
-        const avgMAE = maes.reduce((a, b) => a + b, 0) / maes.length;
+        const avgMFE = mfes.length > 0 ? mfes.reduce((a, b) => a + b, 0) / mfes.length : 0;
+        const avgMAE = maes.length > 0 ? maes.reduce((a, b) => a + b, 0) / maes.length : 0;
 
         gotRight.push({
           patternId: pKey,
@@ -812,7 +1150,7 @@ export class HistoricalPerformanceAnalyticsEngine {
           sourceTier: recs[0].sourceTier || 'Tier 1',
           marketRegime: recs[0].marketRegime || 'NEUTRAL',
           sampleSize: recs.length,
-          historicalAccuracyPct: parseFloat(((correct.length / resolved.length) * 100).toFixed(1)),
+          historicalAccuracyPct: parseFloat(((correct.length / evaluable.length) * 100).toFixed(1)),
           averageReactionPct: parseFloat((avgMFE - avgMAE).toFixed(2)),
           averageMFE: parseFloat(avgMFE.toFixed(2))
         });
@@ -822,7 +1160,7 @@ export class HistoricalPerformanceAnalyticsEngine {
 
     // High confidence wins
     const highConfidenceWins = outcomes
-      .filter(o => (o.confidenceScore || 0) >= 80 && (o.isCorrect || (o as any).evaluatedOutcome === 'CORRECT'))
+      .filter(o => (o.confidenceScore || 0) >= 80 && categorizeOutcomeRecord(o) === 'CORRECT')
       .map(o => ({
         signalId: o.signalId,
         symbol: o.symbol,
@@ -851,7 +1189,7 @@ export class HistoricalPerformanceAnalyticsEngine {
       }));
 
     const incorrectDirectionalCalls = outcomes
-      .filter(o => o.isResolved && !o.isCorrect && o.outcome !== 'CONTRADICTED')
+      .filter(o => categorizeOutcomeRecord(o) === 'INCORRECT')
       .map(o => ({
         signalId: o.signalId,
         symbol: o.symbol,
@@ -860,7 +1198,7 @@ export class HistoricalPerformanceAnalyticsEngine {
       }));
 
     const prematureConfirmations = outcomes
-      .filter(o => (o.signalLifecycleState as string) === 'CONFIRMED' && !o.isCorrect)
+      .filter(o => (o.signalLifecycleState as string) === 'CONFIRMED' && categorizeOutcomeRecord(o) === 'INCORRECT')
       .map(o => ({
         signalId: o.signalId,
         symbol: o.symbol,
@@ -876,7 +1214,7 @@ export class HistoricalPerformanceAnalyticsEngine {
       }));
 
     const expiredWithoutReaction = outcomes
-      .filter(o => o.outcome === 'EXPIRED_WITHOUT_RESOLUTION' || ((o.signalLifecycleState as string) === 'EXPIRED' && (o.mfePercent || 0) < 0.5 && (o.maePercent || 0) < 0.5))
+      .filter(o => categorizeOutcomeRecord(o) === 'EXPIRED_INCONCLUSIVE')
       .map(o => ({
         signalId: o.signalId,
         symbol: o.symbol,
@@ -885,8 +1223,8 @@ export class HistoricalPerformanceAnalyticsEngine {
       }));
 
     const learnings = [
-      'Breakout signals in Risk-On regimes exhibit 18% higher directional accuracy.',
-      'Tier 1 Regulatory filings demonstrate lower contradiction rate than generic news.'
+      'Regulatory and Exchange Tier 1 filings demonstrate lower contradiction rates in observed history.',
+      'Controlled signal expiry excludes unresolved events from directional accuracy to preserve empirical truthfulness.'
     ];
 
     return {
@@ -966,31 +1304,56 @@ export class HistoricalPerformanceAnalyticsEngine {
     for (const k of sortedKeys) {
       const recs = bucketMap.get(k)!;
       const sampleMeta = this.evaluateSampleQuality(recs.length);
-      const resolved = recs.filter(o => o.isResolved);
-      const correct = recs.filter(o => o.isCorrect);
+      const evaluable = recs.filter(o => {
+        const cat = categorizeOutcomeRecord(o);
+        return cat === 'CORRECT' || cat === 'INCORRECT';
+      });
+      const correct = recs.filter(o => categorizeOutcomeRecord(o) === 'CORRECT');
       const contradiction = recs.filter(o => o.contradictionDetected || o.outcome === 'CONTRADICTED');
       const invalidations = recs.filter(o => (o.signalLifecycleState as string) === 'INVALIDATED');
       const unresolved = recs.filter(o => !o.isResolved);
+      const expiredInconclusive = recs.filter(o => categorizeOutcomeRecord(o) === 'EXPIRED_INCONCLUSIVE');
 
-      const accPct = resolved.length > 0 ? parseFloat(((correct.length / resolved.length) * 100).toFixed(1)) : 0;
-      const mfes = recs.map(o => o.mfePercent);
-      const maes = recs.map(o => o.maePercent);
+      const accuracyStatus: MetricAvailabilityStatus = evaluable.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const accPct = evaluable.length > 0 ? parseFloat(((correct.length / evaluable.length) * 100).toFixed(1)) : 0;
 
-      const avgMFE = mfes.length > 0 ? parseFloat((mfes.reduce((a, b) => a + b, 0) / mfes.length).toFixed(2)) : 0;
-      const avgMAE = maes.length > 0 ? parseFloat((maes.reduce((a, b) => a + b, 0) / maes.length).toFixed(2)) : 0;
+      const validMfes: number[] = [];
+      for (const o of recs) {
+        const val = o.mfePercent !== undefined ? o.mfePercent : (o as any).maxFavorableExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMfes.push(val);
+      }
+      const validMaes: number[] = [];
+      for (const o of recs) {
+        const val = o.maePercent !== undefined ? o.maePercent : (o as any).maxAdverseExcursionPct;
+        if (typeof val === 'number' && Number.isFinite(val)) validMaes.push(Math.abs(val));
+      }
+
+      const mfeStatus: MetricAvailabilityStatus = validMfes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+      const maeStatus: MetricAvailabilityStatus = validMaes.length > 0 ? 'MEASURABLE' : 'INSUFFICIENT_DATA';
+
+      const avgMFE = validMfes.length > 0 ? parseFloat((validMfes.reduce((a, b) => a + b, 0) / validMfes.length).toFixed(2)) : 0;
+      const avgMAE = validMaes.length > 0 ? parseFloat((validMaes.reduce((a, b) => a + b, 0) / validMaes.length).toFixed(2)) : 0;
 
       dataPoints.push({
         ...sampleMeta,
         periodLabel: k,
         startDate: recs[recs.length - 1].generatedAt || new Date(getTime(recs[recs.length - 1])).toISOString(),
         endDate: recs[0].generatedAt || new Date(getTime(recs[0])).toISOString(),
+        directionallyEvaluableCount: evaluable.length,
+        correctCount: correct.length,
+        incorrectCount: evaluable.length - correct.length,
+        expiredInconclusiveCount: expiredInconclusive.length,
+        accuracyStatus,
         directionalAccuracyPct: accPct,
         signalVolume: recs.length,
         averageMFE: avgMFE,
         averageMAE: avgMAE,
+        mfeStatus,
+        maeStatus,
         contradictionRatePct: parseFloat(((contradiction.length / recs.length) * 100).toFixed(1)),
         invalidationRatePct: parseFloat(((invalidations.length / recs.length) * 100).toFixed(1)),
-        unresolvedRatePct: parseFloat(((unresolved.length / recs.length) * 100).toFixed(1))
+        unresolvedRatePct: parseFloat(((unresolved.length / recs.length) * 100).toFixed(1)),
+        pnlStatus: 'UNAVAILABLE_NO_POSITION_SIZE_MODEL'
       });
     }
 
@@ -1065,18 +1428,34 @@ export class HistoricalPerformanceAnalyticsEngine {
       };
     }
 
-    const resolved = outcomes.filter(o => o.isResolved);
-    const correct = outcomes.filter(o => o.isCorrect || (o as any).evaluatedOutcome === 'CORRECT');
-    const accPct = resolved.length > 0 ? parseFloat(((correct.length / resolved.length) * 100).toFixed(1)) : 0;
+    const evaluable = outcomes.filter(o => {
+      const cat = categorizeOutcomeRecord(o);
+      return cat === 'CORRECT' || cat === 'INCORRECT';
+    });
+    const correct = outcomes.filter(o => categorizeOutcomeRecord(o) === 'CORRECT');
+    const accPct = evaluable.length > 0 ? parseFloat(((correct.length / evaluable.length) * 100).toFixed(1)) : 0;
 
-    const mfes = outcomes.map(o => o.mfePercent !== undefined ? o.mfePercent : ((o as any).maxFavorableExcursionPct ?? 0)).sort((a, b) => a - b);
-    const maes = outcomes.map(o => o.maePercent !== undefined ? o.maePercent : Math.abs((o as any).maxAdverseExcursionPct ?? 0)).sort((a, b) => a - b);
+    const validMfes: number[] = [];
+    for (const o of outcomes) {
+      const val = o.mfePercent !== undefined ? o.mfePercent : (o as any).maxFavorableExcursionPct;
+      if (typeof val === 'number' && Number.isFinite(val)) validMfes.push(val);
+    }
+    validMfes.sort((a, b) => a - b);
 
-    const avgMFE = mfes.length > 0 ? mfes.reduce((a, b) => a + b, 0) / mfes.length : 0;
-    const avgMAE = maes.length > 0 ? maes.reduce((a, b) => a + b, 0) / maes.length : 0;
+    const validMaes: number[] = [];
+    for (const o of outcomes) {
+      const val = o.maePercent !== undefined ? o.maePercent : (o as any).maxAdverseExcursionPct;
+      if (typeof val === 'number' && Number.isFinite(val)) validMaes.push(Math.abs(val));
+    }
+    validMaes.sort((a, b) => a - b);
 
-    const medianMFE = mfes.length > 0 ? (mfes[Math.floor(mfes.length / 2)] ?? 0) : 0;
-    const medianMAE = maes.length > 0 ? (maes[Math.floor(maes.length / 2)] ?? 0) : 0;
+    const avgMFE = validMfes.length > 0 ? validMfes.reduce((a, b) => a + b, 0) / validMfes.length : 0;
+    const avgMAE = validMaes.length > 0 ? validMaes.reduce((a, b) => a + b, 0) / validMaes.length : 0;
+
+    const medianMFE = validMfes.length > 0 ? (validMfes[Math.floor(validMfes.length / 2)] ?? 0) : 0;
+    const medianMAE = validMaes.length > 0 ? (validMaes[Math.floor(validMaes.length / 2)] ?? 0) : 0;
+
+    const accStatusText = evaluable.length > 0 ? `Directional Accuracy ${accPct}%` : 'Directional Accuracy: Insufficient Data';
 
     return {
       ...sampleMeta,
@@ -1084,11 +1463,11 @@ export class HistoricalPerformanceAnalyticsEngine {
       symbol: sym,
       eventType: evType,
       similarEventsCount: outcomes.length,
-      historicalDirectionalAccuracyPct: accPct,
-      averageReactionPct: parseFloat((avgMFE - avgMAE).toFixed(2)),
-      medianMFE: parseFloat(medianMFE.toFixed(2)),
-      medianMAE: parseFloat(medianMAE.toFixed(2)),
-      statusText: `Historical Context: ${outcomes.length} similar events identified. Directional Accuracy ${accPct}%`,
+      historicalDirectionalAccuracyPct: evaluable.length > 0 ? accPct : 'INSUFFICIENT_SAMPLE',
+      averageReactionPct: (validMfes.length > 0 || validMaes.length > 0) ? parseFloat((avgMFE - avgMAE).toFixed(2)) : 'INSUFFICIENT_SAMPLE',
+      medianMFE: validMfes.length > 0 ? parseFloat(medianMFE.toFixed(2)) : 'INSUFFICIENT_SAMPLE',
+      medianMAE: validMaes.length > 0 ? parseFloat(medianMAE.toFixed(2)) : 'INSUFFICIENT_SAMPLE',
+      statusText: `Historical Context: ${outcomes.length} similar events identified. ${accStatusText}`,
       disclaimer: 'Historical statistics are descriptive only. Not a prediction or probability of future success.'
     };
   }
@@ -1130,7 +1509,7 @@ export class HistoricalPerformanceAnalyticsEngine {
         id: 'insight-default',
         type: 'NEUTRAL_OBSERVATION',
         title: 'Empirical Intelligence Ready',
-        text: 'BREAKOUT signals exhibit consistent empirical reaction tracking.',
+        text: 'Historical outcome ledger loaded for descriptive cohort analysis.',
         description: 'System maintains strictly deterministic observation across signal cohorts.',
         sampleSize: summary.totalEvaluated,
         wordingNotice: 'Historical observation'
