@@ -628,9 +628,10 @@ export class SignalLifecycleEngine {
   /**
    * Deterministic logic mapping validity window classes
    */
-  private getValidityWindowSeconds(eventType: string, priority: string): number {
+  public static getValidityWindowSeconds(eventType: string, priority?: string): number {
     const typeLower = (eventType || '').toLowerCase();
-    if (typeLower.includes('breaking') || typeLower.includes('flash') || typeLower.includes('rumor') || priority === 'P0_CRITICAL') {
+    const prio = priority || '';
+    if (typeLower.includes('breaking') || typeLower.includes('flash') || typeLower.includes('rumor') || prio === 'P0_CRITICAL') {
       return 300; // 5 min
     }
     if (typeLower.includes('earnings') || typeLower.includes('dividend') || typeLower.includes('board') || typeLower.includes('intraday')) {
@@ -640,6 +641,10 @@ export class SignalLifecycleEngine {
       return 86400; // 24 hours (1 day)
     }
     return 432000; // 5 days (long-term)
+  }
+
+  public getValidityWindowSeconds(eventType: string, priority: string): number {
+    return SignalLifecycleEngine.getValidityWindowSeconds(eventType, priority);
   }
 
   /**
@@ -830,6 +835,113 @@ export class SignalLifecycleEngine {
       }
     } catch (outcomeErr) {
       console.warn(`[SignalLifecycleEngine] manualInvalidation error for signalId ${lc.signalId}:`, outcomeErr);
+    }
+
+    this.persist();
+    return true;
+  }
+
+  /**
+   * Deterministically transitions an active or non-terminal signal to EXPIRED
+   * when its validity window has elapsed.
+   */
+  public expireSignal(
+    signalId: string,
+    reason: string = 'VALIDITY_WINDOW_ELAPSED',
+    evidence?: any,
+    customOutcomeEngine?: SignalOutcomeEngine
+  ): boolean {
+    const lc = this.lifecycles.get(signalId);
+    if (!lc) return false;
+    if (lc.currentState === 'INVALIDATED' || lc.currentState === 'EXPIRED') return false;
+
+    const validNextStates = SignalLifecycleEngine.VALID_TRANSITIONS[lc.currentState] || [];
+    if (!validNextStates.includes('EXPIRED')) {
+      console.warn(`[SignalLifecycleEngine] REJECTED transition to EXPIRED from ${lc.currentState} for signal ${signalId}`);
+      return false;
+    }
+
+    const nowStr = (evidence && evidence.expiredAt) || new Date().toISOString();
+    lc.expiredAt = nowStr;
+    lc.lastUpdated = nowStr;
+
+    const dummySignal: MarketSignal = {
+      signalId: lc.signalId,
+      eventId: lc.eventId,
+      articleId: '',
+      symbol: lc.symbol,
+      eventType: lc.signalType,
+      signalType: lc.signalType,
+      priority: lc.initialPriority as any,
+      signalScore: lc.decayedScore,
+      components: { eventScore: 0, marketReactionScore: 0, volumeScore: 0, fnoScore: 0, sourceTierScore: 0 },
+      alignment: lc.currentAlignment || lc.initialAlignment || 'ALIGNED',
+      lifecycleState: 'EXPIRED' as any,
+      explanation: reason,
+      timestamp: nowStr,
+      revision: lc.lifecycleRevision,
+      warnings: [],
+      eventMateriality: 'MEDIUM',
+      fundamentalDirection: lc.fundamentalDirection,
+      overallConfirmation: 'CONFIRMED',
+      sourceTier: 'Tier 1',
+      freshnessText: 'EXPIRED',
+      crossAssetImpacts: [],
+      priceReactionText: 'UNKNOWN',
+      volumeText: 'INSUFFICIENT_EVIDENCE',
+      fnoText: 'INSUFFICIENT_EVIDENCE'
+    } as any;
+
+    this.transitionState(lc, 'EXPIRED', dummySignal, reason, evidence || {
+      reason,
+      operator: 'controlled_signal_expiry_engine'
+    });
+
+    lc.actionability = 'NO_LONGER_ACTIONABLE';
+    lc.decayedScore = 0;
+
+    // Record outcome if Signal reached Terminal State and hasn't recorded finalState yet
+    if (!lc.finalState) {
+      lc.finalState = 'EXPIRED';
+      lc.finalAlignment = dummySignal.alignment;
+      const createdTime = new Date(lc.createdAt).getTime();
+      const expiredTime = new Date(nowStr).getTime();
+      const duration = Math.max(1, Math.floor((expiredTime - createdTime) / 1000));
+
+      const outcome: HistoricalOutcome = {
+        signalId: lc.signalId,
+        eventId: lc.eventId,
+        symbol: lc.symbol,
+        signalType: lc.signalType,
+        initialScore: lc.initialScore,
+        peakScore: lc.peakScore,
+        initialPriority: lc.initialPriority,
+        finalState: 'EXPIRED',
+        initialAlignment: lc.initialAlignment,
+        finalAlignment: dummySignal.alignment,
+        createdAt: lc.createdAt,
+        confirmedAt: lc.confirmedAt,
+        invalidatedAt: lc.invalidatedAt,
+        expiredAt: lc.expiredAt,
+        duration
+      };
+
+      this.historicalLedger.push(outcome);
+    }
+
+    try {
+      const outcomeEng = customOutcomeEngine || SignalOutcomeEngine.getInstance();
+      const updatedOutcome = outcomeEng.updateSignalLifecycleState(
+        lc.signalId,
+        'EXPIRED',
+        reason || 'VALIDITY_WINDOW_ELAPSED',
+        false
+      );
+      if (!updatedOutcome) {
+        console.warn(`[SignalLifecycleEngine] expireSignal: Outcome record not found for signalId: ${lc.signalId}`);
+      }
+    } catch (outcomeErr) {
+      console.warn(`[SignalLifecycleEngine] expireSignal outcome synchronization error for signalId ${lc.signalId}:`, outcomeErr);
     }
 
     this.persist();
