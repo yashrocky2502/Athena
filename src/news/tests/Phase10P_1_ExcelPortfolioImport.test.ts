@@ -18,7 +18,10 @@
  * - Scenario N: Multi-source reconciliation handles imported Excel rows correctly
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import path from 'path';
+import os from 'os';
+import fs from 'fs';
 import * as XLSX from 'xlsx';
 import { PortfolioImportEngine, portfolioImportEngine } from '../portfolio/broker/PortfolioImportEngine.ts';
 import { PortfolioHubManager } from '../portfolio/broker/PortfolioHubManager.ts';
@@ -26,10 +29,25 @@ import { PortfolioHubManager } from '../portfolio/broker/PortfolioHubManager.ts'
 describe('Phase 10P-1: Real Excel (.xlsx) Portfolio Import Engine', () => {
   let importEngine: PortfolioImportEngine;
   let hubManager: PortfolioHubManager;
+  let testStorePath: string;
 
   beforeEach(() => {
     importEngine = PortfolioImportEngine.getInstance();
-    hubManager = PortfolioHubManager.getInstance();
+    testStorePath = path.join(
+      os.tmpdir(),
+      `athena_test_portfolio_${Date.now()}_${Math.random().toString(36).substring(2)}.json`
+    );
+    hubManager = new PortfolioHubManager(testStorePath);
+  });
+
+  afterEach(() => {
+    try {
+      if (fs.existsSync(testStorePath)) {
+        fs.unlinkSync(testStorePath);
+      }
+    } catch {
+      // Ignore test cleanup error
+    }
   });
 
   /**
