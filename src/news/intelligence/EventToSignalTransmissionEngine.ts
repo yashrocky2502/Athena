@@ -20,6 +20,12 @@ import { signalLifecycleEngine } from './SignalLifecycleEngine.ts';
 import { MarketPulseEngine } from './MarketPulseEngine.ts';
 import { FnoPositioningEngine } from './FnoPositioningEngine.ts';
 import { MarketVolumeConfirmationEngine } from './MarketVolumeConfirmationEngine.ts';
+import {
+  SignalProvenance,
+  SignalSourceProvenance,
+  resolveSignalProvenance,
+  deriveSourceTierString
+} from '../types/SignalProvenance.ts';
 
 export type ActionabilityState = 'TRADEABLE' | 'WATCH' | 'NO_TRADE' | 'INSUFFICIENT_EVIDENCE';
 
@@ -70,6 +76,15 @@ export interface TransmissionSignalResult {
   telegramMessage: string;
   timestamp: string;
   revision: number;
+  
+  // Phase 10E: Provenance preservation
+  provenance: SignalProvenance;
+  publisher?: string;
+  sourceUrl?: string;
+  sourceTier?: string;
+  publishedAt?: string;
+  supportingSources?: SignalSourceProvenance[];
+  sourceCount?: number;
 }
 
 export interface TransmissionObservability {
@@ -377,10 +392,14 @@ export class EventToSignalTransmissionEngine {
       actionability
     });
 
+    // Phase 10E: Resolve deterministic signal provenance
+    const provenance = resolveSignalProvenance(article?.event || undefined, article);
+    const resolvedSourceTier = deriveSourceTierString(provenance);
+
     const signalResult: TransmissionSignalResult = {
       signalId,
       eventId: articleId,
-      articleId,
+      articleId: provenance.primarySource?.articleId || articleId,
       symbol,
       headline,
       canonicalSummary,
@@ -402,7 +421,14 @@ export class EventToSignalTransmissionEngine {
       graphDossier,
       telegramMessage,
       timestamp: new Date().toISOString(),
-      revision: currentRev
+      revision: currentRev,
+      provenance,
+      publisher: provenance.primarySource?.publisher,
+      sourceUrl: provenance.primarySource?.sourceUrl,
+      sourceTier: resolvedSourceTier,
+      publishedAt: provenance.primarySource?.publishedAt || eventTimestamp,
+      supportingSources: provenance.supportingSources,
+      sourceCount: provenance.sourceCount
     };
 
     this.signalCache.set(cacheKey, signalResult);

@@ -3,6 +3,8 @@
  * Represents durable market event abstractions linking multiple articles across publishers.
  */
 
+import { SignalProvenance } from './SignalProvenance.ts';
+
 export type EventStatus = 
   | 'NEW' 
   | 'CONFIRMED' 
@@ -134,6 +136,7 @@ export interface NewsEvent {
   primarySource: EventSourceRef;
   supportingSources: EventSourceRef[];
   sourceCount: number;
+  provenance?: SignalProvenance;
   eventStatus: EventStatus;
   eventPriority: EventPriority;
   eventFreshness: EventFreshness;

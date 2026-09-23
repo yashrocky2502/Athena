@@ -33,6 +33,27 @@ import { MarketVolumeConfirmationEngine, VolumeConfirmationSnapshot } from './Ma
 import { FnoPositioningEngine, FnoPositioningSnapshot, OptionFlowClassification } from './FnoPositioningEngine.ts';
 import { marketDataProviderManager, MarketDataProviderManager } from '../market-data/MarketDataProvider.ts';
 import { SignalLifecycleEngine } from './SignalLifecycleEngine.ts';
+import {
+  SignalProvenance,
+  SignalSourceProvenance,
+  SignalProvenanceStatus,
+  resolveSignalProvenance,
+  deriveSourceTierString,
+  createUnknownProvenance,
+  createSyntheticTestProvenance
+} from '../types/SignalProvenance.ts';
+
+export type {
+  SignalProvenance,
+  SignalSourceProvenance,
+  SignalProvenanceStatus
+};
+export {
+  resolveSignalProvenance,
+  deriveSourceTierString,
+  createUnknownProvenance,
+  createSyntheticTestProvenance
+};
 
 export type SignalPriority = 'P0_CRITICAL' | 'P1_HIGH' | 'P2_MEDIUM' | 'P3_LOW' | 'WATCH_ONLY';
 
@@ -102,8 +123,17 @@ export interface MarketSignal {
   volumeText: string;
   fnoText: string;
   overallConfirmation: OverallConfirmationState;
-  sourceTier: 'TIER_1' | 'TIER_2' | 'TIER_3' | 'TIER_4';
+  sourceTier: 'TIER_1' | 'TIER_2' | 'TIER_3' | 'TIER_4' | 'UNKNOWN';
   freshnessText: string;
+
+  // Phase 10E: Market Signal Provenance Integrity
+  provenance: SignalProvenance;
+  primaryPublisher?: string;
+  primaryArticleId?: string;
+  primaryUrl?: string;
+  primaryPublishedAt?: string;
+  sourceCount?: number;
+  provenanceStatus?: SignalProvenanceStatus;
 }
 
 export interface FusionObservability {
@@ -242,13 +272,9 @@ export class MarketIntelligenceFusionEngine {
     // Check freshness text
     const freshnessText = event.eventFreshness || 'BREAKING';
 
-    // 1. Resolve source authority tier
-    let sourceTier: 'TIER_1' | 'TIER_2' | 'TIER_3' | 'TIER_4' = 'TIER_2';
-    const tierNum = event.primarySource?.tier || (article as any).sourceTier || 2;
-    if (tierNum === 1) sourceTier = 'TIER_1';
-    else if (tierNum === 2) sourceTier = 'TIER_2';
-    else if (tierNum === 3) sourceTier = 'TIER_3';
-    else sourceTier = 'TIER_4';
+    // 1. Resolve deterministic signal provenance and authority tier (Phase 10E)
+    const provenance = resolveSignalProvenance(event, article);
+    const sourceTier: 'TIER_1' | 'TIER_2' | 'TIER_3' | 'TIER_4' | 'UNKNOWN' = deriveSourceTierString(provenance);
 
     // 2. Resolve market components
     const priceReaction = marketConfirmation?.priceReaction;
@@ -407,7 +433,16 @@ export class MarketIntelligenceFusionEngine {
       fnoText,
       overallConfirmation,
       sourceTier,
-      freshnessText
+      freshnessText,
+
+      // Phase 10E: Explicit Signal Provenance
+      provenance,
+      primaryPublisher: provenance.primarySource?.publisher,
+      primaryArticleId: provenance.primarySource?.articleId || articleId,
+      primaryUrl: provenance.primarySource?.sourceUrl,
+      primaryPublishedAt: provenance.primarySource?.publishedAt,
+      sourceCount: provenance.sourceCount,
+      provenanceStatus: provenance.status
     };
 
     // Evaluate via continuous lifecycle engine
@@ -481,6 +516,7 @@ export class MarketIntelligenceFusionEngine {
     else if (tierStr === '3' || tierStr === 'TIER 3' || tierStr.includes('TIER_3')) tierStr = 'TIER_3';
     else if (tierStr === '4' || tierStr === 'TIER 4' || tierStr.includes('TIER_4')) tierStr = 'TIER_4';
     else if (tierStr === '2' || tierStr === 'TIER 2' || tierStr.includes('TIER_2')) tierStr = 'TIER_2';
+    else tierStr = 'UNKNOWN';
 
     // A. EVENT_MATERIALITY
     let eventMateriality = 50;
@@ -491,11 +527,12 @@ export class MarketIntelligenceFusionEngine {
     else if (pri === 'P3') eventMateriality = 50;
     else if (pri === 'P4') eventMateriality = 30;
 
-    let sourceAuthority = 70;
+    let sourceAuthority = 0;
     if (tierStr === 'TIER_1') sourceAuthority = 100;
     else if (tierStr === 'TIER_2') sourceAuthority = 70;
     else if (tierStr === 'TIER_3') sourceAuthority = 40;
     else if (tierStr === 'TIER_4') sourceAuthority = 20;
+    else sourceAuthority = 0;
 
     // fundamentalStrength (for test expectations)
     let fundamentalStrength = 30;
@@ -818,7 +855,9 @@ export class MarketIntelligenceFusionEngine {
     const { symbol, eventType, sourceTier, priceChangePct, volumeMultiplier, fnoStatus, alignment, warnings } = params;
     const safeWarnings = warnings || [];
 
-    let text = `Fundamental event (${eventType}) for ${symbol} detected via ${sourceTier} source. `;
+    let text = (sourceTier && sourceTier !== 'UNKNOWN')
+      ? `Fundamental event (${eventType}) for ${symbol} detected via ${sourceTier} source. `
+      : `Fundamental event (${eventType}) for ${symbol} detected. `;
     
     if (safeWarnings.includes('MARKET_DATA_UNAVAILABLE')) {
       text += `Live market confirmation is currently unavailable due to trading halt or source disconnect.`;

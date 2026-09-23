@@ -15,6 +15,13 @@ import { MarketConfirmationDossier } from './MarketConfirmationEngine.ts';
 import { TelegramService } from '../NewsEngine/TelegramService.ts';
 import { TraderTelegramFormatter } from '../telegram/TraderTelegramFormatter.ts';
 import { SignalOutcomeEngine } from '../market-intelligence/SignalOutcomeEngine.ts';
+import {
+  SignalProvenance,
+  SignalSourceProvenance,
+  resolveSignalProvenance,
+  deriveSourceTierString,
+  createUnknownProvenance
+} from '../types/SignalProvenance.ts';
 
 export type SignalLifecycleState =
   | 'NEW'
@@ -83,6 +90,12 @@ export interface SignalLifecycle {
   fnoConfirmation?: string;
   lifecycleRevision: number;
   lastUpdated: string;
+  
+  // Phase 10E: Provenance preservation
+  provenance?: SignalProvenance;
+  primaryPublisher?: string;
+  sourceTier?: string;
+  sourceCount?: number;
 }
 
 export interface HistoricalOutcome {
@@ -378,6 +391,15 @@ export class SignalLifecycleEngine {
       lifecycle.lastUpdated = nowStr;
     }
 
+    // Phase 10E: Resolve and carry forward authoritative signal provenance
+    const resolvedProv = signal.provenance || (event ? resolveSignalProvenance(event) : undefined) || lifecycle.provenance || createUnknownProvenance();
+    lifecycle.provenance = resolvedProv;
+    lifecycle.primaryPublisher = resolvedProv.primarySource?.publisher || signal.primaryPublisher || lifecycle.primaryPublisher;
+    lifecycle.sourceCount = resolvedProv.sourceCount ?? signal.sourceCount ?? lifecycle.sourceCount ?? 0;
+    lifecycle.sourceTier = (signal.sourceTier && signal.sourceTier !== 'Tier 1' && signal.sourceTier !== 'UNKNOWN')
+      ? signal.sourceTier
+      : (resolvedProv.primarySource?.tier ? `TIER_${resolvedProv.primarySource.tier}` : (resolvedProv.status === 'UNKNOWN' ? 'UNKNOWN' : (lifecycle.sourceTier || 'UNKNOWN')));
+
     // Calculate score age in seconds
     const createdTime = new Date(lifecycle.createdAt).getTime();
     const ageSeconds = Math.max(0, Math.floor((Date.now() - createdTime) / 1000));
@@ -553,7 +575,8 @@ export class SignalLifecycleEngine {
         direction: dir,
         eventCategory: event?.category || signal.signalType,
         sector: (signal as any).sector || 'GENERAL',
-        sourceTier: ((signal as any).sourceCount && (signal as any).sourceCount > 1) ? 'multi-source' : 'Tier 1'
+        sourceTier: lifecycle.sourceTier || 'UNKNOWN',
+        provenance: lifecycle.provenance || createUnknownProvenance()
       });
 
       const updatedOutcome = SignalOutcomeEngine.getInstance().updateSignalLifecycleState(
@@ -785,7 +808,8 @@ export class SignalLifecycleEngine {
       eventMateriality: 'MEDIUM',
       fundamentalDirection: lc.fundamentalDirection,
       overallConfirmation: 'CONFIRMED',
-      sourceTier: 'Tier 1',
+      sourceTier: (lc.sourceTier as any) || 'UNKNOWN',
+      provenance: lc.provenance || createUnknownProvenance(),
       freshnessText: 'REAL_TIME',
       crossAssetImpacts: [],
       priceReactionText: 'UNKNOWN',
@@ -894,7 +918,8 @@ export class SignalLifecycleEngine {
       eventMateriality: 'MEDIUM',
       fundamentalDirection: lc.fundamentalDirection,
       overallConfirmation: 'CONFIRMED',
-      sourceTier: 'Tier 1',
+      sourceTier: (lc.sourceTier as any) || 'UNKNOWN',
+      provenance: lc.provenance || createUnknownProvenance(),
       freshnessText: 'EXPIRED',
       crossAssetImpacts: [],
       priceReactionText: 'UNKNOWN',

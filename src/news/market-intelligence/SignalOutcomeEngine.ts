@@ -12,6 +12,21 @@ import fs from 'fs';
 import path from 'path';
 import { SignalLifecycleState } from '../intelligence/SignalLifecycleEngine.ts';
 import type { IMarketObservationIngestor } from '../market-data/ObservationTrustBridge.ts';
+import {
+  SignalProvenance,
+  SignalSourceProvenance,
+  SignalProvenanceStatus,
+  resolveSignalProvenance,
+  deriveSourceTierString,
+  createUnknownProvenance,
+  createSyntheticTestProvenance
+} from '../types/SignalProvenance.ts';
+
+export type {
+  SignalProvenance,
+  SignalSourceProvenance,
+  SignalProvenanceStatus
+};
 
 export type SignalOutcomeType =
   | 'TARGET_REACHED'
@@ -265,6 +280,13 @@ export interface SignalOutcomeRecord {
   marketRegime?: MarketRegimeType;
   marketSession?: MarketSessionType;
   dataFreshness?: string;
+
+  // Phase 10E: Provenance preservation
+  provenance?: SignalProvenance;
+  provenanceStatus?: SignalProvenanceStatus;
+  primaryPublisher?: string;
+  primaryArticleId?: string;
+  sourceUrl?: string;
 
   // Excursion measurements (MFE / MAE)
   mfePercent?: number;
@@ -903,6 +925,12 @@ export class SignalOutcomeEngine implements IMarketObservationIngestor {
     marketRegime?: MarketRegimeType;
     marketSession?: MarketSessionType;
     dataFreshness?: string;
+    // Phase 10E: Provenance preservation
+    provenance?: SignalProvenance;
+    primaryPublisher?: string;
+    primaryArticleId?: string;
+    sourceUrl?: string;
+    isSyntheticTest?: boolean;
   }): SignalOutcomeRecord {
     const startTime = Date.now();
     const revision = signal.revision || 1;
@@ -978,7 +1006,23 @@ export class SignalOutcomeEngine implements IMarketObservationIngestor {
       stopPercent,
       eventCategory: signal.eventCategory || 'MARKET_EVENT',
       sector: signal.sector || 'GENERAL',
-      sourceTier: signal.sourceTier || 'Tier 1',
+      sourceTier: (() => {
+        if (signal.sourceTier && signal.sourceTier !== 'Tier 1') return signal.sourceTier;
+        if (signal.provenance) {
+          if (signal.provenance.status === 'SYNTHETIC_TEST') return 'SYNTHETIC_TEST';
+          if (signal.provenance.status === 'UNKNOWN') return 'UNKNOWN';
+          return deriveSourceTierString(signal.provenance);
+        }
+        if (signal.isSyntheticTest) return 'SYNTHETIC_TEST';
+        return 'UNKNOWN';
+      })(),
+      provenance: signal.provenance || (signal.isSyntheticTest
+        ? createSyntheticTestProvenance()
+        : createUnknownProvenance()),
+      provenanceStatus: (signal.provenance?.status) || (signal.isSyntheticTest ? 'SYNTHETIC_TEST' : 'UNKNOWN'),
+      primaryPublisher: signal.provenance?.primarySource?.publisher || signal.primaryPublisher,
+      primaryArticleId: signal.provenance?.primarySource?.articleId || signal.primaryArticleId || signalId,
+      sourceUrl: signal.provenance?.primarySource?.sourceUrl || signal.sourceUrl,
       marketRegime: signal.marketRegime || 'NEUTRAL',
       marketSession: signal.marketSession || this.getMarketSession(generatedAt),
       dataFreshness: signal.dataFreshness || (hasValidInitialPrice ? 'REAL_TIME' : 'PENDING_INITIAL_QUOTE'),

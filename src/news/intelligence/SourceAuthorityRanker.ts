@@ -165,6 +165,13 @@ export class SourceAuthorityRanker {
   }
 
   /**
+   * Deterministic authority tier getter alias for getTier.
+   */
+  public getAuthorityTier(publisher: string, sourceUrl?: string): number {
+    return this.getTier(publisher, sourceUrl);
+  }
+
+  /**
    * Returns deterministic tier for a given publisher or domain.
    * Tier 1 — Official / Primary (SEBI, RBI, Exchanges, PIB, Investor Relations)
    * Tier 2 — High-quality financial wires & main media (Reuters, ET, BS, Moneycontrol, LiveMint, CNBC TV18)
