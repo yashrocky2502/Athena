@@ -24,23 +24,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
-    "maePercent": 1151.9,
-    "mfeAbsolute": 1151.9,
-    "maeAbsolute": 1151.9,
-    "peakPrice": 1251.9,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1247.7,
-    "lastObservedTimestamp": "2026-09-22T05:48:30.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:15.423Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -55,28 +55,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1151.9% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 1151.9
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:33.488Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:15.471Z"
   },
   {
     "signalId": "evt_1788093795532_2cya9::FUNDAMENTAL_CATALYST::TATAMOTORS::rev2",
@@ -283,23 +264,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
-    "maePercent": 900.1,
-    "mfeAbsolute": 900.1,
-    "maeAbsolute": 900.1,
-    "peakPrice": 1000.1,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 989.2,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:15.829Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -314,28 +295,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -900.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 900.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.782Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:15.829Z"
   },
   {
     "signalId": "evt_1788093795834_5ibfq::FUNDAMENTAL_CATALYST::M&M::rev2",
@@ -1082,23 +1044,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 168.25,
-    "maePercent": 168.25,
-    "mfeAbsolute": 168.25,
-    "maeAbsolute": 168.25,
-    "peakPrice": 268.25,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 268.25,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 266.55,
-    "lastObservedTimestamp": "2026-09-22T05:48:27.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.035Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -1113,28 +1075,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +168.25% (₹268.25)",
-        "price": 268.25,
-        "details": {
-          "mfePercent": 168.25
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -168.25% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 168.25
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:32.941Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.035Z"
   },
   {
     "signalId": "evt_1788093796038_tbqyg::FUNDAMENTAL_CATALYST::GUJARAT::rev2",
@@ -1641,23 +1584,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 134,
-    "maePercent": 134,
-    "mfeAbsolute": 134,
-    "maeAbsolute": 134,
-    "peakPrice": 234,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 234,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 231.1,
-    "lastObservedTimestamp": "2026-09-22T05:48:27.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.140Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -1672,28 +1615,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +134% (₹234)",
-        "price": 234,
-        "details": {
-          "mfePercent": 134
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -134% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 134
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:33.649Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.140Z"
   },
   {
     "signalId": "evt_1788093796143_hjxe4::FUNDAMENTAL_CATALYST::QUALITY::rev2",
@@ -1840,23 +1764,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
-    "maePercent": 900.1,
-    "mfeAbsolute": 900.1,
-    "maeAbsolute": 900.1,
-    "peakPrice": 1000.1,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 989.2,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.170Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -1871,28 +1795,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -900.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 900.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.755Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.170Z"
   },
   {
     "signalId": "evt_1788093796173_78dmj::FUNDAMENTAL_CATALYST::NIFTY::rev2",
@@ -2099,23 +2004,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 40546.1,
-    "maePercent": 40546.1,
-    "mfeAbsolute": 1248.8200000000002,
-    "maeAbsolute": 1248.8200000000002,
-    "peakPrice": 1251.9,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 3.08,
     "troughPrice": 3.08,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 3.08,
     "maxAdversePrice": 3.08,
-    "lastObservedPrice": 1247.7,
-    "lastObservedTimestamp": "2026-09-22T05:48:30.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 3.08,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.227Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -2130,28 +2035,9 @@
           "targetPrice": 3.0953999999999997,
           "stopPrice": 3.0492
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +40546.1% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 40546.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -40546.1% (₹3.08)",
-        "price": 3.08,
-        "details": {
-          "maePercent": 40546.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:33.460Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.228Z"
   },
   {
     "signalId": "evt_1788093796231_116zh::FUNDAMENTAL_CATALYST::COALINDIA::rev2",
@@ -2178,24 +2064,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 328.3,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 328.3,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 428.3,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 428.3,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 428,
-    "lastObservedTimestamp": "2026-09-22T05:39:33.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.235Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:16.235Z",
@@ -2209,29 +2095,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:33.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +328.3% (₹428.3)",
-        "price": 428.3,
-        "details": {
-          "mfePercent": 328.3
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:33.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹428.3 (+328.3%)",
-        "price": 428.3
       }
     ],
-    "updatedAt": "2026-09-22T05:39:34.155Z",
-    "mfeTimestamp": "2026-09-22T05:39:33.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:33.000Z",
-    "resolutionTimeSeconds": 1961777,
-    "timeToTargetSeconds": 1961777
+    "updatedAt": "2026-08-30T12:43:16.235Z"
   },
   {
     "signalId": "evt_1788093796238_advzb::DATA_STALE::RELIANCE::rev2",
@@ -2258,23 +2124,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 40546.1,
-    "maePercent": 40546.1,
-    "mfeAbsolute": 1248.8200000000002,
-    "maeAbsolute": 1248.8200000000002,
-    "peakPrice": 1251.9,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 3.08,
     "troughPrice": 3.08,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 3.08,
     "maxAdversePrice": 3.08,
-    "lastObservedPrice": 1247.7,
-    "lastObservedTimestamp": "2026-09-22T05:48:30.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 3.08,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.241Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -2289,28 +2155,9 @@
           "targetPrice": 3.0953999999999997,
           "stopPrice": 3.0492
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +40546.1% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 40546.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -40546.1% (₹3.08)",
-        "price": 3.08,
-        "details": {
-          "maePercent": 40546.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:33.435Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.241Z"
   },
   {
     "signalId": "evt_1788093796247_ou1zb::FUNDAMENTAL_CATALYST::TOP::rev2",
@@ -2457,23 +2304,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 227518.18,
-    "maePercent": 227518.18,
-    "mfeAbsolute": 1251.3500000000001,
-    "maeAbsolute": 1251.3500000000001,
-    "peakPrice": 1251.9,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 0.55,
     "troughPrice": 0.55,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 0.55,
     "maxAdversePrice": 0.55,
-    "lastObservedPrice": 1247.7,
-    "lastObservedTimestamp": "2026-09-22T05:48:30.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 0.55,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.278Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -2488,28 +2335,9 @@
           "targetPrice": 0.55275,
           "stopPrice": 0.5445
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +227518.18% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 227518.18
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -227518.18% (₹0.55)",
-        "price": 0.55,
-        "details": {
-          "maePercent": 227518.18
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:33.411Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.278Z"
   },
   {
     "signalId": "evt_1788093796282_46i4a::FUNDAMENTAL_CATALYST::HDFCBANK::rev2",
@@ -3496,23 +3324,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 379.15,
-    "maePercent": 379.15,
-    "mfeAbsolute": 379.15,
-    "maeAbsolute": 379.15,
-    "peakPrice": 479.15,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 479.15,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 464.25,
-    "lastObservedTimestamp": "2026-09-22T05:48:25.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.490Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -3527,28 +3355,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:07.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +379.15% (₹479.15)",
-        "price": 479.15,
-        "details": {
-          "mfePercent": 379.15
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:07.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -379.15% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 379.15
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:32.177Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.490Z"
   },
   {
     "signalId": "evt_1788093796494_qfp85::FUNDAMENTAL_CATALYST::INDIAN::rev2",
@@ -3875,23 +3684,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 456.45,
-    "maePercent": 456.45,
-    "mfeAbsolute": 456.45000000000005,
-    "maeAbsolute": 456.45000000000005,
-    "peakPrice": 556.45,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 556.45,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 555.8,
-    "lastObservedTimestamp": "2026-09-22T05:48:18.000Z",
-    "observationCount": 18,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.580Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -3906,136 +3715,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:38:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +448.6% (₹548.6)",
-        "price": 548.6,
-        "details": {
-          "mfePercent": 448.6
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:38:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -448.6% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 448.6
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:40:55.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +450% (₹550)",
-        "price": 550,
-        "details": {
-          "mfePercent": 450
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:40:55.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -450% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 450
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:41:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +451.05% (₹551.05)",
-        "price": 551.05,
-        "details": {
-          "mfePercent": 451.05
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:41:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -451.05% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 451.05
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:41:51.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +451.1% (₹551.1)",
-        "price": 551.1,
-        "details": {
-          "mfePercent": 451.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:41:51.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -451.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 451.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:42:27.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +454.15% (₹554.15)",
-        "price": 554.15,
-        "details": {
-          "mfePercent": 454.15
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:42:27.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -454.15% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 454.15
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:42:59.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +455.45% (₹555.45)",
-        "price": 555.45,
-        "details": {
-          "mfePercent": 455.45
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:42:59.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -455.45% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 455.45
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:43:22.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +456.45% (₹556.45)",
-        "price": 556.45,
-        "details": {
-          "mfePercent": 456.45
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:43:22.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -456.45% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 456.45
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:31.933Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.580Z"
   },
   {
     "signalId": "evt_1788093796587_imbg4::FUNDAMENTAL_CATALYST::TATAMOTORS::rev2",
@@ -4422,23 +4104,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1487,
-    "maePercent": 1487,
-    "mfeAbsolute": 1487,
-    "maeAbsolute": 1487,
-    "peakPrice": 1587,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1587,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1577.5,
-    "lastObservedTimestamp": "2026-09-22T05:48:19.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.691Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -4453,28 +4135,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1487% (₹1587)",
-        "price": 1587,
-        "details": {
-          "mfePercent": 1487
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1487% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 1487
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:31.988Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.691Z"
   },
   {
     "signalId": "evt_1788093796697_lpw7n::FUNDAMENTAL_CATALYST::DGCA::rev2",
@@ -4561,23 +4224,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 136.37,
-    "maePercent": 136.37,
-    "mfeAbsolute": 136.37,
-    "maeAbsolute": 136.37,
-    "peakPrice": 236.37,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 236.37,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 234.56,
-    "lastObservedTimestamp": "2026-09-22T05:48:25.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:16.722Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -4592,28 +4255,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +136.37% (₹236.37)",
-        "price": 236.37,
-        "details": {
-          "mfePercent": 136.37
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -136.37% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 136.37
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:31.754Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:16.722Z"
   },
   {
     "signalId": "evt_1788093796728_rzaat::FUNDAMENTAL_CATALYST::HDFCBANK::rev2",
@@ -5841,23 +5485,23 @@
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
     "mfePercent": 0,
-    "maePercent": 1736.3,
+    "maePercent": 0,
     "mfeAbsolute": 0,
-    "maeAbsolute": 1736.3,
-    "peakPrice": 1836.3,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
     "maxFavorablePrice": 100,
-    "maxAdversePrice": 1836.3,
-    "lastObservedPrice": 1831,
-    "lastObservedTimestamp": "2026-09-22T05:39:31.000Z",
-    "observationCount": 1,
+    "maxAdversePrice": 100,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:17.132Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "STOP_REACHED",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:17.132Z",
@@ -5871,29 +5515,9 @@
           "targetPrice": 98,
           "stopPrice": 102
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1736.3% (₹1836.3)",
-        "price": 1836.3,
-        "details": {
-          "maePercent": 1736.3
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "STOP_REACHED",
-        "description": "Stop price reached at ₹1836.3 (-1736.3%)",
-        "price": 1836.3
       }
     ],
-    "updatedAt": "2026-09-22T05:39:32.202Z",
-    "maeTimestamp": "2026-09-22T05:39:31.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:31.000Z",
-    "resolutionTimeSeconds": 1961774,
-    "timeToInvalidationSeconds": 1961774
+    "updatedAt": "2026-08-30T12:43:17.132Z"
   },
   {
     "signalId": "evt_1788093797138_rlbxw::FUNDAMENTAL_CATALYST::UPCOMING::rev2",
@@ -6220,23 +5844,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 863.5,
-    "maePercent": 863.5,
-    "mfeAbsolute": 863.5,
-    "maeAbsolute": 863.5,
-    "peakPrice": 963.5,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 963.5,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 956.1,
-    "lastObservedTimestamp": "2026-09-22T05:48:22.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:17.353Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -6251,28 +5875,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:20.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +863.5% (₹963.5)",
-        "price": 963.5,
-        "details": {
-          "mfePercent": 863.5
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:20.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -863.5% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 863.5
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:32.365Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:17.353Z"
   },
   {
     "signalId": "evt_1788093797362_bcaw0::FUNDAMENTAL_CATALYST::AUROPHARMA::rev2",
@@ -6299,23 +5904,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1619,
-    "maePercent": 1619,
-    "mfeAbsolute": 1619,
-    "maeAbsolute": 1619,
-    "peakPrice": 1719,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1719,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1701.9,
-    "lastObservedTimestamp": "2026-09-22T05:48:30.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:17.371Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -6330,28 +5935,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1619% (₹1719)",
-        "price": 1719,
-        "details": {
-          "mfePercent": 1619
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1619% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 1619
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:32.418Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:17.371Z"
   },
   {
     "signalId": "evt_1788093797379_jki7r::FUNDAMENTAL_CATALYST::DAY::rev2",
@@ -6978,23 +6564,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
-    "maePercent": 900.1,
-    "mfeAbsolute": 900.1,
-    "maeAbsolute": 900.1,
-    "peakPrice": 1000.1,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 989.2,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:17.654Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -7009,28 +6595,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -900.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 900.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.728Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:17.654Z"
   },
   {
     "signalId": "evt_1788093797660_wi3q2::FUNDAMENTAL_CATALYST::UTI10::rev2",
@@ -7117,23 +6684,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 451.55,
-    "maePercent": 451.55,
-    "mfeAbsolute": 451.54999999999995,
-    "maeAbsolute": 451.54999999999995,
-    "peakPrice": 551.55,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 551.55,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 535.15,
-    "lastObservedTimestamp": "2026-09-22T05:48:25.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:17.680Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -7148,28 +6715,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +451.55% (₹551.55)",
-        "price": 551.55,
-        "details": {
-          "mfePercent": 451.55
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -451.55% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 451.55
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.551Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:17.680Z"
   },
   {
     "signalId": "evt_1788093797686_6vo4z::FUNDAMENTAL_CATALYST::GDP::rev2",
@@ -7436,23 +6984,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1736.3,
-    "maePercent": 1736.3,
-    "mfeAbsolute": 1736.3,
-    "maeAbsolute": 1736.3,
-    "peakPrice": 1836.3,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1836.3,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1832,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:17.787Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -7467,28 +7015,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1736.3% (₹1836.3)",
-        "price": 1836.3,
-        "details": {
-          "mfePercent": 1736.3
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1736.3% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 1736.3
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:31.027Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:17.787Z"
   },
   {
     "signalId": "evt_1788093797797_t5kot::FUNDAMENTAL_CATALYST::NJ::rev2",
@@ -8175,23 +7704,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
-    "maePercent": 900.1,
-    "mfeAbsolute": 900.1,
-    "maeAbsolute": 900.1,
-    "peakPrice": 1000.1,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 989.2,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:17.998Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -8206,28 +7735,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -900.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 900.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.698Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:17.998Z"
   },
   {
     "signalId": "evt_1788093797674_2b8vk::FUNDAMENTAL_CATALYST::TEMPSENS::rev4",
@@ -8254,23 +7764,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 451.55,
-    "maePercent": 451.55,
-    "mfeAbsolute": 451.54999999999995,
-    "maeAbsolute": 451.54999999999995,
-    "peakPrice": 551.55,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 551.55,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 535.15,
-    "lastObservedTimestamp": "2026-09-22T05:48:25.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:18.038Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -8285,28 +7795,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +451.55% (₹551.55)",
-        "price": 551.55,
-        "details": {
-          "mfePercent": 451.55
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -451.55% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 451.55
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.521Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:43:18.038Z"
   },
   {
     "signalId": "evt_1788093796771_gzec9::FUNDAMENTAL_CATALYST::AMRUTANJAN::rev4",
@@ -9653,24 +9144,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1151.9,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.205Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.205Z",
@@ -9684,29 +9175,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.569Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961755,
-    "timeToTargetSeconds": 1961755
+    "updatedAt": "2026-08-30T12:43:28.206Z"
   },
   {
     "signalId": "evt_1788093808358_84a4i::FUNDAMENTAL_CATALYST::TCS::rev2",
@@ -9733,24 +9204,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 2035.2,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 2035.1999999999998,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 2135.2,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 2135.2,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 2103,
-    "lastObservedTimestamp": "2026-09-22T05:39:28.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.372Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.372Z",
@@ -9764,29 +9235,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +2035.2% (₹2135.2)",
-        "price": 2135.2,
-        "details": {
-          "mfePercent": 2035.2
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹2135.2 (+2035.2%)",
-        "price": 2135.2
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.995Z",
-    "mfeTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionTimeSeconds": 1961760,
-    "timeToTargetSeconds": 1961760
+    "updatedAt": "2026-08-30T12:43:28.372Z"
   },
   {
     "signalId": "evt_1788093808599_zudoy::DATA_STALE::RELIANCE::rev2",
@@ -9813,24 +9264,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1151.9,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.603Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.603Z",
@@ -9844,29 +9295,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.543Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961754,
-    "timeToTargetSeconds": 1961754
+    "updatedAt": "2026-08-30T12:43:28.603Z"
   },
   {
     "signalId": "evt_1788093808613_61dg6::FUNDAMENTAL_CATALYST::TCS::rev2",
@@ -9893,24 +9324,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 2035.2,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 2035.1999999999998,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 2135.2,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 2135.2,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 2103,
-    "lastObservedTimestamp": "2026-09-22T05:39:28.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.616Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.616Z",
@@ -9924,29 +9355,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +2035.2% (₹2135.2)",
-        "price": 2135.2,
-        "details": {
-          "mfePercent": 2035.2
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹2135.2 (+2035.2%)",
-        "price": 2135.2
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.971Z",
-    "mfeTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionTimeSeconds": 1961759,
-    "timeToTargetSeconds": 1961759
+    "updatedAt": "2026-08-30T12:43:28.616Z"
   },
   {
     "signalId": "evt_1788093808626_5rg45::FUNDAMENTAL_CATALYST::HDFCBANK::rev2",
@@ -10033,24 +9444,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 941,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 941,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1041,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1041,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1022.3,
-    "lastObservedTimestamp": "2026-09-22T05:39:26.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.641Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.641Z",
@@ -10064,29 +9475,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +941% (₹1041)",
-        "price": 1041,
-        "details": {
-          "mfePercent": 941
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1041 (+941%)",
-        "price": 1041
       }
     ],
-    "updatedAt": "2026-09-22T05:39:29.813Z",
-    "mfeTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionTimeSeconds": 1961757,
-    "timeToTargetSeconds": 1961757
+    "updatedAt": "2026-08-30T12:43:28.641Z"
   },
   {
     "signalId": "evt_1788093808655_ekseo::FUNDAMENTAL_CATALYST::SBIN::rev2",
@@ -10113,24 +9504,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 900.1,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1000.1,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 987.4,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.657Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.657Z",
@@ -10144,29 +9535,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1000.1 (+900.1%)",
-        "price": 1000.1
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.099Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961754,
-    "timeToTargetSeconds": 1961754
+    "updatedAt": "2026-08-30T12:43:28.657Z"
   },
   {
     "signalId": "evt_1788093808667_gvti7::FUNDAMENTAL_CATALYST::LT::rev2",
@@ -10193,24 +9564,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 3830.5,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 3830.5,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 3930.5,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 3930.5,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 3897.1,
-    "lastObservedTimestamp": "2026-09-22T05:39:29.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.669Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.669Z",
@@ -10224,29 +9595,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +3830.5% (₹3930.5)",
-        "price": 3930.5,
-        "details": {
-          "mfePercent": 3830.5
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹3930.5 (+3830.5%)",
-        "price": 3930.5
       }
     ],
-    "updatedAt": "2026-09-22T05:39:31.120Z",
-    "mfeTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionTimeSeconds": 1961760,
-    "timeToTargetSeconds": 1961760
+    "updatedAt": "2026-08-30T12:43:28.669Z"
   },
   {
     "signalId": "evt_1788093808677_6bm6a::FUNDAMENTAL_CATALYST::BHARTIARTL::rev2",
@@ -10273,24 +9624,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1736.3,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1736.3,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1836.3,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1836.3,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1831,
-    "lastObservedTimestamp": "2026-09-22T05:39:31.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.680Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.680Z",
@@ -10304,29 +9655,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1736.3% (₹1836.3)",
-        "price": 1836.3,
-        "details": {
-          "mfePercent": 1736.3
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1836.3 (+1736.3%)",
-        "price": 1836.3
       }
     ],
-    "updatedAt": "2026-09-22T05:39:32.154Z",
-    "mfeTimestamp": "2026-09-22T05:39:31.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:31.000Z",
-    "resolutionTimeSeconds": 1961762,
-    "timeToTargetSeconds": 1961762
+    "updatedAt": "2026-08-30T12:43:28.680Z"
   },
   {
     "signalId": "evt_1788093808690_3yye8::FUNDAMENTAL_CATALYST::TATAMOTORS::rev2",
@@ -10413,24 +9744,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 4882,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 4882,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 4982,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 4982,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 4936,
-    "lastObservedTimestamp": "2026-09-22T05:39:30.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.720Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.720Z",
@@ -10444,29 +9775,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:30.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +4882% (₹4982)",
-        "price": 4982,
-        "details": {
-          "mfePercent": 4882
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:30.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹4982 (+4882%)",
-        "price": 4982
       }
     ],
-    "updatedAt": "2026-09-22T05:39:34.414Z",
-    "mfeTimestamp": "2026-09-22T05:39:30.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:30.000Z",
-    "resolutionTimeSeconds": 1961761,
-    "timeToTargetSeconds": 1961761
+    "updatedAt": "2026-08-30T12:43:28.720Z"
   },
   {
     "signalId": "evt_1788093808728_4ncsj::FUNDAMENTAL_CATALYST::SUNPHARMA::rev2",
@@ -10493,24 +9804,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1776.4,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1776.4,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1876.4,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1876.4,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1856.2,
-    "lastObservedTimestamp": "2026-09-22T05:39:30.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.730Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.730Z",
@@ -10524,29 +9835,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:30.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1776.4% (₹1876.4)",
-        "price": 1876.4,
-        "details": {
-          "mfePercent": 1776.4
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:30.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1876.4 (+1776.4%)",
-        "price": 1876.4
       }
     ],
-    "updatedAt": "2026-09-22T05:39:34.320Z",
-    "mfeTimestamp": "2026-09-22T05:39:30.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:30.000Z",
-    "resolutionTimeSeconds": 1961761,
-    "timeToTargetSeconds": 1961761
+    "updatedAt": "2026-08-30T12:43:28.730Z"
   },
   {
     "signalId": "evt_1788093808599_zudoy::DATA_STALE::RELIANCE::rev4",
@@ -10573,24 +9864,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1151.9,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.792Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.792Z",
@@ -10604,29 +9895,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.520Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961754,
-    "timeToTargetSeconds": 1961754
+    "updatedAt": "2026-08-30T12:43:28.792Z"
   },
   {
     "signalId": "evt_1788093808613_61dg6::FUNDAMENTAL_CATALYST::TCS::rev4",
@@ -10653,24 +9924,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 2035.2,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 2035.1999999999998,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 2135.2,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 2135.2,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 2103,
-    "lastObservedTimestamp": "2026-09-22T05:39:28.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.809Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.809Z",
@@ -10684,29 +9955,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +2035.2% (₹2135.2)",
-        "price": 2135.2,
-        "details": {
-          "mfePercent": 2035.2
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹2135.2 (+2035.2%)",
-        "price": 2135.2
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.947Z",
-    "mfeTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionTimeSeconds": 1961759,
-    "timeToTargetSeconds": 1961759
+    "updatedAt": "2026-08-30T12:43:28.809Z"
   },
   {
     "signalId": "evt_1788093808626_5rg45::FUNDAMENTAL_CATALYST::HDFCBANK::rev4",
@@ -10793,24 +10044,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 941,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 941,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1041,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1041,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1022.3,
-    "lastObservedTimestamp": "2026-09-22T05:39:26.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.833Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.833Z",
@@ -10824,29 +10075,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +941% (₹1041)",
-        "price": 1041,
-        "details": {
-          "mfePercent": 941
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1041 (+941%)",
-        "price": 1041
       }
     ],
-    "updatedAt": "2026-09-22T05:39:29.790Z",
-    "mfeTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionTimeSeconds": 1961757,
-    "timeToTargetSeconds": 1961757
+    "updatedAt": "2026-08-30T12:43:28.833Z"
   },
   {
     "signalId": "evt_1788093808655_ekseo::FUNDAMENTAL_CATALYST::SBIN::rev4",
@@ -10873,24 +10104,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 900.1,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1000.1,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 987.4,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.848Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.848Z",
@@ -10904,29 +10135,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1000.1 (+900.1%)",
-        "price": 1000.1
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.062Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961754,
-    "timeToTargetSeconds": 1961754
+    "updatedAt": "2026-08-30T12:43:28.848Z"
   },
   {
     "signalId": "evt_1788093808599_zudoy::DATA_STALE::RELIANCE::rev6",
@@ -10953,24 +10164,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1151.9,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.858Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.858Z",
@@ -10984,29 +10195,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.497Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961754,
-    "timeToTargetSeconds": 1961754
+    "updatedAt": "2026-08-30T12:43:28.858Z"
   },
   {
     "signalId": "evt_1788093808613_61dg6::FUNDAMENTAL_CATALYST::TCS::rev6",
@@ -11033,24 +10224,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 2035.2,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 2035.1999999999998,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 2135.2,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 2135.2,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 2103,
-    "lastObservedTimestamp": "2026-09-22T05:39:28.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.868Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.868Z",
@@ -11064,29 +10255,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +2035.2% (₹2135.2)",
-        "price": 2135.2,
-        "details": {
-          "mfePercent": 2035.2
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹2135.2 (+2035.2%)",
-        "price": 2135.2
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.921Z",
-    "mfeTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionTimeSeconds": 1961759,
-    "timeToTargetSeconds": 1961759
+    "updatedAt": "2026-08-30T12:43:28.868Z"
   },
   {
     "signalId": "evt_1788093808626_5rg45::FUNDAMENTAL_CATALYST::HDFCBANK::rev6",
@@ -11173,24 +10344,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 941,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 941,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1041,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1041,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1022.3,
-    "lastObservedTimestamp": "2026-09-22T05:39:26.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.887Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.887Z",
@@ -11204,29 +10375,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +941% (₹1041)",
-        "price": 1041,
-        "details": {
-          "mfePercent": 941
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1041 (+941%)",
-        "price": 1041
       }
     ],
-    "updatedAt": "2026-09-22T05:39:29.753Z",
-    "mfeTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionTimeSeconds": 1961757,
-    "timeToTargetSeconds": 1961757
+    "updatedAt": "2026-08-30T12:43:28.887Z"
   },
   {
     "signalId": "evt_1788093808655_ekseo::FUNDAMENTAL_CATALYST::SBIN::rev6",
@@ -11253,24 +10404,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 900.1,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1000.1,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 987.4,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:28.921Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:28.921Z",
@@ -11284,29 +10435,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1000.1 (+900.1%)",
-        "price": 1000.1
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.035Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961754,
-    "timeToTargetSeconds": 1961754
+    "updatedAt": "2026-08-30T12:43:28.921Z"
   },
   {
     "signalId": "evt_1788093808997_6f15j::FUNDAMENTAL_CATALYST::GENERIC::rev2",
@@ -13133,24 +12264,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 941,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 941,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1041,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1041,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1022.3,
-    "lastObservedTimestamp": "2026-09-22T05:39:26.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:30.088Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:30.088Z",
@@ -13164,29 +12295,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +941% (₹1041)",
-        "price": 1041,
-        "details": {
-          "mfePercent": 941
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1041 (+941%)",
-        "price": 1041
       }
     ],
-    "updatedAt": "2026-09-22T05:39:29.716Z",
-    "mfeTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionTimeSeconds": 1961756,
-    "timeToTargetSeconds": 1961756
+    "updatedAt": "2026-08-30T12:43:30.088Z"
   },
   {
     "signalId": "evt_1788093808626_5rg45::FUNDAMENTAL_CATALYST::HDFCBANK::rev8",
@@ -13273,24 +12384,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 3830.5,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 3830.5,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 3930.5,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 3930.5,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 3897.1,
-    "lastObservedTimestamp": "2026-09-22T05:39:29.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:30.823Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:30.823Z",
@@ -13304,29 +12415,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +3830.5% (₹3930.5)",
-        "price": 3930.5,
-        "details": {
-          "mfePercent": 3830.5
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹3930.5 (+3830.5%)",
-        "price": 3930.5
       }
     ],
-    "updatedAt": "2026-09-22T05:39:31.096Z",
-    "mfeTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionTimeSeconds": 1961758,
-    "timeToTargetSeconds": 1961758
+    "updatedAt": "2026-08-30T12:43:30.824Z"
   },
   {
     "signalId": "evt_1788093808677_6bm6a::FUNDAMENTAL_CATALYST::BHARTIARTL::rev4",
@@ -13353,24 +12444,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1736.3,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1736.3,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1836.3,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1836.3,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1831,
-    "lastObservedTimestamp": "2026-09-22T05:39:31.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:43:30.834Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:43:30.834Z",
@@ -13384,29 +12475,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1736.3% (₹1836.3)",
-        "price": 1836.3,
-        "details": {
-          "mfePercent": 1736.3
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1836.3 (+1736.3%)",
-        "price": 1836.3
       }
     ],
-    "updatedAt": "2026-09-22T05:39:32.128Z",
-    "mfeTimestamp": "2026-09-22T05:39:31.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:31.000Z",
-    "resolutionTimeSeconds": 1961760,
-    "timeToTargetSeconds": 1961760
+    "updatedAt": "2026-08-30T12:43:30.834Z"
   },
   {
     "signalId": "evt_1788093844061_uhxo7::FUNDAMENTAL_CATALYST::LT::rev2",
@@ -13433,24 +12504,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 3830.5,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 3830.5,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 3930.5,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 3930.5,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 3897.1,
-    "lastObservedTimestamp": "2026-09-22T05:39:29.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:44:04.089Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:44:04.089Z",
@@ -13464,29 +12535,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +3830.5% (₹3930.5)",
-        "price": 3930.5,
-        "details": {
-          "mfePercent": 3830.5
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹3930.5 (+3830.5%)",
-        "price": 3930.5
       }
     ],
-    "updatedAt": "2026-09-22T05:39:31.070Z",
-    "mfeTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionTimeSeconds": 1961725,
-    "timeToTargetSeconds": 1961725
+    "updatedAt": "2026-08-30T12:44:04.090Z"
   },
   {
     "signalId": "evt_1788093949204_1ilnl::FUNDAMENTAL_CATALYST::INFY::rev2",
@@ -13513,23 +12564,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 941,
-    "maePercent": 941,
-    "mfeAbsolute": 941,
-    "maeAbsolute": 941,
-    "peakPrice": 1041,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1041,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1023.1,
-    "lastObservedTimestamp": "2026-09-22T05:48:58.000Z",
-    "observationCount": 20,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:49.230Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -13544,28 +12595,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +941% (₹1041)",
-        "price": 1041,
-        "details": {
-          "mfePercent": 941
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -941% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 941
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:59.763Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:49.279Z"
   },
   {
     "signalId": "evt_1788093949433_tbarz::FUNDAMENTAL_CATALYST::HDFCBANK::rev2",
@@ -13652,23 +12684,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
-    "maePercent": 900.1,
-    "mfeAbsolute": 900.1,
-    "maeAbsolute": 900.1,
-    "peakPrice": 1000.1,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 989.2,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:49.474Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -13683,28 +12715,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -900.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 900.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.670Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:49.475Z"
   },
   {
     "signalId": "evt_1788093949489_vodwu::FUNDAMENTAL_CATALYST::M&M::rev2",
@@ -14151,23 +13164,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 134,
-    "maePercent": 134,
-    "mfeAbsolute": 134,
-    "maeAbsolute": 134,
-    "peakPrice": 234,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 234,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 231.1,
-    "lastObservedTimestamp": "2026-09-22T05:48:27.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:49.667Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -14182,28 +13195,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +134% (₹234)",
-        "price": 234,
-        "details": {
-          "mfePercent": 134
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -134% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 134
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:33.625Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:49.668Z"
   },
   {
     "signalId": "evt_1788093949680_fa7pm::FUNDAMENTAL_CATALYST::QUALITY::rev2",
@@ -14350,23 +13344,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
-    "maePercent": 900.1,
-    "mfeAbsolute": 900.1,
-    "maeAbsolute": 900.1,
-    "peakPrice": 1000.1,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 989.2,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:49.718Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -14381,28 +13375,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -900.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 900.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.643Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:49.719Z"
   },
   {
     "signalId": "evt_1788093949746_cqptx::FUNDAMENTAL_CATALYST::NIFTY::rev2",
@@ -14609,23 +13584,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 40546.1,
-    "maePercent": 40546.1,
-    "mfeAbsolute": 1248.8200000000002,
-    "maeAbsolute": 1248.8200000000002,
-    "peakPrice": 1251.9,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 3.08,
     "troughPrice": 3.08,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 3.08,
     "maxAdversePrice": 3.08,
-    "lastObservedPrice": 1247.7,
-    "lastObservedTimestamp": "2026-09-22T05:48:30.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 3.08,
+    "lastObservedTimestamp": "2026-08-30T12:45:49.794Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -14640,28 +13615,9 @@
           "targetPrice": 3.0953999999999997,
           "stopPrice": 3.0492
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +40546.1% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 40546.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -40546.1% (₹3.08)",
-        "price": 3.08,
-        "details": {
-          "maePercent": 40546.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:33.384Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:49.794Z"
   },
   {
     "signalId": "evt_1788093949806_zycxv::FUNDAMENTAL_CATALYST::COALINDIA::rev2",
@@ -14688,24 +13644,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 328.3,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 328.3,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 428.3,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 428.3,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 428,
-    "lastObservedTimestamp": "2026-09-22T05:39:33.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:49.808Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:45:49.808Z",
@@ -14719,29 +13675,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:33.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +328.3% (₹428.3)",
-        "price": 428.3,
-        "details": {
-          "mfePercent": 328.3
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:33.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹428.3 (+328.3%)",
-        "price": 428.3
       }
     ],
-    "updatedAt": "2026-09-22T05:39:34.128Z",
-    "mfeTimestamp": "2026-09-22T05:39:33.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:33.000Z",
-    "resolutionTimeSeconds": 1961623,
-    "timeToTargetSeconds": 1961623
+    "updatedAt": "2026-08-30T12:45:49.808Z"
   },
   {
     "signalId": "evt_1788093949820_ldxmt::DATA_STALE::RELIANCE::rev2",
@@ -14768,23 +13704,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 40546.1,
-    "maePercent": 40546.1,
-    "mfeAbsolute": 1248.8200000000002,
-    "maeAbsolute": 1248.8200000000002,
-    "peakPrice": 1251.9,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 3.08,
     "troughPrice": 3.08,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 3.08,
     "maxAdversePrice": 3.08,
-    "lastObservedPrice": 1247.7,
-    "lastObservedTimestamp": "2026-09-22T05:48:30.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 3.08,
+    "lastObservedTimestamp": "2026-08-30T12:45:49.823Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -14799,28 +13735,9 @@
           "targetPrice": 3.0953999999999997,
           "stopPrice": 3.0492
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +40546.1% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 40546.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -40546.1% (₹3.08)",
-        "price": 3.08,
-        "details": {
-          "maePercent": 40546.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:33.360Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:49.823Z"
   },
   {
     "signalId": "evt_1788093949834_srpyp::FUNDAMENTAL_CATALYST::TOP::rev2",
@@ -14967,23 +13884,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 227518.18,
-    "maePercent": 227518.18,
-    "mfeAbsolute": 1251.3500000000001,
-    "maeAbsolute": 1251.3500000000001,
-    "peakPrice": 1251.9,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 0.55,
     "troughPrice": 0.55,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 0.55,
     "maxAdversePrice": 0.55,
-    "lastObservedPrice": 1247.7,
-    "lastObservedTimestamp": "2026-09-22T05:48:30.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 0.55,
+    "lastObservedTimestamp": "2026-08-30T12:45:49.877Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -14998,28 +13915,9 @@
           "targetPrice": 0.55275,
           "stopPrice": 0.5445
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +227518.18% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 227518.18
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -227518.18% (₹0.55)",
-        "price": 0.55,
-        "details": {
-          "maePercent": 227518.18
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:33.336Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:49.877Z"
   },
   {
     "signalId": "evt_1788093949890_gbpp8::FUNDAMENTAL_CATALYST::HDFCBANK::rev2",
@@ -16486,23 +15384,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 168.25,
-    "maePercent": 168.25,
-    "mfeAbsolute": 168.25,
-    "maeAbsolute": 168.25,
-    "peakPrice": 268.25,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 268.25,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 266.55,
-    "lastObservedTimestamp": "2026-09-22T05:48:27.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:50.266Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -16517,28 +15415,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +168.25% (₹268.25)",
-        "price": 268.25,
-        "details": {
-          "mfePercent": 168.25
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -168.25% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 168.25
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:32.916Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:50.267Z"
   },
   {
     "signalId": "evt_1788093950278_1lezj::FUNDAMENTAL_CATALYST::GUJARAT::rev2",
@@ -16866,23 +15745,23 @@
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
     "mfePercent": 0,
-    "maePercent": 1736.3,
+    "maePercent": 0,
     "mfeAbsolute": 0,
-    "maeAbsolute": 1736.3,
-    "peakPrice": 1836.3,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
     "maxFavorablePrice": 100,
-    "maxAdversePrice": 1836.3,
-    "lastObservedPrice": 1831,
-    "lastObservedTimestamp": "2026-09-22T05:39:31.000Z",
-    "observationCount": 1,
+    "maxAdversePrice": 100,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:50.360Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "STOP_REACHED",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:45:50.360Z",
@@ -16896,29 +15775,9 @@
           "targetPrice": 98,
           "stopPrice": 102
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1736.3% (₹1836.3)",
-        "price": 1836.3,
-        "details": {
-          "maePercent": 1736.3
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "STOP_REACHED",
-        "description": "Stop price reached at ₹1836.3 (-1736.3%)",
-        "price": 1836.3
       }
     ],
-    "updatedAt": "2026-09-22T05:39:32.104Z",
-    "maeTimestamp": "2026-09-22T05:39:31.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:31.000Z",
-    "resolutionTimeSeconds": 1961621,
-    "timeToInvalidationSeconds": 1961621
+    "updatedAt": "2026-08-30T12:45:50.360Z"
   },
   {
     "signalId": "evt_1788093950371_j3b0c::FUNDAMENTAL_CATALYST::UPCOMING::rev2",
@@ -17245,23 +16104,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 863.5,
-    "maePercent": 863.5,
-    "mfeAbsolute": 863.5,
-    "maeAbsolute": 863.5,
-    "peakPrice": 963.5,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 963.5,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 956.1,
-    "lastObservedTimestamp": "2026-09-22T05:48:22.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:50.441Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -17276,28 +16135,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:20.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +863.5% (₹963.5)",
-        "price": 963.5,
-        "details": {
-          "mfePercent": 863.5
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:20.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -863.5% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 863.5
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:32.340Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:50.442Z"
   },
   {
     "signalId": "evt_1788093950453_ew8ec::FUNDAMENTAL_CATALYST::AUROPHARMA::rev2",
@@ -17324,23 +16164,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1619,
-    "maePercent": 1619,
-    "mfeAbsolute": 1619,
-    "maeAbsolute": 1619,
-    "peakPrice": 1719,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1719,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1701.9,
-    "lastObservedTimestamp": "2026-09-22T05:48:30.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:50.455Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -17355,28 +16195,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1619% (₹1719)",
-        "price": 1719,
-        "details": {
-          "mfePercent": 1619
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1619% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 1619
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:32.391Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:50.455Z"
   },
   {
     "signalId": "evt_1788093950467_1z1jx::FUNDAMENTAL_CATALYST::DAY::rev2",
@@ -17703,23 +16524,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 379.15,
-    "maePercent": 379.15,
-    "mfeAbsolute": 379.15,
-    "maeAbsolute": 379.15,
-    "peakPrice": 479.15,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 479.15,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 464.25,
-    "lastObservedTimestamp": "2026-09-22T05:48:25.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:50.556Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -17734,28 +16555,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:07.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +379.15% (₹479.15)",
-        "price": 479.15,
-        "details": {
-          "mfePercent": 379.15
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:07.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -379.15% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 379.15
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:32.151Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:50.557Z"
   },
   {
     "signalId": "evt_1788093950569_wlygg::FUNDAMENTAL_CATALYST::INDIAN::rev2",
@@ -18082,23 +16884,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 456.45,
-    "maePercent": 456.45,
-    "mfeAbsolute": 456.45000000000005,
-    "maeAbsolute": 456.45000000000005,
-    "peakPrice": 556.45,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 556.45,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 555.8,
-    "lastObservedTimestamp": "2026-09-22T05:48:18.000Z",
-    "observationCount": 18,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:50.645Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -18113,136 +16915,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:38:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +448.6% (₹548.6)",
-        "price": 548.6,
-        "details": {
-          "mfePercent": 448.6
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:38:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -448.6% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 448.6
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:40:55.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +450% (₹550)",
-        "price": 550,
-        "details": {
-          "mfePercent": 450
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:40:55.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -450% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 450
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:41:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +451.05% (₹551.05)",
-        "price": 551.05,
-        "details": {
-          "mfePercent": 451.05
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:41:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -451.05% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 451.05
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:41:51.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +451.1% (₹551.1)",
-        "price": 551.1,
-        "details": {
-          "mfePercent": 451.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:41:51.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -451.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 451.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:42:27.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +454.15% (₹554.15)",
-        "price": 554.15,
-        "details": {
-          "mfePercent": 454.15
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:42:27.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -454.15% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 454.15
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:42:59.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +455.45% (₹555.45)",
-        "price": 555.45,
-        "details": {
-          "mfePercent": 455.45
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:42:59.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -455.45% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 455.45
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:43:22.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +456.45% (₹556.45)",
-        "price": 556.45,
-        "details": {
-          "mfePercent": 456.45
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:43:22.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -456.45% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 456.45
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:31.906Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:50.646Z"
   },
   {
     "signalId": "evt_1788093950666_5i3qw::FUNDAMENTAL_CATALYST::TATAMOTORS::rev2",
@@ -18629,23 +17304,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1487,
-    "maePercent": 1487,
-    "mfeAbsolute": 1487,
-    "maeAbsolute": 1487,
-    "peakPrice": 1587,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1587,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1577.5,
-    "lastObservedTimestamp": "2026-09-22T05:48:19.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:50.761Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -18660,28 +17335,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1487% (₹1587)",
-        "price": 1587,
-        "details": {
-          "mfePercent": 1487
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1487% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 1487
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:31.960Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:50.762Z"
   },
   {
     "signalId": "evt_1788093950774_kp9ip::FUNDAMENTAL_CATALYST::DGCA::rev2",
@@ -18768,23 +17424,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 136.37,
-    "maePercent": 136.37,
-    "mfeAbsolute": 136.37,
-    "maeAbsolute": 136.37,
-    "peakPrice": 236.37,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 236.37,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 234.56,
-    "lastObservedTimestamp": "2026-09-22T05:48:25.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:50.794Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "MISMATCHED_EXCURSION",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -18799,28 +17455,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +136.37% (₹236.37)",
-        "price": 236.37,
-        "details": {
-          "mfePercent": 136.37
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -136.37% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 136.37
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:31.726Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:50.794Z"
   },
   {
     "signalId": "evt_1788093950815_p1y8t::FUNDAMENTAL_CATALYST::HDFCBANK::rev2",
@@ -20347,23 +18984,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
-    "maePercent": 900.1,
-    "mfeAbsolute": 900.1,
-    "maeAbsolute": 900.1,
-    "peakPrice": 1000.1,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 989.2,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:51.579Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -20378,28 +19015,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -900.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 900.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.612Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:51.580Z"
   },
   {
     "signalId": "evt_1788093951618_69ego::FUNDAMENTAL_CATALYST::UTI10::rev2",
@@ -20486,23 +19104,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 451.55,
-    "maePercent": 451.55,
-    "mfeAbsolute": 451.54999999999995,
-    "maeAbsolute": 451.54999999999995,
-    "peakPrice": 551.55,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 551.55,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 535.15,
-    "lastObservedTimestamp": "2026-09-22T05:48:25.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:51.645Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -20517,28 +19135,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +451.55% (₹551.55)",
-        "price": 551.55,
-        "details": {
-          "mfePercent": 451.55
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -451.55% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 451.55
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.491Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:51.646Z"
   },
   {
     "signalId": "evt_1788093951668_kdpbd::FUNDAMENTAL_CATALYST::GDP::rev2",
@@ -20805,23 +19404,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1736.3,
-    "maePercent": 1736.3,
-    "mfeAbsolute": 1736.3,
-    "maeAbsolute": 1736.3,
-    "peakPrice": 1836.3,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1836.3,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1832,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:51.778Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -20836,28 +19435,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1736.3% (₹1836.3)",
-        "price": 1836.3,
-        "details": {
-          "mfePercent": 1736.3
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:31.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1736.3% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 1736.3
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:31.002Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:51.779Z"
   },
   {
     "signalId": "evt_1788093951799_aafno::FUNDAMENTAL_CATALYST::NJ::rev2",
@@ -21544,23 +20124,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
-    "maePercent": 900.1,
-    "mfeAbsolute": 900.1,
-    "maeAbsolute": 900.1,
-    "peakPrice": 1000.1,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 989.2,
-    "lastObservedTimestamp": "2026-09-22T05:48:24.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:52.273Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -21575,28 +20155,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -900.1% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 900.1
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.583Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:52.274Z"
   },
   {
     "signalId": "evt_1788093951643_1arlh::FUNDAMENTAL_CATALYST::TEMPSENS::rev4",
@@ -21623,23 +20184,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 451.55,
-    "maePercent": 451.55,
-    "mfeAbsolute": 451.54999999999995,
-    "maeAbsolute": 451.54999999999995,
-    "peakPrice": 551.55,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 551.55,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 535.15,
-    "lastObservedTimestamp": "2026-09-22T05:48:25.000Z",
-    "observationCount": 19,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:52.350Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -21654,28 +20215,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +451.55% (₹551.55)",
-        "price": 551.55,
-        "details": {
-          "mfePercent": 451.55
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -451.55% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 451.55
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:30.463Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:45:52.351Z"
   },
   {
     "signalId": "evt_1788093950903_fy1zq::FUNDAMENTAL_CATALYST::AMRUTANJAN::rev4",
@@ -22902,24 +21444,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 3830.5,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 3830.5,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 3930.5,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 3930.5,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 3897.1,
-    "lastObservedTimestamp": "2026-09-22T05:39:29.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:45:54.345Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:45:54.345Z",
@@ -22933,29 +21475,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +3830.5% (₹3930.5)",
-        "price": 3930.5,
-        "details": {
-          "mfePercent": 3830.5
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹3930.5 (+3830.5%)",
-        "price": 3930.5
       }
     ],
-    "updatedAt": "2026-09-22T05:39:31.046Z",
-    "mfeTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionTimeSeconds": 1961615,
-    "timeToTargetSeconds": 1961615
+    "updatedAt": "2026-08-30T12:45:54.346Z"
   },
   {
     "signalId": "evt_1788094007204_rifxy::DATA_STALE::RELIANCE::rev2",
@@ -22982,24 +21504,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1151.9,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:46:47.233Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:46:47.233Z",
@@ -23013,29 +21535,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.401Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961556,
-    "timeToTargetSeconds": 1961556
+    "updatedAt": "2026-08-30T12:46:47.242Z"
   },
   {
     "signalId": "evt_1788094007304_0037f::FUNDAMENTAL_CATALYST::HDFCBANK::rev2",
@@ -23242,23 +21744,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 941,
-    "maePercent": 941,
-    "mfeAbsolute": 941,
-    "maeAbsolute": 941,
-    "peakPrice": 1041,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1041,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1023.1,
-    "lastObservedTimestamp": "2026-09-22T05:48:58.000Z",
-    "observationCount": 20,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:46:47.392Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -23273,28 +21775,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +941% (₹1041)",
-        "price": 1041,
-        "details": {
-          "mfePercent": 941
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -941% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 941
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:59.695Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:46:47.393Z"
   },
   {
     "signalId": "evt_1788094007413_929ku::FUNDAMENTAL_CATALYST::ZOMATO::rev2",
@@ -24581,24 +23064,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 3830.5,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 3830.5,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 3930.5,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 3930.5,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 3897.1,
-    "lastObservedTimestamp": "2026-09-22T05:39:29.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:46:47.825Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:46:47.825Z",
@@ -24612,29 +23095,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +3830.5% (₹3930.5)",
-        "price": 3930.5,
-        "details": {
-          "mfePercent": 3830.5
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:29.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹3930.5 (+3830.5%)",
-        "price": 3930.5
       }
     ],
-    "updatedAt": "2026-09-22T05:39:31.022Z",
-    "mfeTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:29.000Z",
-    "resolutionTimeSeconds": 1961561,
-    "timeToTargetSeconds": 1961561
+    "updatedAt": "2026-08-30T12:46:47.826Z"
   },
   {
     "signalId": "evt_1788094007841_iky8v::FUNDAMENTAL_CATALYST::TCS::rev2",
@@ -24661,23 +23124,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 2035.2,
-    "maePercent": 2035.2,
-    "mfeAbsolute": 2035.1999999999998,
-    "maeAbsolute": 2035.1999999999998,
-    "peakPrice": 2135.2,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 2135.2,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 2105.8,
-    "lastObservedTimestamp": "2026-09-22T05:48:56.000Z",
-    "observationCount": 20,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:46:47.843Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -24692,28 +23155,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +2035.2% (₹2135.2)",
-        "price": 2135.2,
-        "details": {
-          "mfePercent": 2035.2
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -2035.2% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 2035.2
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:59.645Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:46:47.843Z"
   },
   {
     "signalId": "evt_1788094007873_rcwc2::FUNDAMENTAL_CATALYST::ARTICLE::rev2",
@@ -27380,24 +25824,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 2035.2,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 2035.1999999999998,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 2135.2,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 2135.2,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 2103,
-    "lastObservedTimestamp": "2026-09-22T05:39:28.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:47:35.496Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:47:35.496Z",
@@ -27411,29 +25855,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +2035.2% (₹2135.2)",
-        "price": 2135.2,
-        "details": {
-          "mfePercent": 2035.2
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹2135.2 (+2035.2%)",
-        "price": 2135.2
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.864Z",
-    "mfeTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionTimeSeconds": 1961513,
-    "timeToTargetSeconds": 1961513
+    "updatedAt": "2026-08-30T12:47:35.573Z"
   },
   {
     "signalId": "evt_1788094055736_4yspr::FUNDAMENTAL_CATALYST::INFY::rev2",
@@ -27460,23 +25884,23 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 941,
-    "maePercent": 941,
-    "mfeAbsolute": 941,
-    "maeAbsolute": 941,
-    "peakPrice": 1041,
+    "mfePercent": 0,
+    "maePercent": 0,
+    "mfeAbsolute": 0,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1041,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1023.1,
-    "lastObservedTimestamp": "2026-09-22T05:48:58.000Z",
-    "observationCount": 20,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:47:35.748Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "NEGATIVE_REACTION",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
     "isResolved": false,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
+    "priorityAccuracy": "PENDING_EVALUATION",
     "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
@@ -27491,28 +25915,9 @@
           "targetPrice": 100.49999999999999,
           "stopPrice": 99
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +941% (₹1041)",
-        "price": 1041,
-        "details": {
-          "mfePercent": 941
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -941% (₹100)",
-        "price": 100,
-        "details": {
-          "maePercent": 941
-        }
       }
     ],
-    "updatedAt": "2026-09-22T05:48:59.671Z",
-    "resolutionType": "REAL_MARKET_DATA"
+    "updatedAt": "2026-08-30T12:47:35.749Z"
   },
   {
     "signalId": "evt_1788094071519_hia8t::FUNDAMENTAL_CATALYST::NIFTY::rev2",
@@ -27599,24 +26004,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 35668.57,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1248.4,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 3.5,
     "troughPrice": 3.5,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 3.5,
     "maxAdversePrice": 3.5,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 3.5,
+    "lastObservedTimestamp": "2026-08-30T12:48:00.757Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:00.757Z",
@@ -27630,29 +26035,9 @@
           "targetPrice": 3.5700000000000003,
           "stopPrice": 3.4299999999999997
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +35668.57% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 35668.57
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+35668.57%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.377Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961482,
-    "timeToTargetSeconds": 1961482
+    "updatedAt": "2026-08-30T12:48:00.826Z"
   },
   {
     "signalId": "evt_reliance_earnings_123::FUNDAMENTAL_CATALYST::RELIANCE::rev2",
@@ -27679,24 +26064,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1151.9,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:00.858Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:00.858Z",
@@ -27710,29 +26095,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.352Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961482,
-    "timeToTargetSeconds": 1961482
+    "updatedAt": "2026-08-30T12:48:00.860Z"
   },
   {
     "signalId": "evt_sig_1::CORPORATE_ACTION::RELIANCE::rev1",
@@ -27759,24 +26124,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1151.9,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.265Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.265Z",
@@ -27790,29 +26155,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.326Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961482,
-    "timeToTargetSeconds": 1961482
+    "updatedAt": "2026-08-30T12:48:01.351Z"
   },
   {
     "signalId": "evt_sig_2::CORPORATE_ACTION::INFY::rev1",
@@ -27839,24 +26184,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 941,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 941,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1041,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1041,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1022.3,
-    "lastObservedTimestamp": "2026-09-22T05:39:26.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.388Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.388Z",
@@ -27870,29 +26215,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +941% (₹1041)",
-        "price": 1041,
-        "details": {
-          "mfePercent": 941
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1041 (+941%)",
-        "price": 1041
       }
     ],
-    "updatedAt": "2026-09-22T05:39:29.615Z",
-    "mfeTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionTimeSeconds": 1961485,
-    "timeToTargetSeconds": 1961485
+    "updatedAt": "2026-08-30T12:48:01.389Z"
   },
   {
     "signalId": "evt_sig_3::CORPORATE_ACTION::TCS::rev1",
@@ -27919,24 +26244,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 2035.2,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 2035.1999999999998,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 2135.2,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 2135.2,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 2103,
-    "lastObservedTimestamp": "2026-09-22T05:39:28.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.444Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.444Z",
@@ -27950,29 +26275,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +2035.2% (₹2135.2)",
-        "price": 2135.2,
-        "details": {
-          "mfePercent": 2035.2
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹2135.2 (+2035.2%)",
-        "price": 2135.2
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.839Z",
-    "mfeTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionTimeSeconds": 1961487,
-    "timeToTargetSeconds": 1961487
+    "updatedAt": "2026-08-30T12:48:01.445Z"
   },
   {
     "signalId": "evt_sig_4::CORPORATE_ACTION::HDFCBANK::rev1",
@@ -28059,24 +26364,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1151.9,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.473Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.473Z",
@@ -28090,29 +26395,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.304Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961482,
-    "timeToTargetSeconds": 1961482
+    "updatedAt": "2026-08-30T12:48:01.474Z"
   },
   {
     "signalId": "evt_sig_5_reliance_bear::CORPORATE_ACTION::RELIANCE::rev1",
@@ -28140,23 +26425,23 @@
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
     "mfePercent": 0,
-    "maePercent": 1151.9,
+    "maePercent": 0,
     "mfeAbsolute": 0,
-    "maeAbsolute": 1151.9,
-    "peakPrice": 1251.9,
+    "maeAbsolute": 0,
+    "peakPrice": 100,
     "troughPrice": 100,
     "maxFavorablePrice": 100,
-    "maxAdversePrice": 1251.9,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "maxAdversePrice": 100,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.484Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "STOP_REACHED",
-    "directionalAccuracy": "INCORRECT",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
     "isCorrect": false,
-    "isResolved": true,
-    "priorityAccuracy": "INVERTED_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.484Z",
@@ -28170,29 +26455,9 @@
           "targetPrice": 98,
           "stopPrice": 102
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MAE_EXPANSION",
-        "description": "MAE expanded to -1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "maePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "STOP_REACHED",
-        "description": "Stop price reached at ₹1251.9 (-1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.281Z",
-    "maeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961482,
-    "timeToInvalidationSeconds": 1961482
+    "updatedAt": "2026-08-30T12:48:01.486Z"
   },
   {
     "signalId": "evt_sig_6::CORPORATE_ACTION::SBIN::rev1",
@@ -28219,24 +26484,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 900.1,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1000.1,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 987.4,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.503Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.503Z",
@@ -28250,29 +26515,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1000.1 (+900.1%)",
-        "price": 1000.1
       }
     ],
-    "updatedAt": "2026-09-22T05:39:29.876Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961481,
-    "timeToTargetSeconds": 1961481
+    "updatedAt": "2026-08-30T12:48:01.504Z"
   },
   {
     "signalId": "evt_sig_obs_1::CORPORATE_ACTION::RELIANCE::rev1",
@@ -28299,24 +26544,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1151.9,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1151.9,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1251.9,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1251.9,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1246.7,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.521Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.521Z",
@@ -28330,29 +26575,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1151.9% (₹1251.9)",
-        "price": 1251.9,
-        "details": {
-          "mfePercent": 1151.9
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1251.9 (+1151.9%)",
-        "price": 1251.9
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.256Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961481,
-    "timeToTargetSeconds": 1961481
+    "updatedAt": "2026-08-30T12:48:01.522Z"
   },
   {
     "signalId": "evt_sig_obs_2::CORPORATE_ACTION::SBIN::rev1",
@@ -28379,24 +26604,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 900.1,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 900.1,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1000.1,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1000.1,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 987.4,
-    "lastObservedTimestamp": "2026-09-22T05:39:23.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.532Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.532Z",
@@ -28410,29 +26635,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +900.1% (₹1000.1)",
-        "price": 1000.1,
-        "details": {
-          "mfePercent": 900.1
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:23.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1000.1 (+900.1%)",
-        "price": 1000.1
       }
     ],
-    "updatedAt": "2026-09-22T05:39:29.853Z",
-    "mfeTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:23.000Z",
-    "resolutionTimeSeconds": 1961481,
-    "timeToTargetSeconds": 1961481
+    "updatedAt": "2026-08-30T12:48:01.533Z"
   },
   {
     "signalId": "evt_sig_obs_3::CORPORATE_ACTION::INFY::rev1",
@@ -28459,24 +26664,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 941,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 941,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1041,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1041,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1022.3,
-    "lastObservedTimestamp": "2026-09-22T05:39:26.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.545Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.545Z",
@@ -28490,29 +26695,9 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +941% (₹1041)",
-        "price": 1041,
-        "details": {
-          "mfePercent": 941
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:26.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1041 (+941%)",
-        "price": 1041
       }
     ],
-    "updatedAt": "2026-09-22T05:39:29.590Z",
-    "mfeTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:26.000Z",
-    "resolutionTimeSeconds": 1961484,
-    "timeToTargetSeconds": 1961484
+    "updatedAt": "2026-08-30T12:48:01.546Z"
   },
   {
     "signalId": "evt_sig_persist_1::CORPORATE_ACTION::AXISBANK::rev1",
@@ -28539,24 +26724,24 @@
     "marketRegime": "NEUTRAL",
     "marketSession": "CLOSED",
     "dataFreshness": "REAL_TIME",
-    "mfePercent": 1155.6,
+    "mfePercent": 0,
     "maePercent": 0,
-    "mfeAbsolute": 1155.6,
+    "mfeAbsolute": 0,
     "maeAbsolute": 0,
-    "peakPrice": 1255.6,
+    "peakPrice": 100,
     "troughPrice": 100,
-    "maxFavorablePrice": 1255.6,
+    "maxFavorablePrice": 100,
     "maxAdversePrice": 100,
-    "lastObservedPrice": 1244.1,
-    "lastObservedTimestamp": "2026-09-22T05:39:28.000Z",
-    "observationCount": 1,
+    "lastObservedPrice": 100,
+    "lastObservedTimestamp": "2026-08-30T12:48:01.563Z",
+    "observationCount": 0,
     "timeBuckets": {},
-    "outcome": "TARGET_REACHED",
-    "directionalAccuracy": "CORRECT",
-    "isCorrect": true,
-    "isResolved": true,
-    "priorityAccuracy": "ACCURATE_PRIORITY",
-    "lifecyclePredictionAccuracy": "PREDICTION_VERIFIED",
+    "outcome": "INSUFFICIENT_MARKET_DATA",
+    "directionalAccuracy": "UNRESOLVED",
+    "isCorrect": false,
+    "isResolved": false,
+    "priorityAccuracy": "PENDING_EVALUATION",
+    "lifecyclePredictionAccuracy": "PENDING_DATA",
     "timeline": [
       {
         "timestamp": "2026-08-30T12:48:01.563Z",
@@ -28570,28 +26755,8 @@
           "targetPrice": 102,
           "stopPrice": 98
         }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "MFE_EXPANSION",
-        "description": "MFE expanded to +1155.6% (₹1255.6)",
-        "price": 1255.6,
-        "details": {
-          "mfePercent": 1155.6
-        }
-      },
-      {
-        "timestamp": "2026-09-22T05:39:28.000Z",
-        "eventType": "TARGET_REACHED",
-        "description": "Target price reached at ₹1255.6 (+1155.6%)",
-        "price": 1255.6
       }
     ],
-    "updatedAt": "2026-09-22T05:39:30.231Z",
-    "mfeTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionType": "REAL_MARKET_DATA",
-    "resolutionTimestamp": "2026-09-22T05:39:28.000Z",
-    "resolutionTimeSeconds": 1961486,
-    "timeToTargetSeconds": 1961486
+    "updatedAt": "2026-08-30T12:48:01.563Z"
   }
 ]

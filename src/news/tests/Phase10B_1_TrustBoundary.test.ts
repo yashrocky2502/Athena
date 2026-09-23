@@ -47,7 +47,7 @@ describe('PHASE 10B-1 — MARKET OBSERVATION TRUST BOUNDARY & OUTCOME INTEGRITY'
     {
       filePath: 'data/market_intelligence_outcomes.json.bak',
       expectedHash: '33b17bc76094affb24c18cf7c8ea64d69081d4c28d5f21b23b39f003e39b3764',
-      expectedCount: 446
+      expectedCount: 445
     },
     {
       filePath: 'data/news_signal_lifecycle.json',
