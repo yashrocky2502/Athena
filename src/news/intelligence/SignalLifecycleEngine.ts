@@ -742,6 +742,16 @@ export class SignalLifecycleEngine {
   }
 
   /**
+   * Registers or updates a SignalLifecycle directly (used by ingestion, testing, and lifecycle initialization)
+   */
+  public registerLifecycle(lifecycle: SignalLifecycle): void {
+    if (lifecycle && lifecycle.signalId) {
+      this.lifecycles.set(lifecycle.signalId, { ...lifecycle });
+      this.persist();
+    }
+  }
+
+  /**
    * Returns outcome ledger history
    */
   public getHistoricalLedger(): HistoricalOutcome[] {

@@ -48,6 +48,7 @@ export interface ExpiryEngineTelemetry {
   signalsExpired: number;
   alreadyTerminalSignals: number;
   invalidCandidates: number;
+  lifecycleUnavailableCount: number;
   sourceUnavailableCount: number;
   sweepFailures: number;
   overlappingSweepsPrevented: number;
@@ -65,6 +66,7 @@ export interface SweepExecutionResult {
   signalsExpired: number;
   alreadyTerminalSignals: number;
   invalidCandidates: number;
+  lifecycleUnavailableCount?: number;
   expiredSignalIds: string[];
   message?: string;
 }
@@ -92,6 +94,7 @@ export class ControlledSignalExpiryEngine {
     signalsExpired: 0,
     alreadyTerminalSignals: 0,
     invalidCandidates: 0,
+    lifecycleUnavailableCount: 0,
     sourceUnavailableCount: 0,
     sweepFailures: 0,
     overlappingSweepsPrevented: 0,
@@ -137,6 +140,14 @@ export class ControlledSignalExpiryEngine {
     }
   }
 
+  public static start(customIntervalMs?: number): void {
+    ControlledSignalExpiryEngine.getInstance().start(customIntervalMs);
+  }
+
+  public static stop(): void {
+    ControlledSignalExpiryEngine.getInstance().stop();
+  }
+
   public registerLiveSignal(signal: LiveSignalReference): void {
     if (signal && signal.signalId) {
       this.localLiveSignals.set(signal.signalId, { ...signal });
@@ -168,6 +179,7 @@ export class ControlledSignalExpiryEngine {
       signalsExpired: 0,
       alreadyTerminalSignals: 0,
       invalidCandidates: 0,
+      lifecycleUnavailableCount: 0,
       sourceUnavailableCount: 0,
       sweepFailures: 0,
       overlappingSweepsPrevented: 0,
@@ -410,19 +422,36 @@ export class ControlledSignalExpiryEngine {
           continue;
         }
 
-        // C. Check existing state in lifecycle engine or outcome engine for terminal state
+        // C. ISSUE 2: Check explicit non-actionability flag
+        // If a live signal explicitly has isActionable === false, it MUST NOT become an expiry candidate,
+        // regardless of whether its lifecycle state is NEW, ACTIVE, CONFIRMED, WEAKENING, or CONTRADICTED.
+        if (signal.isActionable === false) {
+          cycleInvalidCount++;
+          this.telemetry.invalidCandidates++;
+          continue;
+        }
+
+        // D. ISSUE 3: Require authoritative lifecycle record before expiry
+        // If a discovered live signal has no corresponding lifecycle record:
+        // - DO NOT expire it
+        // - DO NOT mutate SignalOutcomeEngine
+        // - DO NOT create a synthetic lifecycle
+        // - DO NOT fabricate an outcome
+        // - Count it as an invalid/unresolvable candidate and increment lifecycleUnavailableCount
+        // - Leave all data unchanged
+        // - Continue processing other live signals
         const existingLifecycle = this.signalLifecycleEngine.getLifecycle(signal.signalId);
+        if (!existingLifecycle) {
+          cycleInvalidCount++;
+          this.telemetry.invalidCandidates++;
+          this.telemetry.lifecycleUnavailableCount++;
+          continue;
+        }
+
+        // E. Terminal Check on authoritative lifecycle or outcome record: Never expire INVALIDATED or EXPIRED
         const existingOutcomeRecord = this.signalOutcomeEngine.getRecord(signal.signalId);
-
-        const currentLiveState = (existingLifecycle?.currentState ||
-                                  signal.lifecycleState ||
-                                  existingOutcomeRecord?.signalLifecycleState) as SignalLifecycleState | undefined;
-
-        // Terminal Check: Never expire INVALIDATED or EXPIRED
         if (
-          (currentLiveState && terminalStates.has(currentLiveState)) ||
-          existingLifecycle?.currentState === 'EXPIRED' ||
-          existingLifecycle?.currentState === 'INVALIDATED' ||
+          terminalStates.has(existingLifecycle.currentState) ||
           existingOutcomeRecord?.signalLifecycleState === 'EXPIRED' ||
           existingOutcomeRecord?.signalLifecycleState === 'INVALIDATED' ||
           existingOutcomeRecord?.outcome === 'EXPIRED_WITHOUT_RESOLUTION'
@@ -432,15 +461,8 @@ export class ControlledSignalExpiryEngine {
           continue;
         }
 
-        // D. Check non-actionability flag if explicitly marked non-actionable and not an allowed non-terminal state
-        if (signal.isActionable === false && signal.lifecycleState && !allowedNonTerminalStates.has(signal.lifecycleState as SignalLifecycleState)) {
-          cycleInvalidCount++;
-          this.telemetry.invalidCandidates++;
-          continue;
-        }
-
-        // State validation: must be an allowed candidate state
-        if (currentLiveState && !allowedNonTerminalStates.has(currentLiveState)) {
+        // F. State validation on authoritative lifecycle: must be an allowed non-terminal candidate state
+        if (!allowedNonTerminalStates.has(existingLifecycle.currentState)) {
           cycleInvalidCount++;
           this.telemetry.invalidCandidates++;
           continue;
@@ -452,15 +474,15 @@ export class ControlledSignalExpiryEngine {
 
         // 5. Deterministic Validity Window Calculation (Wall-Clock Based)
         const validityWindowSeconds = SignalLifecycleEngine.getValidityWindowSeconds(
-          signal.signalType || (signal as any).eventType || '',
-          signal.priority || ''
+          existingLifecycle.signalType || signal.signalType || (signal as any).eventType || '',
+          existingLifecycle.initialPriority || signal.priority || ''
         );
         const validityWindowMs = validityWindowSeconds * 1000;
         const ageSeconds = Math.max(0, Math.floor((evalNowMs - createdMs) / 1000));
 
         // 6. Deterministic Expiry Check
         if (evalNowMs >= createdMs + validityWindowMs) {
-          // Validity window has elapsed -> Transition to EXPIRED
+          // Validity window has elapsed -> Transition to EXPIRED through authoritative SignalLifecycleEngine
           const expiryReason = 'VALIDITY_WINDOW_ELAPSED';
           const evidence = {
             validityWindowSeconds,
@@ -470,34 +492,26 @@ export class ControlledSignalExpiryEngine {
             operator: 'controlled_signal_expiry_engine'
           };
 
-          // Synchronize with SignalLifecycleEngine if tracked
-          if (existingLifecycle) {
-            this.signalLifecycleEngine.expireSignal(
-              signal.signalId,
-              expiryReason,
-              evidence,
-              this.signalOutcomeEngine
-            );
-          } else {
-            // Direct synchronization with SignalOutcomeEngine
-            this.signalOutcomeEngine.updateSignalLifecycleState(
-              signal.signalId,
-              'EXPIRED',
-              expiryReason,
-              false
-            );
-          }
+          // Synchronize strictly with SignalLifecycleEngine
+          const transitioned = this.signalLifecycleEngine.expireSignal(
+            signal.signalId,
+            expiryReason,
+            evidence,
+            this.signalOutcomeEngine
+          );
 
-          // Update local live signal reference state
-          signal.lifecycleState = 'EXPIRED';
-          if (this.localLiveSignals.has(signal.signalId)) {
-            const loc = this.localLiveSignals.get(signal.signalId)!;
-            loc.lifecycleState = 'EXPIRED';
-          }
+          if (transitioned) {
+            // Update local live signal reference state
+            signal.lifecycleState = 'EXPIRED';
+            if (this.localLiveSignals.has(signal.signalId)) {
+              const loc = this.localLiveSignals.get(signal.signalId)!;
+              loc.lifecycleState = 'EXPIRED';
+            }
 
-          cycleExpiredCount++;
-          this.telemetry.signalsExpired++;
-          expiredSignalIds.push(signal.signalId);
+            cycleExpiredCount++;
+            this.telemetry.signalsExpired++;
+            expiredSignalIds.push(signal.signalId);
+          }
         }
       }
 
@@ -514,6 +528,7 @@ export class ControlledSignalExpiryEngine {
         signalsExpired: cycleExpiredCount,
         alreadyTerminalSignals: cycleTerminalCount,
         invalidCandidates: cycleInvalidCount,
+        lifecycleUnavailableCount: this.telemetry.lifecycleUnavailableCount,
         expiredSignalIds
       };
     } catch (err: any) {
@@ -538,3 +553,6 @@ export class ControlledSignalExpiryEngine {
     }
   }
 }
+
+export const controlledSignalExpiryEngine = ControlledSignalExpiryEngine.getInstance();
+
