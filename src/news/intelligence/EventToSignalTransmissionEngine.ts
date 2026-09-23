@@ -78,7 +78,7 @@ export interface TransmissionSignalResult {
   revision: number;
   
   // Phase 10E: Provenance preservation
-  provenance: SignalProvenance;
+  provenance?: SignalProvenance;
   publisher?: string;
   sourceUrl?: string;
   sourceTier?: string;

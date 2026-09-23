@@ -20,7 +20,8 @@ import {
   SignalSourceProvenance,
   resolveSignalProvenance,
   deriveSourceTierString,
-  createUnknownProvenance
+  createUnknownProvenance,
+  validateProvenance
 } from '../types/SignalProvenance.ts';
 
 export type SignalLifecycleState =
@@ -392,13 +393,15 @@ export class SignalLifecycleEngine {
     }
 
     // Phase 10E: Resolve and carry forward authoritative signal provenance
-    const resolvedProv = signal.provenance || (event ? resolveSignalProvenance(event) : undefined) || lifecycle.provenance || createUnknownProvenance();
+    const resolvedProv = signal.provenance
+      ? validateProvenance(signal.provenance)
+      : (event ? resolveSignalProvenance(event) : undefined) || lifecycle.provenance || createUnknownProvenance();
     lifecycle.provenance = resolvedProv;
     lifecycle.primaryPublisher = resolvedProv.primarySource?.publisher || signal.primaryPublisher || lifecycle.primaryPublisher;
     lifecycle.sourceCount = resolvedProv.sourceCount ?? signal.sourceCount ?? lifecycle.sourceCount ?? 0;
-    lifecycle.sourceTier = (signal.sourceTier && signal.sourceTier !== 'Tier 1' && signal.sourceTier !== 'UNKNOWN')
+    lifecycle.sourceTier = (signal.sourceTier && (signal.sourceTier as string) !== 'Tier 1' && signal.sourceTier !== 'UNKNOWN')
       ? signal.sourceTier
-      : (resolvedProv.primarySource?.tier ? `TIER_${resolvedProv.primarySource.tier}` : (resolvedProv.status === 'UNKNOWN' ? 'UNKNOWN' : (lifecycle.sourceTier || 'UNKNOWN')));
+      : (resolvedProv.primarySource?.tier ? `TIER_${resolvedProv.primarySource.tier}` : (resolvedProv.status === 'UNKNOWN' || resolvedProv.status === 'UNVERIFIED' ? 'UNKNOWN' : (lifecycle.sourceTier || 'UNKNOWN')));
 
     // Calculate score age in seconds
     const createdTime = new Date(lifecycle.createdAt).getTime();

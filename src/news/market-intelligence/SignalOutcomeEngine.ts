@@ -19,7 +19,8 @@ import {
   resolveSignalProvenance,
   deriveSourceTierString,
   createUnknownProvenance,
-  createSyntheticTestProvenance
+  createSyntheticTestProvenance,
+  validateProvenance
 } from '../types/SignalProvenance.ts';
 
 export type {
@@ -64,8 +65,8 @@ export function categorizeOutcomeRecord(r: SignalOutcomeRecord): EvaluatedCatego
   if (
     r.outcome === 'EXPIRED_WITHOUT_RESOLUTION' ||
     (r as any).evaluatedOutcome === 'EXPIRED_WITHOUT_RESOLUTION' ||
-    r.directionalAccuracy === 'INCONCLUSIVE' ||
-    ((r.signalLifecycleState as string) === 'EXPIRED' && r.directionalAccuracy === 'INCONCLUSIVE')
+    (r.directionalAccuracy as any) === 'INCONCLUSIVE' ||
+    ((r.signalLifecycleState as string) === 'EXPIRED' && (r.directionalAccuracy as any) === 'INCONCLUSIVE')
   ) {
     return 'EXPIRED_INCONCLUSIVE';
   }
@@ -105,7 +106,7 @@ export function categorizeOutcomeRecord(r: SignalOutcomeRecord): EvaluatedCatego
     (r as any).evaluatedOutcome === 'INVALIDATED' ||
     r.outcome === 'STOP_REACHED' ||
     r.outcome === 'NEGATIVE_REACTION' ||
-    r.outcome === 'ADVERSE_REACTION' ||
+    (r.outcome as any) === 'ADVERSE_REACTION' ||
     r.isCorrect === false
   ) {
     return 'INCORRECT';
@@ -1007,21 +1008,25 @@ export class SignalOutcomeEngine implements IMarketObservationIngestor {
       eventCategory: signal.eventCategory || 'MARKET_EVENT',
       sector: signal.sector || 'GENERAL',
       sourceTier: (() => {
-        if (signal.sourceTier && signal.sourceTier !== 'Tier 1') return signal.sourceTier;
+        if (signal.sourceTier && signal.sourceTier !== 'Tier 1' && signal.sourceTier !== 'UNKNOWN') return signal.sourceTier;
         if (signal.provenance) {
           if (signal.provenance.status === 'SYNTHETIC_TEST') return 'SYNTHETIC_TEST';
-          if (signal.provenance.status === 'UNKNOWN') return 'UNKNOWN';
+          if (signal.provenance.status === 'UNKNOWN' || signal.provenance.status === 'UNVERIFIED') return 'UNKNOWN';
           return deriveSourceTierString(signal.provenance);
         }
         if (signal.isSyntheticTest) return 'SYNTHETIC_TEST';
         return 'UNKNOWN';
       })(),
-      provenance: signal.provenance || (signal.isSyntheticTest
+      provenance: signal.provenance ? validateProvenance(signal.provenance) : (signal.isSyntheticTest
         ? createSyntheticTestProvenance()
         : createUnknownProvenance()),
-      provenanceStatus: (signal.provenance?.status) || (signal.isSyntheticTest ? 'SYNTHETIC_TEST' : 'UNKNOWN'),
+      provenanceStatus: (() => {
+        if (signal.provenance) return validateProvenance(signal.provenance).status;
+        if (signal.isSyntheticTest) return 'SYNTHETIC_TEST';
+        return 'UNKNOWN';
+      })(),
       primaryPublisher: signal.provenance?.primarySource?.publisher || signal.primaryPublisher,
-      primaryArticleId: signal.provenance?.primarySource?.articleId || signal.primaryArticleId || signalId,
+      primaryArticleId: signal.provenance?.primarySource?.articleId || signal.primaryArticleId,
       sourceUrl: signal.provenance?.primarySource?.sourceUrl || signal.sourceUrl,
       marketRegime: signal.marketRegime || 'NEUTRAL',
       marketSession: signal.marketSession || this.getMarketSession(generatedAt),

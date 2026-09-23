@@ -127,7 +127,7 @@ export interface MarketSignal {
   freshnessText: string;
 
   // Phase 10E: Market Signal Provenance Integrity
-  provenance: SignalProvenance;
+  provenance?: SignalProvenance;
   primaryPublisher?: string;
   primaryArticleId?: string;
   primaryUrl?: string;

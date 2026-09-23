@@ -9,6 +9,7 @@
     "start": "ATHENA_LEGACY_WRITERS_ENABLED=false node --max-http-header-size=131072 dist/server.cjs",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {

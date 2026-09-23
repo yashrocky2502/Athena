@@ -685,4 +685,381 @@ describe('PHASE 10E — MARKET SIGNAL PROVENANCE INTEGRITY', () => {
       expect(transmissionObs.deterministicExecutionCount).toBeGreaterThan(0);
     });
   });
+
+  // =========================================================================
+  // H. STRICT FAIL-CLOSED PROVENANCE REMEDIATION (Explicit Tests A through S)
+  // =========================================================================
+  describe('H. Strict Fail-Closed Provenance Remediation (Explicit Tests A through S)', () => {
+    it('A. complete authoritative source -> VERIFIED', () => {
+      const event = {
+        eventId: 'EVT-AUTH-01',
+        symbol: 'RELIANCE',
+        latestArticleId: 'art-reuters-999',
+        primarySource: {
+          publisher: 'Reuters',
+          articleId: 'art-reuters-999',
+          sourceUrl: 'https://reuters.com/business/reliance-contract',
+          tier: 2
+        }
+      };
+      const prov = resolveSignalProvenance(event);
+      expect(prov.status).toBe('VERIFIED');
+      expect(prov.primarySource?.publisher).toBe('Reuters');
+      expect(prov.primarySource?.articleId).toBe('art-reuters-999');
+      expect(prov.primarySource?.tier).toBe(2);
+      expect(prov.primarySource?.sourceUrl).toBe('https://reuters.com/business/reliance-contract');
+    });
+
+    it('B. missing articleId -> not VERIFIED', () => {
+      const event = {
+        eventId: 'EVT-NO-ART-01',
+        symbol: 'TCS',
+        primarySource: {
+          publisher: 'Reuters',
+          sourceUrl: 'https://reuters.com/markets/tcs',
+          tier: 2
+        }
+      };
+      const prov = resolveSignalProvenance(event);
+      expect(prov.status).not.toBe('VERIFIED');
+      expect(prov.status).toBe('PARTIALLY_VERIFIED');
+      expect(prov.primarySource?.articleId).toBeUndefined();
+    });
+
+    it('C. missing publisher -> UNKNOWN/UNVERIFIED as semantically appropriate', () => {
+      // Case 1: No evidence at all -> UNKNOWN
+      const noEvidence = resolveSignalProvenance({ eventId: 'EVT-EMPTY' });
+      expect(noEvidence.status).toBe('UNKNOWN');
+      expect(noEvidence.primarySource).toBeUndefined();
+
+      // Case 2: Untrusted generic claim -> UNVERIFIED
+      const genericClaim = resolveSignalProvenance({
+        eventId: 'EVT-GENERIC',
+        primarySource: {
+          publisher: 'Athena Verified Source',
+          articleId: 'art-gen-01'
+        }
+      });
+      expect(genericClaim.status).toBe('UNVERIFIED');
+    });
+
+    it('D. missing tier with known publisher -> deterministic rank may resolve tier, but missing article identity must still prevent VERIFIED', () => {
+      // Case 1: Known publisher with articleId and missing tier -> VERIFIED with resolved tier
+      const withArticle = resolveSignalProvenance({
+        eventId: 'EVT-RANK-01',
+        primarySource: {
+          publisher: 'Reuters',
+          articleId: 'art-reuters-rank-01',
+          sourceUrl: 'https://reuters.com/markets'
+        }
+      });
+      expect(withArticle.status).toBe('VERIFIED');
+      expect(withArticle.primarySource?.tier).toBe(2);
+
+      // Case 2: Known publisher without articleId and missing tier -> PARTIALLY_VERIFIED
+      const withoutArticle = resolveSignalProvenance({
+        eventId: 'EVT-RANK-02',
+        primarySource: {
+          publisher: 'Reuters',
+          sourceUrl: 'https://reuters.com/markets'
+        }
+      });
+      expect(withoutArticle.status).not.toBe('VERIFIED');
+      expect(withoutArticle.status).toBe('PARTIALLY_VERIFIED');
+      expect(withoutArticle.primarySource?.tier).toBe(2);
+    });
+
+    it('E. invalid tier -> no fabricated tier', () => {
+      const prov = resolveSignalProvenance({
+        eventId: 'EVT-INVALID-TIER',
+        primarySource: {
+          publisher: 'RandomUnrankedBlog99',
+          articleId: 'art-unranked-01',
+          tier: 99
+        }
+      });
+      expect(prov.primarySource?.tier).toBeUndefined();
+      expect(prov.primarySource?.tier).not.toBe(1);
+      expect(prov.primarySource?.tier).not.toBe(2);
+      expect(prov.primarySource?.tier).not.toBe(99);
+      expect(prov.status).not.toBe('VERIFIED');
+    });
+
+    it('F. missing URL -> must not fabricate URL', () => {
+      const prov = resolveSignalProvenance({
+        eventId: 'EVT-NO-URL',
+        primarySource: {
+          publisher: 'BSE',
+          articleId: 'art-bse-01',
+          tier: 1
+        }
+      });
+      expect(prov.primarySource?.sourceUrl).toBeUndefined();
+    });
+
+    it('G. ambiguous publisher -> fail closed', () => {
+      const prov = resolveSignalProvenance({
+        eventId: 'EVT-AMBIGUOUS',
+        primarySource: {
+          publisher: 'Market Source',
+          articleId: 'art-amb-01'
+        }
+      });
+      expect(prov.status).toBe('UNVERIFIED');
+      expect(prov.status).not.toBe('VERIFIED');
+    });
+
+    it('H. explicit SYNTHETIC_TEST -> remains SYNTHETIC_TEST', () => {
+      const prov = resolveSignalProvenance({
+        isSyntheticTest: true,
+        primarySource: {
+          publisher: 'SimulatedPublisher',
+          tier: 1
+        }
+      });
+      expect(prov.status).toBe('SYNTHETIC_TEST');
+    });
+
+    it('I. no test-article-id leaks into production provenance', () => {
+      const prov = resolveSignalProvenance({
+        eventId: 'EVT-PROD-01',
+        primarySource: {
+          publisher: 'Reuters'
+        }
+      });
+      expect(prov.primarySource?.articleId).not.toBe('test-article-id');
+      expect(prov.primarySource?.articleId).toBeUndefined();
+    });
+
+    it('J. no tier ?? 1 fallback', () => {
+      const prov = resolveSignalProvenance({
+        eventId: 'EVT-NO-TIER-1-FALLBACK',
+        primarySource: {
+          publisher: 'UnrankedPublicationXYZ',
+          articleId: 'art-xyz-01'
+        }
+      });
+      expect(prov.primarySource?.tier).not.toBe(1);
+      expect(prov.primarySource?.tier).toBeUndefined();
+    });
+
+    it('K. no tier ?? 2 fallback', () => {
+      const prov = resolveSignalProvenance({
+        eventId: 'EVT-NO-TIER-2-FALLBACK',
+        primarySource: {
+          publisher: 'UnrankedPublicationXYZ',
+          articleId: 'art-xyz-01'
+        }
+      });
+      expect(prov.primarySource?.tier).not.toBe(2);
+      expect(prov.primarySource?.tier).toBeUndefined();
+    });
+
+    it('L. pipeline preserves UNKNOWN', () => {
+      const event: any = {
+        eventId: 'EVT-PIPE-UNKNOWN',
+        eventFingerprint: 'fp-unk',
+        symbol: 'INFY',
+        category: 'CORPORATE',
+        eventType: 'ORDER_WIN',
+        firstSeenAt: new Date().toISOString(),
+        lastUpdatedAt: new Date().toISOString(),
+        sourceArticleIds: [],
+        sourceCount: 0,
+        confidence: 50,
+        eventPriority: 'P3',
+        eventStatus: 'CONFIRMED',
+        canonicalSummary: { whatHappened: 'Unknown event', whyItMatters: 'Unknown' }
+      };
+      const signal = MarketIntelligenceFusionEngine.getInstance().fuse(event, {});
+      expect(signal.provenance.status).toBe('UNKNOWN');
+
+      const lifecycle = SignalLifecycleEngine.getInstance().evaluateSignal(signal, event);
+      expect(lifecycle.provenance?.status).toBe('UNKNOWN');
+
+      const outcome = SignalOutcomeEngine.getInstance().registerActionableSignal(signal);
+      expect(outcome.provenance.status).toBe('UNKNOWN');
+      expect(outcome.provenanceStatus).toBe('UNKNOWN');
+    });
+
+    it('M. pipeline preserves PARTIALLY_VERIFIED', () => {
+      const event: any = {
+        eventId: 'EVT-PIPE-PARTIAL',
+        eventFingerprint: 'fp-partial',
+        symbol: 'TCS',
+        category: 'CORPORATE',
+        eventType: 'ORDER_WIN',
+        firstSeenAt: new Date().toISOString(),
+        lastUpdatedAt: new Date().toISOString(),
+        sourceArticleIds: [],
+        sourceCount: 1,
+        confidence: 80,
+        eventPriority: 'P2',
+        eventStatus: 'CONFIRMED',
+        canonicalSummary: { whatHappened: 'Deal', whyItMatters: 'Revenue' },
+        primarySource: {
+          publisher: 'Reuters',
+          sourceUrl: 'https://reuters.com/markets'
+        }
+      };
+      const signal = MarketIntelligenceFusionEngine.getInstance().fuse(event, {});
+      expect(signal.provenance.status).toBe('PARTIALLY_VERIFIED');
+
+      const lifecycle = SignalLifecycleEngine.getInstance().evaluateSignal(signal, event);
+      expect(lifecycle.provenance?.status).toBe('PARTIALLY_VERIFIED');
+
+      const outcome = SignalOutcomeEngine.getInstance().registerActionableSignal(signal);
+      expect(outcome.provenance.status).toBe('PARTIALLY_VERIFIED');
+      expect(outcome.provenanceStatus).toBe('PARTIALLY_VERIFIED');
+    });
+
+    it('N. pipeline preserves UNVERIFIED', () => {
+      const event: any = {
+        eventId: 'EVT-PIPE-UNVERIFIED',
+        eventFingerprint: 'fp-unverified',
+        symbol: 'WIPRO',
+        category: 'CORPORATE',
+        eventType: 'ORDER_WIN',
+        firstSeenAt: new Date().toISOString(),
+        lastUpdatedAt: new Date().toISOString(),
+        sourceArticleIds: ['art-unv-1'],
+        sourceCount: 1,
+        confidence: 50,
+        eventPriority: 'P3',
+        eventStatus: 'CONFIRMED',
+        canonicalSummary: { whatHappened: 'Rumor', whyItMatters: 'Unverified' },
+        primarySource: {
+          publisher: 'Athena Verified Source',
+          articleId: 'art-unv-1'
+        }
+      };
+      const signal = MarketIntelligenceFusionEngine.getInstance().fuse(event, {});
+      expect(signal.provenance.status).toBe('UNVERIFIED');
+
+      const lifecycle = SignalLifecycleEngine.getInstance().evaluateSignal(signal, event);
+      expect(lifecycle.provenance?.status).toBe('UNVERIFIED');
+
+      const outcome = SignalOutcomeEngine.getInstance().registerActionableSignal(signal);
+      expect(outcome.provenance.status).toBe('UNVERIFIED');
+      expect(outcome.provenanceStatus).toBe('UNVERIFIED');
+    });
+
+    it('O. lifecycle cannot upgrade provenance', () => {
+      const signalWithInvalidVerified: any = {
+        signalId: 'SIG-UPGRADE-TEST-LC',
+        symbol: 'INFY',
+        eventType: 'ORDER_WIN',
+        priority: 'P2',
+        fundamentalDirection: 'POSITIVE',
+        signalScore: 80,
+        revision: 1,
+        createdAt: new Date().toISOString(),
+        volumeText: 'INSUFFICIENT_EVIDENCE',
+        priceReactionText: 'UNKNOWN',
+        fnoText: 'INSUFFICIENT_EVIDENCE',
+        overallConfirmation: 'CONFIRMED',
+        warnings: [],
+        provenance: {
+          status: 'VERIFIED',
+          primarySource: {
+            publisher: 'Reuters'
+          },
+          supportingSources: [],
+          sourceCount: 1
+        }
+      };
+      const lc = SignalLifecycleEngine.getInstance().evaluateSignal(signalWithInvalidVerified);
+      expect(lc.provenance?.status).not.toBe('VERIFIED');
+      expect(lc.provenance?.status).toBe('PARTIALLY_VERIFIED');
+    });
+
+    it('P. outcome cannot upgrade provenance', () => {
+      const signalWithInvalidVerified: any = {
+        signalId: 'SIG-UPGRADE-TEST-OUTCOME',
+        symbol: 'INFY',
+        eventType: 'ORDER_WIN',
+        priority: 'P2',
+        fundamentalDirection: 'POSITIVE',
+        signalScore: 80,
+        revision: 1,
+        createdAt: new Date().toISOString(),
+        provenance: {
+          status: 'VERIFIED',
+          primarySource: {
+            publisher: 'Reuters'
+          },
+          supportingSources: [],
+          sourceCount: 1
+        }
+      };
+      const outcome = SignalOutcomeEngine.getInstance().registerActionableSignal(signalWithInvalidVerified);
+      expect(outcome.provenance.status).not.toBe('VERIFIED');
+      expect(outcome.provenance.status).toBe('PARTIALLY_VERIFIED');
+      expect(outcome.provenanceStatus).toBe('PARTIALLY_VERIFIED');
+    });
+
+    it('Q. signal provenance remains separate from ObservationTrustBridge provenance', () => {
+      const signalOutcomeEngine = SignalOutcomeEngine.getInstance();
+      const testSignalId = 'SIG-PROV-SEP-003';
+      const signal: any = {
+        signalId: testSignalId,
+        symbol: 'INFY',
+        direction: 'LONG',
+        fundamentalDirection: 'POSITIVE',
+        entryPrice: 1500,
+        generatedAt: new Date().toISOString(),
+        provenance: {
+          status: 'VERIFIED',
+          primarySource: {
+            publisher: 'Reuters',
+            articleId: 'art-reuters-sep-02',
+            sourceUrl: 'https://reuters.com/tech/infy',
+            tier: 2
+          },
+          supportingSources: [],
+          sourceCount: 1
+        }
+      };
+      signalOutcomeEngine.registerActionableSignal(signal);
+
+      const validTick = {
+        signalId: testSignalId,
+        symbol: 'INFY',
+        price: 1515,
+        volume: 120000,
+        timestamp: new Date().toISOString(),
+        exchange: 'NSE',
+        source: 'YAHOO_FINANCE',
+        isStale: false,
+        marketSession: 'REGULAR_HOURS',
+        provenance: {
+          sourceType: 'APPROVED_MARKET_PROVIDER',
+          provider: 'YAHOO_FINANCE',
+          exchange: 'NSE',
+          sourceConfidence: 1.0,
+          verifiedAt: new Date().toISOString()
+        }
+      };
+
+      const validationResult = signalOutcomeEngine.validateObservations(testSignalId, [validTick]);
+      expect(validationResult.isValid).toBe(true);
+      expect(validTick.provenance.provider).toBe('YAHOO_FINANCE');
+      expect(signal.provenance.primarySource.publisher).toBe('Reuters');
+      expect(validTick.provenance.provider).not.toBe('Reuters');
+    });
+
+    it('R. protected historical hashes remain exact', () => {
+      for (const [fileRelPath, expectedHash] of Object.entries(EXPECTED_HASHES)) {
+        const actualHash = computeSha256(fileRelPath);
+        expect(actualHash, `Mismatch in protected file: ${fileRelPath}`).toBe(expectedHash);
+      }
+    });
+
+    it('S. zero AI/LLM calls introduced', () => {
+      const fusion = MarketIntelligenceFusionEngine.getInstance();
+      expect(fusion.getObservability().zeroAiExecutions).toBeGreaterThan(0);
+      const transmissionObs = eventToSignalTransmissionEngine.getObservability();
+      expect(transmissionObs.aiInvocationCount).toBe(0);
+    });
+  });
 });
