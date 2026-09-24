@@ -36,7 +36,9 @@ import {
   PositionNewsEventInput,
   PositionTelegramNotifierConfig,
   PositionAlertDeliveryRecord,
-  PositionAlertDeliveryStatus
+  PositionAlertDeliveryStatus,
+  PortfolioSourceStatus,
+  PositionSourceResult
 } from './types.ts';
 import { PositionMonitor } from './PositionMonitor.ts';
 import { PositionRelevanceEngine } from './PositionRelevanceEngine.ts';
@@ -52,10 +54,28 @@ export class SimulatedPositionSource implements PositionSource {
   public readonly sourceId: string;
   public readonly sourceType = 'MOCK' as const;
   private positions: NormalizedPosition[] = [];
+  private status: PortfolioSourceStatus = 'VALID_ACTIVE';
 
   constructor(sourceId: string = 'SIMULATED_PORTFOLIO', initialPositions: NormalizedPosition[] = []) {
     this.sourceId = sourceId;
     this.positions = [...initialPositions];
+  }
+
+  public setStatus(status: PortfolioSourceStatus): void {
+    this.status = status;
+  }
+
+  public getSourceStatus(): PortfolioSourceStatus {
+    if (this.status !== 'VALID_ACTIVE') return this.status;
+    return this.positions.length > 0 ? 'VALID_ACTIVE' : 'VALID_EMPTY_PORTFOLIO';
+  }
+
+  public async fetchPositions(): Promise<PositionSourceResult> {
+    const status = this.getSourceStatus();
+    if (status === 'INVALID_SOURCE' || status === 'SOURCE_ERROR' || status === 'UNAVAILABLE') {
+      return { status, positions: [], error: `Source status: ${status}` };
+    }
+    return { status, positions: await this.getPositions() };
   }
 
   public async getPositions(): Promise<NormalizedPosition[]> {

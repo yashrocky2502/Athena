@@ -15,7 +15,9 @@
 import {
   PositionSource,
   NormalizedPosition,
-  PositionAssetClass
+  PositionAssetClass,
+  PortfolioSourceStatus,
+  PositionSourceResult
 } from './types.ts';
 import { PortfolioImportEngine } from '../broker/PortfolioImportEngine.ts';
 import { PortfolioImportRow } from '../broker/types.ts';
@@ -35,12 +37,18 @@ export class CsvXlsxPositionSource implements PositionSource {
   private content: string | Buffer | Uint8Array;
   private explicitSourceType?: 'EXCEL' | 'CSV';
   private cachedPositions: NormalizedPosition[] | null = null;
+  private lastStatus: PortfolioSourceStatus = 'VALID_ACTIVE';
+  private lastError?: string;
 
   constructor(config: CsvXlsxPositionSourceConfig) {
     this.sourceId = config.sourceId || `SRC_FILE_${Date.now()}`;
     this.filename = config.filename;
     this.content = config.content;
     this.explicitSourceType = config.sourceType;
+  }
+
+  public getSourceStatus(): PortfolioSourceStatus {
+    return this.lastStatus;
   }
 
   /**
@@ -66,11 +74,15 @@ export class CsvXlsxPositionSource implements PositionSource {
   }
 
   /**
-   * Parses and normalizes input data into NormalizedPosition array.
+   * Fetches positions with explicit health/validity status.
    */
-  public async getPositions(): Promise<NormalizedPosition[]> {
+  public async fetchPositions(): Promise<PositionSourceResult> {
     if (this.cachedPositions) {
-      return this.cachedPositions;
+      return {
+        status: this.lastStatus,
+        positions: this.cachedPositions,
+        error: this.lastError
+      };
     }
 
     const importEngine = PortfolioImportEngine.getInstance();
@@ -82,7 +94,23 @@ export class CsvXlsxPositionSource implements PositionSource {
 
     if (isExcel) {
       const excelResult = importEngine.parseExcelWorkbook(this.content);
+      if (excelResult.errors && excelResult.errors.length > 0 && excelResult.rows.length === 0) {
+        const isCorrupt = excelResult.errors.some(e => e.toLowerCase().includes('corrupt') || e.toLowerCase().includes('invalid'));
+        this.lastStatus = isCorrupt ? 'SOURCE_ERROR' : 'INVALID_SOURCE';
+        this.lastError = excelResult.errors.join('; ');
+        this.cachedPositions = [];
+        return {
+          status: this.lastStatus,
+          positions: [],
+          error: this.lastError
+        };
+      }
       parsedRows = excelResult.rows;
+      if (parsedRows.length === 0) {
+        this.lastStatus = 'VALID_EMPTY_PORTFOLIO';
+      } else {
+        this.lastStatus = 'VALID_ACTIVE';
+      }
     } else {
       const rawText = typeof this.content === 'string'
         ? this.content
@@ -90,8 +118,33 @@ export class CsvXlsxPositionSource implements PositionSource {
           ? this.content.toString('utf-8')
           : new TextDecoder().decode(this.content);
 
+      if (!rawText || rawText.trim().length === 0) {
+        this.lastStatus = 'INVALID_SOURCE';
+        this.lastError = 'Empty CSV/text file with no header or holdings table';
+        this.cachedPositions = [];
+        return {
+          status: 'INVALID_SOURCE',
+          positions: [],
+          error: this.lastError
+        };
+      }
+
       const delimiter = this.filename.endsWith('.tsv') ? '\t' : ',';
       const records = importEngine.parseDelimitedText(rawText, delimiter);
+
+      const firstLine = rawText.split('\n')[0].toLowerCase();
+      const hasSymbolHeader = ['symbol', 'tradingsymbol', 'trading symbol', 'ticker', 'instrument', 'stock', 'scrip', 'isin'].some(h => firstLine.includes(h));
+
+      if (!hasSymbolHeader) {
+        this.lastStatus = 'INVALID_SOURCE';
+        this.lastError = 'No recognized holdings/symbol column found in CSV header';
+        this.cachedPositions = [];
+        return {
+          status: 'INVALID_SOURCE',
+          positions: [],
+          error: this.lastError
+        };
+      }
 
       for (const rec of records) {
         const symbol = (
@@ -160,24 +213,27 @@ export class CsvXlsxPositionSource implements PositionSource {
           isin
         });
       }
+
+      if (parsedRows.length === 0) {
+        this.lastStatus = 'VALID_EMPTY_PORTFOLIO';
+      } else {
+        this.lastStatus = 'VALID_ACTIVE';
+      }
     }
 
     const now = new Date().toISOString();
     const normalized: NormalizedPosition[] = [];
 
     for (const row of parsedRows) {
-      // Rule 1: Zero or negative quantity does not become an active position
       if (!row.quantity || row.quantity <= 0) {
         continue;
       }
 
-      // Rule 2: Symbol must be valid
       const symbol = row.symbol?.trim().toUpperCase();
       if (!symbol) {
         continue;
       }
 
-      // Rule 3: Asset class determination (never convert Mutual Funds into Equity)
       let assetClass: PositionAssetClass = 'EQUITY';
       const rowAsset = (row.assetClass as string) || '';
       if (rowAsset === 'OPTIONS') assetClass = 'OPTIONS';
@@ -185,7 +241,6 @@ export class CsvXlsxPositionSource implements PositionSource {
       else if (rowAsset === 'ETF' || symbol.includes('BEES') || symbol.endsWith('ETF')) assetClass = 'ETF';
       else if (rowAsset === 'MUTUAL_FUND') assetClass = 'MUTUAL_FUND';
 
-      // Rule 4: Zero price fabrication. Missing or non-positive price remains null.
       const avgPrice = (typeof row.averagePrice === 'number' && row.averagePrice > 0)
         ? row.averagePrice
         : null;
@@ -229,7 +284,19 @@ export class CsvXlsxPositionSource implements PositionSource {
     }
 
     this.cachedPositions = normalized;
-    return normalized;
+    return {
+      status: this.lastStatus,
+      positions: normalized,
+      error: this.lastError
+    };
+  }
+
+  /**
+   * Parses and normalizes input data into NormalizedPosition array.
+   */
+  public async getPositions(): Promise<NormalizedPosition[]> {
+    const res = await this.fetchPositions();
+    return res.positions;
   }
 
   /**
@@ -239,5 +306,7 @@ export class CsvXlsxPositionSource implements PositionSource {
     this.content = content;
     if (filename) this.filename = filename;
     this.cachedPositions = null;
+    this.lastError = undefined;
+    this.lastStatus = 'VALID_ACTIVE';
   }
 }

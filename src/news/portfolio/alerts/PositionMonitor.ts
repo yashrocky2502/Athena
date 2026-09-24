@@ -20,7 +20,8 @@ import {
   PositionSnapshot,
   PositionLifecycleEvent,
   PositionLifecycleEventType,
-  PositionPresenceState
+  PositionPresenceState,
+  PortfolioSourceStatus
 } from './types.ts';
 
 export class PositionMonitor {
@@ -58,14 +59,60 @@ export class PositionMonitor {
     snapshot: PositionSnapshot;
     events: PositionLifecycleEvent[];
   }> {
-    const rawPositions = await this.source.getPositions();
+    let rawPositions: NormalizedPosition[] = [];
+    let sourceStatus: PortfolioSourceStatus = 'VALID_ACTIVE';
+
+    try {
+      if (typeof this.source.fetchPositions === 'function') {
+        const res = await this.source.fetchPositions();
+        rawPositions = res.positions || [];
+        sourceStatus = res.status;
+      } else {
+        rawPositions = await this.source.getPositions();
+        if (typeof this.source.getSourceStatus === 'function') {
+          sourceStatus = this.source.getSourceStatus();
+        } else {
+          sourceStatus = rawPositions.length > 0 ? 'VALID_ACTIVE' : 'VALID_EMPTY_PORTFOLIO';
+        }
+      }
+    } catch (err: any) {
+      sourceStatus = 'SOURCE_ERROR';
+    }
+
+    // Fail closed if source in error/invalid/unavailable state: never close or wipe active positions
+    if (
+      sourceStatus === 'INVALID_SOURCE' ||
+      sourceStatus === 'SOURCE_ERROR' ||
+      sourceStatus === 'UNAVAILABLE'
+    ) {
+      if (this.currentSnapshot) {
+        return {
+          snapshot: this.currentSnapshot,
+          events: []
+        };
+      }
+      const emptySnapshot: PositionSnapshot = {
+        snapshotId: `SNP_${this.source.sourceId}_${Date.now()}`,
+        sourceId: this.source.sourceId,
+        timestamp: new Date().toISOString(),
+        positions: new Map(),
+        presenceState: 'NO_POSITION',
+        totalPositions: 0,
+        totalQuantity: 0
+      };
+      return {
+        snapshot: emptySnapshot,
+        events: []
+      };
+    }
+
     const now = new Date().toISOString();
 
     const positionMap = new Map<string, NormalizedPosition>();
     let totalQty = 0;
 
     for (const pos of rawPositions) {
-      if (pos.quantity > 0) {
+      if (pos && pos.quantity > 0) {
         positionMap.set(pos.positionId, pos);
         totalQty += pos.quantity;
       }

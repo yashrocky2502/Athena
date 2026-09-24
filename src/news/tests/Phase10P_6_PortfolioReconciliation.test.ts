@@ -33,7 +33,8 @@ import {
   PositionMonitor,
   PositionAlertEngine,
   PrivatePositionTelegramNotifier,
-  PositionAlertSimulationHarness
+  PositionAlertSimulationHarness,
+  CsvXlsxPositionSource
 } from '../portfolio/alerts/index.ts';
 
 const PROTECTED_DATA_FILES = [
@@ -839,5 +840,182 @@ describe('Phase 10P-6: Real Portfolio State & Reconciliation', () => {
     for (const method of forbiddenMethods) {
       expect((engine as any)[method]).toBeUndefined();
     }
+  });
+
+  // =========================================================================
+  // REMEDIATION REGRESSION TESTS (A through I)
+  // =========================================================================
+  describe('Remediation: Authoritative Empty vs Invalid Source Safety', () => {
+    it('REMEDIATION A: Previous active portfolio + INVALID_SOURCE => zero closures', async () => {
+      const state1 = (await engine.reconcilePortfolioState(engine.createInitialState(), [
+        { positionId: 'POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA', symbol: 'RELIANCE', quantity: 50, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' }
+      ])).newState;
+
+      const result = await engine.reconcilePortfolioState(state1, [], {
+        sourceStatus: 'INVALID_SOURCE'
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.status).toBe('FAIL_CLOSED');
+      expect(result.summary.closed).toBe(0);
+      expect(result.newState.totalActivePositions).toBe(1);
+      expect(result.newState.activePositions.has('POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA')).toBe(true);
+    });
+
+    it('REMEDIATION B: Previous active portfolio + SOURCE_ERROR => zero closures', async () => {
+      const state1 = (await engine.reconcilePortfolioState(engine.createInitialState(), [
+        { positionId: 'POS_CSV_NSE_INFY_EQUITY_SPOT_0_NA', symbol: 'INFY', quantity: 30, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' }
+      ])).newState;
+
+      const result = await engine.reconcilePortfolioState(state1, [], {
+        sourceStatus: 'SOURCE_ERROR'
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.status).toBe('FAIL_CLOSED');
+      expect(result.summary.closed).toBe(0);
+      expect(result.newState.totalActivePositions).toBe(1);
+      expect(result.newState.activePositions.has('POS_CSV_NSE_INFY_EQUITY_SPOT_0_NA')).toBe(true);
+    });
+
+    it('REMEDIATION C: Previous active portfolio + UNAVAILABLE => zero closures', async () => {
+      const state1 = (await engine.reconcilePortfolioState(engine.createInitialState(), [
+        { positionId: 'POS_CSV_NSE_TCS_EQUITY_SPOT_0_NA', symbol: 'TCS', quantity: 40, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' }
+      ])).newState;
+
+      const result = await engine.reconcilePortfolioState(state1, [], {
+        sourceStatus: 'UNAVAILABLE'
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.status).toBe('FAIL_CLOSED');
+      expect(result.summary.closed).toBe(0);
+      expect(result.newState.totalActivePositions).toBe(1);
+      expect(result.newState.activePositions.has('POS_CSV_NSE_TCS_EQUITY_SPOT_0_NA')).toBe(true);
+    });
+
+    it('REMEDIATION D: Previous active portfolio + VALID_EMPTY_PORTFOLIO => all active positions close', async () => {
+      const state1 = (await engine.reconcilePortfolioState(engine.createInitialState(), [
+        { positionId: 'POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA', symbol: 'RELIANCE', quantity: 10, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' },
+        { positionId: 'POS_CSV_NSE_INFY_EQUITY_SPOT_0_NA', symbol: 'INFY', quantity: 20, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' }
+      ])).newState;
+
+      const result = await engine.reconcilePortfolioState(state1, [], {
+        sourceStatus: 'VALID_EMPTY_PORTFOLIO',
+        isAuthoritativeEmpty: true
+      });
+
+      expect(result.success).toBe(true);
+      expect(result.status).toBe('RECONCILED');
+      expect(result.summary.closed).toBe(2);
+      expect(result.newState.totalActivePositions).toBe(0);
+      expect(result.newState.presenceState).toBe('NO_POSITION');
+      expect(result.newState.closedPositions.size).toBe(2);
+    });
+
+    it('REMEDIATION E: Previous active portfolio + valid active snapshot with one position missing => only that position closes', async () => {
+      const state1 = (await engine.reconcilePortfolioState(engine.createInitialState(), [
+        { positionId: 'POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA', symbol: 'RELIANCE', quantity: 10, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' },
+        { positionId: 'POS_CSV_NSE_INFY_EQUITY_SPOT_0_NA', symbol: 'INFY', quantity: 20, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' }
+      ])).newState;
+
+      // RELIANCE is absent, INFY is still present
+      const result = await engine.reconcilePortfolioState(state1, [
+        { positionId: 'POS_CSV_NSE_INFY_EQUITY_SPOT_0_NA', symbol: 'INFY', quantity: 20, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:10:00.000Z' }
+      ]);
+
+      expect(result.summary.closed).toBe(1);
+      expect(result.summary.unchanged).toBe(1);
+      expect(result.newState.totalActivePositions).toBe(1);
+      expect(result.newState.activePositions.has('POS_CSV_NSE_INFY_EQUITY_SPOT_0_NA')).toBe(true);
+      expect(result.newState.activePositions.has('POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA')).toBe(false);
+      expect(result.newState.closedPositions.has('POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA')).toBe(true);
+    });
+
+    it('REMEDIATION F: Identical valid empty snapshot repeated => idempotent', async () => {
+      const emptyState = engine.createInitialState();
+      const run1 = await engine.reconcilePortfolioState(emptyState, [], {
+        sourceStatus: 'VALID_EMPTY_PORTFOLIO',
+        isAuthoritativeEmpty: true
+      });
+      expect(run1.status).toBe('IDEMPOTENT');
+
+      const run2 = await engine.reconcilePortfolioState(run1.newState, [], {
+        sourceStatus: 'VALID_EMPTY_PORTFOLIO',
+        isAuthoritativeEmpty: true
+      });
+      expect(run2.status).toBe('IDEMPOTENT');
+      expect(run2.summary.closed).toBe(0);
+      expect(run2.summary.added).toBe(0);
+    });
+
+    it('REMEDIATION G: Malformed XLSX/CSV cannot wipe the portfolio', async () => {
+      const state1 = (await engine.reconcilePortfolioState(engine.createInitialState(), [
+        { positionId: 'POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA', symbol: 'RELIANCE', quantity: 10, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' }
+      ])).newState;
+
+      // Malformed CSV without symbol header
+      const malformedSource = new CsvXlsxPositionSource({
+        content: 'random_header_1,random_header_2\nval1,val2',
+        filename: 'malformed.csv'
+      });
+
+      const res = await malformedSource.fetchPositions();
+      expect(res.status).toBe('INVALID_SOURCE');
+
+      const result = await engine.reconcilePortfolioState(state1, malformedSource);
+      expect(result.success).toBe(false);
+      expect(result.status).toBe('FAIL_CLOSED');
+      expect(result.newState.totalActivePositions).toBe(1);
+      expect(result.summary.closed).toBe(0);
+    });
+
+    it('REMEDIATION H: Valid XLSX/CSV containing an explicitly empty authoritative holdings table can close positions', async () => {
+      const state1 = (await engine.reconcilePortfolioState(engine.createInitialState(), [
+        { positionId: 'POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA', symbol: 'RELIANCE', quantity: 10, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' }
+      ])).newState;
+
+      // Valid CSV with recognized header but 0 rows
+      const emptyValidCsvSource = new CsvXlsxPositionSource({
+        content: 'Tradingsymbol,Quantity,Average price\n',
+        filename: 'empty_holdings.csv'
+      });
+
+      const res = await emptyValidCsvSource.fetchPositions();
+      expect(res.status).toBe('VALID_EMPTY_PORTFOLIO');
+
+      const result = await engine.reconcilePortfolioState(state1, emptyValidCsvSource);
+      expect(result.success).toBe(true);
+      expect(result.status).toBe('RECONCILED');
+      expect(result.summary.closed).toBe(1);
+      expect(result.newState.totalActivePositions).toBe(0);
+      expect(result.newState.presenceState).toBe('NO_POSITION');
+    });
+
+    it('REMEDIATION I: PositionMonitor does not convert an ambiguous empty source result into VALID_EMPTY_PORTFOLIO', async () => {
+      const harness = new PositionAlertSimulationHarness({
+        initialPositions: [
+          { positionId: 'POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA', symbol: 'RELIANCE', quantity: 10, source: 'CSV', assetClass: 'EQUITY', observedAt: '2026-09-24T10:00:00.000Z' }
+        ]
+      });
+
+      await harness.runPositionCycle(); // Baseline active position
+
+      // Set source status to UNAVAILABLE
+      const source = harness.getSource();
+      source.setStatus('UNAVAILABLE');
+
+      const { alerts } = await harness.runPositionCycle();
+
+      // Must NOT emit any alerts or closures
+      expect(alerts.length).toBe(0);
+
+      const monitor = harness.getMonitor();
+      const evalRes = await monitor.evaluatePositions();
+      expect(evalRes.events.length).toBe(0);
+      expect(evalRes.snapshot.presenceState).toBe('POSITION_EXISTS');
+      expect(evalRes.snapshot.totalPositions).toBe(1);
+      expect(evalRes.snapshot.positions.has('POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA')).toBe(true);
+    });
   });
 });

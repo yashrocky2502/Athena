@@ -75,6 +75,15 @@ export interface NormalizedPosition {
 }
 
 /**
+ * Structured result returned from PositionSource when querying positions and health status.
+ */
+export interface PositionSourceResult {
+  status: PortfolioSourceStatus;
+  positions: NormalizedPosition[];
+  error?: string;
+}
+
+/**
  * Source-agnostic contract for fetching user positions.
  * Supports CSV/XLSX file ingestion today, and broker sync in future phases.
  */
@@ -87,6 +96,16 @@ export interface PositionSource {
    * Returns empty array if no positions exist (NO_POSITION).
    */
   getPositions(): Promise<NormalizedPosition[]>;
+
+  /**
+   * Fetches positions with explicit health/validity status.
+   */
+  fetchPositions?(): Promise<PositionSourceResult>;
+
+  /**
+   * Optional direct getter for source status.
+   */
+  getSourceStatus?(): PortfolioSourceStatus;
 }
 
 /**

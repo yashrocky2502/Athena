@@ -126,13 +126,26 @@ export class PortfolioReconciliationEngine {
     let detectedSourceId = options?.sourceId || previousState.sourceId;
     let detectedSourceType = options?.sourceType || previousState.sourceType;
 
+    let sourceStatus: PortfolioSourceStatus | undefined = options?.sourceStatus;
+
     // 1. Fetch positions if PositionSource was provided
     if (currentInput && typeof (currentInput as any).getPositions === 'function') {
       const source = currentInput as PositionSource;
       detectedSourceId = source.sourceId || detectedSourceId;
       detectedSourceType = source.sourceType || detectedSourceType;
       try {
-        sourcePositions = await source.getPositions();
+        if (typeof source.fetchPositions === 'function') {
+          const res = await source.fetchPositions();
+          sourcePositions = res.positions || [];
+          if (!sourceStatus) {
+            sourceStatus = res.status;
+          }
+        } else {
+          sourcePositions = await source.getPositions();
+          if (!sourceStatus && typeof source.getSourceStatus === 'function') {
+            sourceStatus = source.getSourceStatus();
+          }
+        }
       } catch (err: any) {
         return {
           success: false,
@@ -178,8 +191,19 @@ export class PortfolioReconciliationEngine {
     }
 
     // 2. Stale Source Safety / Status Validation
-    const sourceStatus: PortfolioSourceStatus = options?.sourceStatus ||
-      (options?.isAuthoritativeEmpty ? 'VALID_EMPTY_PORTFOLIO' : (sourcePositions.length > 0 ? 'VALID_ACTIVE' : (previousState.totalActivePositions === 0 ? 'VALID_EMPTY_PORTFOLIO' : 'VALID_ACTIVE')));
+    if (!sourceStatus) {
+      if (options?.isAuthoritativeEmpty) {
+        sourceStatus = 'VALID_EMPTY_PORTFOLIO';
+      } else if (sourcePositions.length > 0) {
+        sourceStatus = 'VALID_ACTIVE';
+      } else if (previousState.totalActivePositions === 0) {
+        sourceStatus = 'VALID_EMPTY_PORTFOLIO';
+      } else {
+        // Source returned [] with NO explicit status and NO authoritative empty flag when previous positions existed.
+        // Never infer VALID_EMPTY_PORTFOLIO merely because getPositions() returned []. Fail closed!
+        sourceStatus = 'UNAVAILABLE';
+      }
+    }
 
     if (
       sourceStatus === 'INVALID_SOURCE' ||
