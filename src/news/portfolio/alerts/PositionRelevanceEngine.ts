@@ -18,6 +18,7 @@
 import {
   NormalizedPosition,
   PositionSnapshot,
+  NormalizedPortfolioState,
   PositionNewsEventInput,
   PositionRelevanceResult,
   PositionImpactType,
@@ -41,10 +42,11 @@ export class PositionRelevanceEngine {
 
   /**
    * Evaluates a single News Core event against current active positions.
+   * If the event matches multiple active user positions, produces candidates for each impacted position.
    */
   public evaluateEvent(
     event: PositionNewsEventInput,
-    positionsInput: NormalizedPosition[] | PositionSnapshot
+    positionsInput: NormalizedPosition[] | PositionSnapshot | NormalizedPortfolioState
   ): PositionRelevanceResult {
     // 1. Provenance Gate (Fail-Closed)
     const provenanceCheck = this.verifyProvenance(event);
@@ -64,7 +66,7 @@ export class PositionRelevanceEngine {
       };
     }
 
-    // 3. Match Event to Active Position
+    // 3. Match Event to Active Positions (all matches)
     const matchResult = this.findMatchingPosition(event, activePositions);
     if (!matchResult.matchedPosition) {
       return {
@@ -73,54 +75,66 @@ export class PositionRelevanceEngine {
       };
     }
 
-    const position = matchResult.matchedPosition;
-
-    // 4. Deterministic Materiality & Impact Classification
-    const classification = this.classifyMateriality(event, position);
-    if (!classification.isMaterial) {
+    const matchedPositions = this.findMatchingPositions(event, activePositions);
+    if (matchedPositions.length === 0) {
       return {
         decision: 'NO_POSITION_IMPACT',
-        positionId: position.positionId,
-        symbol: position.symbol,
-        rejectionReason: classification.rejectionReason || 'EVENT_NOT_MATERIAL'
+        rejectionReason: 'NO_MATCHING_ACTIVE_POSITION'
       };
     }
 
-    // 5. Build Alert Candidate
+    const candidates: PositionAlertCandidate[] = [];
     const now = new Date().toISOString();
-    const alertId = `ALT_REL_${position.positionId}_${event.id}_${Date.now()}`;
-    const dedupeKey = `dedupe::pos_rel::${position.positionId}::${event.id}::${classification.impactType}::${classification.severity}`;
 
-    const candidate: PositionAlertCandidate = {
-      alertId,
-      positionId: position.positionId,
-      symbol: position.symbol,
-      alertType: classification.impactType,
-      severity: classification.severity,
-      reason: `Position Intelligence [${position.symbol}]: ${event.headline}`,
-      timestamp: event.publishedAt || now,
-      marketData: {
-        currentPrice: position.currentPrice ?? null,
-        previousPrice: position.averagePrice ?? null
-      },
-      provenance: {
-        source: event.source || event.provenance?.source || 'NEWS_CORE_V2',
-        observedAt: now,
-        eventId: event.id,
-        publisher: event.publisher,
-        url: event.url || event.provenance?.url
-      },
-      dedupeKey
-    };
+    for (const position of matchedPositions) {
+      const classification = this.classifyMateriality(event, position);
+      if (classification.isMaterial) {
+        const alertId = `ALT_REL_${position.positionId}_${event.id}_${Date.now()}`;
+        const dedupeKey = `dedupe::pos_rel::${position.positionId}::${event.id}::${classification.impactType}::${classification.severity}`;
 
+        candidates.push({
+          alertId,
+          positionId: position.positionId,
+          symbol: position.symbol,
+          alertType: classification.impactType,
+          severity: classification.severity,
+          reason: `Position Intelligence [${position.symbol}]: ${event.headline}`,
+          timestamp: event.publishedAt || now,
+          marketData: {
+            currentPrice: position.currentPrice ?? null,
+            previousPrice: position.averagePrice ?? null
+          },
+          provenance: {
+            source: event.source || event.provenance?.source || 'NEWS_CORE_V2',
+            observedAt: now,
+            eventId: event.id,
+            publisher: event.publisher,
+            url: event.url || event.provenance?.url
+          },
+          dedupeKey
+        });
+      }
+    }
+
+    if (candidates.length === 0) {
+      return {
+        decision: 'NO_POSITION_IMPACT',
+        positionId: matchedPositions[0].positionId,
+        symbol: matchedPositions[0].symbol,
+        rejectionReason: 'EVENT_NOT_MATERIAL'
+      };
+    }
+
+    const primaryCandidate = candidates[0];
     return {
       decision: 'POSITION_IMPACT',
-      positionId: position.positionId,
-      symbol: position.symbol,
-      impactType: classification.impactType,
-      severity: classification.severity,
-      reason: candidate.reason,
-      candidate
+      positionId: primaryCandidate.positionId,
+      symbol: primaryCandidate.symbol,
+      impactType: primaryCandidate.alertType as PositionImpactType,
+      severity: primaryCandidate.severity,
+      reason: primaryCandidate.reason,
+      candidate: primaryCandidate,
+      candidates
     };
   }
 
@@ -129,13 +143,17 @@ export class PositionRelevanceEngine {
    */
   public evaluateEvents(
     events: PositionNewsEventInput[],
-    positionsInput: NormalizedPosition[] | PositionSnapshot
+    positionsInput: NormalizedPosition[] | PositionSnapshot | NormalizedPortfolioState
   ): PositionAlertCandidate[] {
     const candidates: PositionAlertCandidate[] = [];
     for (const ev of events) {
       const result = this.evaluateEvent(ev, positionsInput);
-      if (result.decision === 'POSITION_IMPACT' && result.candidate) {
-        candidates.push(result.candidate);
+      if (result.decision === 'POSITION_IMPACT') {
+        if (result.candidates && result.candidates.length > 0) {
+          candidates.push(...result.candidates);
+        } else if (result.candidate) {
+          candidates.push(result.candidate);
+        }
       }
     }
     return candidates;
@@ -184,92 +202,129 @@ export class PositionRelevanceEngine {
   }
 
   private extractActivePositions(
-    positionsInput: NormalizedPosition[] | PositionSnapshot
+    positionsInput: NormalizedPosition[] | PositionSnapshot | NormalizedPortfolioState
   ): NormalizedPosition[] {
     if (Array.isArray(positionsInput)) {
       return positionsInput.filter(p => p.quantity > 0);
     }
-    if (positionsInput && positionsInput.positions instanceof Map) {
-      return Array.from(positionsInput.positions.values()).filter(p => p.quantity > 0);
+    if (positionsInput && 'activePositions' in positionsInput && positionsInput.activePositions instanceof Map) {
+      const state = positionsInput as NormalizedPortfolioState;
+      if (
+        state.sourceStatus === 'INVALID_SOURCE' ||
+        state.sourceStatus === 'SOURCE_ERROR' ||
+        state.sourceStatus === 'UNAVAILABLE' ||
+        state.sourceStatus === 'VALID_EMPTY_PORTFOLIO'
+      ) {
+        return [];
+      }
+      return Array.from(state.activePositions.values()).filter(p => p.quantity > 0);
+    }
+    if (positionsInput && 'positions' in positionsInput && positionsInput.positions instanceof Map) {
+      const snap = positionsInput as PositionSnapshot;
+      return Array.from(snap.positions.values()).filter(p => p.quantity > 0);
     }
     return [];
+  }
+
+  /**
+   * Finds ALL active positions impacted by an event under strict matching rules.
+   */
+  public findMatchingPositions(
+    event: PositionNewsEventInput,
+    activePositions: NormalizedPosition[]
+  ): NormalizedPosition[] {
+    const matched: NormalizedPosition[] = [];
+    const seenPosIds = new Set<string>();
+
+    const eventSymbol = (event.symbols && event.symbols.length === 1) ? event.symbols[0].toUpperCase() : null;
+    const isMacroEvent = eventSymbol && PositionRelevanceEngine.MACRO_SYMBOLS.has(eventSymbol);
+
+    for (const pos of activePositions) {
+      if (!pos || pos.quantity <= 0 || seenPosIds.has(pos.positionId)) continue;
+
+      if (isMacroEvent && pos.symbol !== eventSymbol) {
+        // Pure macro benchmark event without specific target
+        continue;
+      }
+
+      let isMatch = false;
+
+      // 1. Strict Matching Mechanism 1: Exact ISIN match
+      if (event.isin && typeof event.isin === 'string' && event.isin.trim().length >= 10) {
+        const cleanIsin = event.isin.trim().toUpperCase();
+        if (pos.isin && pos.isin.trim().toUpperCase() === cleanIsin) {
+          isMatch = true;
+        }
+      }
+
+      // 2. Strict Matching Mechanism 2: Exact Symbol match from structured symbols field
+      if (!isMatch && Array.isArray(event.symbols) && event.symbols.length > 0) {
+        const upperSymbols = event.symbols.map(s => (typeof s === 'string' ? s.trim().toUpperCase() : ''));
+        if (upperSymbols.includes(pos.symbol)) {
+          isMatch = true;
+        }
+      }
+
+      // 3. Strict Matching Mechanism 3: Exact Exchange + Symbol match
+      if (!isMatch && event.exchange && event.symbols && Array.isArray(event.symbols)) {
+        const targetExchange = event.exchange.trim().toUpperCase();
+        if (
+          pos.exchange &&
+          pos.exchange.toUpperCase() === targetExchange &&
+          event.symbols.some(s => typeof s === 'string' && s.trim().toUpperCase() === pos.symbol)
+        ) {
+          isMatch = true;
+        }
+      }
+
+      // 4. Strict Matching Mechanism 4: Exact Canonical Underlying Symbol
+      if (!isMatch && pos.underlyingSymbol) {
+        const uSym = pos.underlyingSymbol.trim().toUpperCase();
+        if (
+          (event.symbols && event.symbols.some(s => typeof s === 'string' && s.trim().toUpperCase() === uSym)) ||
+          (event.entities && event.entities.some(e => typeof e === 'string' && e.trim().toUpperCase() === uSym))
+        ) {
+          isMatch = true;
+        }
+      }
+
+      // 5. Strict Matching Mechanism 5: Exact Entity Identifier match in structured entities field
+      if (!isMatch && Array.isArray(event.entities) && event.entities.length > 0) {
+        const upperEntities = event.entities.map(e => (typeof e === 'string' ? e.trim().toUpperCase() : ''));
+        if (
+          upperEntities.includes(pos.symbol) ||
+          upperEntities.includes(`NSE:${pos.symbol}`) ||
+          upperEntities.includes(`BSE:${pos.symbol}`)
+        ) {
+          isMatch = true;
+        }
+      }
+
+      if (isMatch) {
+        matched.push(pos);
+        seenPosIds.add(pos.positionId);
+      }
+    }
+
+    return matched;
   }
 
   private findMatchingPosition(
     event: PositionNewsEventInput,
     activePositions: NormalizedPosition[]
   ): { matchedPosition: NormalizedPosition | null; reason?: string } {
-    // 1. Check for pure Macro / Benchmark events without specific target
     const eventSymbol = (event.symbols && event.symbols.length === 1) ? event.symbols[0].toUpperCase() : null;
     if (eventSymbol && PositionRelevanceEngine.MACRO_SYMBOLS.has(eventSymbol)) {
-      // Check if user actually holds this exact symbol (e.g. an ETF named NIFTYBEES or direct index instrument)
       const exactIndexHolding = activePositions.find(p => p.symbol === eventSymbol);
       if (!exactIndexHolding) {
         return { matchedPosition: null, reason: 'GENERIC_MACRO_BENCHMARK_EVENT' };
       }
     }
 
-    // 2. Strict Matching Mechanism 1: Exact ISIN match
-    if (event.isin && typeof event.isin === 'string' && event.isin.trim().length >= 10) {
-      const cleanIsin = event.isin.trim().toUpperCase();
-      const isinMatch = activePositions.find(p => p.isin && p.isin.trim().toUpperCase() === cleanIsin);
-      if (isinMatch) {
-        return { matchedPosition: isinMatch };
-      }
+    const matches = this.findMatchingPositions(event, activePositions);
+    if (matches.length > 0) {
+      return { matchedPosition: matches[0] };
     }
-
-    // 3. Strict Matching Mechanism 2: Exact Symbol match from structured symbols field
-    if (Array.isArray(event.symbols) && event.symbols.length > 0) {
-      const upperSymbols = event.symbols.map(s => (typeof s === 'string' ? s.trim().toUpperCase() : ''));
-      for (const pos of activePositions) {
-        if (upperSymbols.includes(pos.symbol)) {
-          return { matchedPosition: pos };
-        }
-      }
-    }
-
-    // 4. Strict Matching Mechanism 3: Exact Exchange + Symbol match
-    if (event.exchange && event.symbols && Array.isArray(event.symbols)) {
-      const targetExchange = event.exchange.trim().toUpperCase();
-      for (const pos of activePositions) {
-        if (
-          pos.exchange &&
-          pos.exchange.toUpperCase() === targetExchange &&
-          event.symbols.some(s => typeof s === 'string' && s.trim().toUpperCase() === pos.symbol)
-        ) {
-          return { matchedPosition: pos };
-        }
-      }
-    }
-
-    // 5. Strict Matching Mechanism 4: Exact Canonical Underlying Symbol
-    for (const pos of activePositions) {
-      if (pos.underlyingSymbol) {
-        const uSym = pos.underlyingSymbol.trim().toUpperCase();
-        if (
-          (event.symbols && event.symbols.some(s => typeof s === 'string' && s.trim().toUpperCase() === uSym)) ||
-          (event.entities && event.entities.some(e => typeof e === 'string' && e.trim().toUpperCase() === uSym))
-        ) {
-          return { matchedPosition: pos };
-        }
-      }
-    }
-
-    // 6. Strict Matching Mechanism 5: Exact Entity Identifier match in structured entities field
-    if (Array.isArray(event.entities) && event.entities.length > 0) {
-      const upperEntities = event.entities.map(e => (typeof e === 'string' ? e.trim().toUpperCase() : ''));
-      for (const pos of activePositions) {
-        if (
-          upperEntities.includes(pos.symbol) ||
-          upperEntities.includes(`NSE:${pos.symbol}`) ||
-          upperEntities.includes(`BSE:${pos.symbol}`)
-        ) {
-          return { matchedPosition: pos };
-        }
-      }
-    }
-
-    // Strict Fail-Closed: If none of the trusted structured identifiers match -> NO_POSITION_IMPACT
     return { matchedPosition: null, reason: 'NO_MATCHING_ACTIVE_POSITION' };
   }
 
@@ -288,12 +343,16 @@ export class PositionRelevanceEngine {
 
     // 1. Regulatory Actions & Trading Halts (Highest Criticality)
     if (
+      cat === 'REGULATORY' ||
+      cat.includes('REGULATORY') ||
       eventType.includes('REGULATORY') ||
       eventType.includes('HALT') ||
       eventType.includes('SUSPENSION') ||
       text.includes('trading halt') ||
       text.includes('trading suspended') ||
       text.includes('sebi ban') ||
+      text.includes('sebi issues') ||
+      text.includes('sebi') ||
       text.includes('rbi sanction') ||
       text.includes('license revoked') ||
       text.includes('insolvency') ||
@@ -305,7 +364,8 @@ export class PositionRelevanceEngine {
         text.includes('suspended') ||
         text.includes('ban') ||
         text.includes('insolvency') ||
-        text.includes('fraud');
+        text.includes('fraud') ||
+        cat === 'REGULATORY';
 
       return {
         isMaterial: true,
@@ -317,6 +377,9 @@ export class PositionRelevanceEngine {
     // 2. Results / Earnings Announcements
     if (
       cat === 'RESULTS' ||
+      cat === 'EARNINGS' ||
+      cat.includes('RESULTS') ||
+      cat.includes('EARNINGS') ||
       eventType.includes('RESULTS') ||
       eventType.includes('EARNINGS') ||
       text.includes('q1 results') ||
@@ -329,6 +392,8 @@ export class PositionRelevanceEngine {
       text.includes('net profit drops') ||
       text.includes('reports net profit') ||
       text.includes('reports net loss') ||
+      text.includes('growth in net profit') ||
+      text.includes('reports 19%') ||
       text.includes('revenue surges') ||
       text.includes('revenue falls') ||
       text.includes('ebitda')
@@ -343,6 +408,9 @@ export class PositionRelevanceEngine {
     // 3. Corporate Actions (Dividends, Splits, Buybacks)
     if (
       cat === 'CORPORATE_ACTION' ||
+      cat === 'DIVIDEND' ||
+      cat === 'BUYBACK' ||
+      cat === 'SPLIT' ||
       eventType.includes('DIVIDEND') ||
       eventType.includes('BUYBACK') ||
       eventType.includes('SPLIT') ||
@@ -350,12 +418,14 @@ export class PositionRelevanceEngine {
       text.includes('stock split') ||
       text.includes('bonus issue') ||
       text.includes('share buyback') ||
+      text.includes('buyback') ||
       text.includes('rights issue')
     ) {
+      const isCritical = text.includes('buyback') || text.includes('share buyback') || text.includes('bonus');
       return {
         isMaterial: true,
         impactType: 'CORPORATE_ACTION',
-        severity: 'WARNING'
+        severity: isCritical ? 'CRITICAL' : 'WARNING'
       };
     }
 
@@ -381,11 +451,18 @@ export class PositionRelevanceEngine {
       text.includes('ceo resigns') ||
       text.includes('md resigns') ||
       text.includes('appoints new ceo') ||
+      text.includes('chief executive officer') ||
       text.includes('credit rating downgrade') ||
       text.includes('credit rating upgrade') ||
       text.includes('debt default')
     ) {
-      const isCritical = text.includes('debt default') || text.includes('downgraded to junk');
+      const isCritical =
+        text.includes('debt default') ||
+        text.includes('downgraded to junk') ||
+        text.includes('ceo resigns') ||
+        text.includes('chief executive officer') ||
+        text.includes('merger') ||
+        text.includes('strategic merger');
       return {
         isMaterial: true,
         impactType: 'MATERIAL_COMPANY_EVENT',
@@ -394,7 +471,10 @@ export class PositionRelevanceEngine {
     }
 
     // 5. Standard Company News with direct high-confidence ticker mapping
-    if (event.symbols && event.symbols.includes(position.symbol)) {
+    if (
+      (event.symbols && event.symbols.includes(position.symbol)) ||
+      (event.isin && position.isin && event.isin.toUpperCase() === position.isin.toUpperCase())
+    ) {
       return {
         isMaterial: true,
         impactType: 'POSITION_NEWS_EVENT',

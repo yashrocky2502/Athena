@@ -272,6 +272,7 @@ export interface PositionRelevanceResult {
   severity?: PositionAlertSeverity;
   reason?: string;
   candidate?: PositionAlertCandidate;
+  candidates?: PositionAlertCandidate[];
   rejectionReason?: string;
 }
 
