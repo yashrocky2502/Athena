@@ -11,11 +11,13 @@ import crypto from "crypto";
 import { NewsCoreV2SyncGuard } from "../isolation/NewsCoreV2SyncGuard.ts";
 
 import { TelegramOutbox, TelegramOutboxEntry } from "../storage/TelegramOutbox.ts";
+import { positionAlertRuntime } from "../../news/portfolio/alerts/PositionAlertRuntime.ts";
 
 export class NewsSyncService {
   private collectorRegistry: CollectorRegistry;
   private store: PersistentNewsStore;
   private outbox: TelegramOutbox;
+  private articleListeners: Array<(article: NewsArticleV2) => Promise<void> | void> = [];
 
   private syncState: SyncState = "IDLE";
   private lastSuccessfulSyncAt: string | null = null;
@@ -241,6 +243,25 @@ export class NewsSyncService {
           }
         }
 
+        // Step 5: Dispatch newly ingested articles to personal position alert runtime & listeners
+        if (savedArticles.length > 0) {
+          for (const art of savedArticles) {
+            for (const listener of this.articleListeners) {
+              try {
+                await listener(art);
+              } catch (listenerErr: any) {
+                console.warn('[NewsSyncService] Article listener error (isolated):', listenerErr?.message || listenerErr);
+              }
+            }
+
+            try {
+              await positionAlertRuntime.onCanonicalArticle(art);
+            } catch (alertErr: any) {
+              console.warn('[NewsSyncService] Position alert runtime error (isolated):', alertErr?.message || alertErr);
+            }
+          }
+        }
+
         return "COMPLETED" as SyncState;
       };
 
@@ -262,6 +283,20 @@ export class NewsSyncService {
       itemsProcessed,
       newAdded
     };
+  }
+
+  /**
+   * Registers a listener callback invoked whenever newly ingested canonical articles are processed.
+   */
+  public addArticleListener(listener: (article: NewsArticleV2) => Promise<void> | void): void {
+    this.articleListeners.push(listener);
+  }
+
+  /**
+   * Removes a previously registered article listener callback.
+   */
+  public removeArticleListener(listener: (article: NewsArticleV2) => Promise<void> | void): void {
+    this.articleListeners = this.articleListeners.filter(l => l !== listener);
   }
 }
 

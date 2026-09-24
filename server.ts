@@ -45,6 +45,7 @@ import { newsSyncService } from "./src/newsCoreV2/sync/NewsSyncService.ts";
 import { newsStore } from "./src/newsCoreV2/storage/PersistentNewsStore.ts";
 import { LegacyWriterGuard } from "./src/news/isolation/LegacyWriterGuard.ts";
 import { NewsCoreV2SyncGuard } from "./src/newsCoreV2/isolation/NewsCoreV2SyncGuard.ts";
+import { PositionAlertRuntimeGuard } from "./src/news/portfolio/alerts/PositionAlertRuntimeGuard.ts";
 import { healthMonitor } from "./src/news/monitoring/HealthMonitor.ts";
 
 
@@ -3155,6 +3156,9 @@ async function startServer() {
       }
       if (NewsCoreV2SyncGuard.isSyncEnabled()) {
         newsSyncService.startScheduler();
+      }
+      if (PositionAlertRuntimeGuard.isAlertsEnabled()) {
+        console.log(`[Boot Validation] ${PositionAlertRuntimeGuard.getSafeTelemetryDescriptor()}`);
       }
       automatedMarketObservationFeed.start();
       ControlledSignalExpiryEngine.start();

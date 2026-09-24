@@ -52,10 +52,12 @@ export class PrivatePositionTelegramNotifier implements PositionAlertNotifier {
 
     this.botToken =
       config.botToken ||
+      process.env.ATHENA_POSITION_ALERTS_BOT_TOKEN ||
       process.env.ATHENA_POSITION_ALERTS_TELEGRAM_BOT_TOKEN ||
       process.env.POSITION_ALERT_TELEGRAM_BOT_TOKEN;
     this.chatId =
       config.chatId ||
+      process.env.ATHENA_POSITION_ALERTS_CHAT_ID ||
       process.env.ATHENA_POSITION_ALERTS_TELEGRAM_CHAT_ID ||
       process.env.POSITION_ALERT_TELEGRAM_CHAT_ID;
     this.dryRun = config.dryRun ?? (process.env.NODE_ENV === 'test');

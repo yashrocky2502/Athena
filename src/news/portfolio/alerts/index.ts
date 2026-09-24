@@ -14,6 +14,9 @@ export * from './PositionRelevanceEngine.ts';
 export * from './PositionAlertDeliveryStore.ts';
 export * from './PositionAlertSimulationHarness.ts';
 export * from './PositionAlertIntelligenceEngine.ts';
+export * from './PositionAlertRuntimeGuard.ts';
+export * from './NewsCoreV2PositionAlertAdapter.ts';
+export * from './PositionAlertRuntime.ts';
 export {
   PortfolioReconciliationEngine,
   portfolioReconciliationEngine,
