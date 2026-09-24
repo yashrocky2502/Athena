@@ -43,10 +43,29 @@ export class PositionAlertEngine {
     this.notifier = options.notifier;
     this.relevanceEngine = options.relevanceEngine || new PositionRelevanceEngine();
     this.maxDedupeHistory = options.maxDedupeHistory || 1000;
+    this.seedDedupeFromNotifier();
+  }
+
+  private seedDedupeFromNotifier(): void {
+    if (this.notifier && (this.notifier as any).getDeliveryStore) {
+      try {
+        const store = (this.notifier as any).getDeliveryStore();
+        if (store && typeof store.getAllRecords === 'function') {
+          for (const rec of store.getAllRecords()) {
+            if (rec.status === 'SENT' || rec.status === 'SUPPRESSED_DUPLICATE') {
+              this.dedupeRegistry.add(rec.dedupeKey);
+            }
+          }
+        }
+      } catch (err) {
+        // Safe fallback
+      }
+    }
   }
 
   public setNotifier(notifier: PositionAlertNotifier): void {
     this.notifier = notifier;
+    this.seedDedupeFromNotifier();
   }
 
   public getNotifier(): PositionAlertNotifier | undefined {
@@ -59,6 +78,19 @@ export class PositionAlertEngine {
 
   public setRelevanceEngine(relevanceEngine: PositionRelevanceEngine): void {
     this.relevanceEngine = relevanceEngine;
+  }
+
+  public isDuplicate(dedupeKey: string): boolean {
+    if (this.dedupeRegistry.has(dedupeKey)) {
+      return true;
+    }
+    if (this.notifier && (this.notifier as any).getDeliveryStore) {
+      const store = (this.notifier as any).getDeliveryStore();
+      if (store && typeof store.isDelivered === 'function' && store.isDelivered(dedupeKey)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -90,7 +122,7 @@ export class PositionAlertEngine {
       }
 
       // Invariant 2: Deterministic Deduplication
-      if (this.dedupeRegistry.has(candidate.dedupeKey)) {
+      if (this.isDuplicate(candidate.dedupeKey)) {
         // Skip duplicate
         continue;
       }
@@ -150,7 +182,7 @@ export class PositionAlertEngine {
       `${signal.marketPrice || 'NA'}`
     );
 
-    if (this.dedupeRegistry.has(dedupeKey)) {
+    if (this.isDuplicate(dedupeKey)) {
       return null;
     }
 
@@ -209,7 +241,7 @@ export class PositionAlertEngine {
     }
 
     // Invariant: Deduplication
-    if (this.dedupeRegistry.has(candidate.dedupeKey)) {
+    if (this.isDuplicate(candidate.dedupeKey)) {
       return null;
     }
 
