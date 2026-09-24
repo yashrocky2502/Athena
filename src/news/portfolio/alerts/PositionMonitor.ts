@@ -16,6 +16,7 @@
 import {
   PositionSource,
   NormalizedPosition,
+  NormalizedPortfolioState,
   PositionSnapshot,
   PositionLifecycleEvent,
   PositionLifecycleEventType,
@@ -214,6 +215,31 @@ export class PositionMonitor {
 
   public getLifecycleHistory(): PositionLifecycleEvent[] {
     return [...this.lifecycleHistory];
+  }
+
+  /**
+   * Returns current NormalizedPortfolioState representation.
+   */
+  public getPortfolioState(): NormalizedPortfolioState | null {
+    if (!this.currentSnapshot) return null;
+    const closedMap = new Map<string, NormalizedPosition>();
+    for (const ev of this.lifecycleHistory) {
+      if (ev.type === 'POSITION_CLOSED' && ev.previousPosition) {
+        closedMap.set(ev.positionId, ev.previousPosition);
+      }
+    }
+    return {
+      portfolioId: `PORTFOLIO_${this.source.sourceId}`,
+      sourceId: this.source.sourceId,
+      sourceType: this.source.sourceType,
+      timestamp: this.currentSnapshot.timestamp,
+      activePositions: this.currentSnapshot.positions,
+      closedPositions: closedMap,
+      presenceState: this.currentSnapshot.presenceState,
+      totalActivePositions: this.currentSnapshot.totalPositions,
+      totalActiveQuantity: this.currentSnapshot.totalQuantity,
+      sourceStatus: this.currentSnapshot.positions.size > 0 ? 'VALID_ACTIVE' : 'VALID_EMPTY_PORTFOLIO'
+    };
   }
 
   public reset(): void {

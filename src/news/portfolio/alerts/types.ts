@@ -107,10 +107,13 @@ export interface PositionSnapshot {
  */
 export type PositionLifecycleEventType =
   | 'POSITION_APPEARED'
+  | 'POSITION_ADDED'
+  | 'POSITION_UPDATED'
   | 'POSITION_QUANTITY_CHANGED'
   | 'POSITION_PRICE_CHANGED'
   | 'POSITION_SIDE_CHANGED'
-  | 'POSITION_CLOSED';
+  | 'POSITION_CLOSED'
+  | 'POSITION_UNCHANGED';
 
 /**
  * Event representing an observed change between two position snapshots.
@@ -125,7 +128,60 @@ export interface PositionLifecycleEvent {
   currentPosition?: NormalizedPosition | null;
   quantityDelta?: number;
   priceDelta?: number;
+  changedFields?: string[];
   details: string;
+}
+
+/**
+ * Portfolio Source Health & Ingestion Status.
+ */
+export type PortfolioSourceStatus =
+  | 'VALID_ACTIVE'
+  | 'VALID_EMPTY_PORTFOLIO'
+  | 'INVALID_SOURCE'
+  | 'SOURCE_ERROR'
+  | 'UNAVAILABLE';
+
+/**
+ * Normalized Portfolio State representation.
+ */
+export interface NormalizedPortfolioState {
+  portfolioId: string;
+  sourceId: string;
+  sourceType: string;
+  timestamp: string;
+  activePositions: Map<string, NormalizedPosition>;
+  closedPositions: Map<string, NormalizedPosition>;
+  presenceState: PositionPresenceState;
+  totalActivePositions: number;
+  totalActiveQuantity: number;
+  sourceStatus: PortfolioSourceStatus;
+}
+
+export interface PortfolioReconciliationOptions {
+  sourceStatus?: PortfolioSourceStatus;
+  isAuthoritativeEmpty?: boolean;
+  sourceId?: string;
+  sourceType?: string;
+}
+
+export interface PortfolioReconciliationResult {
+  success: boolean;
+  status: 'RECONCILED' | 'IDEMPOTENT' | 'FAIL_CLOSED';
+  previousState: NormalizedPortfolioState;
+  newState: NormalizedPortfolioState;
+  lifecycleEvents: PositionLifecycleEvent[];
+  summary: {
+    added: number;
+    updated: number;
+    quantityChanged: number;
+    priceChanged: number;
+    sideChanged: number;
+    closed: number;
+    unchanged: number;
+    totalActive: number;
+  };
+  error?: string;
 }
 
 /**

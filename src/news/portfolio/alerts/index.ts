@@ -13,3 +13,8 @@ export * from './PositionAlertNotifier.ts';
 export * from './PositionRelevanceEngine.ts';
 export * from './PositionAlertDeliveryStore.ts';
 export * from './PositionAlertSimulationHarness.ts';
+export {
+  PortfolioReconciliationEngine,
+  portfolioReconciliationEngine,
+  resolveDeterministicPositionId
+} from '../broker/PortfolioReconciliationEngine.ts';
