@@ -247,6 +247,63 @@ export interface PositionAlertCandidate {
 }
 
 /**
+ * Delivery status for personal position alerts.
+ */
+export type PositionAlertDeliveryStatus =
+  | 'PENDING'
+  | 'SENT'
+  | 'FAILED_RETRYABLE'
+  | 'FAILED_PERMANENT'
+  | 'SUPPRESSED_DUPLICATE'
+  | 'DISABLED';
+
+/**
+ * Audit record for position alert delivery state.
+ */
+export interface PositionAlertDeliveryRecord {
+  deliveryId: string;
+  alertId: string;
+  dedupeKey: string;
+  positionId: string;
+  symbol: string;
+  status: PositionAlertDeliveryStatus;
+  attemptCount: number;
+  lastAttemptAt?: string;
+  deliveredAt?: string;
+  lastError?: string;
+  isPermanentFailure?: boolean;
+}
+
+/**
+ * Operational Telemetry Event Types.
+ */
+export type PositionAlertTelemetryEvent =
+  | 'CANDIDATE_GENERATED'
+  | 'DELIVERY_ATTEMPTED'
+  | 'DELIVERY_SUCCEEDED'
+  | 'DELIVERY_RETRYABLE_FAILURE'
+  | 'DELIVERY_PERMANENT_FAILURE'
+  | 'DUPLICATE_SUPPRESSED'
+  | 'DELIVERY_DISABLED'
+  | 'CONFIGURATION_UNAVAILABLE';
+
+/**
+ * Operational Telemetry Payload (strictly sanitized, zero secrets).
+ */
+export interface PositionAlertTelemetryPayload {
+  event: PositionAlertTelemetryEvent;
+  dedupeKey?: string;
+  alertId?: string;
+  symbol?: string;
+  positionId?: string;
+  status?: PositionAlertDeliveryStatus;
+  attempt?: number;
+  statusCode?: number;
+  reason?: string;
+  timestamp: string;
+}
+
+/**
  * Destination interface for sending position alerts.
  * Decoupled from News Core V2 Telegram outbox.
  */
@@ -258,6 +315,11 @@ export interface PositionAlertNotifier {
    * Returns true on successful delivery.
    */
   notify(alert: PositionAlertCandidate): Promise<boolean>;
+
+  /**
+   * Returns the delivery status record for a given dedupeKey if tracked.
+   */
+  getDeliveryStatus?(dedupeKey: string): PositionAlertDeliveryStatus | undefined;
 }
 
 /**
@@ -268,4 +330,11 @@ export interface PositionTelegramNotifierConfig {
   chatId?: string;
   enabled?: boolean;
   dryRun?: boolean; // Dry run mode for testing (no actual HTTP requests)
+  timeoutMs?: number;
+  maxRetries?: number;
+  initialBackoffMs?: number;
+  storePath?: string; // Isolated store path for restart recovery (never production tracked JSON)
+  fetchImpl?: typeof fetch; // Custom fetch for testing without network
+  onTelemetry?: (event: PositionAlertTelemetryPayload) => void;
 }
+
