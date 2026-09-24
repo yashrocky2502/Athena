@@ -10,3 +10,4 @@ export * from './CsvXlsxPositionSource.ts';
 export * from './PositionMonitor.ts';
 export * from './PositionAlertEngine.ts';
 export * from './PositionAlertNotifier.ts';
+export * from './PositionRelevanceEngine.ts';

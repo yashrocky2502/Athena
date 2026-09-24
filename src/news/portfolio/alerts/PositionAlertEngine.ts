@@ -16,19 +16,24 @@ import {
   PositionAlertNotifier,
   PositionLifecycleEvent,
   PositionSnapshot,
-  NormalizedPosition
+  NormalizedPosition,
+  PositionNewsEventInput,
+  PositionRelevanceResult
 } from './types.ts';
 import { PositionMonitor } from './PositionMonitor.ts';
+import { PositionRelevanceEngine } from './PositionRelevanceEngine.ts';
 
 export interface PositionAlertEngineOptions {
   monitor: PositionMonitor;
   notifier?: PositionAlertNotifier;
+  relevanceEngine?: PositionRelevanceEngine;
   maxDedupeHistory?: number;
 }
 
 export class PositionAlertEngine {
   private monitor: PositionMonitor;
   private notifier?: PositionAlertNotifier;
+  private relevanceEngine: PositionRelevanceEngine;
   private dedupeRegistry: Set<string> = new Set();
   private generatedAlerts: PositionAlertCandidate[] = [];
   private maxDedupeHistory: number;
@@ -36,6 +41,7 @@ export class PositionAlertEngine {
   constructor(options: PositionAlertEngineOptions) {
     this.monitor = options.monitor;
     this.notifier = options.notifier;
+    this.relevanceEngine = options.relevanceEngine || new PositionRelevanceEngine();
     this.maxDedupeHistory = options.maxDedupeHistory || 1000;
   }
 
@@ -45,6 +51,14 @@ export class PositionAlertEngine {
 
   public getNotifier(): PositionAlertNotifier | undefined {
     return this.notifier;
+  }
+
+  public getRelevanceEngine(): PositionRelevanceEngine {
+    return this.relevanceEngine;
+  }
+
+  public setRelevanceEngine(relevanceEngine: PositionRelevanceEngine): void {
+    this.relevanceEngine = relevanceEngine;
   }
 
   /**
@@ -168,6 +182,66 @@ export class PositionAlertEngine {
     }
 
     return candidate;
+  }
+
+  /**
+   * Evaluates a News Core V2 intelligence event using PositionRelevanceEngine.
+   * Performs deduplication and delivers candidate to notifier if configured.
+   */
+  public async evaluateNewsEvent(
+    event: PositionNewsEventInput
+  ): Promise<PositionAlertCandidate | null> {
+    const snapshot = this.monitor.getLatestSnapshot();
+    if (!snapshot || snapshot.presenceState === 'NO_POSITION') {
+      return null;
+    }
+
+    const relevanceResult = this.relevanceEngine.evaluateEvent(event, snapshot);
+    if (relevanceResult.decision !== 'POSITION_IMPACT' || !relevanceResult.candidate) {
+      return null;
+    }
+
+    const candidate = relevanceResult.candidate;
+
+    // Invariant: candidate MUST have a valid non-empty positionId
+    if (!candidate.positionId || candidate.positionId.trim() === '') {
+      return null;
+    }
+
+    // Invariant: Deduplication
+    if (this.dedupeRegistry.has(candidate.dedupeKey)) {
+      return null;
+    }
+
+    this.dedupeRegistry.add(candidate.dedupeKey);
+    this.maintainDedupeSize();
+    this.generatedAlerts.push(candidate);
+
+    if (this.notifier) {
+      try {
+        await this.notifier.notify(candidate);
+      } catch (err) {
+        console.error('[PositionAlertEngine] Notifier error on news event:', err);
+      }
+    }
+
+    return candidate;
+  }
+
+  /**
+   * Evaluates a batch of News Core V2 intelligence events.
+   */
+  public async evaluateNewsEvents(
+    events: PositionNewsEventInput[]
+  ): Promise<PositionAlertCandidate[]> {
+    const emitted: PositionAlertCandidate[] = [];
+    for (const event of events) {
+      const candidate = await this.evaluateNewsEvent(event);
+      if (candidate) {
+        emitted.push(candidate);
+      }
+    }
+    return emitted;
   }
 
   /**

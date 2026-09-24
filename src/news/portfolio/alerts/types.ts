@@ -134,6 +134,73 @@ export interface PositionLifecycleEvent {
 export type PositionAlertSeverity = 'INFO' | 'WARNING' | 'CRITICAL';
 
 /**
+ * Alert type category
+ */
+export type PositionAlertCategory =
+  | 'LIFECYCLE'
+  | 'QUANTITY_CHANGE'
+  | 'PRICE_CHANGE'
+  | 'POSITION_CLOSED'
+  | 'POSITION_NEWS_EVENT'
+  | 'CORPORATE_ACTION'
+  | 'REGULATORY_EVENT'
+  | 'RESULTS_EVENT'
+  | 'MATERIAL_COMPANY_EVENT'
+  | 'CUSTOM';
+
+/**
+ * Deterministic Position Impact Types for News & Market Intelligence.
+ */
+export type PositionImpactType =
+  | 'POSITION_NEWS_EVENT'
+  | 'CORPORATE_ACTION'
+  | 'REGULATORY_EVENT'
+  | 'RESULTS_EVENT'
+  | 'MATERIAL_COMPANY_EVENT';
+
+/**
+ * Standardized input for News & Market Intelligence events.
+ */
+export interface PositionNewsEventInput {
+  id: string;
+  headline: string;
+  body?: string;
+  url?: string;
+  publisher?: string;
+  publishedAt?: string;
+  source?: string;
+  category?: string;
+  eventType?: string;
+  entities?: string[];
+  symbols?: string[];
+  isin?: string;
+  exchange?: string;
+  isSynthetic?: boolean;
+  isTest?: boolean;
+  provenance?: {
+    source: string;
+    publishedAt?: string;
+    url?: string;
+    verified?: boolean;
+  };
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Result of evaluating a news event against active user positions.
+ */
+export interface PositionRelevanceResult {
+  decision: 'NO_POSITION_IMPACT' | 'POSITION_IMPACT';
+  positionId?: string;
+  symbol?: string;
+  impactType?: PositionImpactType;
+  severity?: PositionAlertSeverity;
+  reason?: string;
+  candidate?: PositionAlertCandidate;
+  rejectionReason?: string;
+}
+
+/**
  * Alert Candidate Contract.
  * CRITICAL RULE: Must always contain a non-empty, valid positionId.
  */
@@ -148,7 +215,7 @@ export interface PositionAlertCandidate {
   symbol: string;
   
   /** Alert type category */
-  alertType: 'LIFECYCLE' | 'QUANTITY_CHANGE' | 'PRICE_CHANGE' | 'POSITION_CLOSED' | 'CUSTOM';
+  alertType: PositionAlertCategory;
   
   /** Alert severity */
   severity: PositionAlertSeverity;
@@ -170,6 +237,9 @@ export interface PositionAlertCandidate {
   provenance: {
     source: string;
     observedAt: string;
+    eventId?: string;
+    publisher?: string;
+    url?: string;
   };
   
   /** Deterministic deduplication key */
