@@ -209,6 +209,29 @@ describe('Phase 10P-3: Personal Position Alert Intelligence', () => {
   });
 
   // =========================================================================
+  // SCENARIO D2: Exact structured entity identifier match → alert
+  // =========================================================================
+  it('Scenario D2: Exact structured entity identifier (e.g. NSE:RELIANCE or RELIANCE) triggers alert', () => {
+    const engine = new PositionRelevanceEngine();
+
+    const event: PositionNewsEventInput = {
+      id: 'NEWS_ENT_001',
+      headline: 'Reliance Signs Strategic Agreement with Green Hydrogen Partner',
+      source: 'PTI',
+      publisher: 'PTI',
+      category: 'Corporate',
+      entities: ['NSE:RELIANCE'],
+      publishedAt: '2026-09-24T09:45:00.000Z'
+    };
+
+    const result = engine.evaluateEvent(event, samplePositions);
+
+    expect(result.decision).toBe('POSITION_IMPACT');
+    expect(result.positionId).toBe('POS_CSV_NSE_RELIANCE_EQUITY_SPOT_0_NA');
+    expect(result.symbol).toBe('RELIANCE');
+  });
+
+  // =========================================================================
   // SCENARIO E: Ambiguous/fuzzy company match → no alert
   // =========================================================================
   it('Scenario E: Ambiguous, partial, or fuzzy name match is strictly rejected', () => {
@@ -228,6 +251,28 @@ describe('Phase 10P-3: Personal Position Alert Intelligence', () => {
     const result = engine.evaluateEvent(event, samplePositions);
     expect(result.decision).toBe('NO_POSITION_IMPACT');
     expect(result.candidate).toBeUndefined();
+  });
+
+  // =========================================================================
+  // SCENARIO E2: Headline-only mention without structured identifiers → NO_POSITION_IMPACT
+  // =========================================================================
+  it('Scenario E2: Headline-only symbol mention with NO structured symbol/ISIN/entity match produces NO_POSITION_IMPACT', () => {
+    const engine = new PositionRelevanceEngine();
+
+    const event: PositionNewsEventInput = {
+      id: 'NEWS_COMMENTARY_001',
+      headline: 'Reliance mentioned in broader market commentary regarding oil & gas sector',
+      source: 'Reuters',
+      publisher: 'Reuters',
+      symbols: [],
+      entities: [],
+      publishedAt: '2026-09-24T10:15:00.000Z'
+    };
+
+    const result = engine.evaluateEvent(event, samplePositions);
+    expect(result.decision).toBe('NO_POSITION_IMPACT');
+    expect(result.candidate).toBeUndefined();
+    expect(result.rejectionReason).toBe('NO_MATCHING_ACTIVE_POSITION');
   });
 
   // =========================================================================

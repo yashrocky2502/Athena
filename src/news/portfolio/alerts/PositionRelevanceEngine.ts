@@ -146,7 +146,11 @@ export class PositionRelevanceEngine {
   // =========================================================================
 
   private verifyProvenance(event: PositionNewsEventInput): { valid: boolean; reason?: string } {
-    if (!event || !event.id || typeof event.id !== 'string' || event.id.trim() === '') {
+    if (!event || typeof event !== 'object') {
+      return { valid: false, reason: 'INVALID_EVENT_OBJECT' };
+    }
+
+    if (!event.id || typeof event.id !== 'string' || event.id.trim() === '') {
       return { valid: false, reason: 'INVALID_EVENT_ID' };
     }
 
@@ -154,15 +158,26 @@ export class PositionRelevanceEngine {
       return { valid: false, reason: 'MISSING_HEADLINE' };
     }
 
-    // Explicit synthetic / test exclusion
-    if (event.isSynthetic === true || event.isTest === true || event.id.startsWith('SYNTH_') || event.id.startsWith('TEST_SYNTH')) {
+    // Explicit synthetic / test exclusion (Fail-closed)
+    if (
+      event.isSynthetic === true ||
+      event.isTest === true ||
+      event.id.startsWith('SYNTH_') ||
+      event.id.startsWith('TEST_') ||
+      event.id.startsWith('TEST_SYNTH')
+    ) {
       return { valid: false, reason: 'SYNTHETIC_OR_TEST_EVENT_REJECTED' };
     }
 
-    // Provenance origin check
-    const source = event.source || event.publisher || event.provenance?.source;
-    if (!source || source.trim() === '') {
+    // Provenance origin & authenticity check
+    const sourceIdentifier = (event.provenance?.source || event.source || event.publisher || '').trim();
+    if (!sourceIdentifier) {
       return { valid: false, reason: 'MISSING_PROVENANCE_SOURCE' };
+    }
+
+    // If explicit provenance record is present, check verified flag
+    if (event.provenance && event.provenance.verified === false) {
+      return { valid: false, reason: 'UNVERIFIED_PROVENANCE_REJECTED' };
     }
 
     return { valid: true };
@@ -194,8 +209,8 @@ export class PositionRelevanceEngine {
       }
     }
 
-    // 2. Priority 1: Exact ISIN match
-    if (event.isin && event.isin.length >= 10) {
+    // 2. Strict Matching Mechanism 1: Exact ISIN match
+    if (event.isin && typeof event.isin === 'string' && event.isin.trim().length >= 10) {
       const cleanIsin = event.isin.trim().toUpperCase();
       const isinMatch = activePositions.find(p => p.isin && p.isin.trim().toUpperCase() === cleanIsin);
       if (isinMatch) {
@@ -203,9 +218,9 @@ export class PositionRelevanceEngine {
       }
     }
 
-    // 3. Priority 2: Exact Symbol in event.symbols
+    // 3. Strict Matching Mechanism 2: Exact Symbol match from structured symbols field
     if (Array.isArray(event.symbols) && event.symbols.length > 0) {
-      const upperSymbols = event.symbols.map(s => s.trim().toUpperCase());
+      const upperSymbols = event.symbols.map(s => (typeof s === 'string' ? s.trim().toUpperCase() : ''));
       for (const pos of activePositions) {
         if (upperSymbols.includes(pos.symbol)) {
           return { matchedPosition: pos };
@@ -213,36 +228,36 @@ export class PositionRelevanceEngine {
       }
     }
 
-    // 4. Priority 3: Exact Exchange + Symbol or Canonical Underlying Symbol
-    if (event.exchange && event.symbols) {
+    // 4. Strict Matching Mechanism 3: Exact Exchange + Symbol match
+    if (event.exchange && event.symbols && Array.isArray(event.symbols)) {
       const targetExchange = event.exchange.trim().toUpperCase();
       for (const pos of activePositions) {
         if (
           pos.exchange &&
           pos.exchange.toUpperCase() === targetExchange &&
-          event.symbols.some(s => s.trim().toUpperCase() === pos.symbol)
+          event.symbols.some(s => typeof s === 'string' && s.trim().toUpperCase() === pos.symbol)
         ) {
           return { matchedPosition: pos };
         }
       }
     }
 
-    // 5. Priority 4: Canonical Underlying Symbol
+    // 5. Strict Matching Mechanism 4: Exact Canonical Underlying Symbol
     for (const pos of activePositions) {
       if (pos.underlyingSymbol) {
         const uSym = pos.underlyingSymbol.trim().toUpperCase();
         if (
-          (event.symbols && event.symbols.some(s => s.trim().toUpperCase() === uSym)) ||
-          (event.entities && event.entities.some(e => e.trim().toUpperCase() === uSym))
+          (event.symbols && event.symbols.some(s => typeof s === 'string' && s.trim().toUpperCase() === uSym)) ||
+          (event.entities && event.entities.some(e => typeof e === 'string' && e.trim().toUpperCase() === uSym))
         ) {
           return { matchedPosition: pos };
         }
       }
     }
 
-    // 6. Priority 5: Exact Entity Identifier in event.entities
+    // 6. Strict Matching Mechanism 5: Exact Entity Identifier match in structured entities field
     if (Array.isArray(event.entities) && event.entities.length > 0) {
-      const upperEntities = event.entities.map(e => e.trim().toUpperCase());
+      const upperEntities = event.entities.map(e => (typeof e === 'string' ? e.trim().toUpperCase() : ''));
       for (const pos of activePositions) {
         if (
           upperEntities.includes(pos.symbol) ||
@@ -254,17 +269,7 @@ export class PositionRelevanceEngine {
       }
     }
 
-    // 7. Priority 6: Strict Word-Boundary Token in Headline (Only for symbols with length >= 3 to avoid false tokens)
-    const upperHeadline = event.headline.toUpperCase();
-    for (const pos of activePositions) {
-      if (pos.symbol.length >= 3) {
-        const regex = new RegExp(`\\b${pos.symbol}\\b`, 'i');
-        if (regex.test(upperHeadline)) {
-          return { matchedPosition: pos };
-        }
-      }
-    }
-
+    // Strict Fail-Closed: If none of the trusted structured identifiers match -> NO_POSITION_IMPACT
     return { matchedPosition: null, reason: 'NO_MATCHING_ACTIVE_POSITION' };
   }
 
