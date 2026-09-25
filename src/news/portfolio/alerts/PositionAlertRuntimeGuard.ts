@@ -11,6 +11,21 @@
  * - Safe config telemetry: Detects credential availability without leaking token strings.
  */
 
+export type PositionAlertOperationalState = 'DISABLED' | 'DRY_RUN' | 'CONTROLLED_READY' | 'LIVE';
+
+export type PositionAlertAuditReasonCode =
+  | 'NOT_ENABLED'
+  | 'KILL_SWITCH_ACTIVE'
+  | 'INVALID_CONFIGURATION'
+  | 'MISSING_PREREQUISITE'
+  | 'SOURCE_INVALID'
+  | 'POSITION_IRRELEVANT'
+  | 'PROVENANCE_INVALID'
+  | 'DUPLICATE'
+  | 'DRY_RUN'
+  | 'READY_FOR_CONTROLLED_ACTIVATION'
+  | 'LIVE_DELIVERY_BLOCKED';
+
 export interface PositionAlertConfigStatus {
   enabled: boolean;
   killSwitchActive: boolean;
@@ -18,6 +33,8 @@ export interface PositionAlertConfigStatus {
   hasBotToken: boolean;
   hasChatId: boolean;
   isConfigured: boolean;
+  operationalState: PositionAlertOperationalState;
+  auditReasonCode: PositionAlertAuditReasonCode;
 }
 
 export class PositionAlertRuntimeGuard {
@@ -103,9 +120,51 @@ export class PositionAlertRuntimeGuard {
   }
 
   /**
-   * Checks if Telegram credentials are provided in environment without logging the token.
+   * Determines the formal operational state.
    */
-  public static getConfigStatus(): PositionAlertConfigStatus {
+  public static getOperationalState(): PositionAlertOperationalState {
+    if (this.isKillSwitchActive() || !this.isAlertsEnabled()) {
+      return 'DISABLED';
+    }
+
+    const status = this.getConfigStatusCore();
+    if (!status.hasBotToken || !status.hasChatId) {
+      return 'DRY_RUN';
+    }
+
+    const liveConfirmed = (process.env.ATHENA_POSITION_ALERTS_LIVE_CONFIRMED || '').trim().toLowerCase();
+    if (liveConfirmed === 'true' || liveConfirmed === '1') {
+      return 'LIVE';
+    }
+
+    return 'CONTROLLED_READY';
+  }
+
+  /**
+   * Determines the formal audit reason code.
+   */
+  public static getAuditReasonCode(): PositionAlertAuditReasonCode {
+    if (this.isKillSwitchActive()) {
+      return 'KILL_SWITCH_ACTIVE';
+    }
+    if (!this.isAlertsEnabled()) {
+      return 'NOT_ENABLED';
+    }
+
+    const status = this.getConfigStatusCore();
+    if (!status.hasBotToken || !status.hasChatId) {
+      return 'MISSING_PREREQUISITE';
+    }
+
+    const liveConfirmed = (process.env.ATHENA_POSITION_ALERTS_LIVE_CONFIRMED || '').trim().toLowerCase();
+    if (liveConfirmed !== 'true' && liveConfirmed !== '1') {
+      return 'LIVE_DELIVERY_BLOCKED';
+    }
+
+    return 'READY_FOR_CONTROLLED_ACTIVATION';
+  }
+
+  private static getConfigStatusCore(): { hasBotToken: boolean; hasChatId: boolean } {
     const botToken =
       process.env.ATHENA_POSITION_ALERTS_BOT_TOKEN ||
       process.env.ATHENA_POSITION_ALERTS_TELEGRAM_BOT_TOKEN ||
@@ -116,19 +175,32 @@ export class PositionAlertRuntimeGuard {
       process.env.ATHENA_POSITION_ALERTS_TELEGRAM_CHAT_ID ||
       process.env.POSITION_ALERT_TELEGRAM_CHAT_ID;
 
-    const hasBotToken = Boolean(botToken && botToken.trim().length > 0);
-    const hasChatId = Boolean(chatId && chatId.trim().length > 0);
+    return {
+      hasBotToken: Boolean(botToken && botToken.trim().length > 0),
+      hasChatId: Boolean(chatId && chatId.trim().length > 0)
+    };
+  }
+
+  /**
+   * Checks if Telegram credentials are provided in environment without logging the token.
+   */
+  public static getConfigStatus(): PositionAlertConfigStatus {
+    const core = this.getConfigStatusCore();
     const enabled = this.isAlertsEnabled();
     const killSwitchActive = this.isKillSwitchActive();
     const isDeliveryPermitted = this.isDeliveryPermitted();
+    const operationalState = this.getOperationalState();
+    const auditReasonCode = this.getAuditReasonCode();
 
     return {
       enabled,
       killSwitchActive,
       isDeliveryPermitted,
-      hasBotToken,
-      hasChatId,
-      isConfigured: isDeliveryPermitted && hasBotToken && hasChatId
+      hasBotToken: core.hasBotToken,
+      hasChatId: core.hasChatId,
+      isConfigured: isDeliveryPermitted && core.hasBotToken && core.hasChatId,
+      operationalState,
+      auditReasonCode
     };
   }
 
