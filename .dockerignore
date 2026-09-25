@@ -1,0 +1,37 @@
+# ==============================================================================
+# ATHENA — OFFICIAL DOCKERIGNORE SPECIFICATION
+# ==============================================================================
+
+# Node dependencies & logs
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build outputs & local caches
+dist
+.cache
+.vite
+
+# Environment files containing secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Git & repository metadata
+.git
+.gitignore
+
+# Temporary test stores & coverage
+temp_test_stores
+coverage
+.vitest
+
+# IDE & OS metadata
+.vscode
+.idea
+.DS_Store
+Thumbs.db
