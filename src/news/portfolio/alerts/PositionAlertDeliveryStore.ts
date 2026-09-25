@@ -24,6 +24,9 @@ export class PositionAlertDeliveryStore {
   }
 
   public getRecord(dedupeKey: string): PositionAlertDeliveryRecord | undefined {
+    if (this.storePath && fs.existsSync(this.storePath)) {
+      this.load();
+    }
     return this.records.get(dedupeKey);
   }
 
@@ -33,20 +36,32 @@ export class PositionAlertDeliveryStore {
   }
 
   public isDelivered(dedupeKey: string): boolean {
+    if (this.storePath && fs.existsSync(this.storePath)) {
+      this.load();
+    }
     const record = this.records.get(dedupeKey);
     return record?.status === 'SENT';
   }
 
   public isPermanentlyFailed(dedupeKey: string): boolean {
+    if (this.storePath && fs.existsSync(this.storePath)) {
+      this.load();
+    }
     const record = this.records.get(dedupeKey);
     return record?.status === 'FAILED_PERMANENT' || record?.isPermanentFailure === true;
   }
 
   public getStatus(dedupeKey: string): PositionAlertDeliveryStatus | undefined {
+    if (this.storePath && fs.existsSync(this.storePath)) {
+      this.load();
+    }
     return this.records.get(dedupeKey)?.status;
   }
 
   public getAllRecords(): PositionAlertDeliveryRecord[] {
+    if (this.storePath && fs.existsSync(this.storePath)) {
+      this.load();
+    }
     return Array.from(this.records.values());
   }
 

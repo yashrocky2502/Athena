@@ -23,12 +23,14 @@ import {
   PositionAlertTelemetryPayload
 } from './types.ts';
 import { PositionAlertDeliveryStore } from './PositionAlertDeliveryStore.ts';
+import { PositionAlertRuntimeGuard } from './PositionAlertRuntimeGuard.ts';
 
 export class PrivatePositionTelegramNotifier implements PositionAlertNotifier {
   public readonly destinationId = 'PRIVATE_POSITION_TELEGRAM';
   private botToken?: string;
   private chatId?: string;
   private enabled: boolean;
+  private explicitEnabledConfig?: boolean;
   private dryRun: boolean;
   private timeoutMs: number;
   private maxRetries: number;
@@ -40,9 +42,13 @@ export class PrivatePositionTelegramNotifier implements PositionAlertNotifier {
   private inFlightDeliveries: Map<string, Promise<boolean>> = new Map();
 
   constructor(config: PositionTelegramNotifierConfig = {}) {
+    this.explicitEnabledConfig = config.enabled;
     if (config.enabled !== undefined) {
       this.enabled = config.enabled;
-    } else if (process.env.ATHENA_POSITION_ALERTS_ENABLED === 'true') {
+    } else if (
+      process.env.ATHENA_POSITION_ALERTS_ENABLED === 'true' ||
+      process.env.ATHENA_POSITION_ALERTS_ENABLED === '1'
+    ) {
       this.enabled = true;
     } else if (config.dryRun === true) {
       this.enabled = true;
@@ -50,23 +56,15 @@ export class PrivatePositionTelegramNotifier implements PositionAlertNotifier {
       this.enabled = false;
     }
 
-    this.botToken =
-      config.botToken ||
-      process.env.ATHENA_POSITION_ALERTS_BOT_TOKEN ||
-      process.env.ATHENA_POSITION_ALERTS_TELEGRAM_BOT_TOKEN ||
-      process.env.POSITION_ALERT_TELEGRAM_BOT_TOKEN;
-    this.chatId =
-      config.chatId ||
-      process.env.ATHENA_POSITION_ALERTS_CHAT_ID ||
-      process.env.ATHENA_POSITION_ALERTS_TELEGRAM_CHAT_ID ||
-      process.env.POSITION_ALERT_TELEGRAM_CHAT_ID;
+    this.botToken = config.botToken;
+    this.chatId = config.chatId;
     this.dryRun = config.dryRun ?? (process.env.NODE_ENV === 'test');
     this.timeoutMs = config.timeoutMs ?? 5000;
     this.maxRetries = config.maxRetries ?? 3;
     this.initialBackoffMs = config.initialBackoffMs ?? 50;
     this.fetchImpl = config.fetchImpl ?? globalThis.fetch;
     this.onTelemetry = config.onTelemetry;
-    this.deliveryStore = new PositionAlertDeliveryStore(config.storePath);
+    this.deliveryStore = config.deliveryStore || new PositionAlertDeliveryStore(config.storePath);
   }
 
   public getDeliveryStore(): PositionAlertDeliveryStore {
@@ -78,6 +76,52 @@ export class PrivatePositionTelegramNotifier implements PositionAlertNotifier {
   }
 
   /**
+   * Evaluates whether delivery is currently permitted and active.
+   * Hard kill switch is checked dynamically and takes absolute precedence over all other settings.
+   */
+  public isDeliveryActive(): boolean {
+    if (PositionAlertRuntimeGuard.isKillSwitchActive()) {
+      return false;
+    }
+    if (this.explicitEnabledConfig !== undefined) {
+      return this.explicitEnabledConfig;
+    }
+    if (PositionAlertRuntimeGuard.isAlertsEnabled()) {
+      return true;
+    }
+    if (this.dryRun) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Resolves bot token dynamically from explicit configuration or dedicated environment variables.
+   * STRICT GUARANTEE: Never falls back to generic TELEGRAM_BOT_TOKEN.
+   */
+  private resolveBotToken(): string | undefined {
+    return (
+      this.botToken ||
+      process.env.ATHENA_POSITION_ALERTS_BOT_TOKEN ||
+      process.env.ATHENA_POSITION_ALERTS_TELEGRAM_BOT_TOKEN ||
+      process.env.POSITION_ALERT_TELEGRAM_BOT_TOKEN
+    );
+  }
+
+  /**
+   * Resolves chat ID dynamically from explicit configuration or dedicated environment variables.
+   * STRICT GUARANTEE: Never falls back to generic TELEGRAM_CHAT_ID.
+   */
+  private resolveChatId(): string | undefined {
+    return (
+      this.chatId ||
+      process.env.ATHENA_POSITION_ALERTS_CHAT_ID ||
+      process.env.ATHENA_POSITION_ALERTS_TELEGRAM_CHAT_ID ||
+      process.env.POSITION_ALERT_TELEGRAM_CHAT_ID
+    );
+  }
+
+  /**
    * Dispatches a position alert candidate to the private Telegram destination.
    * Fully hardened against transient failures, timeouts, duplicates, and concurrency races.
    */
@@ -85,8 +129,23 @@ export class PrivatePositionTelegramNotifier implements PositionAlertNotifier {
     const now = new Date().toISOString();
     const dedupeKey = alert.dedupeKey;
 
-    // 1. Check if Delivery Subsystem is explicitly enabled
-    if (!this.enabled) {
+    // 0. Hard Kill Switch Check: Checked dynamically at delivery time, takes absolute precedence
+    if (PositionAlertRuntimeGuard.isKillSwitchActive()) {
+      this.emitTelemetry({
+        event: 'KILL_SWITCH_BLOCKED',
+        dedupeKey,
+        alertId: alert.alertId,
+        symbol: alert.symbol,
+        positionId: alert.positionId,
+        status: 'DISABLED',
+        reason: 'ATHENA_POSITION_ALERTS_KILL_SWITCH_ACTIVE',
+        timestamp: now
+      });
+      return false;
+    }
+
+    // 1. Check if Delivery Subsystem is explicitly enabled at delivery time
+    if (!this.isDeliveryActive()) {
       this.emitTelemetry({
         event: 'DELIVERY_DISABLED',
         dedupeKey,
@@ -178,7 +237,10 @@ export class PrivatePositionTelegramNotifier implements PositionAlertNotifier {
     }
 
     // Missing Configuration Validation in non-dry-run mode (Fail-Safe, No Crash)
-    if (!this.botToken || !this.chatId) {
+    const botToken = this.resolveBotToken();
+    const chatId = this.resolveChatId();
+
+    if (!botToken || !chatId) {
       this.deliveryStore.saveRecord({
         deliveryId: `DEL_${alert.alertId}_${Date.now()}`,
         alertId: alert.alertId,
@@ -227,13 +289,13 @@ export class PrivatePositionTelegramNotifier implements PositionAlertNotifier {
         const timer = setTimeout(() => controller.abort(), this.timeoutMs);
 
         const message = this.formatAlertMessage(alert);
-        const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
         const response = await this.fetchImpl(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            chat_id: this.chatId,
+            chat_id: chatId,
             text: message,
             parse_mode: 'Markdown'
           }),
@@ -407,8 +469,9 @@ export class PrivatePositionTelegramNotifier implements PositionAlertNotifier {
 
   private sanitizeError(rawMessage: string): string {
     if (!rawMessage) return 'UNKNOWN_ERROR';
-    if (this.botToken) {
-      return rawMessage.replace(new RegExp(this.botToken, 'g'), '[REDACTED_TOKEN]');
+    const token = this.resolveBotToken();
+    if (token) {
+      return rawMessage.replace(new RegExp(token, 'g'), '[REDACTED_TOKEN]');
     }
     return rawMessage;
   }

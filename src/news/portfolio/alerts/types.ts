@@ -361,6 +361,7 @@ export type PositionAlertTelemetryEvent =
   | 'DELIVERY_PERMANENT_FAILURE'
   | 'DUPLICATE_SUPPRESSED'
   | 'DELIVERY_DISABLED'
+  | 'KILL_SWITCH_BLOCKED'
   | 'CONFIGURATION_UNAVAILABLE';
 
 /**
@@ -410,6 +411,7 @@ export interface PositionTelegramNotifierConfig {
   maxRetries?: number;
   initialBackoffMs?: number;
   storePath?: string; // Isolated store path for restart recovery (never production tracked JSON)
+  deliveryStore?: any; // Shared PositionAlertDeliveryStore instance
   fetchImpl?: typeof fetch; // Custom fetch for testing without network
   onTelemetry?: (event: PositionAlertTelemetryPayload) => void;
 }

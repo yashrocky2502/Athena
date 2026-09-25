@@ -249,8 +249,8 @@ export class PositionAlertRuntime {
    */
   public async onCanonicalArticle(article: NewsArticleV2 | any): Promise<PositionAlertCandidate[]> {
     try {
-      // 1. Runtime Feature Flag Check: OFF by default
-      if (!PositionAlertRuntimeGuard.isAlertsEnabled()) {
+      // 1. Runtime Feature Flag & Hard Kill Switch Gate: Fail-Closed
+      if (!PositionAlertRuntimeGuard.isDeliveryPermitted()) {
         return [];
       }
 
@@ -273,8 +273,8 @@ export class PositionAlertRuntime {
    */
   public async evaluateEvent(eventInput: PositionNewsEventInput): Promise<PositionAlertCandidate[]> {
     try {
-      // 1. Runtime Feature Flag Gate
-      if (!PositionAlertRuntimeGuard.isAlertsEnabled()) {
+      // 1. Runtime Feature Flag & Hard Kill Switch Gate: Fail-Closed
+      if (!PositionAlertRuntimeGuard.isDeliveryPermitted()) {
         return [];
       }
 
