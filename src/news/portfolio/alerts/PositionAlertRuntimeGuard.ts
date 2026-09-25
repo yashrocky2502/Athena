@@ -39,16 +39,32 @@ export class PositionAlertRuntimeGuard {
 
   /**
    * Checks whether the hard kill switch is active.
-   * ATHENA_POSITION_ALERTS_KILL_SWITCH=true or 1 blocks all position alert delivery.
+   * ATHENA_POSITION_ALERTS_KILL_SWITCH controls kill switch state.
    * Kill switch takes absolute precedence over the feature flag.
+   * 
+   * Fail-Closed Safety Rules:
+   * - Missing / Undefined => ACTIVE / BLOCKED
+   * - Empty / Whitespace => ACTIVE / BLOCKED
+   * - "true" / "TRUE" / "1" => ACTIVE / BLOCKED
+   * - Arbitrary / Unrecognized => ACTIVE / BLOCKED
+   * - "false" / "FALSE" / "0" (explicit recognized false) => INACTIVE
    */
   public static isKillSwitchActive(): boolean {
     if (this.killSwitchOverride !== null) {
       return this.killSwitchOverride;
     }
 
-    const envVal = (process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH || '').trim().toLowerCase();
-    return envVal === 'true' || envVal === '1';
+    const rawVal = process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH;
+    if (rawVal === undefined || rawVal === null) {
+      return true;
+    }
+
+    const trimmed = rawVal.trim().toLowerCase();
+    if (trimmed === 'false' || trimmed === '0') {
+      return false;
+    }
+
+    return true;
   }
 
   /**

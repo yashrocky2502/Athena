@@ -248,18 +248,31 @@ describe('Phase 10P-10: Controlled Position-Alert Activation Readiness', () => {
   // 2. HARD KILL SWITCH
   // =========================================================================
 
-  it('Requirement 2A: Kill switch defaults to inactive when env var is missing', () => {
+  it('Requirement 2A: Kill switch defaults to ACTIVE / BLOCKED when env var is missing', () => {
     delete process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH;
     PositionAlertRuntimeGuard.reset();
-    expect(PositionAlertRuntimeGuard.isKillSwitchActive()).toBe(false);
+    expect(PositionAlertRuntimeGuard.isKillSwitchActive()).toBe(true);
   });
 
-  it('Requirement 2B: Kill switch activates on "true" or "1" (trimmed, case-insensitive)', () => {
-    const activeValues = ['true', 'TRUE', 'True', '  true  ', '1', ' 1 '];
+  it('Requirement 2B: Kill switch remains ACTIVE / BLOCKED on missing, empty, whitespace, "true", "1", or arbitrary invalid values', () => {
+    const activeValues = [undefined, '', '   ', 'true', 'TRUE', 'True', '  true  ', '1', ' 1 ', 'invalid', 'unknown', 'disabled', '2'];
     for (const val of activeValues) {
-      process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = val;
+      if (val === undefined) {
+        delete process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH;
+      } else {
+        process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = val;
+      }
       PositionAlertRuntimeGuard.reset();
       expect(PositionAlertRuntimeGuard.isKillSwitchActive()).toBe(true);
+    }
+  });
+
+  it('Requirement 2B-2: Kill switch becomes INACTIVE only on explicit recognized false values ("false", "0")', () => {
+    const inactiveValues = ['false', 'FALSE', 'False', '  false  ', '0', ' 0 '];
+    for (const val of inactiveValues) {
+      process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = val;
+      PositionAlertRuntimeGuard.reset();
+      expect(PositionAlertRuntimeGuard.isKillSwitchActive()).toBe(false);
     }
   });
 
@@ -271,6 +284,16 @@ describe('Phase 10P-10: Controlled Position-Alert Activation Readiness', () => {
     expect(PositionAlertRuntimeGuard.isAlertsEnabled()).toBe(true);
     expect(PositionAlertRuntimeGuard.isKillSwitchActive()).toBe(true);
     expect(PositionAlertRuntimeGuard.isDeliveryPermitted()).toBe(false);
+  });
+
+  it('Requirement 2C-2: Delivery is permitted when feature flag is enabled and kill switch is explicitly "false"', () => {
+    process.env.ATHENA_POSITION_ALERTS_ENABLED = 'true';
+    process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = 'false';
+    PositionAlertRuntimeGuard.reset();
+
+    expect(PositionAlertRuntimeGuard.isAlertsEnabled()).toBe(true);
+    expect(PositionAlertRuntimeGuard.isKillSwitchActive()).toBe(false);
+    expect(PositionAlertRuntimeGuard.isDeliveryPermitted()).toBe(true);
   });
 
   it('Requirement 2D: Kill switch override works cleanly for test isolation', () => {
@@ -286,9 +309,9 @@ describe('Phase 10P-10: Controlled Position-Alert Activation Readiness', () => {
   });
 
   it('Requirement 2E: Stale notifier instance cannot bypass kill switch (checked at delivery time)', async () => {
-    // 1. Initialize notifier while enabled
+    // 1. Initialize notifier while enabled and kill switch explicitly false
     process.env.ATHENA_POSITION_ALERTS_ENABLED = 'true';
-    delete process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH;
+    process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = 'false';
     PositionAlertRuntimeGuard.reset();
 
     const fetchSpy = vi.fn();
