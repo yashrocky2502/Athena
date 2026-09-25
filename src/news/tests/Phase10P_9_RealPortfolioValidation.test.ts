@@ -119,6 +119,8 @@ describe('Phase 10P-9: Controlled Real-World Position Alert Validation', () => {
   let isRealWorkbook: boolean;
 
   beforeEach(() => {
+    process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = 'false';
+    PositionAlertRuntimeGuard.reset();
     // 1. Snapshot protected datasets
     baselineChecksums.clear();
     for (const file of PROTECTED_DATA_FILES) {

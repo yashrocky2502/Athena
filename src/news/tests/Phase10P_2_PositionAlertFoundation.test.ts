@@ -32,7 +32,8 @@ import {
   PositionMonitor,
   PositionAlertEngine,
   PrivatePositionTelegramNotifier,
-  MockPositionAlertNotifier
+  MockPositionAlertNotifier,
+  PositionAlertRuntimeGuard
 } from '../portfolio/alerts/index.ts';
 
 describe('Phase 10P-2: Personal Position Alert Foundation', () => {
@@ -54,6 +55,8 @@ describe('Phase 10P-2: Personal Position Alert Foundation', () => {
   }
 
   beforeEach(() => {
+    process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = 'false';
+    PositionAlertRuntimeGuard.reset();
     initialPortfolioStoreHash = getFileContent(portfolioStorePath);
   });
 
