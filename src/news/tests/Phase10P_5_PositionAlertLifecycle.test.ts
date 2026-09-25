@@ -36,7 +36,8 @@ import {
   NormalizedPosition,
   PositionNewsEventInput,
   PrivatePositionTelegramNotifier,
-  PositionAlertDeliveryStore
+  PositionAlertDeliveryStore,
+  PositionAlertRuntimeGuard
 } from '../portfolio/alerts/index.ts';
 
 describe('Phase 10P-5: Position Alert End-to-End Lifecycle & Real-World Simulation', () => {
@@ -58,6 +59,8 @@ describe('Phase 10P-5: Position Alert End-to-End Lifecycle & Real-World Simulati
   }
 
   beforeEach(() => {
+    process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = 'false';
+    PositionAlertRuntimeGuard.reset();
     for (const f of protectedFiles) {
       initialFileContents[f] = getFileContent(f);
     }

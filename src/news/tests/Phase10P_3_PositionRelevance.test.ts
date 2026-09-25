@@ -33,7 +33,8 @@ import {
   PositionMonitor,
   PositionSource,
   PrivatePositionTelegramNotifier,
-  MockPositionAlertNotifier
+  MockPositionAlertNotifier,
+  PositionAlertRuntimeGuard
 } from '../portfolio/alerts/index.ts';
 
 describe('Phase 10P-3: Personal Position Alert Intelligence', () => {
@@ -55,6 +56,8 @@ describe('Phase 10P-3: Personal Position Alert Intelligence', () => {
   }
 
   beforeEach(() => {
+    process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = 'false';
+    PositionAlertRuntimeGuard.reset();
     for (const f of protectedFiles) {
       initialFileContents[f] = getFileContent(f);
     }
