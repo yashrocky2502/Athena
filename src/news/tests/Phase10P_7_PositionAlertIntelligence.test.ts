@@ -50,7 +50,8 @@ import {
   MockPositionAlertNotifier,
   PositionMonitor,
   PortfolioReconciliationEngine,
-  resolveDeterministicPositionId
+  resolveDeterministicPositionId,
+  PositionAlertRuntimeGuard
 } from '../portfolio/alerts/index.ts';
 
 const PROTECTED_DATA_FILES = [
@@ -77,6 +78,8 @@ describe('Phase 10P-7: Real Position-Alert Intelligence Integration', () => {
   let reconciliationEngine: PortfolioReconciliationEngine;
 
   beforeEach(() => {
+    process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = 'false';
+    PositionAlertRuntimeGuard.reset();
     // 1. Audit hashes of protected data files before each test
     fileHashesBefore = {};
     for (const file of PROTECTED_DATA_FILES) {

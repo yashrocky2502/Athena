@@ -36,7 +36,8 @@ import {
   PositionAlertEngine,
   PositionMonitor,
   PositionSource,
-  NormalizedPosition
+  NormalizedPosition,
+  PositionAlertRuntimeGuard
 } from '../portfolio/alerts/index.ts';
 
 describe('Phase 10P-4: Position Alert Delivery & Operational Hardening', () => {
@@ -58,6 +59,8 @@ describe('Phase 10P-4: Position Alert Delivery & Operational Hardening', () => {
   }
 
   beforeEach(() => {
+    process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = 'false';
+    PositionAlertRuntimeGuard.reset();
     for (const f of protectedFiles) {
       initialFileContents[f] = getFileContent(f);
     }

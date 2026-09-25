@@ -146,6 +146,8 @@ describe('Phase 10P-8: Real-Time Position Alert Runtime Wiring', () => {
   };
 
   beforeEach(() => {
+    process.env.ATHENA_POSITION_ALERTS_KILL_SWITCH = 'false';
+    PositionAlertRuntimeGuard.reset();
     // Snapshot authoritative checksums for protected production data files
     for (const relPath of PROTECTED_DATA_FILES) {
       const fullPath = path.resolve(process.cwd(), relPath);
