@@ -15,15 +15,15 @@ dist
 .vite
 
 # Environment files containing secrets
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*
+!.env.production.example
 
 # Git & repository metadata
 .git
 .gitignore
+
+# Persistent production data (mounted externally at runtime)
+data/
 
 # Temporary test stores & coverage
 temp_test_stores

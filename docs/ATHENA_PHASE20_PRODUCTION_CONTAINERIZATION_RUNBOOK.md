@@ -17,7 +17,7 @@ Phase 20B establishes the official production containerization specification and
 2. **Persistent `./data` Storage Volume**: Explicit persistent volume mount (`/app/data`) preserving all 7 protected production datasets across container restarts.
 3. **Fail-Closed Environment Provisioning**: Standardized `.env.production.example` template enforcing zero Position Alert live activation by default.
 4. **Non-Root Execution Context**: Non-root system user (`athena`) with non-privileged filesystem permissions.
-5. **Native Container Healthcheck**: Wget-based healthcheck polling `/api/health` without triggering news ingestion, Telegram notifications, or data mutations.
+5. **Native Container Healthcheck**: Wget-based healthcheck polling `/api/v5/news/health` without triggering news ingestion, Telegram notifications, or data mutations.
 
 ---
 
