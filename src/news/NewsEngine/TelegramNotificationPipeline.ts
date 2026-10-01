@@ -17,6 +17,7 @@ export interface TelegramNotificationRecord {
   chatId: string;
   stock: string;
   headline: string;
+  url?: string;
   priority: NotificationPriority;
   status: NotificationStatus;
   attemptCount: number;
@@ -347,6 +348,7 @@ export class TelegramNotificationPipeline {
       chatId,
       stock,
       headline: article.headline,
+      url: article.canonicalUrl || article.url || (typeof article.source === 'object' ? article.source?.url : undefined),
       priority,
       status: initialStatus,
       attemptCount: 0,
@@ -502,6 +504,90 @@ export class TelegramNotificationPipeline {
     return result;
   }
 
+  public static escapeHtml(text: string): string {
+    if (!text) return '';
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  /**
+   * Builds conservative, safe, and complete Telegram HTML digest messages (< 3900 chars per message).
+   * Preserves full canonical headlines without truncation and includes canonical article URLs when valid.
+   * Splits into multiple sequential messages (Part 1/N) if the digest size exceeds the safe budget.
+   */
+  public buildDigestMessages(items: TelegramNotificationRecord[]): string[] {
+    if (items.length === 0) return [];
+
+    const escape = TelegramNotificationPipeline.escapeHtml;
+
+    // Format individual item blocks
+    const formattedBlocks = items.map((item) => {
+      let block = `<b>${escape(item.stock.toUpperCase())}</b>\n`;
+      const metrics = FinancialMetricEngine.extractMetrics(item.headline);
+      if (metrics && metrics.length > 0) {
+        for (const m of metrics.slice(0, 2)) {
+          let changeStr = '';
+          if (m.changePercent !== undefined && m.changePercent !== null) {
+            const sign = m.changePercent >= 0 ? '+' : '-';
+            changeStr = ` (${sign}${Math.abs(m.changePercent)}%)`;
+          }
+          block += `• ${escape(m.metricName)} ${escape(m.displayText)}${changeStr}\n`;
+        }
+      } else {
+        block += `• ${escape(item.headline)}\n`;
+      }
+
+      // Resolve valid canonical URL from record or NewsStore
+      let rawUrl = item.url;
+      if (!rawUrl && newsStore && typeof (newsStore as any).getArticle === 'function') {
+        const art = newsStore.getArticle(item.articleId);
+        rawUrl = art?.canonicalUrl || art?.url || (typeof art?.source === 'object' ? art?.source?.url : undefined);
+      }
+      const validUrl = (typeof rawUrl === 'string' && (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')))
+        ? rawUrl.trim()
+        : undefined;
+
+      if (validUrl) {
+        block += `  Read: <a href="${escape(validUrl)}">Source Link</a>\n`;
+      }
+
+      block += `Impact: ${escape(item.priority)}\n\n`;
+      return block;
+    });
+
+    // Chunk blocks into messages under conservative 3900 char limit
+    const batches: string[][] = [];
+    let currentBatch: string[] = [];
+    let currentLen = 0;
+    const headerFooterAllowance = 250; // Buffer for header and footer text
+
+    for (const block of formattedBlocks) {
+      if (currentBatch.length > 0 && (currentLen + block.length + headerFooterAllowance > 3900)) {
+        batches.push(currentBatch);
+        currentBatch = [block];
+        currentLen = block.length;
+      } else {
+        currentBatch.push(block);
+        currentLen += block.length;
+      }
+    }
+    if (currentBatch.length > 0) {
+      batches.push(currentBatch);
+    }
+
+    const totalParts = batches.length;
+    return batches.map((batch, idx) => {
+      const partSuffix = totalParts > 1 ? ` (Part ${idx + 1}/${totalParts})` : '';
+      let msg = `📰 <b>ATHENA F&O DIGEST${partSuffix}</b>\n━━━━━━━━━━━━━━\n\n`;
+      msg += `<b>${items.length} material developments</b>\n\n`;
+      msg += batch.join('');
+      msg += `<b>Source:</b> ATHENA Real-Time Intelligence Engine`;
+      return msg;
+    });
+  }
+
   public async dispatchDigest(): Promise<{ sent: boolean; itemCount: number; messageId?: number; error?: string }> {
     const pendingItems = this.records.filter(r => r.status === 'DIGEST_PENDING');
     if (pendingItems.length === 0) {
@@ -519,30 +605,7 @@ export class TelegramNotificationPipeline {
     const itemsToDigest = pendingItems.slice(0, 10);
     const stateStore = TelegramNotificationStateStore.getInstance();
 
-    // Build compact high-density digest message template
-    let digestMsg = `📰 <b>ATHENA F&O DIGEST</b>\n━━━━━━━━━━━━━━\n\n`;
-    digestMsg += `<b>${itemsToDigest.length} material developments</b>\n\n`;
-
-    itemsToDigest.forEach((item) => {
-      digestMsg += `<b>${item.stock.toUpperCase()}</b>\n`;
-      const metrics = FinancialMetricEngine.extractMetrics(item.headline);
-      if (metrics && metrics.length > 0) {
-        for (const m of metrics.slice(0, 2)) {
-          let changeStr = '';
-          if (m.changePercent !== undefined && m.changePercent !== null) {
-            const sign = m.changePercent >= 0 ? '+' : '-';
-            changeStr = ` (${sign}${Math.abs(m.changePercent)}%)`;
-          }
-          digestMsg += `• ${m.metricName} ${m.displayText}${changeStr}\n`;
-        }
-      } else {
-        const cleanHeadline = item.headline.length > 80 ? item.headline.slice(0, 77) + '...' : item.headline;
-        digestMsg += `• ${cleanHeadline}\n`;
-      }
-      digestMsg += `Impact: ${item.priority}\n\n`;
-    });
-
-    digestMsg += `<b>Source:</b> ATHENA Real-Time Intelligence Engine`;
+    const digestMessages = this.buildDigestMessages(itemsToDigest);
 
     if (this.auditModeOnly) {
       const mockMsgId = 8888000 + Math.floor(Math.random() * 900);
@@ -575,14 +638,25 @@ export class TelegramNotificationPipeline {
     }
 
     const telegramService = TelegramService.getInstance();
-    const result = await telegramService.sendMessage(digestMsg);
+    let lastMessageId: number | undefined;
+    let anySuccess = false;
 
-    if (result.success && result.messageId) {
+    for (const msg of digestMessages) {
+      const result = await telegramService.sendMessage(msg);
+      if (result.success && result.messageId) {
+        anySuccess = true;
+        lastMessageId = result.messageId;
+      } else {
+        console.error('[TelegramNotificationPipeline] Failed to send digest part:', result.error);
+      }
+    }
+
+    if (anySuccess && lastMessageId) {
       const sentTime = new Date().toISOString();
 
       itemsToDigest.forEach(item => {
         item.status = 'SENT';
-        item.telegramMessageId = result.messageId;
+        item.telegramMessageId = lastMessageId;
         item.lastAttemptAt = sentTime;
         item.telegramOk = true;
         item.httpStatus = 200;
@@ -594,18 +668,18 @@ export class TelegramNotificationPipeline {
           decision: 'DIGEST_PENDING',
           status: 'SENT',
           sentAt: sentTime,
-          telegramMessageId: result.messageId,
+          telegramMessageId: lastMessageId,
           deduplicationKey: item.dedupKey,
           attemptCount: 1
         });
       });
 
-      this.lastSuccessfulMessageId = result.messageId;
+      this.lastSuccessfulMessageId = lastMessageId;
       this.lastSuccessfulMessageAt = sentTime;
       this.saveToDisk();
-      return { sent: true, itemCount: itemsToDigest.length, messageId: result.messageId };
+      return { sent: true, itemCount: itemsToDigest.length, messageId: lastMessageId };
     } else {
-      return { sent: false, itemCount: 0, error: result.error || 'Digest delivery failed' };
+      return { sent: false, itemCount: 0, error: 'Digest delivery failed' };
     }
   }
 
