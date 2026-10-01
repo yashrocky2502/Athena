@@ -1,27 +1,27 @@
 [
   {
-    "articleId": "v2_c3524a7754b844e6",
+    "articleId": "v2_024e7f73fe293896",
     "payload": {
-      "id": "v2_c3524a7754b844e6",
-      "canonicalUrl": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNTEZuRmNtTDg3eUVoc1VaNi0xTzdWbXZEWWgyOG9lWExLWVp0WUdYa29sRzJwcjV1OWZqMXZhcFB0a29XbGJqc3hCN0NxZjRWZmhsVEZPdHRkeDBuQTV0V3ZyNk9QaDlpRWswb1JGakViUXFJVUdZMUtXam1XTnlRSG03bGRmMGRfSnhENVd3?oc=5",
-      "headline": "Pushpendra Singh: Indian stock market posts six-week decline amid global gains - Traders Union",
-      "body": "<a href=\"https://news.google.com/rss/articles/CBMijgFBVV95cUxNTEZuRmNtTDg3eUVoc1VaNi0xTzdWbXZEWWgyOG9lWExLWVp0WUdYa29sRzJwcjV1OWZqMXZhcFB0a29XbGJqc3hCN0NxZjRWZmhsVEZPdHRkeDBuQTV0V3ZyNk9QaDlpRWswb1JGakViUXFJVUdZMUtXam1XTnlRSG03bGRmMGRfSnhENVd3?oc=5\" target=\"_blank\">Pushpendra Singh: Indian stock market posts six-week decline amid global gains</a> <font color=\"#6f6f6f\">Traders Union</font>",
+      "id": "v2_024e7f73fe293896",
+      "canonicalUrl": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5QSlR5WFNpd1JSd2RrRll5SG5LQ3ludk9wcjN2dlRqdXk5eXRUT2J5ZU50SW1KM0FTLTZYMUoyN3I5MGZXbTFtVEJpVjR6blJrcnZiY0RwQWtDbUNLMXVQMFgySGZ1Zw?oc=5",
+      "headline": "Raksha Mantri unveils ‘RAKSHA’ defence diplomacy document outlining India’s strategic roadmap & vision for global partnerships over next 10 years - PIB",
+      "body": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE5QSlR5WFNpd1JSd2RrRll5SG5LQ3ludk9wcjN2dlRqdXk5eXRUT2J5ZU50SW1KM0FTLTZYMUoyN3I5MGZXbTFtVEJpVjR6blJrcnZiY0RwQWtDbUNLMXVQMFgySGZ1Zw?oc=5\" target=\"_blank\">Raksha Mantri unveils ‘RAKSHA’ defence diplomacy document outlining India’s strategic roadmap & vision for global partnerships over next 10 years</a> <font color=\"#6f6f6f\">PIB</font>",
       "source": {
-        "publisher": "Google News Business",
-        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNTEZuRmNtTDg3eUVoc1VaNi0xTzdWbXZEWWgyOG9lWExLWVp0WUdYa29sRzJwcjV1OWZqMXZhcFB0a29XbGJqc3hCN0NxZjRWZmhsVEZPdHRkeDBuQTV0V3ZyNk9QaDlpRWswb1JGakViUXFJVUdZMUtXam1XTnlRSG03bGRmMGRfSnhENVd3?oc=5",
+        "publisher": "Press Information Bureau",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5QSlR5WFNpd1JSd2RrRll5SG5LQ3ludk9wcjN2dlRqdXk5eXRUT2J5ZU50SW1KM0FTLTZYMUoyN3I5MGZXbTFtVEJpVjR6blJrcnZiY0RwQWtDbUNLMXVQMFgySGZ1Zw?oc=5",
         "collectionMethod": "RSS"
       },
-      "publishedAt": "2026-09-27T04:10:15.000Z",
-      "collectedAt": "2026-10-01T04:26:47.524Z",
-      "category": "Market",
-      "sentiment": "BULLISH",
-      "relevanceScore": 65,
-      "primaryCategory": "Market",
+      "publishedAt": "2026-09-24T13:00:00.000Z",
+      "collectedAt": "2026-10-01T05:12:05.602Z",
+      "category": "Other",
+      "sentiment": "NEUTRAL",
+      "relevanceScore": 50,
+      "primaryCategory": "Other",
       "secondaryCategories": [],
-      "eventType": "MARKET_MOVEMENT",
-      "categoryConfidence": "HIGH",
+      "eventType": "OTHER",
+      "categoryConfidence": "LOW",
       "classificationEvidence": [
-        "[Market] Broad market commentary keywords matched in headline"
+        "Default fallback classification for general news story"
       ],
       "fno": {
         "eligible": false,
@@ -44,63 +44,19 @@
     "attempts": 0
   },
   {
-    "articleId": "v2_17e7814bf24c1b03",
+    "articleId": "v2_58cd43c3e4197d5f",
     "payload": {
-      "id": "v2_17e7814bf24c1b03",
-      "canonicalUrl": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPR25QWk16VTFqZWdDTV92RTFfZVVNbDFfM0x5R2JGaWpIRFN4NjdiSkl4QktFak9CdTVacjFtTHU2SHB3Szh4QXFiVXdNamdvT1N4LXNGckFCU1VmUkY0X0prX2kxOU9HMVd4ZTVZUGVUWmt2UjBUNFI5VnVZdVVnNi1ITEN5NEV3WHNQZjQ1VGJTUTZjWHhSeTJkQm9OWlpYQlZDb1hES0E5S2djUUt1YXBxZXhIVDVtVVNqR2E3RWpSUdIBwgFBVV95cUxPR25QWk16VTFqZWdDTV92RTFfZVVNbDFfM0x5R2JGaWpIRFN4NjdiSkl4QktFak9CdTVacjFtTHU2SHB3Szh4QXFiVXdNamdvT1N4LXNGckFCU1VmUkY0X0prX2kxOU9HMVd4ZTVZUGVUWmt2UjBUNFI5VnVZdVVnNi1ITEN5NEV3WHNQZjQ1VGJTUTZjWHhSeTJkQm9OWlpYQlZDb1hES0E5S2djUUt1YXBxZXhIVDVtVVNqR2E3RWpSUQ?oc=5",
-      "headline": "Relief bounce or bull trap? Gift Nifty signals 100-point gap-up after two-day slide - newsdrum.in",
-      "body": "<a href=\"https://news.google.com/rss/articles/CBMiwgFBVV95cUxPR25QWk16VTFqZWdDTV92RTFfZVVNbDFfM0x5R2JGaWpIRFN4NjdiSkl4QktFak9CdTVacjFtTHU2SHB3Szh4QXFiVXdNamdvT1N4LXNGckFCU1VmUkY0X0prX2kxOU9HMVd4ZTVZUGVUWmt2UjBUNFI5VnVZdVVnNi1ITEN5NEV3WHNQZjQ1VGJTUTZjWHhSeTJkQm9OWlpYQlZDb1hES0E5S2djUUt1YXBxZXhIVDVtVVNqR2E3RWpSUdIBwgFBVV95cUxPR25QWk16VTFqZWdDTV92RTFfZVVNbDFfM0x5R2JGaWpIRFN4NjdiSkl4QktFak9CdTVacjFtTHU2SHB3Szh4QXFiVXdNamdvT1N4LXNGckFCU1VmUkY0X0prX2kxOU9HMVd4ZTVZUGVUWmt2UjBUNFI5VnVZdVVnNi1ITEN5NEV3WHNQZjQ1VGJTUTZjWHhSeTJkQm9OWlpYQlZDb1hES0E5S2djUUt1YXBxZXhIVDVtVVNqR2E3RWpSUQ?oc=5\" target=\"_blank\">Relief bounce or bull trap? Gift Nifty signals 100-point gap-up after two-day slide</a> <font color=\"#6f6f6f\">newsdrum.in</font>",
+      "id": "v2_58cd43c3e4197d5f",
+      "canonicalUrl": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBUamFkMUZoZnhJTVNtaFh1Z0xGYVAxcmlwN2dRRWNYNV9hZnVHQTVBLVBueTlEVTNXZXdrX3pGOV9Wb2N5Z0N5dFRndElYMXNKZVRrNDg5MVAzSlg5a0haYTgtNDVBMWZIZDkw?oc=5",
+      "headline": "Union Ministry of Health and Family Welfare Organises Shramdaan under ‘Swachhata Hi Seva 2026’ - PIB",
+      "body": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTFBUamFkMUZoZnhJTVNtaFh1Z0xGYVAxcmlwN2dRRWNYNV9hZnVHQTVBLVBueTlEVTNXZXdrX3pGOV9Wb2N5Z0N5dFRndElYMXNKZVRrNDg5MVAzSlg5a0haYTgtNDVBMWZIZDkw?oc=5\" target=\"_blank\">Union Ministry of Health and Family Welfare Organises Shramdaan under ‘Swachhata Hi Seva 2026’</a> <font color=\"#6f6f6f\">PIB</font>",
       "source": {
-        "publisher": "Google News Business",
-        "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPR25QWk16VTFqZWdDTV92RTFfZVVNbDFfM0x5R2JGaWpIRFN4NjdiSkl4QktFak9CdTVacjFtTHU2SHB3Szh4QXFiVXdNamdvT1N4LXNGckFCU1VmUkY0X0prX2kxOU9HMVd4ZTVZUGVUWmt2UjBUNFI5VnVZdVVnNi1ITEN5NEV3WHNQZjQ1VGJTUTZjWHhSeTJkQm9OWlpYQlZDb1hES0E5S2djUUt1YXBxZXhIVDVtVVNqR2E3RWpSUdIBwgFBVV95cUxPR25QWk16VTFqZWdDTV92RTFfZVVNbDFfM0x5R2JGaWpIRFN4NjdiSkl4QktFak9CdTVacjFtTHU2SHB3Szh4QXFiVXdNamdvT1N4LXNGckFCU1VmUkY0X0prX2kxOU9HMVd4ZTVZUGVUWmt2UjBUNFI5VnVZdVVnNi1ITEN5NEV3WHNQZjQ1VGJTUTZjWHhSeTJkQm9OWlpYQlZDb1hES0E5S2djUUt1YXBxZXhIVDVtVVNqR2E3RWpSUQ?oc=5",
+        "publisher": "Press Information Bureau",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBUamFkMUZoZnhJTVNtaFh1Z0xGYVAxcmlwN2dRRWNYNV9hZnVHQTVBLVBueTlEVTNXZXdrX3pGOV9Wb2N5Z0N5dFRndElYMXNKZVRrNDg5MVAzSlg5a0haYTgtNDVBMWZIZDkw?oc=5",
         "collectionMethod": "RSS"
       },
-      "publishedAt": "2026-09-30T02:23:51.000Z",
-      "collectedAt": "2026-10-01T04:26:47.524Z",
-      "category": "Market",
-      "sentiment": "NEUTRAL",
-      "relevanceScore": 65,
-      "primaryCategory": "Market",
-      "secondaryCategories": [],
-      "eventType": "MARKET_MOVEMENT",
-      "categoryConfidence": "HIGH",
-      "classificationEvidence": [
-        "[Market] Broad market commentary keywords matched in headline"
-      ],
-      "fno": {
-        "eligible": false,
-        "symbol": "NIFTY",
-        "confidence": "HIGH",
-        "decision": "EXCLUDE",
-        "reason": "Index symbol NIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
-      },
-      "summary": "Summary unavailable — Open original source",
-      "whatChanged": [],
-      "keyMetrics": [],
-      "whyItMatters": "",
-      "marketImpact": "No actionable F&O setup from this article alone.",
-      "riskWatchpoints": [
-        "No explicit operational or financial risk factors identified in source text."
-      ],
-      "summaryConfidence": 75,
-      "summaryProcessingMode": "DETERMINISTIC"
-    },
-    "attempts": 0
-  },
-  {
-    "articleId": "v2_fe784ffecc8298b4",
-    "payload": {
-      "id": "v2_fe784ffecc8298b4",
-      "canonicalUrl": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNZWFPeVBLR0RReFYtSG1MbHNZNl91ZWpjV1JyR1JnRmtfWGxLcS1hb3BMczd2d1hOcFByakxnSF81ZVZnNlVtZzdYd2g4VUpjVko1RVhxRmZXTE9SWUxWTU1KZXRzdWNCbVk5V1F5V3B2dTVDS2dXTjdxbm5ab0swWnpyWEhPOGV1ZXRrUDJwbFo3cFB3SUZyR2trZTRreE5RUUJ3MDRHS1VXT2lsS3FGZko0czI4Vk82VFdkb0xVMzEzZmVBR2steTl5MnZHQWVKZm9CMWxfcGM5YU80QWpsb1RidG00ZU9L?oc=5",
-      "headline": "Indian stock markets are closed today: NSE, BSE trading holiday on Ganesh Chaturthi 14 Sept Monday - tradingview.com",
-      "body": "<a href=\"https://news.google.com/rss/articles/CBMi6AFBVV95cUxNZWFPeVBLR0RReFYtSG1MbHNZNl91ZWpjV1JyR1JnRmtfWGxLcS1hb3BMczd2d1hOcFByakxnSF81ZVZnNlVtZzdYd2g4VUpjVko1RVhxRmZXTE9SWUxWTU1KZXRzdWNCbVk5V1F5V3B2dTVDS2dXTjdxbm5ab0swWnpyWEhPOGV1ZXRrUDJwbFo3cFB3SUZyR2trZTRreE5RUUJ3MDRHS1VXT2lsS3FGZko0czI4Vk82VFdkb0xVMzEzZmVBR2steTl5MnZHQWVKZm9CMWxfcGM5YU80QWpsb1RidG00ZU9L?oc=5\" target=\"_blank\">Indian stock markets are closed today: NSE, BSE trading holiday on Ganesh Chaturthi 14 Sept Monday</a> <font color=\"#6f6f6f\">tradingview.com</font>",
-      "source": {
-        "publisher": "Google News Business",
-        "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNZWFPeVBLR0RReFYtSG1MbHNZNl91ZWpjV1JyR1JnRmtfWGxLcS1hb3BMczd2d1hOcFByakxnSF81ZVZnNlVtZzdYd2g4VUpjVko1RVhxRmZXTE9SWUxWTU1KZXRzdWNCbVk5V1F5V3B2dTVDS2dXTjdxbm5ab0swWnpyWEhPOGV1ZXRrUDJwbFo3cFB3SUZyR2trZTRreE5RUUJ3MDRHS1VXT2lsS3FGZko0czI4Vk82VFdkb0xVMzEzZmVBR2steTl5MnZHQWVKZm9CMWxfcGM5YU80QWpsb1RidG00ZU9L?oc=5",
-        "collectionMethod": "RSS"
-      },
-      "publishedAt": "2026-09-13T07:00:00.000Z",
-      "collectedAt": "2026-10-01T04:26:47.524Z",
+      "publishedAt": "2026-10-01T04:38:00.000Z",
+      "collectedAt": "2026-10-01T05:12:05.602Z",
       "category": "Other",
       "sentiment": "NEUTRAL",
       "relevanceScore": 65,
@@ -110,143 +66,6 @@
       "categoryConfidence": "LOW",
       "classificationEvidence": [
         "Default fallback classification for general news story"
-      ],
-      "fno": {
-        "eligible": false,
-        "symbol": "BSE",
-        "confidence": "HIGH",
-        "decision": "EXCLUDE",
-        "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
-      },
-      "summary": "Summary unavailable — Open original source",
-      "whatChanged": [],
-      "keyMetrics": [],
-      "whyItMatters": "",
-      "marketImpact": "No actionable F&O setup from this article alone.",
-      "riskWatchpoints": [
-        "No explicit operational or financial risk factors identified in source text."
-      ],
-      "summaryConfidence": 75,
-      "summaryProcessingMode": "DETERMINISTIC"
-    },
-    "attempts": 0
-  },
-  {
-    "articleId": "v2_afb39caa351d5618",
-    "payload": {
-      "id": "v2_afb39caa351d5618",
-      "canonicalUrl": "https://news.google.com/rss/articles/CBMikAJBVV95cUxPR0E3TzBGbXNKTXd4UG54MlhvWEJNakFwWkpuME1CM0t0SUQ2b0lnQmtnU05sOVV3c05kcm9XUnpkRlF4c09QY2R2TjFhZVR5N0dabHNxcXNKM0F2UDBXRldaajNjYl9nbWJFc1Y1TFFfV0tjQXlNMWIxQllmSnFTNDhmcjdvcW02WXBJYTFhdF95Y2V4c2RhYU8tenAtcUJaQzVxdGFpekE4bWoxbXlSNU1WUmZoZ3gzYlNULUY1b2tMcVE0am9yYzhhaDBxX3dnNXMzWTVHeWJEME1RX0xhVzVJY3FPNkJJNk0zOTJzUHEydllaSExTbkVGaVpaQjJDMFFlbTgwNTUwT01VWmNxdtIBlgJBVV95cUxNYnhoNWNBNnFxZkFBOE92QzBJaWRpLXRyVWRoZnpPRUtscW4yU2xrVkx3c0syWXZwWmFNNjVBc1RUbUQ3Y1NMaVJ4TDhEcTNnQkk1RHRJLU9pSGtQWWkzNWVWRVliUlFPWGx6UFNvRzBnS3MxdDc4eU4yS3hlYVNMRk83RURRaXZHSUh0NmJXcGE4elBNdDZXNlBUUUJIY2xsbjJRRWZGMnc5UXRaU3puMXNVNW5vcFNkVkZuNE5rRmsxUER6Y3M4X2t0VDdDeHVRVmhsODNadEQ3RFkzUmUxX1lrRzRmQk9ZcnFPZHZLZndBR0VrU0h4Y3JlaWszdm1VTFI2MHlUMVM5c1Z0OGJvWUFQS0cwQQ?oc=5",
-      "headline": "Why is Indian stock market down? 3 key factors explained - Top losers contributing to the fall in Sensex, Nifty today - Livemint",
-      "body": "<a href=\"https://news.google.com/rss/articles/CBMikAJBVV95cUxPR0E3TzBGbXNKTXd4UG54MlhvWEJNakFwWkpuME1CM0t0SUQ2b0lnQmtnU05sOVV3c05kcm9XUnpkRlF4c09QY2R2TjFhZVR5N0dabHNxcXNKM0F2UDBXRldaajNjYl9nbWJFc1Y1TFFfV0tjQXlNMWIxQllmSnFTNDhmcjdvcW02WXBJYTFhdF95Y2V4c2RhYU8tenAtcUJaQzVxdGFpekE4bWoxbXlSNU1WUmZoZ3gzYlNULUY1b2tMcVE0am9yYzhhaDBxX3dnNXMzWTVHeWJEME1RX0xhVzVJY3FPNkJJNk0zOTJzUHEydllaSExTbkVGaVpaQjJDMFFlbTgwNTUwT01VWmNxdtIBlgJBVV95cUxNYnhoNWNBNnFxZkFBOE92QzBJaWRpLXRyVWRoZnpPRUtscW4yU2xrVkx3c0syWXZwWmFNNjVBc1RUbUQ3Y1NMaVJ4TDhEcTNnQkk1RHRJLU9pSGtQWWkzNWVWRVliUlFPWGx6UFNvRzBnS3MxdDc4eU4yS3hlYVNMRk83RURRaXZHSUh0NmJXcGE4elBNdDZXNlBUUUJIY2xsbjJRRWZGMnc5UXRaU3puMXNVNW5vcFNkVkZuNE5rRmsxUER6Y3M4X2t0VDdDeHVRVmhsODNadEQ3RFkzUmUxX1lrRzRmQk9ZcnFPZHZLZndBR0VrU0h4Y3JlaWszdm1VTFI2MHlUMVM5c1Z0OGJvWUFQS0cwQQ?oc=5\" target=\"_blank\">Why is Indian stock market down? 3 key factors explained - Top losers contributing to the fall in Sensex, Nifty today</a> <font color=\"#6f6f6f\">Livemint</font>",
-      "source": {
-        "publisher": "Google News Business",
-        "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxPR0E3TzBGbXNKTXd4UG54MlhvWEJNakFwWkpuME1CM0t0SUQ2b0lnQmtnU05sOVV3c05kcm9XUnpkRlF4c09QY2R2TjFhZVR5N0dabHNxcXNKM0F2UDBXRldaajNjYl9nbWJFc1Y1TFFfV0tjQXlNMWIxQllmSnFTNDhmcjdvcW02WXBJYTFhdF95Y2V4c2RhYU8tenAtcUJaQzVxdGFpekE4bWoxbXlSNU1WUmZoZ3gzYlNULUY1b2tMcVE0am9yYzhhaDBxX3dnNXMzWTVHeWJEME1RX0xhVzVJY3FPNkJJNk0zOTJzUHEydllaSExTbkVGaVpaQjJDMFFlbTgwNTUwT01VWmNxdtIBlgJBVV95cUxNYnhoNWNBNnFxZkFBOE92QzBJaWRpLXRyVWRoZnpPRUtscW4yU2xrVkx3c0syWXZwWmFNNjVBc1RUbUQ3Y1NMaVJ4TDhEcTNnQkk1RHRJLU9pSGtQWWkzNWVWRVliUlFPWGx6UFNvRzBnS3MxdDc4eU4yS3hlYVNMRk83RURRaXZHSUh0NmJXcGE4elBNdDZXNlBUUUJIY2xsbjJRRWZGMnc5UXRaU3puMXNVNW5vcFNkVkZuNE5rRmsxUER6Y3M4X2t0VDdDeHVRVmhsODNadEQ3RFkzUmUxX1lrRzRmQk9ZcnFPZHZLZndBR0VrU0h4Y3JlaWszdm1VTFI2MHlUMVM5c1Z0OGJvWUFQS0cwQQ?oc=5",
-        "collectionMethod": "RSS"
-      },
-      "publishedAt": "2026-09-09T07:00:00.000Z",
-      "collectedAt": "2026-10-01T04:26:47.524Z",
-      "category": "Market",
-      "sentiment": "BEARISH",
-      "relevanceScore": 50,
-      "primaryCategory": "Market",
-      "secondaryCategories": [],
-      "eventType": "MARKET_MOVEMENT",
-      "categoryConfidence": "HIGH",
-      "classificationEvidence": [
-        "[Market] Broad market commentary keywords matched in headline"
-      ],
-      "fno": {
-        "eligible": false,
-        "symbol": "NIFTY",
-        "confidence": "HIGH",
-        "decision": "EXCLUDE",
-        "reason": "Index symbol NIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
-      },
-      "summary": "Summary unavailable — Open original source",
-      "whatChanged": [],
-      "keyMetrics": [],
-      "whyItMatters": "",
-      "marketImpact": "No actionable F&O setup from this article alone.",
-      "riskWatchpoints": [
-        "No explicit operational or financial risk factors identified in source text."
-      ],
-      "summaryConfidence": 75,
-      "summaryProcessingMode": "DETERMINISTIC"
-    },
-    "attempts": 0
-  },
-  {
-    "articleId": "v2_8d220422a10817a8",
-    "payload": {
-      "id": "v2_8d220422a10817a8",
-      "canonicalUrl": "https://news.google.com/rss/articles/CBMiiAJBVV95cUxQVXpKVEItVnJCUXFoUXh1SEhscFlHYTRobVZtUVVZcTNkdnYwQ19PZEI2MFo1dERGWkZUcG9tUlpYcElTVWx4NU41NmtMREVZY0NuOWI2Vi1QVFBLczQ0VmJQTEtaTTRKd3hsSlk1eEFPSmlsRmZPcDkydDY4YTlhN18wTFp2NlotS1Buc0NMQXB5dWM0R09tNk44SDNjVGJ6QkpENGJVYXU2YVBSenRSZXVReXhHVU9yM0V0UXExazJCXzBvbGtRX29JLUlfWDB4OUFJT0hoQWlzSDUwQWhZMjliemE2WnVTRnJGMTZ1TVRwN3FLWjRNUHlHcHRwYWRMM0VuWjNqdHrSAY4CQVVfeXFMT3lsVmVDdW9GLUVZbE8yNVJ1SFdmWjNQWlU1R3NRWl8zUHl6Tlo0amRwWVZkb0FPdWF4Q1VERDUyQmlNcnBJbXdzNGFLZW1pT2hrM0VySFpFS1dnLXEtY1pENWo1TXZaMUVnYjB2VXE5dHYwbDVmUVFnTTkwbEpKSkVmLWpObGo5c1o3amszYzdZcjYzeUVMSTVVUkJEQ01NYllUdGZaa2RST2dIVVNEVUdBZTg1QmRaTmVBdFRtQW9yXzlCTzE0blY0Z3BRMlRvQkpsM3phN2Z2d21YNW5RUTRhY1Q1NTN0MGp6OGxkZGcwOTlZblpZek9ONlpmaDNoeFRYMFFwOUMxYURnSE9R?oc=5",
-      "headline": "Dividend income at risk? 8 stocks with inconsistent dividend payout: Indian Oil, Sanofi India, UTI AMC, and more - Livemint",
-      "body": "<a href=\"https://news.google.com/rss/articles/CBMiiAJBVV95cUxQVXpKVEItVnJCUXFoUXh1SEhscFlHYTRobVZtUVVZcTNkdnYwQ19PZEI2MFo1dERGWkZUcG9tUlpYcElTVWx4NU41NmtMREVZY0NuOWI2Vi1QVFBLczQ0VmJQTEtaTTRKd3hsSlk1eEFPSmlsRmZPcDkydDY4YTlhN18wTFp2NlotS1Buc0NMQXB5dWM0R09tNk44SDNjVGJ6QkpENGJVYXU2YVBSenRSZXVReXhHVU9yM0V0UXExazJCXzBvbGtRX29JLUlfWDB4OUFJT0hoQWlzSDUwQWhZMjliemE2WnVTRnJGMTZ1TVRwN3FLWjRNUHlHcHRwYWRMM0VuWjNqdHrSAY4CQVVfeXFMT3lsVmVDdW9GLUVZbE8yNVJ1SFdmWjNQWlU1R3NRWl8zUHl6Tlo0amRwWVZkb0FPdWF4Q1VERDUyQmlNcnBJbXdzNGFLZW1pT2hrM0VySFpFS1dnLXEtY1pENWo1TXZaMUVnYjB2VXE5dHYwbDVmUVFnTTkwbEpKSkVmLWpObGo5c1o3amszYzdZcjYzeUVMSTVVUkJEQ01NYllUdGZaa2RST2dIVVNEVUdBZTg1QmRaTmVBdFRtQW9yXzlCTzE0blY0Z3BRMlRvQkpsM3phN2Z2d21YNW5RUTRhY1Q1NTN0MGp6OGxkZGcwOTlZblpZek9ONlpmaDNoeFRYMFFwOUMxYURnSE9R?oc=5\" target=\"_blank\">Dividend income at risk? 8 stocks with inconsistent dividend payout: Indian Oil, Sanofi India, UTI AMC, and more</a> <font color=\"#6f6f6f\">Livemint</font>",
-      "source": {
-        "publisher": "Google News Business",
-        "url": "https://news.google.com/rss/articles/CBMiiAJBVV95cUxQVXpKVEItVnJCUXFoUXh1SEhscFlHYTRobVZtUVVZcTNkdnYwQ19PZEI2MFo1dERGWkZUcG9tUlpYcElTVWx4NU41NmtMREVZY0NuOWI2Vi1QVFBLczQ0VmJQTEtaTTRKd3hsSlk1eEFPSmlsRmZPcDkydDY4YTlhN18wTFp2NlotS1Buc0NMQXB5dWM0R09tNk44SDNjVGJ6QkpENGJVYXU2YVBSenRSZXVReXhHVU9yM0V0UXExazJCXzBvbGtRX29JLUlfWDB4OUFJT0hoQWlzSDUwQWhZMjliemE2WnVTRnJGMTZ1TVRwN3FLWjRNUHlHcHRwYWRMM0VuWjNqdHrSAY4CQVVfeXFMT3lsVmVDdW9GLUVZbE8yNVJ1SFdmWjNQWlU1R3NRWl8zUHl6Tlo0amRwWVZkb0FPdWF4Q1VERDUyQmlNcnBJbXdzNGFLZW1pT2hrM0VySFpFS1dnLXEtY1pENWo1TXZaMUVnYjB2VXE5dHYwbDVmUVFnTTkwbEpKSkVmLWpObGo5c1o3amszYzdZcjYzeUVMSTVVUkJEQ01NYllUdGZaa2RST2dIVVNEVUdBZTg1QmRaTmVBdFRtQW9yXzlCTzE0blY0Z3BRMlRvQkpsM3phN2Z2d21YNW5RUTRhY1Q1NTN0MGp6OGxkZGcwOTlZblpZek9ONlpmaDNoeFRYMFFwOUMxYURnSE9R?oc=5",
-        "collectionMethod": "RSS"
-      },
-      "publishedAt": "2026-09-30T12:43:22.000Z",
-      "collectedAt": "2026-10-01T04:26:47.524Z",
-      "category": "Corporate",
-      "sentiment": "NEUTRAL",
-      "relevanceScore": 50,
-      "primaryCategory": "Corporate",
-      "secondaryCategories": [
-        "F&O"
-      ],
-      "eventType": "DIVIDEND",
-      "categoryConfidence": "HIGH",
-      "classificationEvidence": [
-        "[Corporate] Corporate action/order win keywords matched in headline",
-        "[F&O] F&O Eligible Symbol: IOC"
-      ],
-      "fno": {
-        "eligible": true,
-        "symbol": "IOC",
-        "confidence": "HIGH",
-        "decision": "INCLUDE",
-        "reason": "Headline alias \"Indian Oil\" matched IOC. Tier 2 Catalyst Match: \"dividend\""
-      },
-      "summary": "Check the list of companies that have paid inconsistent dividend over the last three financial years.Sanofi India declared a dividend of ₹123 per share in FY26, down from ₹167 in FY24.",
-      "whatChanged": [
-        "Check the list of companies that have paid inconsistent dividend over the last three financial years.Sanofi India declared a dividend of ₹123 per share in FY26, down from ₹167 in FY24."
-      ],
-      "keyMetrics": [],
-      "whyItMatters": "Direct capital return initiatives improve shareholder yield and signal management confidence in balance sheet resilience.",
-      "marketImpact": "No actionable F&O setup from this article alone.",
-      "riskWatchpoints": [
-        "No explicit operational or financial risk factors identified in source text."
-      ],
-      "summaryConfidence": 75,
-      "summaryProcessingMode": "DETERMINISTIC"
-    },
-    "attempts": 0
-  },
-  {
-    "articleId": "v2_5c532b21638c951f",
-    "payload": {
-      "id": "v2_5c532b21638c951f",
-      "canonicalUrl": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPemlGanZDLWpRVHNCM25Va3FzTlZjV3hZcjV0Um9QMG9YZXFoMWlyb18tMVQ3a1l3NmItaDMtbVRuVVZfUVdvei1LcFNBbVNsLV9Welh2eWZHMnpmbjhoSjBOYUI1dmNUaU9raXNCdkdkVGhfa0oyTGR3akR6ODNzM2hrNkl6UEtzeGh2VjRRSUJvUE54MHk2VEpCVDhPbFk2Q29scVBTOHBOXy13dXd3?oc=5",
-      "headline": "Unlock Alpha: Master Sector Rotation & Selling for Massive Indian Stock Market Gains! - MarketSmith India",
-      "body": "<a href=\"https://news.google.com/rss/articles/CBMirwFBVV95cUxPemlGanZDLWpRVHNCM25Va3FzTlZjV3hZcjV0Um9QMG9YZXFoMWlyb18tMVQ3a1l3NmItaDMtbVRuVVZfUVdvei1LcFNBbVNsLV9Welh2eWZHMnpmbjhoSjBOYUI1dmNUaU9raXNCdkdkVGhfa0oyTGR3akR6ODNzM2hrNkl6UEtzeGh2VjRRSUJvUE54MHk2VEpCVDhPbFk2Q29scVBTOHBOXy13dXd3?oc=5\" target=\"_blank\">Unlock Alpha: Master Sector Rotation & Selling for Massive Indian Stock Market Gains!</a> <font color=\"#6f6f6f\">MarketSmith India</font>",
-      "source": {
-        "publisher": "Google News Business",
-        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPemlGanZDLWpRVHNCM25Va3FzTlZjV3hZcjV0Um9QMG9YZXFoMWlyb18tMVQ3a1l3NmItaDMtbVRuVVZfUVdvei1LcFNBbVNsLV9Welh2eWZHMnpmbjhoSjBOYUI1dmNUaU9raXNCdkdkVGhfa0oyTGR3akR6ODNzM2hrNkl6UEtzeGh2VjRRSUJvUE54MHk2VEpCVDhPbFk2Q29scVBTOHBOXy13dXd3?oc=5",
-        "collectionMethod": "RSS"
-      },
-      "publishedAt": "2026-09-20T07:00:00.000Z",
-      "collectedAt": "2026-10-01T04:26:47.524Z",
-      "category": "Market",
-      "sentiment": "BULLISH",
-      "relevanceScore": 65,
-      "primaryCategory": "Market",
-      "secondaryCategories": [],
-      "eventType": "MARKET_MOVEMENT",
-      "categoryConfidence": "HIGH",
-      "classificationEvidence": [
-        "[Market] Broad market commentary keywords matched in headline"
       ],
       "fno": {
         "eligible": false,
