@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "articleId": "v2_f252afad1b14a2d4",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-10-01T05:33:54.573Z",
+    "telegramMessageId": 9999270,
+    "deduplicationKey": "v2_f252afad1b14a2d4:1670403316:FO_INTEL",
+    "attemptCount": 1
+  },
+  {
+    "articleId": "v2_501b7ec0fc5a0bc3",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-10-01T05:35:54.559Z",
+    "telegramMessageId": 9999817,
+    "deduplicationKey": "v2_501b7ec0fc5a0bc3:1670403316:FO_INTEL",
+    "attemptCount": 1
+  },
+  {
+    "articleId": "v2_9047b04cbad492ef",
+    "chatId": "1670403316",
+    "notificationType": "FO_INTEL",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-10-01T06:00:54.589Z",
+    "telegramMessageId": 9999483,
+    "deduplicationKey": "v2_9047b04cbad492ef:1670403316:FO_INTEL",
+    "attemptCount": 1
+  },
+  {
+    "articleId": "art_test_1790835534372",
+    "chatId": "1670403316",
+    "notificationType": "TEST_ALERT",
+    "decision": "IMMEDIATE",
+    "status": "SENT",
+    "sentAt": "2026-10-01T06:18:54.372Z",
+    "telegramMessageId": 3176,
+    "deduplicationKey": "test:1790835534372",
+    "attemptCount": 1
+  }
+]
