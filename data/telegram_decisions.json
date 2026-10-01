@@ -1,5 +1,104 @@
 [
   {
+    "articleId": "v2_bf15fc7a60616bb5",
+    "notificationKey": "v2_bf15fc7a60616bb5:1670403316:FO_INTEL",
+    "symbol": "MARKET",
+    "headline": "Buzzing Stocks: PSU stock jumps 17% after land parcel sale for nearly ₹900 crore - CNBC TV18",
+    "decision": "NO_ACTION",
+    "priority": "LOW",
+    "reason": "Generic earnings calendar or multi-company list without single-company materiality",
+    "evaluatedAt": "2026-10-01T06:32:34.117Z",
+    "auditModeOnly": false
+  },
+  {
+    "articleId": "v2_578d7475cd329d47",
+    "notificationKey": "v2_578d7475cd329d47:1670403316:FO_INTEL",
+    "symbol": "MARKET",
+    "headline": "IT growth faces AI squeeze in Q2FY27 as pricing pressure mounts - Moneycontrol.com",
+    "decision": "NO_ACTION",
+    "priority": "LOW",
+    "reason": "Historical article collected before Telegram activation watermark",
+    "evaluatedAt": "2026-10-01T06:28:33.310Z",
+    "auditModeOnly": true
+  },
+  {
+    "articleId": "v2_ccbb3ba41daeb3c6",
+    "notificationKey": "v2_ccbb3ba41daeb3c6:1670403316:FO_INTEL",
+    "symbol": "MARKET",
+    "headline": "Centre approves Rs 5,548 crore pulses, oilseeds procurement at MSP for Kharif season - Moneycontrol.com",
+    "decision": "NO_ACTION",
+    "priority": "LOW",
+    "reason": "Historical article collected before Telegram activation watermark",
+    "evaluatedAt": "2026-10-01T06:27:33.309Z",
+    "auditModeOnly": true
+  },
+  {
+    "articleId": "v2_bf3333ded00f679a",
+    "notificationKey": "v2_bf3333ded00f679a:1670403316:FO_INTEL",
+    "symbol": "MARKET",
+    "headline": "Prime Minister lauds Captain Smit Machchhar for immense courage and valour in saving lives - pib.gov.in",
+    "decision": "NO_ACTION",
+    "priority": "LOW",
+    "reason": "Historical article collected before Telegram activation watermark",
+    "evaluatedAt": "2026-10-01T06:26:33.309Z",
+    "auditModeOnly": true
+  },
+  {
+    "articleId": "v2_e42bddcdd6ed026c",
+    "notificationKey": "v2_e42bddcdd6ed026c:1670403316:FO_INTEL",
+    "symbol": "MARKET",
+    "headline": "Union Minister for Finance & Corporate Affairs Smt. Nirmala Sitharaman will embark on an official visit to Qatar from 27 to 29 September 2026 - pib.gov.in",
+    "decision": "NO_ACTION",
+    "priority": "LOW",
+    "reason": "Historical article collected before Telegram activation watermark",
+    "evaluatedAt": "2026-10-01T06:24:33.310Z",
+    "auditModeOnly": true
+  },
+  {
+    "articleId": "v2_e96689ce43dfaaea",
+    "notificationKey": "v2_e96689ce43dfaaea:1670403316:FO_INTEL",
+    "symbol": "MARKET",
+    "headline": "Amitabh Kant calls CAFE-III norms a ‘huge missed opportunity’, says EV roadmap lacks ambition - Moneycontrol.com",
+    "decision": "NO_ACTION",
+    "priority": "LOW",
+    "reason": "Historical article collected before Telegram activation watermark",
+    "evaluatedAt": "2026-10-01T06:24:33.309Z",
+    "auditModeOnly": true
+  },
+  {
+    "articleId": "v2_4e682d03afa60720",
+    "notificationKey": "v2_4e682d03afa60720:1670403316:FO_INTEL",
+    "symbol": "MARKET",
+    "headline": "Captain Smit Machchhar was ‘calm from day one’, says childhood friend after mid-air heroics - Moneycontrol.com",
+    "decision": "NO_ACTION",
+    "priority": "LOW",
+    "reason": "No specific F&O company matched",
+    "evaluatedAt": "2026-10-01T06:24:33.308Z",
+    "auditModeOnly": true
+  },
+  {
+    "articleId": "v2_3562ab5b8a7a7104",
+    "notificationKey": "v2_3562ab5b8a7a7104:1670403316:FO_INTEL",
+    "symbol": "MARKET",
+    "headline": "Can technology fix ICICI Lombard's underwriting equation?",
+    "decision": "NO_ACTION",
+    "priority": "LOW",
+    "reason": "No specific F&O company matched",
+    "evaluatedAt": "2026-10-01T06:22:33.307Z",
+    "auditModeOnly": true
+  },
+  {
+    "articleId": "v2_4f1633f40dc39f8b",
+    "notificationKey": "v2_4f1633f40dc39f8b:1670403316:FO_INTEL",
+    "symbol": "MARKET",
+    "headline": "India's Gross GST collection ticks up 14.7% in September to Rs 2.04 lakh crore",
+    "decision": "NO_ACTION",
+    "priority": "LOW",
+    "reason": "Historical article collected before Telegram activation watermark",
+    "evaluatedAt": "2026-10-01T06:21:33.306Z",
+    "auditModeOnly": true
+  },
+  {
     "articleId": "v2_ddf50b239721497c",
     "notificationKey": "v2_ddf50b239721497c:1670403316:FO_INTEL",
     "symbol": "MARKET",
