@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import crypto from 'crypto';
 
 export interface TelegramCredentials {
@@ -51,7 +52,22 @@ export class TelegramService {
   private botToken: string = '';
   private chatId: string = '';
   private enabled: boolean = true;
-  private configPath: string = (typeof process !== 'undefined' && typeof process.cwd === 'function') ? `${process.cwd()}/.telegram_config.json` : '.telegram_config.json';
+
+  // Authoritative credential configuration files stored in persistent /app/data volume
+  private configPath: string = (typeof process !== 'undefined' && typeof process.cwd === 'function') 
+    ? path.join(process.cwd(), 'data', '.telegram_config.json') 
+    : 'data/.telegram_config.json';
+  private backupPath: string = (typeof process !== 'undefined' && typeof process.cwd === 'function') 
+    ? path.join(process.cwd(), 'data', '.telegram_config.backup.json') 
+    : 'data/.telegram_config.backup.json';
+
+  // Legacy root paths for non-destructive migration
+  private legacyConfigPath: string = (typeof process !== 'undefined' && typeof process.cwd === 'function') 
+    ? path.join(process.cwd(), '.telegram_config.json') 
+    : '.telegram_config.json';
+  private legacyBackupPath: string = (typeof process !== 'undefined' && typeof process.cwd === 'function') 
+    ? path.join(process.cwd(), '.telegram_config.backup.json') 
+    : '.telegram_config.backup.json';
 
   // Live status telemetry
   private lastVerifiedAt: string | null = null;
@@ -69,6 +85,71 @@ export class TelegramService {
       TelegramService.instance = new TelegramService();
     }
     return TelegramService.instance;
+  }
+
+  public getConfigPath(): string {
+    return this.configPath;
+  }
+
+  public getBackupPath(): string {
+    return this.backupPath;
+  }
+
+  public setCustomPathsForTest(configPath?: string, backupPath?: string): void {
+    if (configPath) this.configPath = configPath;
+    if (backupPath) this.backupPath = backupPath;
+  }
+
+  public resetCustomPaths(): void {
+    this.configPath = (typeof process !== 'undefined' && typeof process.cwd === 'function') 
+      ? path.join(process.cwd(), 'data', '.telegram_config.json') 
+      : 'data/.telegram_config.json';
+    this.backupPath = (typeof process !== 'undefined' && typeof process.cwd === 'function') 
+      ? path.join(process.cwd(), 'data', '.telegram_config.backup.json') 
+      : 'data/.telegram_config.backup.json';
+  }
+
+  private ensureDataDirExists(): void {
+    const dir = path.dirname(this.configPath);
+    if (!fs.existsSync(dir)) {
+      try {
+        fs.mkdirSync(dir, { recursive: true });
+      } catch (err) {
+        // Fallback
+      }
+    }
+  }
+
+  /**
+   * Non-destructive migration:
+   * Migrates legacy credentials from process.cwd()/.telegram_config.json into
+   * persistent data volume process.cwd()/data/.telegram_config.json if the new persistent file
+   * does not exist yet. Idempotent and never overwrites an existing persistent file.
+   */
+  public migrateLegacyConfigIfNeeded(): boolean {
+    try {
+      this.ensureDataDirExists();
+      if (!fs.existsSync(this.configPath) && fs.existsSync(this.legacyConfigPath)) {
+        const raw = fs.readFileSync(this.legacyConfigPath, 'utf-8');
+        const parsed = JSON.parse(raw);
+        const botToken = parsed.botToken || parsed.telegramBotToken || '';
+        const chatId = parsed.chatId || parsed.telegramChatId || '';
+        const enabled = parsed.enabled !== undefined ? parsed.enabled : true;
+
+        if (this.isLocalConfigValid({ botToken, chatId, enabled })) {
+          const payload = JSON.stringify({ botToken, chatId, enabled }, null, 2);
+          const tempPath = this.configPath + '.tmp';
+          fs.writeFileSync(tempPath, payload, 'utf-8');
+          fs.renameSync(tempPath, this.configPath);
+          fs.writeFileSync(this.backupPath, payload, 'utf-8');
+          console.info('[TelegramService] Migrated existing legacy credentials to persistent data volume.');
+          return true;
+        }
+      }
+    } catch (e: any) {
+      console.warn('[TelegramService] Legacy migration check failed non-fatally:', e?.message);
+    }
+    return false;
   }
 
   public isLocalConfigValid(creds: TelegramCredentials): boolean {
@@ -150,9 +231,13 @@ export class TelegramService {
   }
 
   public loadCredentials(): TelegramCredentials {
+    // 0. Perform idempotent non-destructive migration if legacy file exists and persistent file does not
+    this.migrateLegacyConfigIfNeeded();
+
     let mainValid = false;
     let mainCreds: TelegramCredentials = { botToken: '', chatId: '', enabled: true };
 
+    // 1. Try persistent data volume file (/app/data/.telegram_config.json)
     try {
       if (fs.existsSync(this.configPath)) {
         const data = fs.readFileSync(this.configPath, 'utf-8');
@@ -166,7 +251,7 @@ export class TelegramService {
         }
       }
     } catch (e) {
-      console.error('[TelegramService] Error parsing .telegram_config.json on startup:', e);
+      console.error('[TelegramService] Error parsing persistent .telegram_config.json on startup:', e);
     }
 
     if (mainValid) {
@@ -176,14 +261,13 @@ export class TelegramService {
       return mainCreds;
     }
 
-    // Try backup file if main config is missing or invalid
-    const backupPath = (typeof process !== 'undefined' && typeof process.cwd === 'function') ? `${process.cwd()}/.telegram_config.backup.json` : '.telegram_config.backup.json';
+    // 2. Try persistent backup file (/app/data/.telegram_config.backup.json) if main config is missing or invalid
     let backupValid = false;
     let backupCreds: TelegramCredentials = { botToken: '', chatId: '', enabled: true };
 
     try {
-      if (fs.existsSync(backupPath)) {
-        const data = fs.readFileSync(backupPath, 'utf-8');
+      if (fs.existsSync(this.backupPath)) {
+        const data = fs.readFileSync(this.backupPath, 'utf-8');
         const parsed = JSON.parse(data);
         const botToken = parsed.botToken || parsed.telegramBotToken || '';
         const chatId = parsed.chatId || parsed.telegramChatId || '';
@@ -194,7 +278,7 @@ export class TelegramService {
         }
       }
     } catch (e) {
-      console.error('[TelegramService] Error parsing .telegram_config.backup.json on startup:', e);
+      console.error('[TelegramService] Error parsing persistent .telegram_config.backup.json on startup:', e);
     }
 
     if (backupValid) {
@@ -209,6 +293,23 @@ export class TelegramService {
       } catch (err) {
         console.error('[TelegramService] Failed to restore config from backup file:', err);
       }
+    }
+
+    // 3. Fallback: Environment variables TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID
+    const envToken = (typeof process !== 'undefined' && process.env?.TELEGRAM_BOT_TOKEN) 
+      ? process.env.TELEGRAM_BOT_TOKEN.trim() 
+      : '';
+    const envChatId = (typeof process !== 'undefined' && process.env?.TELEGRAM_CHAT_ID) 
+      ? process.env.TELEGRAM_CHAT_ID.trim() 
+      : '';
+    const envCreds: TelegramCredentials = { botToken: envToken, chatId: envChatId, enabled: true };
+
+    if (this.isLocalConfigValid(envCreds)) {
+      this.botToken = envCreds.botToken;
+      this.chatId = envCreds.chatId;
+      this.enabled = true;
+      console.info('[TelegramService] Loaded Telegram credentials from environment variable fallback.');
+      return envCreds;
     }
 
     this.botToken = '';
@@ -243,11 +344,11 @@ export class TelegramService {
     const oldChecksum = crypto.createHash('sha256').update(oldToken).digest('hex');
 
     try {
-      const backupPath = (typeof process !== 'undefined' && typeof process.cwd === 'function') ? `${process.cwd()}/.telegram_config.backup.json` : '.telegram_config.backup.json';
+      this.ensureDataDirExists();
       if (fs.existsSync(this.configPath)) {
         try {
           const currentConfigData = fs.readFileSync(this.configPath, 'utf-8');
-          fs.writeFileSync(backupPath, currentConfigData, 'utf-8');
+          fs.writeFileSync(this.backupPath, currentConfigData, 'utf-8');
         } catch (backupErr) {
           console.warn('[TelegramService] Could not parse current config for backup:', backupErr);
         }
