@@ -1,5 +1,815 @@
 [
   {
+    "id": "v2_51f3dbddfba48356",
+    "canonicalUrl": "https://www.livemint.com/market/stock-market-news/multibagger-power-stock-transformers-rectifiers-share-price-jumps-10-after-pm-dhara-push-can-the-rally-continue-11790835387647.html",
+    "headline": "Multibagger power stock Transformers & Rectifiers share price jumps 10% after PM-DHARA push - Can the rally continue?",
+    "body": "TARIL shares rose over 10% following the approval of the PM-DHARA Scheme, which allocates ₹1.36 lakh crore for transmission infrastructure. The company's orders in the nuclear sector and increased capacity position it well amidst growing demand for power transformers.",
+    "source": {
+      "publisher": "LiveMint",
+      "url": "https://www.livemint.com/market/stock-market-news/multibagger-power-stock-transformers-rectifiers-share-price-jumps-10-after-pm-dhara-push-can-the-rally-continue-11790835387647.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:53:00.000Z",
+    "collectedAt": "2026-10-01T06:57:54.637Z",
+    "category": "Other",
+    "sentiment": "BULLISH",
+    "relevanceScore": 100,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_93f4affb6d9edb44",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQdndJa055UTJ5aEVJV0pIRDFabmNoX3dYUGwxLTE1QlJLTDJTa0FYMUhPVEp5QVhHYldvY0MzZnhoa3dXdHVtZjBTQ2NQYWtlbDR4VW5zUXIxZU8xNEp1UTRTT2VKeVU2WmE0WjhJNXgyU0xaWW9HRUoxNHdlYlZscmlHRTl6S3lQM1VkZHZSSGZLal9XOTZWWkh2RmVWdlYxV2tXTURKVFRycjc2bnhHR2lsc1E2S2VXWkZpSi1qUdIBxAFBVV95cUxQTzFkSlBpdXBhSlNvcUNDSHp5cUR5T0RvZzNzd2ZSX2Y4Rkp5aFdCQ0d4SGttV0lNTEtrX3k0SW9DNmNKeC1CRURCN2poY2Z3Tm96UDEtWDUtV0c3YkxpSVdWZk1ZVWFFSVZ5YVFSamplQWljUlhiMkpxeFFsQjk1OTBSOGhCc3FQTW90Uks4VHBvNXBxaFlkdTJveGcxbnhxRDctdl9GM3p4bVd5bk5rdnMzdW1CbjBtOE5vbmxQN0NHODJU?oc=5",
+    "headline": "Sterlite Tech shares extend 2026 gains to 800% after $1.2 billion long-term supply agreement - CNBC TV18",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMivwFBVV95cUxQdndJa055UTJ5aEVJV0pIRDFabmNoX3dYUGwxLTE1QlJLTDJTa0FYMUhPVEp5QVhHYldvY0MzZnhoa3dXdHVtZjBTQ2NQYWtlbDR4VW5zUXIxZU8xNEp1UTRTT2VKeVU2WmE0WjhJNXgyU0xaWW9HRUoxNHdlYlZscmlHRTl6S3lQM1VkZHZSSGZLal9XOTZWWkh2RmVWdlYxV2tXTURKVFRycjc2bnhHR2lsc1E2S2VXWkZpSi1qUdIBxAFBVV95cUxQTzFkSlBpdXBhSlNvcUNDSHp5cUR5T0RvZzNzd2ZSX2Y4Rkp5aFdCQ0d4SGttV0lNTEtrX3k0SW9DNmNKeC1CRURCN2poY2Z3Tm96UDEtWDUtV0c3YkxpSVdWZk1ZVWFFSVZ5YVFSamplQWljUlhiMkpxeFFsQjk1OTBSOGhCc3FQTW90Uks4VHBvNXBxaFlkdTJveGcxbnhxRDctdl9GM3p4bVd5bk5rdnMzdW1CbjBtOE5vbmxQN0NHODJU?oc=5\" target=\"_blank\">Sterlite Tech shares extend 2026 gains to 800% after $1.2 billion long-term supply agreement</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
+    "source": {
+      "publisher": "CNBC TV18",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQdndJa055UTJ5aEVJV0pIRDFabmNoX3dYUGwxLTE1QlJLTDJTa0FYMUhPVEp5QVhHYldvY0MzZnhoa3dXdHVtZjBTQ2NQYWtlbDR4VW5zUXIxZU8xNEp1UTRTT2VKeVU2WmE0WjhJNXgyU0xaWW9HRUoxNHdlYlZscmlHRTl6S3lQM1VkZHZSSGZLal9XOTZWWkh2RmVWdlYxV2tXTURKVFRycjc2bnhHR2lsc1E2S2VXWkZpSi1qUdIBxAFBVV95cUxQTzFkSlBpdXBhSlNvcUNDSHp5cUR5T0RvZzNzd2ZSX2Y4Rkp5aFdCQ0d4SGttV0lNTEtrX3k0SW9DNmNKeC1CRURCN2poY2Z3Tm96UDEtWDUtV0c3YkxpSVdWZk1ZVWFFSVZ5YVFSamplQWljUlhiMkpxeFFsQjk1OTBSOGhCc3FQTW90Uks4VHBvNXBxaFlkdTJveGcxbnhxRDctdl9GM3p4bVd5bk5rdnMzdW1CbjBtOE5vbmxQN0NHODJU?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:45:18.000Z",
+    "collectedAt": "2026-10-01T06:55:36.261Z",
+    "category": "Other",
+    "sentiment": "BULLISH",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_b6d7a3acfe3c2d90",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNUi1DT3ZQZ0kwRXF6Ym9FNlNhOXdxT3VYX3BBTTFXelFxbjdzUDl4M3ROSFFzOVpxZDZqNmNVMmJfTlcwbzctQWFzbm5YWldKcFV6dldMblVVbXRwM0VJUUphRlhmU0FqLUNGeTQzSmVDazVubTVldnBNaEpsLWgxRThXcjZqQlo3VlQtMktsVlpYSm40eURHQklKb3ZIYWhyWTVaT2cwMDNaVjBxcWZRV3Z0SGxOazVNVTNqLTdycW5Ud25qN19aLXVHYm9lNlRHM2ZRLW02cGRFcURnNWUw0gHkAUFVX3lxTE9ERDhvbG42Y3VBODBUUXpMWlJaYzlEcjNRSVExNk1OWUN4SEY3OWJ5cV92SlZtNENqUFRkY2JGenJiR2pHdGF2bGVETXlEVmxFUVBid0JtbEwyQ1U4aE4yYzZGcllPeW1PbTRGN3lvVFdubmliQTNubkhMUlZlT3ZGOTJNMjhVNm1iNTNCajhKVkpfM0Y5MVR2MUp0TkRpZFl1NXFKd1RrNHU5OUhETmlhM0ZGeGhCLUxTNnVIaDBTbFFRdmNSbkRJczBrN1FQWXVHYVpIY3MtSUpHaDZwcjlDSHlHUA?oc=5",
+    "headline": "Iran-link in flydubai attack? Netanyahu says Israel will 'get to the root' of Omani co-pilot - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi3wFBVV95cUxNUi1DT3ZQZ0kwRXF6Ym9FNlNhOXdxT3VYX3BBTTFXelFxbjdzUDl4M3ROSFFzOVpxZDZqNmNVMmJfTlcwbzctQWFzbm5YWldKcFV6dldMblVVbXRwM0VJUUphRlhmU0FqLUNGeTQzSmVDazVubTVldnBNaEpsLWgxRThXcjZqQlo3VlQtMktsVlpYSm40eURHQklKb3ZIYWhyWTVaT2cwMDNaVjBxcWZRV3Z0SGxOazVNVTNqLTdycW5Ud25qN19aLXVHYm9lNlRHM2ZRLW02cGRFcURnNWUw0gHkAUFVX3lxTE9ERDhvbG42Y3VBODBUUXpMWlJaYzlEcjNRSVExNk1OWUN4SEY3OWJ5cV92SlZtNENqUFRkY2JGenJiR2pHdGF2bGVETXlEVmxFUVBid0JtbEwyQ1U4aE4yYzZGcllPeW1PbTRGN3lvVFdubmliQTNubkhMUlZlT3ZGOTJNMjhVNm1iNTNCajhKVkpfM0Y5MVR2MUp0TkRpZFl1NXFKd1RrNHU5OUhETmlhM0ZGeGhCLUxTNnVIaDBTbFFRdmNSbkRJczBrN1FQWXVHYVpIY3MtSUpHaDZwcjlDSHlHUA?oc=5\" target=\"_blank\">Iran-link in flydubai attack? Netanyahu says Israel will 'get to the root' of Omani co-pilot</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNUi1DT3ZQZ0kwRXF6Ym9FNlNhOXdxT3VYX3BBTTFXelFxbjdzUDl4M3ROSFFzOVpxZDZqNmNVMmJfTlcwbzctQWFzbm5YWldKcFV6dldMblVVbXRwM0VJUUphRlhmU0FqLUNGeTQzSmVDazVubTVldnBNaEpsLWgxRThXcjZqQlo3VlQtMktsVlpYSm40eURHQklKb3ZIYWhyWTVaT2cwMDNaVjBxcWZRV3Z0SGxOazVNVTNqLTdycW5Ud25qN19aLXVHYm9lNlRHM2ZRLW02cGRFcURnNWUw0gHkAUFVX3lxTE9ERDhvbG42Y3VBODBUUXpMWlJaYzlEcjNRSVExNk1OWUN4SEY3OWJ5cV92SlZtNENqUFRkY2JGenJiR2pHdGF2bGVETXlEVmxFUVBid0JtbEwyQ1U4aE4yYzZGcllPeW1PbTRGN3lvVFdubmliQTNubkhMUlZlT3ZGOTJNMjhVNm1iNTNCajhKVkpfM0Y5MVR2MUp0TkRpZFl1NXFKd1RrNHU5OUhETmlhM0ZGeGhCLUxTNnVIaDBTbFFRdmNSbkRJczBrN1FQWXVHYVpIY3MtSUpHaDZwcjlDSHlHUA?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:43:32.000Z",
+    "collectedAt": "2026-10-01T06:52:57.675Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_c19f35e33c2d1be0",
+    "canonicalUrl": "https://www.livemint.com/market/stock-market-news/100-rally-in-one-year-multibagger-auto-stock-sml-mahindra-falls-4-should-you-buy-experts-rationale-target-price-11790833242622.html",
+    "headline": "100% rally in one year! Multibagger auto stock falls 4% — should you buy? Experts' rationale, target price",
+    "body": "SML Mahindra share price opened at ₹6,501 on NSE today, as compared to previous close of ₹6,578 on Wednesday and touched an intraday low of ₹6,300.05 on 1 October.",
+    "source": {
+      "publisher": "LiveMint",
+      "url": "https://www.livemint.com/market/stock-market-news/100-rally-in-one-year-multibagger-auto-stock-sml-mahindra-falls-4-should-you-buy-experts-rationale-target-price-11790833242622.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:37:40.000Z",
+    "collectedAt": "2026-10-01T06:41:50.939Z",
+    "category": "Other",
+    "sentiment": "BEARISH",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "SML Mahindra share price opened at ₹6,501 on NSE today, as compared to previous close of ₹6,578 on Wednesday and touched an intraday low of ₹6,300.05 on 1 October.",
+    "whatChanged": [
+      "SML Mahindra share price opened at ₹6,501 on NSE today, as compared to previous close of ₹6,578 on Wednesday and touched an intraday low of ₹6,300.05 on 1 October."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_fba5a96e0094d2cf",
+    "canonicalUrl": "https://www.livemint.com/market/stock-market-news/hero-motors-share-price-doubles-from-ipo-price-gains-104-what-s-next-for-investors-11790833672744.html",
+    "headline": "Hero Motors share price doubles from IPO price, gains 104% | What’s next for investors?",
+    "body": "Hero Motors shares surged nearly 10% to ₹167.45 on October 1, up 104% from its IPO price of ₹82. The company held its AGM, approving financial statements and preparing for results while market experts express caution over valuation and profitability.",
+    "source": {
+      "publisher": "LiveMint",
+      "url": "https://www.livemint.com/market/stock-market-news/hero-motors-share-price-doubles-from-ipo-price-gains-104-what-s-next-for-investors-11790833672744.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:36:53.000Z",
+    "collectedAt": "2026-10-01T06:41:50.939Z",
+    "category": "IPO",
+    "sentiment": "BULLISH",
+    "relevanceScore": 100,
+    "primaryCategory": "IPO",
+    "secondaryCategories": [],
+    "eventType": "IPO",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[IPO] IPO indicators matched in headline (1)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Motors share price doubles from IPO is open with a price band set at 10% per equity share. Hero Motors shares surged nearly 10% to ₹167.45 on October 1, up 104% from its IPO price of ₹82.",
+    "whatChanged": [
+      "Share Price Reaction: 10%",
+      "Hero Motors shares surged nearly 10% to ₹167.45 on October 1, up 104% from its IPO price of ₹82.",
+      "The company held its AGM, approving financial statements and preparing for results while market experts express caution over valuation and profitability."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "GMP and subscription data provide an indication of investor demand and potential listing sentiment, although grey-market trading is unofficial.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_7e660364a1e22927",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/news/highway-infrastructure-shares-jump-9-after-rs-245-crore-toll-operations-win-from-up-authority-nhai/articleshow/134610442.cms",
+    "headline": "Highway Infrastructure shares jump 9% after Rs 245 crore toll operations win from UP authority, NHAI",
+    "body": "Highway Infrastructure shares jumped after the company secured toll operations orders worth Rs 254 crore from UPEIDA and NHAI. The key order, worth Rs 220.66 crore, involves toll collection and plaza operations on the Gorakhpur Link Expressway, along with deployment of patrol-cum-safety vehicles.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/news/highway-infrastructure-shares-jump-9-after-rs-245-crore-toll-operations-win-from-up-authority-nhai/articleshow/134610442.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:32:37.000Z",
+    "collectedAt": "2026-10-01T06:50:35.338Z",
+    "category": "Other",
+    "sentiment": "BULLISH",
+    "relevanceScore": 100,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_0c1a99da7050708e",
+    "canonicalUrl": "https://www.business-standard.com/markets/news/mtnl-zooms-17-on-board-nod-to-mumbai-property-sale-worth-891-53-cr-126100100402_1.html",
+    "headline": "MTNL zooms 17% on board nod to Mumbai property sale worth ₹891.53 cr",
+    "body": "MTNL board approved the sale of property in Powai, Mumbai, worth ₹891.53 crore to the IT department.",
+    "source": {
+      "publisher": "Business Standard",
+      "url": "https://www.business-standard.com/markets/news/mtnl-zooms-17-on-board-nod-to-mumbai-property-sale-worth-891-53-cr-126100100402_1.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:27:29.000Z",
+    "collectedAt": "2026-10-01T06:34:53.517Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "MTNL board approved the sale of property in Powai, Mumbai, worth ₹891.53 crore to the IT department. Key figures reported include Financial Metric: ₹891.53 crore.",
+    "whatChanged": [
+      "Financial Metric: ₹891.53 crore",
+      "MTNL board approved the sale of property in Powai, Mumbai, worth ₹891.53 crore to the IT department."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_01632bb8c554fa50",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/news/2-billion-gone-in-two-days-fiis-accelerate-selling-as-nifty-sensex-set-to-fall-for-8th-week-running-will-they-make-a-comeback/articleshow/134610354.cms",
+    "headline": "$2 billion gone in two days! FIIs accelerate selling as Nifty, Sensex set to fall for 8th week running. Will they make a comeback?",
+    "body": "Foreign institutional investors pulled out over Rs 20,000 crore from Indian equities in two trading sessions as the Nifty and Sensex head for an eighth straight weekly decline. Elevated crude prices, high US bond yields and rate concerns have weighed on sentiment, while analysts differ on the outlook for foreign inflows.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/news/2-billion-gone-in-two-days-fiis-accelerate-selling-as-nifty-sensex-set-to-fall-for-8th-week-running-will-they-make-a-comeback/articleshow/134610354.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:25:19.000Z",
+    "collectedAt": "2026-10-01T06:40:51.423Z",
+    "category": "Market",
+    "sentiment": "BEARISH",
+    "relevanceScore": 85,
+    "primaryCategory": "Market",
+    "secondaryCategories": [],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "NIFTY",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Index symbol NIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
+    },
+    "summary": "Foreign institutional investors pulled out over ₹20,000 crore from Indian equities in two trading sessions as the Nifty and Sensex head for an eighth straight weekly decline. Elevated crude prices, high US bond yields and rate concerns have weighed on sentiment, while analysts differ on the outlook for foreign inflows. Key figures reported include Financial Metric: ₹20,000 crore.",
+    "whatChanged": [
+      "Financial Metric: ₹20,000 crore",
+      "Elevated crude prices, high US bond yields and rate concerns have weighed on sentiment, while analysts differ on the outlook for foreign inflows."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Central bank policy decisions and macroeconomic trends directly influence sovereign yields, currency valuations, and broad capital market liquidity.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 75,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_9cb5f87b57db9253",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPbnJsM3ZQLWRKWERCaENDNFdQYWlNLXhsSzNETGVNanBxQTJzVDBXTXRITUtjT0FocWY2ZmE0S2c0bFJGeDVVWkFwcEd0Rkx4SmNBSGx5aGNkOEtQdFgyMTJHM0s5WTBjbjFIYTIzWkkxV2cwOU82OVZIS016X0FPUmNwM1ROWl9waTFXZ3BJYWJKZDk5MmNFWWYwUWFwNG15MVNwTjR1SzE3TERyRVpFa2cyUUUzaEdJbFl0VTdlUzkzUnN5dDhfLVd6c0VvUdIB0wFBVV95cUxNNk00LWR0U1ZOSTZNc3ljT0ZRVXpQSy1DcVZhWTV2WWNaVG1VM1BzQ3l1cEJ0WHFUb0dEYjZxUWhmaEttUU5aczZ6UWVpVWZSa2ZvMjVqekV0aFB1WW1MV0ZLTjFJdlBFZG1WVDQ0UVJsa01VbEJlSTJmUEZJVm51X2Y2eUlidTlRcENTeUEyOUtER2lPbU1YNlp3RVhnNXNDTlYtYnc3RGhBMy1lUzRHMnFqYkYyQVFIdXlseVhUbUxqWjFpRmlfNzdEbkl5TXY0ckhn?oc=5",
+    "headline": "India's domestic funds push IPO valuations lower amid market strain - Business Standard",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMizgFBVV95cUxPbnJsM3ZQLWRKWERCaENDNFdQYWlNLXhsSzNETGVNanBxQTJzVDBXTXRITUtjT0FocWY2ZmE0S2c0bFJGeDVVWkFwcEd0Rkx4SmNBSGx5aGNkOEtQdFgyMTJHM0s5WTBjbjFIYTIzWkkxV2cwOU82OVZIS016X0FPUmNwM1ROWl9waTFXZ3BJYWJKZDk5MmNFWWYwUWFwNG15MVNwTjR1SzE3TERyRVpFa2cyUUUzaEdJbFl0VTdlUzkzUnN5dDhfLVd6c0VvUdIB0wFBVV95cUxNNk00LWR0U1ZOSTZNc3ljT0ZRVXpQSy1DcVZhWTV2WWNaVG1VM1BzQ3l1cEJ0WHFUb0dEYjZxUWhmaEttUU5aczZ6UWVpVWZSa2ZvMjVqekV0aFB1WW1MV0ZLTjFJdlBFZG1WVDQ0UVJsa01VbEJlSTJmUEZJVm51X2Y2eUlidTlRcENTeUEyOUtER2lPbU1YNlp3RVhnNXNDTlYtYnc3RGhBMy1lUzRHMnFqYkYyQVFIdXlseVhUbUxqWjFpRmlfNzdEbkl5TXY0ckhn?oc=5\" target=\"_blank\">India's domestic funds push IPO valuations lower amid market strain</a> <font color=\"#6f6f6f\">Business Standard</font>",
+    "source": {
+      "publisher": "Google News Business",
+      "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPbnJsM3ZQLWRKWERCaENDNFdQYWlNLXhsSzNETGVNanBxQTJzVDBXTXRITUtjT0FocWY2ZmE0S2c0bFJGeDVVWkFwcEd0Rkx4SmNBSGx5aGNkOEtQdFgyMTJHM0s5WTBjbjFIYTIzWkkxV2cwOU82OVZIS016X0FPUmNwM1ROWl9waTFXZ3BJYWJKZDk5MmNFWWYwUWFwNG15MVNwTjR1SzE3TERyRVpFa2cyUUUzaEdJbFl0VTdlUzkzUnN5dDhfLVd6c0VvUdIB0wFBVV95cUxNNk00LWR0U1ZOSTZNc3ljT0ZRVXpQSy1DcVZhWTV2WWNaVG1VM1BzQ3l1cEJ0WHFUb0dEYjZxUWhmaEttUU5aczZ6UWVpVWZSa2ZvMjVqekV0aFB1WW1MV0ZLTjFJdlBFZG1WVDQ0UVJsa01VbEJlSTJmUEZJVm51X2Y2eUlidTlRcENTeUEyOUtER2lPbU1YNlp3RVhnNXNDTlYtYnc3RGhBMy1lUzRHMnFqYkYyQVFIdXlseVhUbUxqWjFpRmlfNzdEbkl5TXY0ckhn?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:22:29.000Z",
+    "collectedAt": "2026-10-01T06:34:53.517Z",
+    "category": "IPO",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "IPO",
+    "secondaryCategories": [],
+    "eventType": "IPO",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[IPO] IPO indicators matched in headline (1)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_384faa00d6d56729",
+    "canonicalUrl": "https://www.business-standard.com/markets/ipo/india-s-domestic-funds-push-ipo-valuations-lower-amid-market-strain-126100100399_1.html",
+    "headline": "India's domestic funds push IPO valuations lower amid market strain",
+    "body": "The median price-to-book ratio for IPOs raising at least ₹1,000 crore fell to 7.4 times in 2026 from 10.2 times last year as local funds push for lower valuations",
+    "source": {
+      "publisher": "Business Standard",
+      "url": "https://www.business-standard.com/markets/ipo/india-s-domestic-funds-push-ipo-valuations-lower-amid-market-strain-126100100399_1.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:22:29.000Z",
+    "collectedAt": "2026-10-01T06:34:53.517Z",
+    "category": "IPO",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "IPO",
+    "secondaryCategories": [],
+    "eventType": "IPO",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[IPO] IPO indicators matched in headline (1)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "s domestic funds push: The median price-to-book ratio for IPOs raising at least ₹1,000 crore fell to 7.4 times in 2026 from 10.2 times last year as local funds push for lower valuations The median price-to-book ratio for IPOs raising at least ₹1,000 crore fell to 7.4 times in 2026 from 10.2 times last year as local funds push for lower valuations",
+    "whatChanged": [
+      "Financial Metric: ₹1,000 crore",
+      "The median price-to-book ratio for IPOs raising at least ₹1,000 crore fell to 7.4 times in 2026 from 10.2 times last year as local funds push for lower valuations"
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "GMP and subscription data provide an indication of investor demand and potential listing sentiment, although grey-market trading is unofficial.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_bf15fc7a60616bb5",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNYjBMeGYyVXlqei1zeWUxTWNKY0x6aTBINGM0RWdpSk9YLWdCbnVlUDRNb3Vlay1LSnJYaHJOcGVBbWdKRk9qUlBlcjJtblpOdmduWU55ODBHTkxvcDRnOExfcVVRa1NwY1BFQ096VS04UTlaS3FKaHl2ZDNqbER1UHpuRGV1cV9VMl9KV09ZOEhJYVE5Y3VaNXdTdmU1ekk4Wml3ZGE4SGs1ZklJbUo4RGJ0ZFJUd9IBuwFBVV95cUxQUjJnZkptZk5Hd0ZyN1hIS2hLcWtpN25QU3c3ZE00eTFfUXd1VXhSNUhTcmJIbTNaTDNJejYzR2JfMk01NndGa2JaLWk5MGFacEV0UHZGZmR4SlJxTmEtSGpxVUlZQjBFQnQ3UjZDeFZNbmM4UHZRVV9VZ2F2b2Y0VnNUYXAycldBVTVudnlodW1leC12LTlmUy1iaFFXSmMxQ0k0SXdWb25ZY2xTYnlzUEkwdnFWMzZDaHJn?oc=5",
+    "headline": "Buzzing Stocks: PSU stock jumps 17% after land parcel sale for nearly ₹900 crore - CNBC TV18",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMitgFBVV95cUxNYjBMeGYyVXlqei1zeWUxTWNKY0x6aTBINGM0RWdpSk9YLWdCbnVlUDRNb3Vlay1LSnJYaHJOcGVBbWdKRk9qUlBlcjJtblpOdmduWU55ODBHTkxvcDRnOExfcVVRa1NwY1BFQ096VS04UTlaS3FKaHl2ZDNqbER1UHpuRGV1cV9VMl9KV09ZOEhJYVE5Y3VaNXdTdmU1ekk4Wml3ZGE4SGs1ZklJbUo4RGJ0ZFJUd9IBuwFBVV95cUxQUjJnZkptZk5Hd0ZyN1hIS2hLcWtpN25QU3c3ZE00eTFfUXd1VXhSNUhTcmJIbTNaTDNJejYzR2JfMk01NndGa2JaLWk5MGFacEV0UHZGZmR4SlJxTmEtSGpxVUlZQjBFQnQ3UjZDeFZNbmM4UHZRVV9VZ2F2b2Y0VnNUYXAycldBVTVudnlodW1leC12LTlmUy1iaFFXSmMxQ0k0SXdWb25ZY2xTYnlzUEkwdnFWMzZDaHJn?oc=5\" target=\"_blank\">Buzzing Stocks: PSU stock jumps 17% after land parcel sale for nearly ₹900 crore</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
+    "source": {
+      "publisher": "CNBC TV18",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNYjBMeGYyVXlqei1zeWUxTWNKY0x6aTBINGM0RWdpSk9YLWdCbnVlUDRNb3Vlay1LSnJYaHJOcGVBbWdKRk9qUlBlcjJtblpOdmduWU55ODBHTkxvcDRnOExfcVVRa1NwY1BFQ096VS04UTlaS3FKaHl2ZDNqbER1UHpuRGV1cV9VMl9KV09ZOEhJYVE5Y3VaNXdTdmU1ekk4Wml3ZGE4SGs1ZklJbUo4RGJ0ZFJUd9IBuwFBVV95cUxQUjJnZkptZk5Hd0ZyN1hIS2hLcWtpN25QU3c3ZE00eTFfUXd1VXhSNUhTcmJIbTNaTDNJejYzR2JfMk01NndGa2JaLWk5MGFacEV0UHZGZmR4SlJxTmEtSGpxVUlZQjBFQnQ3UjZDeFZNbmM4UHZRVV9VZ2F2b2Y0VnNUYXAycldBVTVudnlodW1leC12LTlmUy1iaFFXSmMxQ0k0SXdWb25ZY2xTYnlzUEkwdnFWMzZDaHJn?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:21:29.000Z",
+    "collectedAt": "2026-10-01T06:30:57.069Z",
+    "category": "Other",
+    "sentiment": "BULLISH",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_3562ab5b8a7a7104",
+    "canonicalUrl": "https://www.livemint.com/market/mark-to-market/icici-lombard-digital-transformation-profitability-combined-ratio-11790832227514.html",
+    "headline": "Can technology fix ICICI Lombard's underwriting equation?",
+    "body": "ICICI Lombard is betting on technology to cut costs, accelerate growth and improve underwriting, but with its combined ratio above 100%, the digital push faces a crucial test of profitability.",
+    "source": {
+      "publisher": "LiveMint",
+      "url": "https://www.livemint.com/market/mark-to-market/icici-lombard-digital-transformation-profitability-combined-ratio-11790832227514.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:18:49.000Z",
+    "collectedAt": "2026-10-01T06:21:41.823Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Can: ICICI Lombard is betting on technology to cut costs, accelerate growth and improve underwriting, but with its combined ratio above 100%, the digital push faces a crucial test of profitability. Key figures reported include Policy Probability: 100%.",
+    "whatChanged": [
+      "Policy Probability: 100%",
+      "ICICI Lombard is betting on technology to cut costs, accelerate growth and improve underwriting, but with its combined ratio above 100%, the digital push faces a crucial test of profitability."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_4e682d03afa60720",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPZlVOX01kZVl1Vk9DbWZia3RTMFNUZ1BvaENmSlQzYzd3dGpRVFI4bjgxTHlDWmxDcF9OZUVkZWhmMzNzNlVQRElHVGRsVHh4VGFpeHhPa1RadlJwcUNOREhoVkJHZ3dKWVFvb2hDVW45MmJSdk5mRFJXaHBOTFpBRXRVa0hwdUJaRlpzWTV0dzJ3aE9ndHFUQnBxeWo5c0Z6RTdRZHNKYW9sUGw5TnZjUGgxZG4xTGlmbERLVGFpOTZlOGQtYWtEYkNVZEtaY0ZyVXNIcERNT3M0b3VT0gHiAUFVX3lxTE5LcW9oY0dBS0Ziam1aTGt5ekFURGc5aHlPd1pQYlRHcFVUQnNYR1k2TkgwSE1zODYwMmxwTU52RVowS3JVTzFPMHB0b25mUmNralZhd1ZhMVF4X2g5LVpuTnVVMHkzaUdEcGxFSjVtMkE1a2JwZ05DR2lWb3g2Z2V5b25FRV9JdDJjcFlWTWM1SmdZQUZZb2QzWHE5VXZkRWlaMUkteEFaSndJcVR4aXFsdGZVT1JJeUJ5SFVGeUxVbzB5dU5aOFpSTGJyWFo2aGhXbjA3NE4xdW5JM0l0SWtaTFE?oc=5",
+    "headline": "Captain Smit Machchhar was ‘calm from day one’, says childhood friend after mid-air heroics - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi3AFBVV95cUxPZlVOX01kZVl1Vk9DbWZia3RTMFNUZ1BvaENmSlQzYzd3dGpRVFI4bjgxTHlDWmxDcF9OZUVkZWhmMzNzNlVQRElHVGRsVHh4VGFpeHhPa1RadlJwcUNOREhoVkJHZ3dKWVFvb2hDVW45MmJSdk5mRFJXaHBOTFpBRXRVa0hwdUJaRlpzWTV0dzJ3aE9ndHFUQnBxeWo5c0Z6RTdRZHNKYW9sUGw5TnZjUGgxZG4xTGlmbERLVGFpOTZlOGQtYWtEYkNVZEtaY0ZyVXNIcERNT3M0b3VT0gHiAUFVX3lxTE5LcW9oY0dBS0Ziam1aTGt5ekFURGc5aHlPd1pQYlRHcFVUQnNYR1k2TkgwSE1zODYwMmxwTU52RVowS3JVTzFPMHB0b25mUmNralZhd1ZhMVF4X2g5LVpuTnVVMHkzaUdEcGxFSjVtMkE1a2JwZ05DR2lWb3g2Z2V5b25FRV9JdDJjcFlWTWM1SmdZQUZZb2QzWHE5VXZkRWlaMUkteEFaSndJcVR4aXFsdGZVT1JJeUJ5SFVGeUxVbzB5dU5aOFpSTGJyWFo2aGhXbjA3NE4xdW5JM0l0SWtaTFE?oc=5\" target=\"_blank\">Captain Smit Machchhar was ‘calm from day one’, says childhood friend after mid-air heroics</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPZlVOX01kZVl1Vk9DbWZia3RTMFNUZ1BvaENmSlQzYzd3dGpRVFI4bjgxTHlDWmxDcF9OZUVkZWhmMzNzNlVQRElHVGRsVHh4VGFpeHhPa1RadlJwcUNOREhoVkJHZ3dKWVFvb2hDVW45MmJSdk5mRFJXaHBOTFpBRXRVa0hwdUJaRlpzWTV0dzJ3aE9ndHFUQnBxeWo5c0Z6RTdRZHNKYW9sUGw5TnZjUGgxZG4xTGlmbERLVGFpOTZlOGQtYWtEYkNVZEtaY0ZyVXNIcERNT3M0b3VT0gHiAUFVX3lxTE5LcW9oY0dBS0Ziam1aTGt5ekFURGc5aHlPd1pQYlRHcFVUQnNYR1k2TkgwSE1zODYwMmxwTU52RVowS3JVTzFPMHB0b25mUmNralZhd1ZhMVF4X2g5LVpuTnVVMHkzaUdEcGxFSjVtMkE1a2JwZ05DR2lWb3g2Z2V5b25FRV9JdDJjcFlWTWM1SmdZQUZZb2QzWHE5VXZkRWlaMUkteEFaSndJcVR4aXFsdGZVT1JJeUJ5SFVGeUxVbzB5dU5aOFpSTGJyWFo2aGhXbjA3NE4xdW5JM0l0SWtaTFE?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:16:59.000Z",
+    "collectedAt": "2026-10-01T06:23:51.177Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_ddf50b239721497c",
+    "canonicalUrl": "https://www.livemint.com/market/stock-market-news/adani-energy-solutions-share-price-jumps-5-outshines-adani-group-stocks-whats-fuelling-rally-11790834783224.html",
+    "headline": "Adani Energy Solutions share price jumps 5%, outshines Adani Group stocks- What's fuelling rally?",
+    "body": "Adani Energy Solutions Limited shares soared nearly 5% during Thursday's trading, driven by a broader rise in power stocks. Check the stock outlook",
+    "source": {
+      "publisher": "LiveMint",
+      "url": "https://www.livemint.com/market/stock-market-news/adani-energy-solutions-share-price-jumps-5-outshines-adani-group-stocks-whats-fuelling-rally-11790834783224.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:14:45.000Z",
+    "collectedAt": "2026-10-01T06:17:19.635Z",
+    "category": "Other",
+    "sentiment": "BULLISH",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_22a81e5a858ca8c5",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQVzh2aFViZ1RMU3JDYWFlVmNJTm1waDVjY1NpQnBGNDFheGdrbTlQTDJXMkx3MktrNy1jYjQyQmw1bzd1aXJKR0ZobmhSNW5yRDBIWUdXektwZmFGNW9NR3g4SWp2b18wbVlJSThmcDdPODRYOHltZVFpUHlVNWNwSmZCQVlIZFBlN0M4NklRdV9BTnhSRzVOQnZ2WURTcHgxRmpOTWtfUGhaWkZKRU9KRkNMV3NDVTNxN2JZMHZNekg0aENYN1FhaTRoUdIB0AFBVV95cUxPRTFXQVZfMktEcVBtWU9NcFF4S0pkaExUYWhhUlNONHE5WXpIRGZNaEVWY0ZEenBjeDBDNHh1cW9BQVN5WkdmWU9sRjl3V0R1ZGh3SkdQTXhOMUZ4WVJ0YTFTLUk3UTRTMGM0QWJEZ1RHWEhiVmdFUjhrSS1wU0staVFLZU84U0JHQjR2SGdKeWdqdFFGYUN0OXl2QXFnMjByV1QwbkE4c2w5NHRva1UzbUJlOEU1Z1hWSTJ5bV84YUF6NXA3YWYwMHItWGNQOHlw?oc=5",
+    "headline": "PM Modi says Captain Smit Machchhar averted 9/11-like tragedy - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiywFBVV95cUxQVzh2aFViZ1RMU3JDYWFlVmNJTm1waDVjY1NpQnBGNDFheGdrbTlQTDJXMkx3MktrNy1jYjQyQmw1bzd1aXJKR0ZobmhSNW5yRDBIWUdXektwZmFGNW9NR3g4SWp2b18wbVlJSThmcDdPODRYOHltZVFpUHlVNWNwSmZCQVlIZFBlN0M4NklRdV9BTnhSRzVOQnZ2WURTcHgxRmpOTWtfUGhaWkZKRU9KRkNMV3NDVTNxN2JZMHZNekg0aENYN1FhaTRoUdIB0AFBVV95cUxPRTFXQVZfMktEcVBtWU9NcFF4S0pkaExUYWhhUlNONHE5WXpIRGZNaEVWY0ZEenBjeDBDNHh1cW9BQVN5WkdmWU9sRjl3V0R1ZGh3SkdQTXhOMUZ4WVJ0YTFTLUk3UTRTMGM0QWJEZ1RHWEhiVmdFUjhrSS1wU0staVFLZU84U0JHQjR2SGdKeWdqdFFGYUN0OXl2QXFnMjByV1QwbkE4c2w5NHRva1UzbUJlOEU1Z1hWSTJ5bV84YUF6NXA3YWYwMHItWGNQOHlw?oc=5\" target=\"_blank\">PM Modi says Captain Smit Machchhar averted 9/11-like tragedy</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQVzh2aFViZ1RMU3JDYWFlVmNJTm1waDVjY1NpQnBGNDFheGdrbTlQTDJXMkx3MktrNy1jYjQyQmw1bzd1aXJKR0ZobmhSNW5yRDBIWUdXektwZmFGNW9NR3g4SWp2b18wbVlJSThmcDdPODRYOHltZVFpUHlVNWNwSmZCQVlIZFBlN0M4NklRdV9BTnhSRzVOQnZ2WURTcHgxRmpOTWtfUGhaWkZKRU9KRkNMV3NDVTNxN2JZMHZNekg0aENYN1FhaTRoUdIB0AFBVV95cUxPRTFXQVZfMktEcVBtWU9NcFF4S0pkaExUYWhhUlNONHE5WXpIRGZNaEVWY0ZEenBjeDBDNHh1cW9BQVN5WkdmWU9sRjl3V0R1ZGh3SkdQTXhOMUZ4WVJ0YTFTLUk3UTRTMGM0QWJEZ1RHWEhiVmdFUjhrSS1wU0staVFLZU84U0JHQjR2SGdKeWdqdFFGYUN0OXl2QXFnMjByV1QwbkE4c2w5NHRva1UzbUJlOEU1Z1hWSTJ5bV84YUF6NXA3YWYwMHItWGNQOHlw?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:09:44.000Z",
+    "collectedAt": "2026-10-01T06:57:54.637Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
+    "id": "v2_348e2e729873bfb6",
+    "canonicalUrl": "https://www.livemint.com/market/stock-market-news/bajaj-auto-hero-motocorp-m-m-tumble-nifty-auto-falls-over-3-to-lead-sectoral-losses-what-s-next-for-the-sector-11790832662304.html",
+    "headline": "Bajaj Auto, Hero MotoCorp, M&M tumble: Nifty Auto falls over 3% to lead sectoral loss — what’s next for the sector?",
+    "body": "The Nifty Auto index dropped more than 3% amid poor sales results and new fuel-efficiency regulations. Bajaj Auto and M&amp;M reported declines, impacting overall sentiment in the automobile sector.",
+    "source": {
+      "publisher": "LiveMint",
+      "url": "https://www.livemint.com/market/stock-market-news/bajaj-auto-hero-motocorp-m-m-tumble-nifty-auto-falls-over-3-to-lead-sectoral-losses-what-s-next-for-the-sector-11790832662304.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:09:03.000Z",
+    "collectedAt": "2026-10-01T06:10:25.265Z",
+    "category": "Market",
+    "sentiment": "BEARISH",
+    "relevanceScore": 85,
+    "primaryCategory": "Market",
+    "secondaryCategories": [],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "HEROMOTOCO",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
+    },
+    "summary": "Bajaj: The Nifty Auto index dropped more than 3% amid poor sales results and new fuel-efficiency regulations. Bajaj Auto and M&M reported declines, impacting overall sentiment in the automobile sector. Key figures reported include Percentage Change: 3%.",
+    "whatChanged": [
+      "Percentage Change: 3%",
+      "The Nifty Auto index dropped more than 3% amid poor sales results and new fuel-efficiency regulations.",
+      "Bajaj Auto and M&M reported declines, impacting overall sentiment in the automobile sector."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 75,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_4f1633f40dc39f8b",
+    "canonicalUrl": "https://economictimes.indiatimes.com/news/economy/finance/indias-gst-collection-ticks-up-14-7-in-september-to-rs-2-04-lakh-crore/articleshow/134609769.cms",
+    "headline": "India's Gross GST collection ticks up 14.7% in September to Rs 2.04 lakh crore",
+    "body": "The Indian government reported a 14.7% increase in GST collections for September 2023 compared to last year. Maharashtra topped the states with collections reaching Rs 29,986 crore, reflecting a 15% growth. Some states, however, experienced significant declines in GST revenues, with Sikkim's collections dropping 51%. Cumulatively, the gross GST collection for the initial half of the fiscal year stood at Rs 12,46,278 crore.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/news/economy/finance/indias-gst-collection-ticks-up-14-7-in-september-to-rs-2-04-lakh-crore/articleshow/134609769.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:07:09.000Z",
+    "collectedAt": "2026-10-01T06:49:34.679Z",
+    "category": "Other",
+    "sentiment": "BEARISH",
+    "relevanceScore": 100,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "The Indian government collected ₹2,03,521 crore as Gross goods and services tax (GST) for the month of September, up 14.7% % against the same month last year. Key figures reported include Financial Metric: ₹2,03,521 crore, Policy Probability: 14.7%.",
+    "whatChanged": [
+      "Financial Metric: ₹2,03,521 crore",
+      "Policy Probability: 14.7%",
+      "The Indian government collected ₹2,03,521 crore as Gross goods and services tax (GST) for the month of September, up 14.7% % against the same month last year."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_2b79e82a718a1b64",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNXzZDTU9EN3FjMldrZHNfUnNFNTFVU1d6WjNtZTNhM29JdmtTWXFyXzFVci16azk0MU5tVklLZko0aWpQVFVDMjJRcHBKRWRYTTQweGpRWnhEakRNMEtXVHkyTmt6aHpTOTZIUjVLcldDa0hJRHFnTmhRYnhnWHhMZWlCZGVZV0ZtSkRmdk5ZZXp2UjNIaDlvbl9ldnRuRk55REU3UV9GZEk2cU5CTXJ3bWNlb0F2TjhRaDRMb0hRNUpacXhZYlZzNUoxWUM0TXPSAdQBQVVfeXFMTjJfMUE4RjUtMUtxM092bEdNTWJtZTRSclNwMTlWTVdxLUJSNTlIeEZNcFkxYV9qeVF2cEl4cURrWVRNLVA3MXJQQUlneWdDMmpRY1hHY3VyZ1V5SEp1OWYtZG8wYzdWdmNVOVRUUk5oX0FWOW15N05Pb0pkT19RWExFSms4SnVPbGFHZHFyLVhSWVdxZXRodDV3aGhGVnFtQlhub0ZvQ2k2Ym5mTWh6ZF9OWUdhaGdxejFPYlVlclB5TERxN28xd3Bvc0ZVZGpPYmFIbzk?oc=5",
+    "headline": "Buy Kotak Mahindra Bank, Persistent Systems; sell ONGC: Market experts' trading calls - CNBC TV18",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMizwFBVV95cUxNXzZDTU9EN3FjMldrZHNfUnNFNTFVU1d6WjNtZTNhM29JdmtTWXFyXzFVci16azk0MU5tVklLZko0aWpQVFVDMjJRcHBKRWRYTTQweGpRWnhEakRNMEtXVHkyTmt6aHpTOTZIUjVLcldDa0hJRHFnTmhRYnhnWHhMZWlCZGVZV0ZtSkRmdk5ZZXp2UjNIaDlvbl9ldnRuRk55REU3UV9GZEk2cU5CTXJ3bWNlb0F2TjhRaDRMb0hRNUpacXhZYlZzNUoxWUM0TXPSAdQBQVVfeXFMTjJfMUE4RjUtMUtxM092bEdNTWJtZTRSclNwMTlWTVdxLUJSNTlIeEZNcFkxYV9qeVF2cEl4cURrWVRNLVA3MXJQQUlneWdDMmpRY1hHY3VyZ1V5SEp1OWYtZG8wYzdWdmNVOVRUUk5oX0FWOW15N05Pb0pkT19RWExFSms4SnVPbGFHZHFyLVhSWVdxZXRodDV3aGhGVnFtQlhub0ZvQ2k2Ym5mTWh6ZF9OWUdhaGdxejFPYlVlclB5TERxN28xd3Bvc0ZVZGpPYmFIbzk?oc=5\" target=\"_blank\">Buy Kotak Mahindra Bank, Persistent Systems; sell ONGC: Market experts' trading calls</a> <font color=\"#6f6f6f\">CNBC TV18</font>",
+    "source": {
+      "publisher": "CNBC TV18",
+      "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNXzZDTU9EN3FjMldrZHNfUnNFNTFVU1d6WjNtZTNhM29JdmtTWXFyXzFVci16azk0MU5tVklLZko0aWpQVFVDMjJRcHBKRWRYTTQweGpRWnhEakRNMEtXVHkyTmt6aHpTOTZIUjVLcldDa0hJRHFnTmhRYnhnWHhMZWlCZGVZV0ZtSkRmdk5ZZXp2UjNIaDlvbl9ldnRuRk55REU3UV9GZEk2cU5CTXJ3bWNlb0F2TjhRaDRMb0hRNUpacXhZYlZzNUoxWUM0TXPSAdQBQVVfeXFMTjJfMUE4RjUtMUtxM092bEdNTWJtZTRSclNwMTlWTVdxLUJSNTlIeEZNcFkxYV9qeVF2cEl4cURrWVRNLVA3MXJQQUlneWdDMmpRY1hHY3VyZ1V5SEp1OWYtZG8wYzdWdmNVOVRUUk5oX0FWOW15N05Pb0pkT19RWExFSms4SnVPbGFHZHFyLVhSWVdxZXRodDV3aGhGVnFtQlhub0ZvQ2k2Ym5mTWh6ZF9OWUdhaGdxejFPYlVlclB5TERxN28xd3Bvc0ZVZGpPYmFIbzk?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:03:57.000Z",
+    "collectedAt": "2026-10-01T06:12:13.821Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "KOTAKBANK",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 95,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_5ffe275da77563b4",
+    "canonicalUrl": "https://www.business-standard.com/markets/news/hero-motors-hits-new-high-stock-up-99-against-issue-price-in-7-days-126100100345_1.html",
+    "headline": "Hero Motors hits new high; stock up 99% against issue price in 7 days",
+    "body": "Hero Motors' share price hit a new high of ₹167.45 in Thursday's intraday trade. The stock has more than doubled, up 108% from its listing day's low of ₹80.50 on the BSE.",
+    "source": {
+      "publisher": "Business Standard",
+      "url": "https://www.business-standard.com/markets/news/hero-motors-hits-new-high-stock-up-99-against-issue-price-in-7-days-126100100345_1.html",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T06:02:01.000Z",
+    "collectedAt": "2026-10-01T06:10:13.843Z",
+    "category": "Other",
+    "sentiment": "BULLISH",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Hero IPO is open with a price band set at 108% per equity share. Hero Motors' share price hit a new high of ₹167.45 in Thursday's intraday trade.",
+    "whatChanged": [
+      "Share Price Reaction: 108%",
+      "Hero Motors' share price hit a new high of ₹167.45 in Thursday's intraday trade.",
+      "The stock has more than doubled, up 108% from its listing day's low of ₹80.50 on the BSE."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "GMP and subscription data provide an indication of investor demand and potential listing sentiment, although grey-market trading is unofficial.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_48ef8803704fc8da",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPRDNXU1RRVXV4b2pGQU43dEdXRmFrQklyWlNJS2Yxb19qc2FKcXlGcnNDZERBaXVoVG5Oc0FVUjdRYWl0eWNFUG9SRml3a2FEd1VzN1Q1SDBIVDBEWmVVNDNfcXJsYUdQYkZCREZrTVRfb2xvdWZtZnpxaWtJZlJja2pUdlBaNG1hQ3hzdUgzejh5MzV3VkE?oc=5",
+    "headline": "Stock Market Tomorrow: NSE, BSE Closed on October 2 - HDFC Sky",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMilgFBVV95cUxPRDNXU1RRVXV4b2pGQU43dEdXRmFrQklyWlNJS2Yxb19qc2FKcXlGcnNDZERBaXVoVG5Oc0FVUjdRYWl0eWNFUG9SRml3a2FEd1VzN1Q1SDBIVDBEWmVVNDNfcXJsYUdQYkZCREZrTVRfb2xvdWZtZnpxaWtJZlJja2pUdlBaNG1hQ3hzdUgzejh5MzV3VkE?oc=5\" target=\"_blank\">Stock Market Tomorrow: NSE, BSE Closed on October 2</a> <font color=\"#6f6f6f\">HDFC Sky</font>",
+    "source": {
+      "publisher": "Google News Business",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPRDNXU1RRVXV4b2pGQU43dEdXRmFrQklyWlNJS2Yxb19qc2FKcXlGcnNDZERBaXVoVG5Oc0FVUjdRYWl0eWNFUG9SRml3a2FEd1VzN1Q1SDBIVDBEWmVVNDNfcXJsYUdQYkZCREZrTVRfb2xvdWZtZnpxaWtJZlJja2pUdlBaNG1hQ3hzdUgzejh5MzV3VkE?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T05:57:37.000Z",
+    "collectedAt": "2026-10-01T06:08:05.131Z",
+    "category": "Market",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Market",
+    "secondaryCategories": [],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "BSE",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
+    }
+  },
+  {
+    "id": "v2_1477e3b55de546eb",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBsNDExSHJCbVZoWnc3V0lHektMX3ptMThXTkFmVjJ4SWNmb0c1ZFpNUlFxcGVvdHFBcEVEUVlqbktxOGpFNzY2eWRsMXRLbmVGWHVKOXRWN0ZsV2luX1hXT0RGa3lCdGg3Smc?oc=5",
+    "headline": "DDWS Organizes Second Follow-up Meeting to accelerate drinking water coverage in tribal areas under PM-JANMAN and DA-JGUA - pib.gov.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBsNDExSHJCbVZoWnc3V0lHektMX3ptMThXTkFmVjJ4SWNmb0c1ZFpNUlFxcGVvdHFBcEVEUVlqbktxOGpFNzY2eWRsMXRLbmVGWHVKOXRWN0ZsV2luX1hXT0RGa3lCdGg3Smc?oc=5\" target=\"_blank\">DDWS Organizes Second Follow-up Meeting to accelerate drinking water coverage in tribal areas under PM-JANMAN and DA-JGUA</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBsNDExSHJCbVZoWnc3V0lHektMX3ptMThXTkFmVjJ4SWNmb0c1ZFpNUlFxcGVvdHFBcEVEUVlqbktxOGpFNzY2eWRsMXRLbmVGWHVKOXRWN0ZsV2luX1hXT0RGa3lCdGg3Smc?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T05:57:00.000Z",
+    "collectedAt": "2026-10-01T06:09:16.262Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 50,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_1238873aa025e919",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMijwJBVV95cUxPVVdMZkRMQmxNMmZmSHBUbk11YjBkc29DWE9NZUlISUs3RElRcTQ1M19hUVZUT2hoRDZCNVp1QWloc0ZVMUYwUHlTT3BkOUhkSnNZY2syTVpiU05tVC1SNE9QMTJtRko4TkxaVlBIS2lJWE9DVjV2LWRldE12a2gwQnRSbnE2QkRLUEZkSVpnS2lEQnB5TDY4aWJVT3JPbTN4bVJ2S3YxMWV6NXhDa0JzcUpQcTVnR1V1M2pfZXotSjB2cWdjbVIzN2lCTHBTRGlkMVV2cUlGbDNRWElIaER0OGMyblRIclV4enpDMFlwMUhkLUNWeVhnMVBFMTdMSEt3OFVrM19pTEVmc2lkTFNZ0gGUAkFVX3lxTE9fakNpY0Fwb01HcDhIQW0xcjR3SGdSaE9aM2k3eklLem5PQ3ltUWl2X094VjVRLU9ILVBVOVhMTHcwUms2SUtQMlVFOHJpWmwtbFU4aGJ4LUZ6NFRFdWdWT0lSbUxvNmtXTExNbFlDd0hoeGx3QTFGbnlyRmVsd1dibHBmSlBIQ0xlYjEzQ0RPRGNpU1ExNjRGazlhOWx4N2JIWHctUFdrRTlBN2pjUXN3blFaR0RZM196ME9JaFgtTTFrUU8yQko0c0RudVZTaWVETWJfVV9VRkZETkZJV2l5emVSaUQ5aTVjcUR1VXpfSkhOeTVLQTVEWXlqOVhKSm5nSWtLU1F5dm5jOUZVczJDSXpOdg?oc=5",
     "headline": "Macquarie stock recommendations: ICICI Bank, SBI, PayTM to LIC — top 11 financial shares to buy on rerating potential - Livemint",
@@ -72,6 +882,36 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_5e075aea6762a3a1",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxNQl9WSzQ2LVJ3Um4zeVRCVmp2T0gwV2o1Q2g4TjNoT1U1cFJWendYbWZEWk1idXhPNTJQS2xCRzB0dHEwZ3FaVnBjYzJ3aGJaekxlbGFUVDg4VDU3ZGFOeHZBM1JmMmJzRUxMUGg3c0F1SHdKcTQ5cGtwNXVYdDdtRjNTRE9WNGc4ZkdfNTZaMENkWmw4TEduRTdyeEJNNWhvcnhacDBFYjFtMFhYTUg3V2JXamhrZnV3MGQ1bTBTdzJoekZPcncyU0VwM1BIOTFGd08yekRzMnB0bkpBN3dOeVZKUDljTTh0ei1wWE1LMEFUUmk0UVZDaFNUT1pCUdIBgwJBVV95cUxPRnY0NjdxQm5fdjVLRXhQWkQ0Y0JLTWRaZ0RaUWtxekpfMDlBaHZfYk1YQUMwLVFDNjBSRkwwT08wQXdxR190Vm1mT0d6MWVwLVNVRDBSeGxvLS1hQ2lMVUlKVjJUbFdBYmR2cUZnbDdCUVlSN0lXSVROY3dQWm5rSmRudUNidDNJSzJlREVTWXJLYnZwTURCS2xtdEhfSmkzc3d1eVpfR0JTM0NNWjFiSC1wSkJrTkVEYW03N3BMNXBhSjl5UVJXM3FhZE1TSXdBeFBLSFNGQWg2SG9Pblk5YlhaUDFMU1FjdWRkQzVyYnZ3a1ZPOVRhNTJWZ3RJSTQ1WEI4?oc=5",
+    "headline": "Bajaj Auto crashes 8%, auto stocks slide on weak September sales; Maruti, M&M among top losers,... - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi_gFBVV95cUxNQl9WSzQ2LVJ3Um4zeVRCVmp2T0gwV2o1Q2g4TjNoT1U1cFJWendYbWZEWk1idXhPNTJQS2xCRzB0dHEwZ3FaVnBjYzJ3aGJaekxlbGFUVDg4VDU3ZGFOeHZBM1JmMmJzRUxMUGg3c0F1SHdKcTQ5cGtwNXVYdDdtRjNTRE9WNGc4ZkdfNTZaMENkWmw4TEduRTdyeEJNNWhvcnhacDBFYjFtMFhYTUg3V2JXamhrZnV3MGQ1bTBTdzJoekZPcncyU0VwM1BIOTFGd08yekRzMnB0bkpBN3dOeVZKUDljTTh0ei1wWE1LMEFUUmk0UVZDaFNUT1pCUdIBgwJBVV95cUxPRnY0NjdxQm5fdjVLRXhQWkQ0Y0JLTWRaZ0RaUWtxekpfMDlBaHZfYk1YQUMwLVFDNjBSRkwwT08wQXdxR190Vm1mT0d6MWVwLVNVRDBSeGxvLS1hQ2lMVUlKVjJUbFdBYmR2cUZnbDdCUVlSN0lXSVROY3dQWm5rSmRudUNidDNJSzJlREVTWXJLYnZwTURCS2xtdEhfSmkzc3d1eVpfR0JTM0NNWjFiSC1wSkJrTkVEYW03N3BMNXBhSjl5UVJXM3FhZE1TSXdBeFBLSFNGQWg2SG9Pblk5YlhaUDFMU1FjdWRkQzVyYnZ3a1ZPOVRhNTJWZ3RJSTQ1WEI4?oc=5\" target=\"_blank\">Bajaj Auto crashes 8%, auto stocks slide on weak September sales; Maruti, M&M among top losers,...</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxNQl9WSzQ2LVJ3Um4zeVRCVmp2T0gwV2o1Q2g4TjNoT1U1cFJWendYbWZEWk1idXhPNTJQS2xCRzB0dHEwZ3FaVnBjYzJ3aGJaekxlbGFUVDg4VDU3ZGFOeHZBM1JmMmJzRUxMUGg3c0F1SHdKcTQ5cGtwNXVYdDdtRjNTRE9WNGc4ZkdfNTZaMENkWmw4TEduRTdyeEJNNWhvcnhacDBFYjFtMFhYTUg3V2JXamhrZnV3MGQ1bTBTdzJoekZPcncyU0VwM1BIOTFGd08yekRzMnB0bkpBN3dOeVZKUDljTTh0ei1wWE1LMEFUUmk0UVZDaFNUT1pCUdIBgwJBVV95cUxPRnY0NjdxQm5fdjVLRXhQWkQ0Y0JLTWRaZ0RaUWtxekpfMDlBaHZfYk1YQUMwLVFDNjBSRkwwT08wQXdxR190Vm1mT0d6MWVwLVNVRDBSeGxvLS1hQ2lMVUlKVjJUbFdBYmR2cUZnbDdCUVlSN0lXSVROY3dQWm5rSmRudUNidDNJSzJlREVTWXJLYnZwTURCS2xtdEhfSmkzc3d1eVpfR0JTM0NNWjFiSC1wSkJrTkVEYW03N3BMNXBhSjl5UVJXM3FhZE1TSXdBeFBLSFNGQWg2SG9Pblk5YlhaUDFMU1FjdWRkQzVyYnZ3a1ZPOVRhNTJWZ3RJSTQ1WEI4?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T05:51:14.000Z",
+    "collectedAt": "2026-10-01T06:50:35.338Z",
+    "category": "Market",
+    "sentiment": "BEARISH",
+    "relevanceScore": 85,
+    "primaryCategory": "Market",
+    "secondaryCategories": [],
+    "eventType": "MARKET_MOVEMENT",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Market] Broad market commentary keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "BAJAJ-AUTO",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Excluded as routine market commentary: \"top losers\""
+    }
+  },
+  {
     "id": "v2_9047b04cbad492ef",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxPNzl4M19MVGROclg5anFIZGNGWGttLS10alJ4cC1PQUxFR21PTkR0bHhOemtvUHhia2hmTHR3ZklQNjdBQXk0NE5pTmphbUYxSFQ2ZjVhQnI1YUhzT0ozUkcydHkxSGctbXBHdXFtdzB1bkpFdGxuYWwwbWhtc3NFR3l3X1VNblJ5bm1oODRUQm1FbmtzVFJ2ZmtNazlwUmhHQUNGbEIzS0p0RGxXaFBTT3N0X3JUbFJ1SUVWR3FwLXhhS1lIbkZ5YXpWRjFqdlNkWnhBX3kxMkJfTW5feXc3QnhvUUZKRjM5LVHSAe8BQVVfeXFMT1dORHVJZFhCdnpldHBQZ1BkYU83TWNaMjBqMFZqTTU0SWJxMXJjUURfcTJmQ0hKc1FaNl9VRXlOSGx0bU9xbGNLVDRQV3BxR3haWmZUWEQtbVN6S1RUa3ZweWM4SjRXTm9JYWRUYzFnRE9uVjVpOThZeEhOYUV6M0J6eHcwUEk2STZmdEpjUFBsMVZJZ1ZXMmhhVWFvel8xdEstcER3dElOM0pSd0s5ZnZ3Rk9kaVRJcFp1T2w2STg2RG9qSG9nWXJsd090eUFCc2lDc0drRjI2S2JqUkVPQloyZ3JYRmZIM182SjJwWEE?oc=5",
     "headline": "Aurobindo Pharma launches Adquey in US; Nuvama sees $300 million peak sales - CNBC TV18",
@@ -112,6 +952,49 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_e2b7b83612fc5ce5",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/global-market-boj-policymakers-see-scope-for-faster-rate-hikes-as-inflation-pressure-builds/articleshow/134609392.cms",
+    "headline": "Global Market: BOJ policymakers see scope for faster rate hikes as inflation pressure builds",
+    "body": "Bank of Japan policymakers saw scope for faster interest rate hikes as persistent inflationary pressures raise concerns about price growth exceeding the central bank’s 2% target. A summary of its September meeting showed support for further tightening, although some policymakers argued against rushing and stressed the need to monitor economic developments.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/global-market-boj-policymakers-see-scope-for-faster-rate-hikes-as-inflation-pressure-builds/articleshow/134609392.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T05:41:56.000Z",
+    "collectedAt": "2026-10-01T06:10:25.265Z",
+    "category": "Economy",
+    "sentiment": "BULLISH",
+    "relevanceScore": 100,
+    "primaryCategory": "Economy",
+    "secondaryCategories": [],
+    "eventType": "MACRO",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Economy] Economy/regulatory keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Global: Bank of Japan policymakers saw scope for faster interest rate hikes as persistent inflationary pressures raise concerns about price growth exceeding the central bank’s 2% target. Key figures reported include Percentage Change: 2%.",
+    "whatChanged": [
+      "Percentage Change: 2%",
+      "Bank of Japan policymakers saw scope for faster interest rate hikes as persistent inflationary pressures raise concerns about price growth exceeding the central bank’s 2% target."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Central bank policy decisions and macroeconomic trends directly influence sovereign yields, currency valuations, and broad capital market liquidity.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 80,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_9f5d205c60f70157",
     "canonicalUrl": "https://www.business-standard.com/markets/news/adani-energy-solutions-gains-5-5-extends-winning-streak-to-3rd-session-126100100318_1.html",
     "headline": "Adani Energy Solutions gains 5.5%; extends winning streak to 3rd session",
@@ -143,6 +1026,51 @@
     "summary": "Over the previous three sessions, Adani Energy Solutions shares have gained more than 7 per cent, compared with a nearly 1 per cent decline in the Nifty 50 index.",
     "whatChanged": [
       "Over the previous three sessions, Adani Energy Solutions shares have gained more than 7 per cent, compared with a nearly 1 per cent decline in the Nifty 50 index."
+    ],
+    "keyMetrics": [],
+    "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_eabd861c0220cb8c",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-japans-nikkei-hits-six-week-high-as-chip-stocks-rally-on-ai-optimism/articleshow/134609469.cms",
+    "headline": "Global Market: Japan’s Nikkei hits six-week high as chip stocks rally on AI optimism",
+    "body": "Japan's Nikkei share average soared to a six-week peak, buoyed by chip sector stocks after favorable earnings guidance from Micron Technology. The Nikkei 225 surged 2.28%, while the broader Topix remained relatively stable. Nevertheless, various stocks within the Nikkei faced downturns, particularly in finance. Analysts are wary about the durability of AI stock gains amid Micron's forecasts, with monetary policy talks suggesting possible interest rate hikes, creating market uncertainty.",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-japans-nikkei-hits-six-week-high-as-chip-stocks-rally-on-ai-optimism/articleshow/134609469.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T05:41:15.000Z",
+    "collectedAt": "2026-10-01T06:10:25.265Z",
+    "category": "Economy",
+    "sentiment": "BULLISH",
+    "relevanceScore": 100,
+    "primaryCategory": "Economy",
+    "secondaryCategories": [],
+    "eventType": "MACRO",
+    "categoryConfidence": "MEDIUM",
+    "classificationEvidence": [
+      "[Economy] Economy/regulatory keywords matched in body"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Global: Japan's Nikkei share average soared to a six-week peak, buoyed by chip sector stocks after favorable earnings guidance from Micron Technology. The Nikkei 225 surged 2.28%, while the broader Topix remained relatively stable. Key figures reported include Share Price Reaction: 2.28%. The Nikkei 225 surged 2.28%, while the broader Topix remained relatively stable.",
+    "whatChanged": [
+      "Share Price Reaction: 2.28%",
+      "Japan's Nikkei share average soared to a six-week peak, buoyed by chip sector stocks after favorable earnings guidance from Micron Technology.",
+      "The Nikkei 225 surged 2.28%, while the broader Topix remained relatively stable.",
+      "Nevertheless, various stocks within the Nikkei faced downturns, particularly in finance."
     ],
     "keyMetrics": [],
     "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
@@ -432,6 +1360,46 @@
       "No explicit operational or financial risk factors identified in source text."
     ],
     "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_750873e4d438ff35",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxOWHRJMmUxbTVoZlliQVhtOThueXBDZkxid0J3bkJFZmo5R3dZWWFwVzdqc0psaThjMEpqQmRvTzhVbkRsVThjeEV2OHd0WTZLY0dOazlmNEdUSTVka0lmUmJqcmhnQVhoY0RHY0VSdmpHX0ZJRVdLcVVGSnZNbE5GOE9wSGYtenE4Tm9McFNrSlp4LXdLS3VKeVdVNEZ2RW9CckpFSUx4QWY5cG12RDZYSkV4QkxUVTdMdEFkeUloTlRHMEhtZ1FNdkp2M1F3aVJMRHd0LUlMc3ZKaHVPRDVvdjhR0gHnAUFVX3lxTE5OQVJDbDMzVmpueDlpZDdnUHRYajg5NG1RUnhyQUhhckdaLWlDbm1RV3NaVjRPVTBVTVZyeEcxUVpzMmRyeF83TThFMU9sSVo5bFd2R1RCWkw5WDRJT2hEWUE0dXZKbFhwODJBckx3VU9QeFJuaGdEYURfNGxmYjZ5ODdteWQ5UFgwN3RGWFdGUGJNWHhRbFdOYW5mSU44SjBQa2JEWndxQVhPc2ZZVWlhRUlFcFQtMnE2VUMzUlNmaEhXM1d4NDZuMGQzODlDX0tGUFNfVkFNbjQ5WUZxOE9UMjg0eHlRVQ?oc=5",
+    "headline": "Price Action: Kotak Bank shares up 3% on MD, CEO appointment; IT stocks gain, autos slip - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi4gFBVV95cUxOWHRJMmUxbTVoZlliQVhtOThueXBDZkxid0J3bkJFZmo5R3dZWWFwVzdqc0psaThjMEpqQmRvTzhVbkRsVThjeEV2OHd0WTZLY0dOazlmNEdUSTVka0lmUmJqcmhnQVhoY0RHY0VSdmpHX0ZJRVdLcVVGSnZNbE5GOE9wSGYtenE4Tm9McFNrSlp4LXdLS3VKeVdVNEZ2RW9CckpFSUx4QWY5cG12RDZYSkV4QkxUVTdMdEFkeUloTlRHMEhtZ1FNdkp2M1F3aVJMRHd0LUlMc3ZKaHVPRDVvdjhR0gHnAUFVX3lxTE5OQVJDbDMzVmpueDlpZDdnUHRYajg5NG1RUnhyQUhhckdaLWlDbm1RV3NaVjRPVTBVTVZyeEcxUVpzMmRyeF83TThFMU9sSVo5bFd2R1RCWkw5WDRJT2hEWUE0dXZKbFhwODJBckx3VU9QeFJuaGdEYURfNGxmYjZ5ODdteWQ5UFgwN3RGWFdGUGJNWHhRbFdOYW5mSU44SjBQa2JEWndxQVhPc2ZZVWlhRUlFcFQtMnE2VUMzUlNmaEhXM1d4NDZuMGQzODlDX0tGUFNfVkFNbjQ5WUZxOE9UMjg0eHlRVQ?oc=5\" target=\"_blank\">Price Action: Kotak Bank shares up 3% on MD, CEO appointment; IT stocks gain, autos slip</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxOWHRJMmUxbTVoZlliQVhtOThueXBDZkxid0J3bkJFZmo5R3dZWWFwVzdqc0psaThjMEpqQmRvTzhVbkRsVThjeEV2OHd0WTZLY0dOazlmNEdUSTVka0lmUmJqcmhnQVhoY0RHY0VSdmpHX0ZJRVdLcVVGSnZNbE5GOE9wSGYtenE4Tm9McFNrSlp4LXdLS3VKeVdVNEZ2RW9CckpFSUx4QWY5cG12RDZYSkV4QkxUVTdMdEFkeUloTlRHMEhtZ1FNdkp2M1F3aVJMRHd0LUlMc3ZKaHVPRDVvdjhR0gHnAUFVX3lxTE5OQVJDbDMzVmpueDlpZDdnUHRYajg5NG1RUnhyQUhhckdaLWlDbm1RV3NaVjRPVTBVTVZyeEcxUVpzMmRyeF83TThFMU9sSVo5bFd2R1RCWkw5WDRJT2hEWUE0dXZKbFhwODJBckx3VU9QeFJuaGdEYURfNGxmYjZ5ODdteWQ5UFgwN3RGWFdGUGJNWHhRbFdOYW5mSU44SjBQa2JEWndxQVhPc2ZZVWlhRUlFcFQtMnE2VUMzUlNmaEhXM1d4NDZuMGQzODlDX0tGUFNfVkFNbjQ5WUZxOE9UMjg0eHlRVQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T05:23:00.000Z",
+    "collectedAt": "2026-10-01T06:42:51.369Z",
+    "category": "Corporate",
+    "sentiment": "BULLISH",
+    "relevanceScore": 85,
+    "primaryCategory": "Corporate",
+    "secondaryCategories": [],
+    "eventType": "MANAGEMENT_COMMENTARY",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Corporate] Corporate action/order win keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "KOTAKBANK",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 95,
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
@@ -811,6 +1779,46 @@
     ],
     "keyMetrics": [],
     "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_578d7475cd329d47",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPaERpLVBiQ2lKbl94dk5JWGtQLXg0bWVXWDFFQ0RrWjcwU0lfTmFfeFhBelNVUzdfSzM2eVV0bmhMa2hTbVpnSk1DNEZadU5LOFJmMkFjRkNLR2VMNFJ0NF9hNDVSUWUtS3hiY2JSM0Ntd2ZpNE1oSV9vY2pCeDlUWWEyUDhxYkhHZ25fb0JCUkdYRUVLM0JvaGtVMTFSRnNUd0RGWXJWMVVJRkpJMHRCVEdYbXFhUUc0VmotSDNJRUh0aE5nMGE00gHMAUFVX3lxTE9FVHd2b2ktQ3c4MUQ5NTFOYUxzRkNRa1Vqd0dZbWdQQndvQWdGcXg0UXRKYzlkdDlNZ2o3SmxYTnNuaE44SVBac05mWTUzZTMxQ2FSRXlxaXV2TUM5bDRaUUhmcDBpeTJmamwxUkRIYUhGd0p1NW1BMmdJSTVJclpkakR4UGY1dnk0ZDRjZm5fVFdjaDlHR241VEk5Y1ctcDNfWmttci15dnBvaEY2X0d0dkRMT2Z3Q1dqVVliYUtKOWtTWkNPTTFRZy1UaA?oc=5",
+    "headline": "IT growth faces AI squeeze in Q2FY27 as pricing pressure mounts - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMixwFBVV95cUxPaERpLVBiQ2lKbl94dk5JWGtQLXg0bWVXWDFFQ0RrWjcwU0lfTmFfeFhBelNVUzdfSzM2eVV0bmhMa2hTbVpnSk1DNEZadU5LOFJmMkFjRkNLR2VMNFJ0NF9hNDVSUWUtS3hiY2JSM0Ntd2ZpNE1oSV9vY2pCeDlUWWEyUDhxYkhHZ25fb0JCUkdYRUVLM0JvaGtVMTFSRnNUd0RGWXJWMVVJRkpJMHRCVEdYbXFhUUc0VmotSDNJRUh0aE5nMGE00gHMAUFVX3lxTE9FVHd2b2ktQ3c4MUQ5NTFOYUxzRkNRa1Vqd0dZbWdQQndvQWdGcXg0UXRKYzlkdDlNZ2o3SmxYTnNuaE44SVBac05mWTUzZTMxQ2FSRXlxaXV2TUM5bDRaUUhmcDBpeTJmamwxUkRIYUhGd0p1NW1BMmdJSTVJclpkakR4UGY1dnk0ZDRjZm5fVFdjaDlHR241VEk5Y1ctcDNfWmttci15dnBvaEY2X0d0dkRMT2Z3Q1dqVVliYUtKOWtTWkNPTTFRZy1UaA?oc=5\" target=\"_blank\">IT growth faces AI squeeze in Q2FY27 as pricing pressure mounts</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPaERpLVBiQ2lKbl94dk5JWGtQLXg0bWVXWDFFQ0RrWjcwU0lfTmFfeFhBelNVUzdfSzM2eVV0bmhMa2hTbVpnSk1DNEZadU5LOFJmMkFjRkNLR2VMNFJ0NF9hNDVSUWUtS3hiY2JSM0Ntd2ZpNE1oSV9vY2pCeDlUWWEyUDhxYkhHZ25fb0JCUkdYRUVLM0JvaGtVMTFSRnNUd0RGWXJWMVVJRkpJMHRCVEdYbXFhUUc0VmotSDNJRUh0aE5nMGE00gHMAUFVX3lxTE9FVHd2b2ktQ3c4MUQ5NTFOYUxzRkNRa1Vqd0dZbWdQQndvQWdGcXg0UXRKYzlkdDlNZ2o3SmxYTnNuaE44SVBac05mWTUzZTMxQ2FSRXlxaXV2TUM5bDRaUUhmcDBpeTJmamwxUkRIYUhGd0p1NW1BMmdJSTVJclpkakR4UGY1dnk0ZDRjZm5fVFdjaDlHR241VEk5Y1ctcDNfWmttci15dnBvaEY2X0d0dkRMT2Z3Q1dqVVliYUtKOWtTWkNPTTFRZy1UaA?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T05:03:35.000Z",
+    "collectedAt": "2026-10-01T06:27:41.600Z",
+    "category": "Results",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Results",
+    "secondaryCategories": [],
+    "eventType": "EARNINGS",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Results] Financial results indicators matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
     "marketImpact": "No actionable F&O setup from this article alone.",
     "riskWatchpoints": [
       "No explicit operational or financial risk factors identified in source text."
@@ -1747,6 +2755,36 @@
     ],
     "summaryConfidence": 60,
     "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_dc8cd30039f64404",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/grasim-inds-share-price-live-01-oct-2026/liveblog/134608226.cms",
+    "headline": "Grasim Inds Share Price Live Updates: Grasim Industries Experiences Decline",
+    "body": "Grasim Inds Share Price Live Updates: Grasim Industries Experiences Decline",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/grasim-inds-share-price-live-01-oct-2026/liveblog/134608226.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T04:35:31.000Z",
+    "collectedAt": "2026-10-01T06:50:35.338Z",
+    "category": "Other",
+    "sentiment": "BEARISH",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "GRASIM",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Hard block: Article contains disallowed generic term \"live updates\""
+    }
   },
   {
     "id": "v2_57954fd6eff0ed70",
@@ -2869,6 +3907,46 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_57a071b07914835a",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/jio-financial-services-share-price-today-live-updates-01-oct-2026/liveblog/134607497.cms",
+    "headline": "Jio Financial Services Share Price Live Updates: Jio Financial Services Current Market Status",
+    "body": "Jio Financial Services Share Price Live Updates: Jio Financial Services Current Market Status",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/jio-financial-services-share-price-today-live-updates-01-oct-2026/liveblog/134607497.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T03:45:58.000Z",
+    "collectedAt": "2026-10-01T06:16:13.819Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "JIOFIN",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Hard block: Article contains disallowed generic term \"live updates\""
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 75,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_3fe67c5a0dc94212",
     "canonicalUrl": "https://economictimes.indiatimes.com/markets/ipos/fpos/nityas-gems-jewellery-ipo-day-2-check-gmp-subscription-status-should-you-subscribe/articleshow/134607455.cms",
     "headline": "Nityas Gems & Jewellery IPO Day 2: Check GMP, subscription status; should you subscribe?",
@@ -3167,6 +4245,46 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_46db4c541a66f721",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/tata-consumer-share-price-today-live-01-oct-2026/liveblog/134607359.cms",
+    "headline": "Tata Consumer Share Price Live Updates: Tata Consumer's Price Movement Today",
+    "body": "Tata Consumer Share Price Live Updates: Tata Consumer's Price Movement Today",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/tata-consumer-share-price-today-live-01-oct-2026/liveblog/134607359.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T03:30:22.000Z",
+    "collectedAt": "2026-10-01T06:10:25.265Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "TATACONSUMER",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Hard block: Article contains disallowed generic term \"live updates\""
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 75,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_65e82a0f98751b0e",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQU21xS25reldCb1liZDNhdmNLa094OTdCX0U0M0k5S3RDZ244ekRiOEpzMk1ESE56dmRTNWxSaDZIYWdVYWZyS3pKV2dXZFFRZEw0dEtSUm5nUkE5UkVaZERmX1l5Q1pHUEEwZFVOUGw2dW04NVQxeFNKbWUwMjNhcGhLbVBUS1hzdEpkdFJkb2xnNmtOb2FKSk5qZFlZakt2SHlOYWlQZ1lWcXBPNEN6NmZyQjA1TF9Zbk5J0gHAAUFVX3lxTE1QT3hUVkNib2xmOXhFT2VVY0tWcFJpbWxBZ3BPSzZhWjRpYUtweVFGM1ppT0x6aTFIRkljU2NaN29aZVpuY0NsdVZIdkJSb2NvYVZEdFpDUTlkZGtVWjF1QUU0c0g1dHljU0ZQOWJ0Yjc4OWpxLWZCOXRIYk9WTk1RT19LNDBFX3p0ZC1ULWp2aGtIbGdxY3BOZU0xcGVNWXlOVmE1dGdHSWxmQ3VxMkVnMUd2NUxSSTM3bE10N1VRbQ?oc=5",
     "headline": "RBI's success on dollar flows raises stakes in inflation fight - Moneycontrol.com",
@@ -3280,6 +4398,46 @@
     }
   },
   {
+    "id": "v2_cbff5ee767700e3b",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9RMldCdjlubEtqVFY1MXptOWNQTHlYUVhpcXA0RC15TjB4YmlvbWhobGVPYUN1ZElwY0FPSlZFVmdQVmFQNVYwUlJfaVFCOU1RV1d5b0VaZnNQV3hfX1NSemZCM3BTelIwMVVJSENpelhHNy1uY2xjeTFHMmQ?oc=5",
+    "headline": "Green Highways - PIB",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE9RMldCdjlubEtqVFY1MXptOWNQTHlYUVhpcXA0RC15TjB4YmlvbWhobGVPYUN1ZElwY0FPSlZFVmdQVmFQNVYwUlJfaVFCOU1RV1d5b0VaZnNQV3hfX1NSemZCM3BTelIwMVVJSENpelhHNy1uY2xjeTFHMmQ?oc=5\" target=\"_blank\">Green Highways</a> <font color=\"#6f6f6f\">PIB</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9RMldCdjlubEtqVFY1MXptOWNQTHlYUVhpcXA0RC15TjB4YmlvbWhobGVPYUN1ZElwY0FPSlZFVmdQVmFQNVYwUlJfaVFCOU1RV1d5b0VaZnNQV3hfX1NSemZCM3BTelIwMVVJSENpelhHNy1uY2xjeTFHMmQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T03:23:00.000Z",
+    "collectedAt": "2026-10-01T06:47:51.366Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 50,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_f40c251e05a53dd5",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxNdVVFTjBIUG4xdDdscHdSOU1uamcwZ3dFQ2pzQkVDUDdYX1U3SFpHRTFQR0daS09LTUZnNjRyTEp5MjB1QVByT2NVM25oY3U4d0JkdzRTQ3JfX2JZa1RReEpGQVRoMVNtVjhtNUFRaHk1Q09ZUm9iOVpINHQ3b0M3ZlE0WWd0N290VGZGM210N2UwRUJUYXJ3OUFsMFk3cS1PUW1kR3FSUS1lVWw1cTc0OUMxTFdzU1RkNG1wNFFmUlZvT1UyaHptQ2N1eFVkQmhnQkJFNzk0RWlVckt0X0lkdG92a0JmaDTSAe8BQVVfeXFMTWJrU2VVWjZ1SzZMaEoxY0JHcG9rRms5Y0U5VVUwbGd1eG14TE9hWXlLQlU3cG5seXFkTXQ5ZzlGMmpHd2llUkV2TE9lRW5sUUZRbl9iODQwYkR6NnQxU0Vpb2RjMUx1QUxlRDl3TlZkTHgzRXZGaU5HMnpkcTByaHNwaXd3Y1JoZXlKcW1GSms1akotZ0lsZlo1YUlXQjBUeThlZ3NIRUFBMXd0WHBEZTlXZkFTUGJDSEVLdGswRTlvUExHeXlQMUtiaFV0My1ZUTQxZEk4TmFGWVZYOHVXSVBXT19rbGRDVnNpald0bGs?oc=5",
     "headline": "Persistent Systems: 37% Upside? Why Axis Capital Hikes Target To Rs 7,210, Retains 'Buy' - NDTV Profit",
@@ -3362,6 +4520,46 @@
       "No explicit operational or financial risk factors identified in source text."
     ],
     "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_5b5cb43323ad8f45",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/hcl-tech-stock-price-live-updates-01-oct-2026/liveblog/134607263.cms",
+    "headline": "HCL Tech Share Price Live Updates: HCL Tech's Stock Value Insights",
+    "body": "HCL Tech Share Price Live Updates: HCL Tech's Stock Value Insights",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/hcl-tech-stock-price-live-updates-01-oct-2026/liveblog/134607263.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T03:22:23.000Z",
+    "collectedAt": "2026-10-01T06:10:25.265Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "HCLTECH",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Hard block: Article contains disallowed generic term \"live updates\""
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 75,
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
@@ -3448,6 +4646,36 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_befcdb98bb1d76d3",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/nestle-india-share-price-live-01-oct-2026/liveblog/134607249.cms",
+    "headline": "Nestle India Share Price Live Updates: Nestle India News",
+    "body": "Nestle India Share Price Live Updates: Nestle India News",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/nestle-india-share-price-live-01-oct-2026/liveblog/134607249.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T03:21:34.000Z",
+    "collectedAt": "2026-10-01T06:50:35.338Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "NESTLEIND",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Hard block: Article contains disallowed generic term \"live updates\""
+    }
+  },
+  {
     "id": "v2_852d25355389d776",
     "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/dr-reddys-share-price-today-live-updates-01-oct-2026/liveblog/134607245.cms",
     "headline": "Dr Reddys Share Price Live Updates: Dr. Reddys Market Activity Overview",
@@ -3512,6 +4740,46 @@
     "fno": {
       "eligible": false,
       "symbol": "HDFCLIFE",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Hard block: Article contains disallowed generic term \"live updates\""
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 75,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_dfaaa654a1245a21",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/upl-share-price-today-live-01-oct-2026/liveblog/134607212.cms",
+    "headline": "UPL Share Price Live Updates: UPL's Financial Snapshot",
+    "body": "UPL Share Price Live Updates: UPL's Financial Snapshot",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/upl-share-price-today-live-01-oct-2026/liveblog/134607212.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T03:20:06.000Z",
+    "collectedAt": "2026-10-01T06:10:25.265Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "UPL",
       "confidence": "HIGH",
       "decision": "EXCLUDE",
       "reason": "Hard block: Article contains disallowed generic term \"live updates\""
@@ -3863,6 +5131,46 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_6049341f1f0366f3",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/britannia-stock-price-livestock-price-today-live-updates-01-oct-2026/liveblog/134607164.cms",
+    "headline": "Britannia Share Price Live Updates: Britannia's Current Trading Status",
+    "body": "Britannia Share Price Live Updates: Britannia's Current Trading Status",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/britannia-stock-price-livestock-price-today-live-updates-01-oct-2026/liveblog/134607164.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T03:15:37.000Z",
+    "collectedAt": "2026-10-01T06:40:51.423Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "BRITANNIA",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Hard block: Article contains disallowed generic term \"live updates\""
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 75,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_fa89e06ad1651bd5",
     "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/ultratech-cem-stock-price-livestock-price-today-live-updates-01-oct-2026/liveblog/134607156.cms",
     "headline": "UltraTech Cem Share Price Live Updates: UltraTech Cement's Price Trends",
@@ -4023,6 +5331,36 @@
     ],
     "summaryConfidence": 60,
     "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_6aa99a4547ee4449",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/bpcl-stock-price-today-live-01-oct-2026/liveblog/134607118.cms",
+    "headline": "BPCL Share Price Live Updates: BPCL News",
+    "body": "BPCL Share Price Live Updates: BPCL News",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/bpcl-stock-price-today-live-01-oct-2026/liveblog/134607118.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T03:12:06.000Z",
+    "collectedAt": "2026-10-01T06:50:35.338Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "BPCL",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Hard block: Article contains disallowed generic term \"live updates\""
+    }
   },
   {
     "id": "v2_298f38e75ed12b5d",
@@ -4298,6 +5636,46 @@
     }
   },
   {
+    "id": "v2_2480234161517461",
+    "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/indusind-bank-share-price-live-updates-01-oct-2026/liveblog/134606845.cms",
+    "headline": "IndusInd Bank Share Price Live Updates: IndusInd Bank Price and Returns Overview",
+    "body": "IndusInd Bank Share Price Live Updates: IndusInd Bank Price and Returns Overview",
+    "source": {
+      "publisher": "Economic Times",
+      "url": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/indusind-bank-share-price-live-updates-01-oct-2026/liveblog/134606845.cms",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T02:57:20.000Z",
+    "collectedAt": "2026-10-01T06:10:25.265Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "INDUSINDBK",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Hard block: Article contains disallowed generic term \"live updates\""
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 95,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_87d5f6218f84ae1a",
     "canonicalUrl": "https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/coal-india-ltd-stock-price-today-live-01-oct-2026/liveblog/134606844.cms",
     "headline": "Coal India Share Price Live Updates: Coal India Ltd's Price Movement Raises Red Flags",
@@ -4562,6 +5940,46 @@
       "confidence": "HIGH",
       "decision": "EXCLUDE",
       "reason": "Index symbol NIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 95,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_4528633f029733c8",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPZFQ1QmlDMk04bjNwR2wyLXVBY1djY013NkVlVjJsQVVkMFZyYUtXRkJvOEhxdGU4VGVueUkwQlRlT3lyd1E5Y282SWc4ZExJUEdjT2JURjF1OHhBdkR1YlEyMFRCM0hubjNUYTU5NFdFVEhJUktmWC12ZEN4R3gzZzdwSVprWmw1dUNhNVBsT3MwMXN1ZHlQT3pIVUZyZ3o2TWpEOW1xM1lQam41Z29Yem5PMWtaR04yWEVTci1sZk5DZ9IBxwFBVV95cUxOVWRaMDh0djhBWlZlR2J3RU9GZzVDWjRiMEVGMWgtNW5VeWNINlZmdDRoNTdiQzBwclJ6dUw4ei03TGRFVjNGVXRMd2JGeXZyZXBoRU0tQnpDVk5VSC1hUy0zd1NfQy1TTlFrWXQyU2FjZEh4a0x5QkJQbTQzWjdhOEZpbXdmbzRRUnpjbG5LVDZfZFV3bERLaU9tTG5oeWs0YmVLQnEtYUxDRHVxcVgyVVdSZDlJNWhyQU10YUFCMWFlNTJUUkNj?oc=5",
+    "headline": "Kotak Mahindra Bank appoints Anup Kumar Saha as new MD and CEO - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiwgFBVV95cUxPZFQ1QmlDMk04bjNwR2wyLXVBY1djY013NkVlVjJsQVVkMFZyYUtXRkJvOEhxdGU4VGVueUkwQlRlT3lyd1E5Y282SWc4ZExJUEdjT2JURjF1OHhBdkR1YlEyMFRCM0hubjNUYTU5NFdFVEhJUktmWC12ZEN4R3gzZzdwSVprWmw1dUNhNVBsT3MwMXN1ZHlQT3pIVUZyZ3o2TWpEOW1xM1lQam41Z29Yem5PMWtaR04yWEVTci1sZk5DZ9IBxwFBVV95cUxOVWRaMDh0djhBWlZlR2J3RU9GZzVDWjRiMEVGMWgtNW5VeWNINlZmdDRoNTdiQzBwclJ6dUw4ei03TGRFVjNGVXRMd2JGeXZyZXBoRU0tQnpDVk5VSC1hUy0zd1NfQy1TTlFrWXQyU2FjZEh4a0x5QkJQbTQzWjdhOEZpbXdmbzRRUnpjbG5LVDZfZFV3bERLaU9tTG5oeWs0YmVLQnEtYUxDRHVxcVgyVVdSZDlJNWhyQU10YUFCMWFlNTJUUkNj?oc=5\" target=\"_blank\">Kotak Mahindra Bank appoints Anup Kumar Saha as new MD and CEO</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPZFQ1QmlDMk04bjNwR2wyLXVBY1djY013NkVlVjJsQVVkMFZyYUtXRkJvOEhxdGU4VGVueUkwQlRlT3lyd1E5Y282SWc4ZExJUEdjT2JURjF1OHhBdkR1YlEyMFRCM0hubjNUYTU5NFdFVEhJUktmWC12ZEN4R3gzZzdwSVprWmw1dUNhNVBsT3MwMXN1ZHlQT3pIVUZyZ3o2TWpEOW1xM1lQam41Z29Yem5PMWtaR04yWEVTci1sZk5DZ9IBxwFBVV95cUxOVWRaMDh0djhBWlZlR2J3RU9GZzVDWjRiMEVGMWgtNW5VeWNINlZmdDRoNTdiQzBwclJ6dUw4ei03TGRFVjNGVXRMd2JGeXZyZXBoRU0tQnpDVk5VSC1hUy0zd1NfQy1TTlFrWXQyU2FjZEh4a0x5QkJQbTQzWjdhOEZpbXdmbzRRUnpjbG5LVDZfZFV3bERLaU9tTG5oeWs0YmVLQnEtYUxDRHVxcVgyVVdSZDlJNWhyQU10YUFCMWFlNTJUUkNj?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T02:50:38.000Z",
+    "collectedAt": "2026-10-01T06:52:57.675Z",
+    "category": "Corporate",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Corporate",
+    "secondaryCategories": [],
+    "eventType": "MANAGEMENT_COMMENTARY",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Corporate] Corporate action/order win keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "KOTAKBANK",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
     },
     "summary": "Summary unavailable — Open original source",
     "whatChanged": [],
@@ -5685,6 +7103,46 @@
     },
     "publishedAt": "2026-10-01T02:26:00.000Z",
     "collectedAt": "2026-10-01T04:11:38.292Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_bf3333ded00f679a",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1MY2szVmExMEJQVENRbzZkT3FBRnliUUhOTzEtRTRnVkpRN1pObE1iY3dOVjlnYkVQcTc0blp6QnRhb19SRkFLR1hTYXlUWWhvbjFsZTlaM3FUZUlYQUVoZ190aVlUTlBWYkdEeDhYYTFxa3VhbWlNcGRWdE8?oc=5",
+    "headline": "Prime Minister lauds Captain Smit Machchhar for immense courage and valour in saving lives - pib.gov.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE1MY2szVmExMEJQVENRbzZkT3FBRnliUUhOTzEtRTRnVkpRN1pObE1iY3dOVjlnYkVQcTc0blp6QnRhb19SRkFLR1hTYXlUWWhvbjFsZTlaM3FUZUlYQUVoZ190aVlUTlBWYkdEeDhYYTFxa3VhbWlNcGRWdE8?oc=5\" target=\"_blank\">Prime Minister lauds Captain Smit Machchhar for immense courage and valour in saving lives</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1MY2szVmExMEJQVENRbzZkT3FBRnliUUhOTzEtRTRnVkpRN1pObE1iY3dOVjlnYkVQcTc0blp6QnRhb19SRkFLR1hTYXlUWWhvbjFsZTlaM3FUZUlYQUVoZ190aVlUTlBWYkdEeDhYYTFxa3VhbWlNcGRWdE8?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-10-01T02:26:00.000Z",
+    "collectedAt": "2026-10-01T06:25:51.088Z",
     "category": "Other",
     "sentiment": "NEUTRAL",
     "relevanceScore": 65,
@@ -9069,6 +10527,46 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_e96689ce43dfaaea",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQcVhrMGN0c2p3RHVkZ1Jyd0lMNlRhYmR2bEwwcmU0S2x6VDZBYktReTgzeUFyZmt6Z3p6THlBbnhwRkpScGY0Sy1hVjBCUFhXa1pkZGdaclpWQ21sNWRkTlowMU13Tm5GUXhnRElKSDE1Z3BLSG10cWgwaGt4S29yVzB6YU11NmxWVXFXMDhoeGZvaGZGV1dJcHVDMjctbVN1N1FvTkdRSGd5UlVxOG5xX29wSnNiMGxoQTJXdENfandQVVF4QldPSndMd18zMXBRcWh6TG0zSF9tVndkV2RfWNIB5gFBVV95cUxPNkphX1NoR29PUC1lMGJRTVkzRWpCajZUbVFtNXRoQklXbENXTU9VVUVLbjJNX3dJOFBfUUJjcVpJUi1TLVhZQ0tINFFKNHU3N0g5Nnc2SC1iejRQLWhSanJ0RHNGZ2ZHMGQ5Q2ZvdmJXMHVyS0k1SEdtZUUzUlY3VnFmYlFXZEI5ak8tOXVaVFJURFRzcjg4RDRNZEhkQUR1X25zbHd6cm1NR250dk5mNTc1aEpHY0x6bXQ5NE1vYUZXM0V1dEpCRFpFd3hMcjZYSGxXVTNEcXdaS2lEbDAtOHBJcDd2Zw?oc=5",
+    "headline": "Amitabh Kant calls CAFE-III norms a ‘huge missed opportunity’, says EV roadmap lacks ambition - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi4AFBVV95cUxQcVhrMGN0c2p3RHVkZ1Jyd0lMNlRhYmR2bEwwcmU0S2x6VDZBYktReTgzeUFyZmt6Z3p6THlBbnhwRkpScGY0Sy1hVjBCUFhXa1pkZGdaclpWQ21sNWRkTlowMU13Tm5GUXhnRElKSDE1Z3BLSG10cWgwaGt4S29yVzB6YU11NmxWVXFXMDhoeGZvaGZGV1dJcHVDMjctbVN1N1FvTkdRSGd5UlVxOG5xX29wSnNiMGxoQTJXdENfandQVVF4QldPSndMd18zMXBRcWh6TG0zSF9tVndkV2RfWNIB5gFBVV95cUxPNkphX1NoR29PUC1lMGJRTVkzRWpCajZUbVFtNXRoQklXbENXTU9VVUVLbjJNX3dJOFBfUUJjcVpJUi1TLVhZQ0tINFFKNHU3N0g5Nnc2SC1iejRQLWhSanJ0RHNGZ2ZHMGQ5Q2ZvdmJXMHVyS0k1SEdtZUUzUlY3VnFmYlFXZEI5ak8tOXVaVFJURFRzcjg4RDRNZEhkQUR1X25zbHd6cm1NR250dk5mNTc1aEpHY0x6bXQ5NE1vYUZXM0V1dEpCRFpFd3hMcjZYSGxXVTNEcXdaS2lEbDAtOHBJcDd2Zw?oc=5\" target=\"_blank\">Amitabh Kant calls CAFE-III norms a ‘huge missed opportunity’, says EV roadmap lacks ambition</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQcVhrMGN0c2p3RHVkZ1Jyd0lMNlRhYmR2bEwwcmU0S2x6VDZBYktReTgzeUFyZmt6Z3p6THlBbnhwRkpScGY0Sy1hVjBCUFhXa1pkZGdaclpWQ21sNWRkTlowMU13Tm5GUXhnRElKSDE1Z3BLSG10cWgwaGt4S29yVzB6YU11NmxWVXFXMDhoeGZvaGZGV1dJcHVDMjctbVN1N1FvTkdRSGd5UlVxOG5xX29wSnNiMGxoQTJXdENfandQVVF4QldPSndMd18zMXBRcWh6TG0zSF9tVndkV2RfWNIB5gFBVV95cUxPNkphX1NoR29PUC1lMGJRTVkzRWpCajZUbVFtNXRoQklXbENXTU9VVUVLbjJNX3dJOFBfUUJjcVpJUi1TLVhZQ0tINFFKNHU3N0g5Nnc2SC1iejRQLWhSanJ0RHNGZ2ZHMGQ5Q2ZvdmJXMHVyS0k1SEdtZUUzUlY3VnFmYlFXZEI5ak8tOXVaVFJURFRzcjg4RDRNZEhkQUR1X25zbHd6cm1NR250dk5mNTc1aEpHY0x6bXQ5NE1vYUZXM0V1dEpCRFpFd3hMcjZYSGxXVTNEcXdaS2lEbDAtOHBJcDd2Zw?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-09-30T17:54:17.000Z",
+    "collectedAt": "2026-10-01T06:23:51.177Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_e28fc4deb90deb9a",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQUWpxTGdVbi1IVDRtRkNrQ0dLdWFrR3BmbzJ2SnFsaGJMdUxnOEhEbXV6MGtqbC1QaEdLanpjQUJVcjhqbUlUSFpuZUU4bVF5c2dmVnlTZjdtUlhrSHpkOXZHVXdpczVkZURIVlhhUjgxdmtoSWhQd0g3Y1pwUkFOSEs2a3I2TndoNGhPNU1ZUUc3WE40cnJIV3hlM184YkJLaTNHMVpPN25PVzY2UjRpMURJYWpKdE52NHhMRGxmQ29Pam9IeUJzWU42VGZnWTR3eHk2eDVRbUZ4dlB5MzlBdHh30gHiAUFVX3lxTFBRanFMZ1VuLUhUNG1GQ2tDR0t1YWtHcGZvMnZKcWxoYkx1TGc4SERtdXowa2psLVBoR0tqemNBQlVyOGptSVRIWm5lRThtUXlzZ2ZWeVNmN21SWGtIemQ5dkdVd2lzNWRlREhWWGFSODF2a2hJaFB3SDdjWnBSQU5ISzZrcjZOd2g0aE81TVlRRzdYTjRyckhXeGUzXzhiQktpM0cxWk83bk9XNjZSNGkxRElhakp0TnY0eExEbGZDb09qb0h5QnNZTjZUZmdZNHd4eTZ4NVFtRnh2UHkzOUF0eHc?oc=5",
     "headline": "MCX receives GST notice proposing ₹103 crore tax, interest and penalty for FY23 - CNBC TV18",
@@ -10708,19 +12206,19 @@
   },
   {
     "id": "v2_ada664f9ab53e9c3",
-    "canonicalUrl": "https://www.livemint.com/market/stock-market-news/top-3-buy-or-sell-stocks-vedanta-dlf-aegis-logistics-by-vaishali-parekh-target-stoploss-nifty-bank-nifty-outlook-11790774799921.html",
-    "headline": "Top 3 buy or sell stocks: Vedanta, DLF, Aegis Logistics by Vaishali Parekh | Target, stoploss, Nifty, Bank Nifty outlook",
-    "body": "Stock market prediction: Vaishali Parekh believes to improve the bias, the Nifty 50 index would need a decisive breach above the 23,100 zone to establish conviction and clarity",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMijwJBVV95cUxNOTg1aVc1QkhCSU1TQVdsdER3QUZpYVV1RUlYaTNaTHlsVkRjYkthMkk0TklUcWp6VUhPMGJSNG5INjgwdF80MC1VS2xrWExjMHEtNkNOX1F5UUFBRjlGM1NZV05OMGdqMEFwQ2trdjBEZ2Q3c3l2OUtHSzJOeXdOS1hmdDhidURTS3VwTjVMSTJsQUZhRUI2cUNrSk41dWVwUWttVExWZ1FXU0M3N09hZU9mTkM0ZzVMQllkX1NfTUE3UWdtQzZYMHYyVWdKSkpKelFHSHVRS2ZRSW9iQUVydXEwcS0wckZ3NzNnRkJOQ19wRWsyT0lzNFFxVjY1aWxPWlViOXk4OGtWbjd3VFFj0gGUAkFVX3lxTE10OWpVbnlsbDUtWG41U0pTZ1ZlT1BYWmxzTVY2Q3k3S195bVZ1TXkwQko2MnlSeS1EYXFET3hURzY0RnlLTjVXbGtDMTkzaUFnSWpMQm05Q0VpamRLWWhkQzdldzB0WkhZSnhQdGE2S2YyT3FMWTE5bHY1NklndXJQaVg3bktUTHdIaElUWElkYVFzUUszM0FXeUxCMEFqRGx4STBYbjhHRmtGcHhVcENOai1lSXNvcFZRdkVHdkczLXh6a1ZuRFg4d3VyZG1CYWdwWkNNRVFDUDE4MjNiZEttYkVxR214X2xxa1FadEpkYWZqN3FHUDFOeUZNelAxa2NTUWMySkFBY2FTWWlCaVpyalhDYQ?oc=5",
+    "headline": "Top 3 buy or sell stocks: Vedanta, DLF, Aegis Logistics by Vaishali Parekh | Target, stoploss, Nifty, Bank Nifty outlook - Livemint",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMijwJBVV95cUxNOTg1aVc1QkhCSU1TQVdsdER3QUZpYVV1RUlYaTNaTHlsVkRjYkthMkk0TklUcWp6VUhPMGJSNG5INjgwdF80MC1VS2xrWExjMHEtNkNOX1F5UUFBRjlGM1NZV05OMGdqMEFwQ2trdjBEZ2Q3c3l2OUtHSzJOeXdOS1hmdDhidURTS3VwTjVMSTJsQUZhRUI2cUNrSk41dWVwUWttVExWZ1FXU0M3N09hZU9mTkM0ZzVMQllkX1NfTUE3UWdtQzZYMHYyVWdKSkpKelFHSHVRS2ZRSW9iQUVydXEwcS0wckZ3NzNnRkJOQ19wRWsyT0lzNFFxVjY1aWxPWlViOXk4OGtWbjd3VFFj0gGUAkFVX3lxTE10OWpVbnlsbDUtWG41U0pTZ1ZlT1BYWmxzTVY2Q3k3S195bVZ1TXkwQko2MnlSeS1EYXFET3hURzY0RnlLTjVXbGtDMTkzaUFnSWpMQm05Q0VpamRLWWhkQzdldzB0WkhZSnhQdGE2S2YyT3FMWTE5bHY1NklndXJQaVg3bktUTHdIaElUWElkYVFzUUszM0FXeUxCMEFqRGx4STBYbjhHRmtGcHhVcENOai1lSXNvcFZRdkVHdkczLXh6a1ZuRFg4d3VyZG1CYWdwWkNNRVFDUDE4MjNiZEttYkVxR214X2xxa1FadEpkYWZqN3FHUDFOeUZNelAxa2NTUWMySkFBY2FTWWlCaVpyalhDYQ?oc=5\" target=\"_blank\">Top 3 buy or sell stocks: Vedanta, DLF, Aegis Logistics by Vaishali Parekh | Target, stoploss, Nifty, Bank Nifty outlook</a> <font color=\"#6f6f6f\">Livemint</font>",
     "source": {
-      "publisher": "LiveMint",
-      "url": "https://www.livemint.com/market/stock-market-news/top-3-buy-or-sell-stocks-vedanta-dlf-aegis-logistics-by-vaishali-parekh-target-stoploss-nifty-bank-nifty-outlook-11790774799921.html",
+      "publisher": "Google News Business",
+      "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxNOTg1aVc1QkhCSU1TQVdsdER3QUZpYVV1RUlYaTNaTHlsVkRjYkthMkk0TklUcWp6VUhPMGJSNG5INjgwdF80MC1VS2xrWExjMHEtNkNOX1F5UUFBRjlGM1NZV05OMGdqMEFwQ2trdjBEZ2Q3c3l2OUtHSzJOeXdOS1hmdDhidURTS3VwTjVMSTJsQUZhRUI2cUNrSk41dWVwUWttVExWZ1FXU0M3N09hZU9mTkM0ZzVMQllkX1NfTUE3UWdtQzZYMHYyVWdKSkpKelFHSHVRS2ZRSW9iQUVydXEwcS0wckZ3NzNnRkJOQ19wRWsyT0lzNFFxVjY1aWxPWlViOXk4OGtWbjd3VFFj0gGUAkFVX3lxTE10OWpVbnlsbDUtWG41U0pTZ1ZlT1BYWmxzTVY2Q3k3S195bVZ1TXkwQko2MnlSeS1EYXFET3hURzY0RnlLTjVXbGtDMTkzaUFnSWpMQm05Q0VpamRLWWhkQzdldzB0WkhZSnhQdGE2S2YyT3FMWTE5bHY1NklndXJQaVg3bktUTHdIaElUWElkYVFzUUszM0FXeUxCMEFqRGx4STBYbjhHRmtGcHhVcENOai1lSXNvcFZRdkVHdkczLXh6a1ZuRFg4d3VyZG1CYWdwWkNNRVFDUDE4MjNiZEttYkVxR214X2xxa1FadEpkYWZqN3FHUDFOeUZNelAxa2NTUWMySkFBY2FTWWlCaVpyalhDYQ?oc=5",
       "collectionMethod": "RSS"
     },
     "publishedAt": "2026-09-30T14:09:25.000Z",
-    "collectedAt": "2026-10-01T04:11:38.292Z",
+    "collectedAt": "2026-10-01T06:08:05.131Z",
     "category": "Market",
     "sentiment": "BEARISH",
-    "relevanceScore": 85,
+    "relevanceScore": 50,
     "primaryCategory": "Market",
     "secondaryCategories": [],
     "eventType": "MARKET_MOVEMENT",
@@ -10734,19 +12232,7 @@
       "confidence": "HIGH",
       "decision": "EXCLUDE",
       "reason": "Index symbol BANKNIFTY requires explicit derivative metrics (options, futures, strike, OI, PCR, rollover)"
-    },
-    "summary": "Top: Stock market prediction: Vaishali Parekh believes to improve the bias, the Nifty 50 index would need a decisive breach above the 23,100 zone to establish conviction and clarity",
-    "whatChanged": [
-      "Stock market prediction: Vaishali Parekh believes to improve the bias, the Nifty 50 index would need a decisive breach above the 23,100 zone to establish conviction and clarity"
-    ],
-    "keyMetrics": [],
-    "whyItMatters": "Material development altering operational milestones, commercial positioning, or market expectations for the entity.",
-    "marketImpact": "No actionable F&O setup from this article alone.",
-    "riskWatchpoints": [
-      "No explicit operational or financial risk factors identified in source text."
-    ],
-    "summaryConfidence": 95,
-    "summaryProcessingMode": "DETERMINISTIC"
+    }
   },
   {
     "id": "v2_2787ea037439153f",
@@ -13971,6 +15457,46 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_ccbb3ba41daeb3c6",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNUmQ5S3lGM2Vkd1IzMEV0eWY5SnBrd1Q0T2NnXzhuQVJHc0RoVnRVMG13UVJQRU9JNGpkQ2VnZ2RxdHVqdGdPVFR2cDVvWmFjT3cxbXhzODNSVTZSX1FLVkJRZG4wb1dGZkRoam51QWFVU2ZTUHNwM0dXaElFWkxkeVFKZ1JfNzdaQmhmdUZmNXNEanpRZkFqLWxSSkZxTVpIZFpiYnh3LVBhekFZMThqa1owdDdRdk9QUFFMbUVCb29XQUZUdWpRNFZiV2djZmN1bmxTRk9yNVUwMVhrdDJ5amVR0gHnAUFVX3lxTFBxNm1sODlGVVZqZENhWFRYcTljRFVzSHM1WTlxakpHcmxvUVhJd0hJYzBJaWEybjZOSV9iSHBRNGhyWEs0VGlEZWVfRHVuc3VCRzhaeTRlVnIyQWxPVUYxOWNKTnZWUnBiaXFFRUt0Sm9jcWRhXy1DVUk1cWhFNWVfMkd1R0E2V1BwcTF2MXpnNVlVTndPdHNST0VIYi04bHhvakhOcjlEOVVGM1VPbG9CVjZuYU55WTNSOEpfWlZUOW1NZHZ2d2FSbjhKSXZ6QlRPTzNkeWFycC1TRGZGVjFhV2Rrc3BCcw?oc=5",
+    "headline": "Centre approves Rs 5,548 crore pulses, oilseeds procurement at MSP for Kharif season - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi4gFBVV95cUxNUmQ5S3lGM2Vkd1IzMEV0eWY5SnBrd1Q0T2NnXzhuQVJHc0RoVnRVMG13UVJQRU9JNGpkQ2VnZ2RxdHVqdGdPVFR2cDVvWmFjT3cxbXhzODNSVTZSX1FLVkJRZG4wb1dGZkRoam51QWFVU2ZTUHNwM0dXaElFWkxkeVFKZ1JfNzdaQmhmdUZmNXNEanpRZkFqLWxSSkZxTVpIZFpiYnh3LVBhekFZMThqa1owdDdRdk9QUFFMbUVCb29XQUZUdWpRNFZiV2djZmN1bmxTRk9yNVUwMVhrdDJ5amVR0gHnAUFVX3lxTFBxNm1sODlGVVZqZENhWFRYcTljRFVzSHM1WTlxakpHcmxvUVhJd0hJYzBJaWEybjZOSV9iSHBRNGhyWEs0VGlEZWVfRHVuc3VCRzhaeTRlVnIyQWxPVUYxOWNKTnZWUnBiaXFFRUt0Sm9jcWRhXy1DVUk1cWhFNWVfMkd1R0E2V1BwcTF2MXpnNVlVTndPdHNST0VIYi04bHhvakhOcjlEOVVGM1VPbG9CVjZuYU55WTNSOEpfWlZUOW1NZHZ2d2FSbjhKSXZ6QlRPTzNkeWFycC1TRGZGVjFhV2Rrc3BCcw?oc=5\" target=\"_blank\">Centre approves Rs 5,548 crore pulses, oilseeds procurement at MSP for Kharif season</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNUmQ5S3lGM2Vkd1IzMEV0eWY5SnBrd1Q0T2NnXzhuQVJHc0RoVnRVMG13UVJQRU9JNGpkQ2VnZ2RxdHVqdGdPVFR2cDVvWmFjT3cxbXhzODNSVTZSX1FLVkJRZG4wb1dGZkRoam51QWFVU2ZTUHNwM0dXaElFWkxkeVFKZ1JfNzdaQmhmdUZmNXNEanpRZkFqLWxSSkZxTVpIZFpiYnh3LVBhekFZMThqa1owdDdRdk9QUFFMbUVCb29XQUZUdWpRNFZiV2djZmN1bmxTRk9yNVUwMVhrdDJ5amVR0gHnAUFVX3lxTFBxNm1sODlGVVZqZENhWFRYcTljRFVzSHM1WTlxakpHcmxvUVhJd0hJYzBJaWEybjZOSV9iSHBRNGhyWEs0VGlEZWVfRHVuc3VCRzhaeTRlVnIyQWxPVUYxOWNKTnZWUnBiaXFFRUt0Sm9jcWRhXy1DVUk1cWhFNWVfMkd1R0E2V1BwcTF2MXpnNVlVTndPdHNST0VIYi04bHhvakhOcjlEOVVGM1VPbG9CVjZuYU55WTNSOEpfWlZUOW1NZHZ2d2FSbjhKSXZ6QlRPTzNkeWFycC1TRGZGVjFhV2Rrc3BCcw?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-09-30T10:38:10.000Z",
+    "collectedAt": "2026-10-01T06:26:41.827Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_76fd1ecebfda65f4",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQMjJncEViTGh2T1lYSEp6VEE3cXpRSk1DMTdPaVZ5RDFWamZjOTFiRmFMTHpwaXh0bDZINmFYNV9xb055bzRoR1hrVXpWazBic1BhNEs5VHNGWkctMFgyR2cyVkM2dUtmYkNxZkZfN091aEdZN0xmV3haVkliUjI1cXZzYkZSak5ySjRGUEdUZTRRcjhiOFVSZUJGck9BMkNlLTU3dklQUXg2UdIBrwFBVV95cUxQdTUyZkFDeGxSSUF0Z1djUjh6QXd6MWx3SnpUYjBzb0Zuc1dqUTlEa19raFlLSWZ5SGpkSjMxUmtfbFd4TW1sOVZLUnB1ci1tbHBRWTRFYnF0bkQzM2N2dlM2RllBVG5TZUFNVkwyWGxYNzJTaTlZWVVPU3Uya2FkWi1lRkRoNHN4NnhId1JOS2NzMjZ1SU95VmEwWlp1SjlZbnRLaDZVX2U1d1BFYU5F?oc=5",
     "headline": "PGIM India CIO Naha is holding up to 20% cash, waiting for a 5%-7% market correction - CNBC TV18",
@@ -15910,6 +17436,46 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_9245f32a62dc0965",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMigwJBVV95cUxQdk5ZTGJma0tiUFJQQU5Bd3FVYWhBUHE2ejZzUnBRNzdEbWZPNEtQeXExa2J6LWVNZ2pqMmxPNi00aExjOVVOLU5TMFFuMkp3T2ZOenlnVWZONWFIenR3WklYaGZSU3BobmZVZW5FVi1DclJVS0NBYjFPMWtYZXlVcGpnWExTTjU2ZHY1MjFGTlhIZnd3aGgxOHlpVlF2NXl6WGVLTnFZdFF5QTBLRG5sX09pMU15Z2dreF9ldzhBYndfRXB2OUszWUpaMTRxaEotcnd4cVV4S2JVeHBQakVHSGlQWWhfTEtkOFp2enBNYlNoOUs1MEpQeDVQWnNRNWtOTkRV0gGIAkFVX3lxTE9aNnJVUExIMmNEUGNNNjFnWElDUFdVQzFqOFBVWDFmdlVOTEdPckpzcHNVcjEtM29TbWhTdFBWTGtHUU9LMUdpX3A3QW54cG5yZHM4X01xbEV2Q0pFcDJRNWRDODZBeUdlZExWMW9kY1BIbWxoMEtOVHlmdzJyR0IteURDMWZaN2tmcHRyZi1qdzZ5WDN3OHEyR3NDTXkyZldON2VRdERhWndhb3plbkZTQ0QwaEFwYWlRZklSbkxNY3FkNXpEblhmeWNtdUJCMGQtbVdTLTBQeXE2MVRnTzlSQTFJcm94dUxHZ0Y4Y3JiN3FsSVRBRy04WXpZQ1NudWxfdFZyYTdYNA?oc=5",
+    "headline": "'Fungal growth, veg food mixed with meat': FSSAI suspends Seven Seas Hospitality licence for poor hygiene,... - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMigwJBVV95cUxQdk5ZTGJma0tiUFJQQU5Bd3FVYWhBUHE2ejZzUnBRNzdEbWZPNEtQeXExa2J6LWVNZ2pqMmxPNi00aExjOVVOLU5TMFFuMkp3T2ZOenlnVWZONWFIenR3WklYaGZSU3BobmZVZW5FVi1DclJVS0NBYjFPMWtYZXlVcGpnWExTTjU2ZHY1MjFGTlhIZnd3aGgxOHlpVlF2NXl6WGVLTnFZdFF5QTBLRG5sX09pMU15Z2dreF9ldzhBYndfRXB2OUszWUpaMTRxaEotcnd4cVV4S2JVeHBQakVHSGlQWWhfTEtkOFp2enBNYlNoOUs1MEpQeDVQWnNRNWtOTkRV0gGIAkFVX3lxTE9aNnJVUExIMmNEUGNNNjFnWElDUFdVQzFqOFBVWDFmdlVOTEdPckpzcHNVcjEtM29TbWhTdFBWTGtHUU9LMUdpX3A3QW54cG5yZHM4X01xbEV2Q0pFcDJRNWRDODZBeUdlZExWMW9kY1BIbWxoMEtOVHlmdzJyR0IteURDMWZaN2tmcHRyZi1qdzZ5WDN3OHEyR3NDTXkyZldON2VRdERhWndhb3plbkZTQ0QwaEFwYWlRZklSbkxNY3FkNXpEblhmeWNtdUJCMGQtbVdTLTBQeXE2MVRnTzlSQTFJcm94dUxHZ0Y4Y3JiN3FsSVRBRy04WXpZQ1NudWxfdFZyYTdYNA?oc=5\" target=\"_blank\">'Fungal growth, veg food mixed with meat': FSSAI suspends Seven Seas Hospitality licence for poor hygiene,...</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMigwJBVV95cUxQdk5ZTGJma0tiUFJQQU5Bd3FVYWhBUHE2ejZzUnBRNzdEbWZPNEtQeXExa2J6LWVNZ2pqMmxPNi00aExjOVVOLU5TMFFuMkp3T2ZOenlnVWZONWFIenR3WklYaGZSU3BobmZVZW5FVi1DclJVS0NBYjFPMWtYZXlVcGpnWExTTjU2ZHY1MjFGTlhIZnd3aGgxOHlpVlF2NXl6WGVLTnFZdFF5QTBLRG5sX09pMU15Z2dreF9ldzhBYndfRXB2OUszWUpaMTRxaEotcnd4cVV4S2JVeHBQakVHSGlQWWhfTEtkOFp2enBNYlNoOUs1MEpQeDVQWnNRNWtOTkRV0gGIAkFVX3lxTE9aNnJVUExIMmNEUGNNNjFnWElDUFdVQzFqOFBVWDFmdlVOTEdPckpzcHNVcjEtM29TbWhTdFBWTGtHUU9LMUdpX3A3QW54cG5yZHM4X01xbEV2Q0pFcDJRNWRDODZBeUdlZExWMW9kY1BIbWxoMEtOVHlmdzJyR0IteURDMWZaN2tmcHRyZi1qdzZ5WDN3OHEyR3NDTXkyZldON2VRdERhWndhb3plbkZTQ0QwaEFwYWlRZklSbkxNY3FkNXpEblhmeWNtdUJCMGQtbVdTLTBQeXE2MVRnTzlSQTFJcm94dUxHZ0Y4Y3JiN3FsSVRBRy04WXpZQ1NudWxfdFZyYTdYNA?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-09-30T07:18:25.000Z",
+    "collectedAt": "2026-10-01T06:42:51.369Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 70,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "REGULATORY",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_7ac28eed26490d2c",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPa1ZsbGhjMzZ3b2MwdFpORFpnU3N5M0VMU21ZeWp1bUhqRzNDWHliNDIzYWduSmFJOC1zNnl1bXRhSzNrQTJuSm1uS2N3amdZbmkzejc1ZmJWWkhZbl9yUFQ3ejBRbHgzYTgtN1lWSXFpWG1QLUM0c1BGU0VmaGJpT3MxcFIyQmQxMXhldkFUVzMtY1BqSXFGWExvODB6cWpXMmRNVmZLM1M3QmdrdjY0SkpQNHlPTFVoN0RmRDk0Mkh5d9IBxwFBVV95cUxNaWZwdGpkSU1JRUdyc2VtVkxHR21Fa3lfTXFpYXJmTnZtQkYza1UwZ3A3Ukt6d2U0OUxBc1FuRmxzX2VHMWxwdmRDQlVBa2F3eHRHc0dfZmhyaFpzYnowam4xOUFub1JpOUtoaEZZVnY0R2MyRWUwMHQwaV9McEx3SmdZQnlSQWxWdFcyZTZtN3JNMEZhcFl2aUF5aW83SXhMaFZLZmJtSjEyb2FBQnJOMEhhdncwTTdXNS1aUnVLOVczT2tuNHpF?oc=5",
     "headline": "RBI may hike rates by 75 bps here on, but India growth likely to hold up: ANZ Research’s Richard Yetsenga - CNBC TV18",
@@ -17585,6 +19151,46 @@
     },
     "publishedAt": "2026-09-30T04:27:00.000Z",
     "collectedAt": "2026-10-01T04:11:38.292Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_31f1d6d2c072bf45",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBQODM0aHBCUC1aYWdxTFJiWjl4ZGlFUHltelZsZm9fbE1kYnhaLW53Xzk1MTdNVlBnanBVVWFnS01jZEdtQXBiVVo4OS1vblc0MkpIZC14Mllob2poWXZfYklPVHItbGhwbHh3bHRHMW5EU1J2eE5wVUdoLWtDUQ?oc=5",
+    "headline": "NEW CORPORATE AVERAGE FUEL ECONOMY (CAFE) NORMS NOTIFIED - pib.gov.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMifkFVX3lxTFBQODM0aHBCUC1aYWdxTFJiWjl4ZGlFUHltelZsZm9fbE1kYnhaLW53Xzk1MTdNVlBnanBVVWFnS01jZEdtQXBiVVo4OS1vblc0MkpIZC14Mllob2poWXZfYklPVHItbGhwbHh3bHRHMW5EU1J2eE5wVUdoLWtDUQ?oc=5\" target=\"_blank\">NEW CORPORATE AVERAGE FUEL ECONOMY (CAFE) NORMS NOTIFIED</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBQODM0aHBCUC1aYWdxTFJiWjl4ZGlFUHltelZsZm9fbE1kYnhaLW53Xzk1MTdNVlBnanBVVWFnS01jZEdtQXBiVVo4OS1vblc0MkpIZC14Mllob2poWXZfYklPVHItbGhwbHh3bHRHMW5EU1J2eE5wVUdoLWtDUQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-09-30T04:27:00.000Z",
+    "collectedAt": "2026-10-01T06:14:13.812Z",
     "category": "Other",
     "sentiment": "NEUTRAL",
     "relevanceScore": 65,
@@ -23865,6 +25471,36 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_fc851739bd99a069",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTlJ2dUpOaFZKeU5qb3NtdVpuOFdJWDg2cHBUNWJqMWJZbzAxWks2dkJvc3UwQ3RseG50NC1kd3RhTWZMMHNwMjBrTHF1dndTY1VBYnFlSnRacVNFZE9Fdl9Eb3I3QVE4R05qR21sY3VJdDBTQWhaRzJJcFVhaWhQaU9CNXVZN0NERFdZR3lnWlk2VlRFUFVqY25kYXpFVlBnU25jd2dybUNZaXpTcFBMeHZ2bktHUU9BQkZieUtkWUZJMEJVUG5MU2J3UENvNm95Z2JuYWtEeFlDNVHSAeABQVVfeXFMTllrdjl1UURRbWtmZzdOYlVXT2hUNENUbFkzbkJHZGpuaHNfNkFfLWFqaUt6U0dXbHdZc1V2SVBaaHpQTE1naV95alZNUUEzbmtjS2VCSjhCY0pfd0s3cFA4N0VaZHg4dlY5Mm9QcmlrZFFqWjY4cHA0d0pOSWJDOEpzekJpczZ2RFFvb1F4akxfRmlrbm44T0dpNmRkZVYwRnhFYWpJOGZ0NTZhazEwZEd1M0VDTnZ0ZFlNX3JfbTJCR3pKZG5pYTVGOHByVmdYN1RiNWJkSXMzWGVMdVplM2U?oc=5",
+    "headline": "Adroit Industries IPO allotment today; GMP at 43% — check status on BSE, NSE and registrar - Moneycontrol.com",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTlJ2dUpOaFZKeU5qb3NtdVpuOFdJWDg2cHBUNWJqMWJZbzAxWks2dkJvc3UwQ3RseG50NC1kd3RhTWZMMHNwMjBrTHF1dndTY1VBYnFlSnRacVNFZE9Fdl9Eb3I3QVE4R05qR21sY3VJdDBTQWhaRzJJcFVhaWhQaU9CNXVZN0NERFdZR3lnWlk2VlRFUFVqY25kYXpFVlBnU25jd2dybUNZaXpTcFBMeHZ2bktHUU9BQkZieUtkWUZJMEJVUG5MU2J3UENvNm95Z2JuYWtEeFlDNVHSAeABQVVfeXFMTllrdjl1UURRbWtmZzdOYlVXT2hUNENUbFkzbkJHZGpuaHNfNkFfLWFqaUt6U0dXbHdZc1V2SVBaaHpQTE1naV95alZNUUEzbmtjS2VCSjhCY0pfd0s3cFA4N0VaZHg4dlY5Mm9QcmlrZFFqWjY4cHA0d0pOSWJDOEpzekJpczZ2RFFvb1F4akxfRmlrbm44T0dpNmRkZVYwRnhFYWpJOGZ0NTZhazEwZEd1M0VDTnZ0ZFlNX3JfbTJCR3pKZG5pYTVGOHByVmdYN1RiNWJkSXMzWGVMdVplM2U?oc=5\" target=\"_blank\">Adroit Industries IPO allotment today; GMP at 43% — check status on BSE, NSE and registrar</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+    "source": {
+      "publisher": "Moneycontrol",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTlJ2dUpOaFZKeU5qb3NtdVpuOFdJWDg2cHBUNWJqMWJZbzAxWks2dkJvc3UwQ3RseG50NC1kd3RhTWZMMHNwMjBrTHF1dndTY1VBYnFlSnRacVNFZE9Fdl9Eb3I3QVE4R05qR21sY3VJdDBTQWhaRzJJcFVhaWhQaU9CNXVZN0NERFdZR3lnWlk2VlRFUFVqY25kYXpFVlBnU25jd2dybUNZaXpTcFBMeHZ2bktHUU9BQkZieUtkWUZJMEJVUG5MU2J3UENvNm95Z2JuYWtEeFlDNVHSAeABQVVfeXFMTllrdjl1UURRbWtmZzdOYlVXT2hUNENUbFkzbkJHZGpuaHNfNkFfLWFqaUt6U0dXbHdZc1V2SVBaaHpQTE1naV95alZNUUEzbmtjS2VCSjhCY0pfd0s3cFA4N0VaZHg4dlY5Mm9QcmlrZFFqWjY4cHA0d0pOSWJDOEpzekJpczZ2RFFvb1F4akxfRmlrbm44T0dpNmRkZVYwRnhFYWpJOGZ0NTZhazEwZEd1M0VDTnZ0ZFlNX3JfbTJCR3pKZG5pYTVGOHByVmdYN1RiNWJkSXMzWGVMdVplM2U?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-09-28T05:05:09.000Z",
+    "collectedAt": "2026-10-01T06:08:05.131Z",
+    "category": "IPO",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "IPO",
+    "secondaryCategories": [],
+    "eventType": "IPO",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[IPO] IPO indicators matched in headline (3)"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": "BSE",
+      "confidence": "HIGH",
+      "decision": "EXCLUDE",
+      "reason": "Lacks explicit Tier 1 derivative metrics and Tier 2 material corporate catalysts"
+    }
+  },
+  {
     "id": "v2_1933e849c3b4ac7e",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxObFRUUjZrRFpjTE1NcXBPb2NicXQtS3RtU0wtNHVjVHV4VHRlWWtMc1RtMzYwbXN2dnl3SVRBcjJxWFphN0hXMm0yZFNFNVduQ2dDdnVweVhTR24xNW5qemFXaTl2dkxsMkFYTlNCbGM1Si1IcmZIN3ZBTmF2ajBCcERjU1RPNXlIRHdlanZ1T0VxWWlWZkZ2eEYyZFBJWUJiSUp6b2gtcEtUQjJMaHNuWHNrRkNYek0tZlRITmkteDFreTNVb2VvcmhWZnJNa3FzTnZiUy1aXzVMMzg0cGNZR3pvMUFRQQ?oc=5",
     "headline": "Sensex Today Tanks 903 Points | Nifty Below 22,900 | Bajaj Finance & Kotak Mahindra Top Losers - Equitymaster",
@@ -24159,6 +25795,46 @@
     "category": "Other",
     "sentiment": "NEUTRAL",
     "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_e42bddcdd6ed026c",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1NemlNUDhjQUxrVVZ3LVJFYjI5bUdTSVY0cFFUWldzdkV3bDE5N0YtanI1Qy1EX1ZlTEwwQlFfbnFtMWlqTVlLMjRXNkMwbFRpQ3I3MFplVmtINjlabHdQcUJOcXBuWEJYbnBpTlFHVHZLNDBuSEZES1lKUzZQUQ?oc=5",
+    "headline": "Union Minister for Finance & Corporate Affairs Smt. Nirmala Sitharaman will embark on an official visit to Qatar from 27 to 29 September 2026 - pib.gov.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMifkFVX3lxTE1NemlNUDhjQUxrVVZ3LVJFYjI5bUdTSVY0cFFUWldzdkV3bDE5N0YtanI1Qy1EX1ZlTEwwQlFfbnFtMWlqTVlLMjRXNkMwbFRpQ3I3MFplVmtINjlabHdQcUJOcXBuWEJYbnBpTlFHVHZLNDBuSEZES1lKUzZQUQ?oc=5\" target=\"_blank\">Union Minister for Finance & Corporate Affairs Smt. Nirmala Sitharaman will embark on an official visit to Qatar from 27 to 29 September 2026</a> <font color=\"#6f6f6f\">pib.gov.in</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1NemlNUDhjQUxrVVZ3LVJFYjI5bUdTSVY0cFFUWldzdkV3bDE5N0YtanI1Qy1EX1ZlTEwwQlFfbnFtMWlqTVlLMjRXNkMwbFRpQ3I3MFplVmtINjlabHdQcUJOcXBuWEJYbnBpTlFHVHZLNDBuSEZES1lKUzZQUQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-09-27T15:01:00.000Z",
+    "collectedAt": "2026-10-01T06:23:51.177Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 50,
     "primaryCategory": "Other",
     "secondaryCategories": [],
     "eventType": "OTHER",
@@ -66314,6 +67990,46 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_dc2b706444745f71",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMingFBVV95cUxNY1k5T3dxQ3hoRDdjb3lHVjBIdFgtVW1ZMmZjY3dWaEVVM2xsMzNkZVUxc3BiZFZjSlpnWlBmZ29vODNSbmpjaVI2Q0dod2JKWmtlZW0xa0RWSVhQX3MxRDFKNDVpcTJibmdOOW9jbkVZRWw0Q3ByazQ4c0g2UHJPVkMzNVBWQUNhQlhSQ2F0Sy0xcmlYUlB0djN0a2JyZw?oc=5",
+    "headline": "View - rbi.org.in - Reserve Bank of India",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMingFBVV95cUxNY1k5T3dxQ3hoRDdjb3lHVjBIdFgtVW1ZMmZjY3dWaEVVM2xsMzNkZVUxc3BiZFZjSlpnWlBmZ29vODNSbmpjaVI2Q0dod2JKWmtlZW0xa0RWSVhQX3MxRDFKNDVpcTJibmdOOW9jbkVZRWw0Q3ByazQ4c0g2UHJPVkMzNVBWQUNhQlhSQ2F0Sy0xcmlYUlB0djN0a2JyZw?oc=5\" target=\"_blank\">View - rbi.org.in</a> <font color=\"#6f6f6f\">Reserve Bank of India</font>",
+    "source": {
+      "publisher": "RBI",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNY1k5T3dxQ3hoRDdjb3lHVjBIdFgtVW1ZMmZjY3dWaEVVM2xsMzNkZVUxc3BiZFZjSlpnWlBmZ29vODNSbmpjaVI2Q0dod2JKWmtlZW0xa0RWSVhQX3MxRDFKNDVpcTJibmdOOW9jbkVZRWw0Q3ByazQ4c0g2UHJPVkMzNVBWQUNhQlhSQ2F0Sy0xcmlYUlB0djN0a2JyZw?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2026-02-16T05:15:39.000Z",
+    "collectedAt": "2026-10-01T06:17:13.868Z",
+    "category": "Economy",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Economy",
+    "secondaryCategories": [],
+    "eventType": "REGULATORY",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Economy] Economy/regulatory keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 80,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_a2f29ce358f95d8a",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMigwJBVV95cUxPZF9qZ2M1NFdIWFlUd0R6QjFGWEN5eDhHeVdmVmFjQ1JwT05yajh4S004TnVjOXA0RklqNEFPQU52MlphU0tvYTVIVVF2TkhBMEY3VjR1d0NCc1p4SU1yLXV6SGpibWI2MDhyX3lqZnMydlBHMjhBQk9WY0w4X1VyYVQ2LV9zeng4dlA5alVjSS1rQ2k4NXR4bkRCUkd1Q0otZzdPcWc0amZIUjR2bTFwNmRHZlAwN0dhaEtVZG1UbGRZLUU5TW9oZ3U1R2FGSERVZ1VhZnJHNVFZX2pIUk5weHRlWGpKOWRhTzZITFN3R2ltZ0NkSnBmYkxSMGdpSHl1M3E4?oc=5",
     "headline": "Easy Trip Planners Issues Public Announcement Complying with NSE Directions on Preferential Equity Share Issuance - scanx.trade",
@@ -68059,6 +69775,46 @@
       "No explicit operational or financial risk factors identified in source text."
     ],
     "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_736bb0bc26f691e8",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPMDI1MTc5NVV5V2xUV3B3eXRqRnNyZmQ0SzU1QXcxcXNpWUZvOW1ndzFRTm1DMGZFaWNCbkRjazRrSGRiLUlDSlNERkpfdVJQRFgwY09UUW1jNjRpMk96V2lfSDdQLXhtUXZLUFZoUkJ2WGdwVmwyN3lucHppb3JUTS1MRkFWOG9VM3FQZi02emhHTzJEN1duNjhEanlKR1RYd3p3T3ExZS1lLVg1b09jWEs5azdDZjBueE1oUHhRV2ZEcFJ0MDMyaG9rNV9TWXNaTmIwS3RLMm4?oc=5",
+    "headline": "Shri Sandip Pradhan takes charge as Whole Time Member, SEBI - SEBI",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMi2AFBVV95cUxPMDI1MTc5NVV5V2xUV3B3eXRqRnNyZmQ0SzU1QXcxcXNpWUZvOW1ndzFRTm1DMGZFaWNCbkRjazRrSGRiLUlDSlNERkpfdVJQRFgwY09UUW1jNjRpMk96V2lfSDdQLXhtUXZLUFZoUkJ2WGdwVmwyN3lucHppb3JUTS1MRkFWOG9VM3FQZi02emhHTzJEN1duNjhEanlKR1RYd3p3T3ExZS1lLVg1b09jWEs5azdDZjBueE1oUHhRV2ZEcFJ0MDMyaG9rNV9TWXNaTmIwS3RLMm4?oc=5\" target=\"_blank\">Shri Sandip Pradhan takes charge as Whole Time Member, SEBI</a> <font color=\"#6f6f6f\">SEBI</font>",
+    "source": {
+      "publisher": "SEBI",
+      "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPMDI1MTc5NVV5V2xUV3B3eXRqRnNyZmQ0SzU1QXcxcXNpWUZvOW1ndzFRTm1DMGZFaWNCbkRjazRrSGRiLUlDSlNERkpfdVJQRFgwY09UUW1jNjRpMk96V2lfSDdQLXhtUXZLUFZoUkJ2WGdwVmwyN3lucHppb3JUTS1MRkFWOG9VM3FQZi02emhHTzJEN1duNjhEanlKR1RYd3p3T3ExZS1lLVg1b09jWEs5azdDZjBueE1oUHhRV2ZEcFJ0MDMyaG9rNV9TWXNaTmIwS3RLMm4?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2025-12-05T08:00:00.000Z",
+    "collectedAt": "2026-10-01T06:52:57.675Z",
+    "category": "Economy",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Economy",
+    "secondaryCategories": [],
+    "eventType": "REGULATORY",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Economy] Economy/regulatory keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "Regulatory / Legal watchpoint: \"<a href=\"https://news.google.com/rss/articles/CBMi2AFBVV95cUxPMDI1MTc5NVV5V2xUV3B3eXRqRnNyZmQ0SzU1QXcxcXNpWUZvOW1ndzFRTm\""
+    ],
+    "summaryConfidence": 80,
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
@@ -72362,6 +74118,46 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_bd8aa1477175e293",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPSWphU2VIckFBQTREekFnQ1Itbm9oLXlaN05vZDUtUWlDcy1rOTJmcnZKS2k4Y0Vwam1aeWR0eDFBZEVjcE1WSWJySklTZERoRWw3ZU9iYVptUnpvSU1xck1XdXNmSzRJNV9PT0k4RmswdlVndGFJQlQwSUtaTC1ITDQ4NE43SjRXVFhJa3R5MzkxQVhxQi1mZTNTU1RoakZQ?oc=5",
+    "headline": "cs/Content/PDFs/DADVTGR - rbi.org.in - Reserve Bank of India",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMioAFBVV95cUxPSWphU2VIckFBQTREekFnQ1Itbm9oLXlaN05vZDUtUWlDcy1rOTJmcnZKS2k4Y0Vwam1aeWR0eDFBZEVjcE1WSWJySklTZERoRWw3ZU9iYVptUnpvSU1xck1XdXNmSzRJNV9PT0k4RmswdlVndGFJQlQwSUtaTC1ITDQ4NE43SjRXVFhJa3R5MzkxQVhxQi1mZTNTU1RoakZQ?oc=5\" target=\"_blank\">cs/Content/PDFs/DADVTGR - rbi.org.in</a> <font color=\"#6f6f6f\">Reserve Bank of India</font>",
+    "source": {
+      "publisher": "RBI",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPSWphU2VIckFBQTREekFnQ1Itbm9oLXlaN05vZDUtUWlDcy1rOTJmcnZKS2k4Y0Vwam1aeWR0eDFBZEVjcE1WSWJySklTZERoRWw3ZU9iYVptUnpvSU1xck1XdXNmSzRJNV9PT0k4RmswdlVndGFJQlQwSUtaTC1ITDQ4NE43SjRXVFhJa3R5MzkxQVhxQi1mZTNTU1RoakZQ?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2023-05-09T07:00:00.000Z",
+    "collectedAt": "2026-10-01T06:17:13.868Z",
+    "category": "Economy",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Economy",
+    "secondaryCategories": [],
+    "eventType": "REGULATORY",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Economy] Economy/regulatory keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 80,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
     "id": "v2_9a220f6c97c01f88",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNeWpodkQ2V2h3R1BKVUJFMzJxaUtTazZBdUtlUENCcjE4NlVPazQ2QThZSWtvTlZqcDZpSmhlU09McGtpcTBOdktvQV9Lajd2TlYwWkFFMldNdnFlVV9aYXZ3NE5hcUx0ZDhQU0lpY1JIaHlJanBaODNzS0ZDTXRFSWVqZ2NiR1FYWmtPN0hDNjdqOXhjMkx2dXJ2c2g3cFY5cWdKMGNnU2N1S0VWODh0SGRnelZqZ2xPS3o5Y0RB?oc=5",
     "headline": "XBRL Filing for NSE & BSE: New Rules for Listed Firms - CAclubindia",
@@ -73612,6 +75408,36 @@
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
+    "id": "v2_fc76c740c9289254",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5POTJfUDJMX0liVHdIdFlXbTFSd2Rha0Y5eWpHQWRiWGpkUDN2aFdPZjBXdjJFbnhqYmVmWWpuNjJqNzdOOUdPZGM4ZUxQUlN1d0RtY2VuUmgtUXdYS1E?oc=5",
+    "headline": "English Press Releases - PIB Archives",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTE5POTJfUDJMX0liVHdIdFlXbTFSd2Rha0Y5eWpHQWRiWGpkUDN2aFdPZjBXdjJFbnhqYmVmWWpuNjJqNzdOOUdPZGM4ZUxQUlN1d0RtY2VuUmgtUXdYS1E?oc=5\" target=\"_blank\">English Press Releases</a> <font color=\"#6f6f6f\">PIB Archives</font>",
+    "source": {
+      "publisher": "Press Information Bureau",
+      "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5POTJfUDJMX0liVHdIdFlXbTFSd2Rha0Y5eWpHQWRiWGpkUDN2aFdPZjBXdjJFbnhqYmVmWWpuNjJqNzdOOUdPZGM4ZUxQUlN1d0RtY2VuUmgtUXdYS1E?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2020-10-08T16:29:04.000Z",
+    "collectedAt": "2026-10-01T06:50:35.338Z",
+    "category": "Other",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 65,
+    "primaryCategory": "Other",
+    "secondaryCategories": [],
+    "eventType": "OTHER",
+    "categoryConfidence": "LOW",
+    "classificationEvidence": [
+      "Default fallback classification for general news story"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    }
+  },
+  {
     "id": "v2_1dcad1e1161444b8",
     "canonicalUrl": "https://news.google.com/rss/articles/CBMiQEFVX3lxTE9Xel9iYl95OFpya05OUUFJSDlnQ1RjTXhIUVYyMnUycmw4elJjdkYxQ1NnRmk1N3ZhaTR0Z01HUjE?oc=5",
     "headline": "Home | PIB Archives - PIB Archives",
@@ -74852,6 +76678,46 @@
       "No explicit operational or financial risk factors identified in source text."
     ],
     "summaryConfidence": 60,
+    "summaryProcessingMode": "DETERMINISTIC"
+  },
+  {
+    "id": "v2_c807acd0b50e45f6",
+    "canonicalUrl": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9acGVxTTNFRHZmd2FIMlA3eXRoOFUwOFQyQ005eXRoVTcyN1hHZkVlOVgyQWQwMFl1YXdqWkFQVVFWdXRDanJXRjN3WmVKMC01R0I1cDExNkZWOFFydXdB?oc=5",
+    "headline": "RBI History| Official Website of Reserve Bank of India - rbi.org.in",
+    "body": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE9acGVxTTNFRHZmd2FIMlA3eXRoOFUwOFQyQ005eXRoVTcyN1hHZkVlOVgyQWQwMFl1YXdqWkFQVVFWdXRDanJXRjN3WmVKMC01R0I1cDExNkZWOFFydXdB?oc=5\" target=\"_blank\">RBI History| Official Website of Reserve Bank of India</a> <font color=\"#6f6f6f\">rbi.org.in</font>",
+    "source": {
+      "publisher": "RBI",
+      "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9acGVxTTNFRHZmd2FIMlA3eXRoOFUwOFQyQ005eXRoVTcyN1hHZkVlOVgyQWQwMFl1YXdqWkFQVVFWdXRDanJXRjN3WmVKMC01R0I1cDExNkZWOFFydXdB?oc=5",
+      "collectionMethod": "RSS"
+    },
+    "publishedAt": "2017-02-18T01:40:28.000Z",
+    "collectedAt": "2026-10-01T06:17:13.868Z",
+    "category": "Economy",
+    "sentiment": "NEUTRAL",
+    "relevanceScore": 85,
+    "primaryCategory": "Economy",
+    "secondaryCategories": [],
+    "eventType": "REGULATORY",
+    "categoryConfidence": "HIGH",
+    "classificationEvidence": [
+      "[Economy] Economy/regulatory keywords matched in headline"
+    ],
+    "fno": {
+      "eligible": false,
+      "symbol": null,
+      "confidence": "NONE",
+      "decision": "EXCLUDE",
+      "reason": "No canonical F&O entity identified in headline"
+    },
+    "summary": "Summary unavailable — Open original source",
+    "whatChanged": [],
+    "keyMetrics": [],
+    "whyItMatters": "",
+    "marketImpact": "No actionable F&O setup from this article alone.",
+    "riskWatchpoints": [
+      "No explicit operational or financial risk factors identified in source text."
+    ],
+    "summaryConfidence": 80,
     "summaryProcessingMode": "DETERMINISTIC"
   },
   {
