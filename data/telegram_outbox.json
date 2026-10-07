@@ -1,1 +1,49 @@
-[]
+[
+  {
+    "articleId": "v2_4f781476321f36b8",
+    "payload": {
+      "id": "v2_4f781476321f36b8",
+      "canonicalUrl": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPR1dsbGQtVmFWNnZUakpyc1QzemF3WnhLQ3hldjhaejI5SEtWeWRqQ0xzdmsyMUdWRGVpRk4zZ0xRRDQxSzl4S2FJcE9uODFnYzdSNUFKRndVV0VDbmtaTEFjZHVkWDB2b3Y2dHhiZ0dTd1FHRjliX0c5dEtTVk0tQk43dHJoY251U3lKc3gwUTNXcTVkTHZHYjJuQzFKX0NTVUdwam5HWlhHblFJRXMtRnBFdUJsWWxDWmR6MHNTSEc1NkpHb01sT0JmS19XN3Z1LWxhVFFCbGzSAd4BQVVfeXFMUHpWci1xWE9KTVN3ajVaZVNxclhEWUZTNDEzOUsxUHhldTdkQnJycUlMOW5PbTgyUERRNW9uS1JFSzdxei1nTXBxcmZ0LUhjUllmNGlXSDBlSHZoM1lTZm9PR2NFdEhIYk03ZERsS1BLcXNOdVdrUWRqZktNYVlpTElsWWxiZGg3M0gwelRNS25iamtLc2RSV3VrRFJZT1o3OHlhcm5VTFF4ankxSGFqOVpDLTAxeHd4NnBRY1gwWF9EZDBMbHZGQmxHaDZCM2FOOHVUVE9Qcy1SRF9PMlp3?oc=5",
+      "headline": "Upcoming issue: Engineering solutions firm Vinir Engineering files DRHP with SEBI - Moneycontrol.com",
+      "body": "<a href=\"https://news.google.com/rss/articles/CBMi2AFBVV95cUxPR1dsbGQtVmFWNnZUakpyc1QzemF3WnhLQ3hldjhaejI5SEtWeWRqQ0xzdmsyMUdWRGVpRk4zZ0xRRDQxSzl4S2FJcE9uODFnYzdSNUFKRndVV0VDbmtaTEFjZHVkWDB2b3Y2dHhiZ0dTd1FHRjliX0c5dEtTVk0tQk43dHJoY251U3lKc3gwUTNXcTVkTHZHYjJuQzFKX0NTVUdwam5HWlhHblFJRXMtRnBFdUJsWWxDWmR6MHNTSEc1NkpHb01sT0JmS19XN3Z1LWxhVFFCbGzSAd4BQVVfeXFMUHpWci1xWE9KTVN3ajVaZVNxclhEWUZTNDEzOUsxUHhldTdkQnJycUlMOW5PbTgyUERRNW9uS1JFSzdxei1nTXBxcmZ0LUhjUllmNGlXSDBlSHZoM1lTZm9PR2NFdEhIYk03ZERsS1BLcXNOdVdrUWRqZktNYVlpTElsWWxiZGg3M0gwelRNS25iamtLc2RSV3VrRFJZT1o3OHlhcm5VTFF4ankxSGFqOVpDLTAxeHd4NnBRY1gwWF9EZDBMbHZGQmxHaDZCM2FOOHVUVE9Qcy1SRF9PMlp3?oc=5\" target=\"_blank\">Upcoming issue: Engineering solutions firm Vinir Engineering files DRHP with SEBI</a> <font color=\"#6f6f6f\">Moneycontrol.com</font>",
+      "source": {
+        "publisher": "Moneycontrol",
+        "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPR1dsbGQtVmFWNnZUakpyc1QzemF3WnhLQ3hldjhaejI5SEtWeWRqQ0xzdmsyMUdWRGVpRk4zZ0xRRDQxSzl4S2FJcE9uODFnYzdSNUFKRndVV0VDbmtaTEFjZHVkWDB2b3Y2dHhiZ0dTd1FHRjliX0c5dEtTVk0tQk43dHJoY251U3lKc3gwUTNXcTVkTHZHYjJuQzFKX0NTVUdwam5HWlhHblFJRXMtRnBFdUJsWWxDWmR6MHNTSEc1NkpHb01sT0JmS19XN3Z1LWxhVFFCbGzSAd4BQVVfeXFMUHpWci1xWE9KTVN3ajVaZVNxclhEWUZTNDEzOUsxUHhldTdkQnJycUlMOW5PbTgyUERRNW9uS1JFSzdxei1nTXBxcmZ0LUhjUllmNGlXSDBlSHZoM1lTZm9PR2NFdEhIYk03ZERsS1BLcXNOdVdrUWRqZktNYVlpTElsWWxiZGg3M0gwelRNS25iamtLc2RSV3VrRFJZT1o3OHlhcm5VTFF4ankxSGFqOVpDLTAxeHd4NnBRY1gwWF9EZDBMbHZGQmxHaDZCM2FOOHVUVE9Qcy1SRF9PMlp3?oc=5",
+        "collectionMethod": "RSS"
+      },
+      "publishedAt": "2026-10-07T04:47:55.000Z",
+      "collectedAt": "2026-10-07T05:56:19.898Z",
+      "category": "IPO",
+      "sentiment": "NEUTRAL",
+      "relevanceScore": 85,
+      "primaryCategory": "IPO",
+      "secondaryCategories": [
+        "Economy"
+      ],
+      "eventType": "IPO",
+      "categoryConfidence": "HIGH",
+      "classificationEvidence": [
+        "[IPO] IPO indicators matched in headline (1)",
+        "[Economy] Economy/regulatory keywords matched in headline"
+      ],
+      "fno": {
+        "eligible": false,
+        "symbol": null,
+        "confidence": "NONE",
+        "decision": "EXCLUDE",
+        "reason": "No canonical F&O entity identified in headline"
+      },
+      "summary": "Summary unavailable — Open original source",
+      "whatChanged": [],
+      "keyMetrics": [],
+      "whyItMatters": "",
+      "marketImpact": "No actionable F&O setup from this article alone.",
+      "riskWatchpoints": [
+        "Regulatory / Legal watchpoint: \"<a href=\"https://news.google.com/rss/articles/CBMi2AFBVV95cUxPR1dsbGQtVmFWNnZUakpyc1QzemF3WnhLQ3hldjhaejI5SEtWeWRqQ0xzdm\""
+      ],
+      "summaryConfidence": 80,
+      "summaryProcessingMode": "DETERMINISTIC"
+    },
+    "attempts": 0
+  }
+]

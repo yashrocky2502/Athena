@@ -11,7 +11,7 @@ describe('ATHENA — Telegram Credential Persistence Forensic Test Suite', () =>
   const testConfigPath = path.join(sandboxDir, '.telegram_config.json');
   const testBackupPath = path.join(sandboxDir, '.telegram_config.backup.json');
 
-  const SYNTHETIC_TOKEN_1 = '123456789:ABCdefGHIjklMNOpqrsTUVwxyz_12345678';
+  const SYNTHETIC_TOKEN_1 = '789127891:ABCdefGHIjklMNOpqrsTUVwxyz_78912789';
   const SYNTHETIC_TOKEN_2 = '987654321:ZYXwvUTSRqponMLKjihgFEDCba_87654321';
   const SYNTHETIC_CHAT_ID = '-1001987654321';
 
@@ -272,5 +272,19 @@ describe('ATHENA — Telegram Credential Persistence Forensic Test Suite', () =>
         expect(afterHash).toBe(beforeHashes[f]);
       }
     }
+  });
+
+  it('TEST 15: File permissions enforcement (0600) on primary and backup files', async () => {
+    await telegramService.saveCredentials(SYNTHETIC_TOKEN_1, SYNTHETIC_CHAT_ID, true, 'TEST_PERMS', { skipLiveValidation: true });
+
+    expect(fs.existsSync(testConfigPath)).toBe(true);
+    expect(fs.existsSync(testBackupPath)).toBe(true);
+
+    const configStat = fs.statSync(testConfigPath);
+    const backupStat = fs.statSync(testBackupPath);
+
+    // Mode mask 0o777 should match 0o600
+    expect(configStat.mode & 0o777).toBe(0o600);
+    expect(backupStat.mode & 0o777).toBe(0o600);
   });
 });

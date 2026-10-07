@@ -5,8 +5,8 @@
     "notificationType": "FO_INTEL",
     "decision": "DIGEST_PENDING",
     "status": "SENT",
-    "sentAt": "2026-10-07T05:10:20.320Z",
-    "telegramMessageId": 3193,
+    "sentAt": "2026-10-07T05:56:11.982Z",
+    "telegramMessageId": 3196,
     "deduplicationKey": "dedup_2",
     "attemptCount": 1
   },
@@ -16,8 +16,8 @@
     "notificationType": "FO_INTEL",
     "decision": "DIGEST_PENDING",
     "status": "SENT",
-    "sentAt": "2026-10-07T05:10:20.320Z",
-    "telegramMessageId": 3193,
+    "sentAt": "2026-10-07T05:56:11.982Z",
+    "telegramMessageId": 3196,
     "deduplicationKey": "dedup_1",
     "attemptCount": 1
   }

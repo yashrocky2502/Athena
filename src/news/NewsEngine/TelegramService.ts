@@ -124,6 +124,17 @@ export class TelegramService {
     }
   }
 
+  public ensureSecurePermissions(filePath?: string): void {
+    if (!filePath) return;
+    try {
+      if (fs.existsSync(filePath)) {
+        fs.chmodSync(filePath, 0o600);
+      }
+    } catch (_) {
+      // Non-fatal on platforms without POSIX chmod support
+    }
+  }
+
   /**
    * Non-destructive migration:
    * Migrates legacy credentials from process.cwd()/.telegram_config.json into
@@ -143,9 +154,11 @@ export class TelegramService {
         if (this.isLocalConfigValid({ botToken, chatId, enabled })) {
           const payload = JSON.stringify({ botToken, chatId, enabled }, null, 2);
           const tempPath = this.configPath + '.tmp';
-          fs.writeFileSync(tempPath, payload, 'utf-8');
+          fs.writeFileSync(tempPath, payload, { encoding: 'utf-8', mode: 0o600 });
           fs.renameSync(tempPath, this.configPath);
-          fs.writeFileSync(this.backupPath, payload, 'utf-8');
+          this.ensureSecurePermissions(this.configPath);
+          fs.writeFileSync(this.backupPath, payload, { encoding: 'utf-8', mode: 0o600 });
+          this.ensureSecurePermissions(this.backupPath);
           console.info('[TelegramService] Migrated existing legacy credentials to persistent data volume.');
           return true;
         }
@@ -265,6 +278,11 @@ export class TelegramService {
     if (this.configPath) paths.push(this.configPath);
     if (this.backupPath) paths.push(this.backupPath);
 
+    // If running in isolated test mode with custom sandbox paths, do not fall back to ambient/production files
+    if (this.isCustomPathsForTest) {
+      return Array.from(new Set(paths.filter(Boolean)));
+    }
+
     // 2. Standard persistent data volume in current working directory
     const cwd = (typeof process !== 'undefined' && typeof process.cwd === 'function') ? process.cwd() : '.';
     paths.push(path.join(cwd, 'data', '.telegram_config.json'));
@@ -304,8 +322,11 @@ export class TelegramService {
         } catch (_) {}
         if (needsWrite) {
           const tempPath = this.configPath + '.tmp';
-          fs.writeFileSync(tempPath, payload, 'utf-8');
+          fs.writeFileSync(tempPath, payload, { encoding: 'utf-8', mode: 0o600 });
           fs.renameSync(tempPath, this.configPath);
+          this.ensureSecurePermissions(this.configPath);
+        } else {
+          this.ensureSecurePermissions(this.configPath);
         }
       }
 
@@ -318,15 +339,20 @@ export class TelegramService {
           }
         } catch (_) {}
         if (needsBackup) {
-          fs.writeFileSync(this.backupPath, payload, 'utf-8');
+          fs.writeFileSync(this.backupPath, payload, { encoding: 'utf-8', mode: 0o600 });
+          this.ensureSecurePermissions(this.backupPath);
+        } else {
+          this.ensureSecurePermissions(this.backupPath);
         }
       }
 
       // Mirror to /app/data if accessible and distinct from current directory
-      if (fs.existsSync('/app/data') && path.dirname(this.configPath) !== '/app/data') {
+      if (!this.isCustomPathsForTest && fs.existsSync('/app/data') && path.dirname(this.configPath) !== '/app/data') {
         try {
-          fs.writeFileSync('/app/data/.telegram_config.json', payload, 'utf-8');
-          fs.writeFileSync('/app/data/.telegram_config.backup.json', payload, 'utf-8');
+          fs.writeFileSync('/app/data/.telegram_config.json', payload, { encoding: 'utf-8', mode: 0o600 });
+          this.ensureSecurePermissions('/app/data/.telegram_config.json');
+          fs.writeFileSync('/app/data/.telegram_config.backup.json', payload, { encoding: 'utf-8', mode: 0o600 });
+          this.ensureSecurePermissions('/app/data/.telegram_config.backup.json');
         } catch (_) {}
       }
     } catch (e: any) {
@@ -469,7 +495,7 @@ export class TelegramService {
       const newConfigJson = JSON.stringify(newConfigObj, null, 2);
 
       const tempPath = this.configPath + '.tmp';
-      fs.writeFileSync(tempPath, newConfigJson, 'utf-8');
+      fs.writeFileSync(tempPath, newConfigJson, { encoding: 'utf-8', mode: 0o600 });
 
       const verifyJson = fs.readFileSync(tempPath, 'utf-8');
       const verifyObj = JSON.parse(verifyJson);
@@ -478,15 +504,19 @@ export class TelegramService {
       }
 
       fs.renameSync(tempPath, this.configPath);
+      this.ensureSecurePermissions(this.configPath);
 
       // Save to backup file atomically
-      fs.writeFileSync(this.backupPath, newConfigJson, 'utf-8');
+      fs.writeFileSync(this.backupPath, newConfigJson, { encoding: 'utf-8', mode: 0o600 });
+      this.ensureSecurePermissions(this.backupPath);
 
       // Mirror to /app/data if accessible and distinct
-      if (fs.existsSync('/app/data') && path.dirname(this.configPath) !== '/app/data') {
+      if (!this.isCustomPathsForTest && fs.existsSync('/app/data') && path.dirname(this.configPath) !== '/app/data') {
         try {
-          fs.writeFileSync('/app/data/.telegram_config.json', newConfigJson, 'utf-8');
-          fs.writeFileSync('/app/data/.telegram_config.backup.json', newConfigJson, 'utf-8');
+          fs.writeFileSync('/app/data/.telegram_config.json', newConfigJson, { encoding: 'utf-8', mode: 0o600 });
+          this.ensureSecurePermissions('/app/data/.telegram_config.json');
+          fs.writeFileSync('/app/data/.telegram_config.backup.json', newConfigJson, { encoding: 'utf-8', mode: 0o600 });
+          this.ensureSecurePermissions('/app/data/.telegram_config.backup.json');
         } catch (_) {}
       }
 

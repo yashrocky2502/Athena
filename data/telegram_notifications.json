@@ -1,20 +1,5 @@
 [
   {
-    "notificationId": "ntf_1791350205083_hoi8z",
-    "articleId": "v2_eb8dfd34a58ba4c0",
-    "chatId": "1670403316",
-    "stock": "NIFTY",
-    "headline": "RBI MPC 25 bps rate hike impact on stock market: Sensex, Nifty trim losses - Experts reveal what investors should do now",
-    "url": "https://www.livemint.com/market/stock-market-news/rbi-mpc-25-bps-rate-hike-impact-on-stock-market-sensex-nifty-fall-experts-reveal-what-investors-should-do-now-11791341499851.html",
-    "priority": "MEDIUM",
-    "status": "DIGEST_PENDING",
-    "attemptCount": 0,
-    "createdAt": "2026-10-07T05:16:45.083Z",
-    "dedupKey": "v2_eb8dfd34a58ba4c0:1670403316:FO_INTEL",
-    "formattedMessage": "🚨 <b>ATHENA | REGULATORY</b>\n\n<b>Nifty 50 — RBI MPC 25 bps rate hike impact on stock market: Sensex, Nifty fall - Experts reveal what investors should do now</b>\n\n🏷️ <b>Market</b> | 📊 <b>Impact: 75/100</b> | <b>Urgency: CRITICAL</b>\n\n📰 <b>News Summary:</b>\nIndian stock markets fell on October 7 after RBI raised repo rate to 5.5%. The precious metal received strong upward momentum following comments from Federal Reserve officials signaling increased probability of interest rate cuts and softer US Treasury yields. Global factors like rising Brent crude prices and US bond yields influenced market sentiment, impacting investor outlook on equities.\n\n📊 <b>Trader Intelligence:</b>\n• Share Price Reaction: 5.5%\n• Global factors like rising Brent crude prices and US bond yields influenced market sentiment, impacting investor outlook on equities.\n\n🧠 <b>Read-through:</b>\nPrecious metal and commodity price trajectories reflect global macroeconomic liquidity, sovereign bond yields, currency debasement hedges, and safe-haven risk dynamics.\n\n📌 <b>F&O:</b>\nNegative catalyst may increase near-term volatility in NIFTY. Monitor call op...\n\n<b>Source:</b> LiveMint",
-    "decisionReason": "Moderate F&O relevance -> Grouped for digest"
-  },
-  {
     "notificationId": "ntf_1",
     "articleId": "art_1",
     "chatId": "-1001234567890",
@@ -23,11 +8,11 @@
     "priority": "MEDIUM",
     "status": "SENT",
     "attemptCount": 0,
-    "createdAt": "2026-10-07T05:10:19.356Z",
+    "createdAt": "2026-10-07T05:56:11.005Z",
     "dedupKey": "dedup_1",
     "formattedMessage": "",
-    "telegramMessageId": 3193,
-    "lastAttemptAt": "2026-10-07T05:10:20.320Z",
+    "telegramMessageId": 3196,
+    "lastAttemptAt": "2026-10-07T05:56:11.982Z",
     "telegramOk": true,
     "httpStatus": 200
   },
@@ -40,11 +25,11 @@
     "priority": "CRITICAL",
     "status": "SENT",
     "attemptCount": 0,
-    "createdAt": "2026-10-07T05:10:19.356Z",
+    "createdAt": "2026-10-07T05:56:11.005Z",
     "dedupKey": "dedup_2",
     "formattedMessage": "",
-    "telegramMessageId": 3193,
-    "lastAttemptAt": "2026-10-07T05:10:20.320Z",
+    "telegramMessageId": 3196,
+    "lastAttemptAt": "2026-10-07T05:56:11.982Z",
     "telegramOk": true,
     "httpStatus": 200
   }
