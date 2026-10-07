@@ -25,6 +25,7 @@ import { IngestionPipeline } from '../ingestion/IngestionPipeline';
 import { MemoryNewsStore } from '../storage/NewsStore';
 import { LiveIngestionWorker } from '../ingestion/LiveIngestionWorker';
 import { RawArticlePayload } from '../normalization/ArticleNormalizer';
+import { TelegramOperationsController } from '../operations/TelegramOperationsController';
 
 function assert(condition: boolean, message: string) {
   if (!condition) {
@@ -50,6 +51,9 @@ export async function runStage8_2CTests(): Promise<{
   const telegramPipeline = TelegramNotificationPipeline.resetInstance();
   telegramPipeline.clearHistory();
   TelegramQualityGate.clearHistory();
+  TelegramOperationsController.getInstance().reset();
+  TelegramOperationsController.getInstance().setTelegramEnabled(true);
+  TelegramOperationsController.getInstance().setKillSwitch(false);
 
   const telegramService = TelegramService.getInstance();
   telegramService.setCredentials('mock_token_12345:TEST_BOT', 'mock_chat_67890');
@@ -75,6 +79,7 @@ export async function runStage8_2CTests(): Promise<{
     console.log('Test 1: Single article real-time dispatch without waiting for another poll...');
     dispatchedMessages.length = 0;
     telegramPipeline.clearHistory();
+    TelegramQualityGate.clearHistory();
 
     const payload1: RawArticlePayload = {
       title: 'L&T wins mega Rs 4,500 crore infrastructure order for high-speed rail bullet train project',
