@@ -5,7 +5,7 @@ describe('Global F&O Telegram Digest Completeness & Truncation Remediation Tests
   let pipeline: TelegramNotificationPipeline;
 
   beforeEach(() => {
-    pipeline = new TelegramNotificationPipeline({
+    pipeline = new (TelegramNotificationPipeline as any)({
       storePath: ':memory:',
       auditModeOnly: true
     });

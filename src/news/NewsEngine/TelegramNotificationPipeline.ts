@@ -7,7 +7,6 @@ import { TelegramService, TelegramSendResult, sanitizeTelegramLog } from './Tele
 import { TraderTelegramFormatter } from './TraderTelegramFormatter';
 import { TelegramQualityGate, QualityGateDecision, QualityGatePriority, QualityGateResult } from './TelegramQualityGate';
 import { TelegramNotificationStateStore, TelegramNotificationState, NotificationStatus } from './TelegramNotificationStateStore';
-import { FinancialMetricEngine } from '../../newsCoreV2/intelligence/FinancialMetricEngine';
 
 export type NotificationPriority = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
 
@@ -348,7 +347,7 @@ export class TelegramNotificationPipeline {
       chatId,
       stock,
       headline: article.headline,
-      url: article.canonicalUrl || article.url || (typeof article.source === 'object' ? article.source?.url : undefined),
+      url: article.canonicalUrl || (article as any).url || (typeof article.source === 'object' ? article.source?.url : undefined),
       priority,
       status: initialStatus,
       attemptCount: 0,
@@ -525,25 +524,13 @@ export class TelegramNotificationPipeline {
     // Format individual item blocks
     const formattedBlocks = items.map((item) => {
       let block = `<b>${escape(item.stock.toUpperCase())}</b>\n`;
-      const metrics = FinancialMetricEngine.extractMetrics(item.headline);
-      if (metrics && metrics.length > 0) {
-        for (const m of metrics.slice(0, 2)) {
-          let changeStr = '';
-          if (m.changePercent !== undefined && m.changePercent !== null) {
-            const sign = m.changePercent >= 0 ? '+' : '-';
-            changeStr = ` (${sign}${Math.abs(m.changePercent)}%)`;
-          }
-          block += `• ${escape(m.metricName)} ${escape(m.displayText)}${changeStr}\n`;
-        }
-      } else {
-        block += `• ${escape(item.headline)}\n`;
-      }
+      block += `• ${escape(item.headline)}\n`;
 
       // Resolve valid canonical URL from record or NewsStore
       let rawUrl = item.url;
       if (!rawUrl && newsStore && typeof (newsStore as any).getArticle === 'function') {
         const art = newsStore.getArticle(item.articleId);
-        rawUrl = art?.canonicalUrl || art?.url || (typeof art?.source === 'object' ? art?.source?.url : undefined);
+        rawUrl = art?.canonicalUrl || (art as any)?.url || (typeof art?.source === 'object' ? (art?.source as any)?.url : undefined);
       }
       const validUrl = (typeof rawUrl === 'string' && (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')))
         ? rawUrl.trim()
