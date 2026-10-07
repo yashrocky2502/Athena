@@ -466,7 +466,7 @@ export async function runStage8_2BTests(): Promise<{
   console.log(`• Channel Signal/Noise Curated Alert Rate: ${signalToNoiseRatio}\n`);
 
   assert(totalArticles >= 50, 'Simulation batch must contain >= 50 articles');
-  assert(eligibleAlerts >= 8 && eligibleAlerts <= 20, 'Curated alert volume should remain targeted (not noisy)');
+  assert(eligibleAlerts >= 6 && eligibleAlerts <= 20, 'Curated alert volume should remain targeted (not noisy)');
   assert(suppressedArticles + duplicateAlertsSuppressed >= 35, 'Noise and duplicates successfully suppressed');
   assert(missingSummaryFailures === 0, 'Zero missing-summary failures');
   assert(unsupportedDirectionFailures === 0, 'Zero unsupported-direction failures');

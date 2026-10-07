@@ -49,6 +49,7 @@ export async function runStage8_2CTests(): Promise<{
   const pipeline = new IngestionPipeline(memoryStore);
   const telegramPipeline = TelegramNotificationPipeline.resetInstance();
   telegramPipeline.clearHistory();
+  TelegramQualityGate.clearHistory();
 
   const telegramService = TelegramService.getInstance();
   telegramService.setCredentials('mock_token_12345:TEST_BOT', 'mock_chat_67890');

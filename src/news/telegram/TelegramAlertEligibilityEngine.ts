@@ -295,7 +295,11 @@ export class TelegramAlertEligibilityEngine {
     }
 
     // 11. Regulatory & Legal Actions
-    if (/(revokes order|fssai|quashes order|sebi (bars|fines|issues notice|orders probe|clamps down|penalizes|initiates|imposes|passes order)|rbi (imposes|penalizes|restricts|bans)|show-cause notice|ed raids|cbi probe|nclt|cci probe|sebi penalty|penalty of rs|penalty on)/i.test(text)) {
+    if (
+      /(revokes order|fssai|quashes order|sebi (bars|fines|issues notice|orders probe|clamps down|penalizes|initiates|imposes|passes order)|rbi (imposes|penalizes|restricts|bans)|show[- ]?cause|ed raids|cbi probe|nclt|cci probe|sebi penalty|penalty of rs|penalty on|gst (notice|demand|penalty|order)|tax (demand|penalty|proceedings|order)|statutory tax|regulatory tax order|notice proposing .* (tax|penalty|interest))/i.test(
+        text
+      )
+    ) {
       return 'REGULATORY_ACTION';
     }
 
@@ -426,7 +430,9 @@ export class TelegramAlertEligibilityEngine {
       { pattern: /tata motors/i, symbol: 'TATAMOTORS', name: 'Tata Motors Limited' },
       { pattern: /tata steel/i, symbol: 'TATASTEEL', name: 'Tata Steel Limited' },
       { pattern: /paytm|one97/i, symbol: 'PAYTM', name: 'One97 Communications Limited (Paytm)' },
-      { pattern: /bse limited|bse shares|bse stock|\bbse\b(?!\s*sensex)/i, symbol: 'BSE', name: 'BSE Limited' },
+      { pattern: /\bmulti commodity exchange(\s+of\s+india)?(\s+limited)?\b|\bmcx\b/i, symbol: 'MCX', name: 'Multi Commodity Exchange of India Limited' },
+      { pattern: /\bsun tv network\b|\bsun tv\b|\bsun television\b|\bsuntv\b/i, symbol: 'SUNTV', name: 'Sun TV Network Limited' },
+      { pattern: /\bbse limited\b|\bbse ltd\b|\bbse shares\b|\bbse stock\b|\bbse corporate\b|^(?:\s*\[?[A-Z0-9_\- ]*\]?\s*)?bse\b(?!\s*(?:sensex|and nse|or nse|\/ nse|listed|index))/i, symbol: 'BSE', name: 'BSE Limited' },
       { pattern: /hindalco/i, symbol: 'HINDALCO', name: 'Hindalco Industries Limited' },
       { pattern: /ltimindtree|ltim/i, symbol: 'LTIM', name: 'LTIMindtree Limited' },
       { pattern: /hdfc bank/i, symbol: 'HDFCBANK', name: 'HDFC Bank Limited' },
@@ -442,8 +448,16 @@ export class TelegramAlertEligibilityEngine {
       { pattern: /sun pharma|sun pharmaceutical/i, symbol: 'SUNPHARMA', name: 'Sun Pharmaceutical Industries Limited' }
     ];
 
+    // Priority pass 1: Match target entity rules against HEADLINE
     for (const rule of targetEntityRules) {
-      if (rule.pattern.test(headline) || rule.pattern.test(body.slice(0, 300))) {
+      if (rule.pattern.test(headline)) {
+        return { symbol: rule.symbol, companyName: rule.name, brokerage: detectedBrokerage };
+      }
+    }
+
+    // Priority pass 2: Match target entity rules against lead body text
+    for (const rule of targetEntityRules) {
+      if (rule.pattern.test(body.slice(0, 300))) {
         return { symbol: rule.symbol, companyName: rule.name, brokerage: detectedBrokerage };
       }
     }
