@@ -69,6 +69,8 @@ export class TelegramService {
     ? path.join(process.cwd(), '.telegram_config.backup.json') 
     : '.telegram_config.backup.json';
 
+  private isCustomPathsForTest: boolean = false;
+
   // Live status telemetry
   private lastVerifiedAt: string | null = null;
   private lastVerifiedStatus: 'CONNECTED' | 'DISCONNECTED' = 'DISCONNECTED';
@@ -96,11 +98,13 @@ export class TelegramService {
   }
 
   public setCustomPathsForTest(configPath?: string, backupPath?: string): void {
+    this.isCustomPathsForTest = true;
     if (configPath) this.configPath = configPath;
     if (backupPath) this.backupPath = backupPath;
   }
 
   public resetCustomPaths(): void {
+    this.isCustomPathsForTest = false;
     this.configPath = (typeof process !== 'undefined' && typeof process.cwd === 'function') 
       ? path.join(process.cwd(), 'data', '.telegram_config.json') 
       : 'data/.telegram_config.json';
@@ -152,16 +156,10 @@ export class TelegramService {
     return false;
   }
 
-  public isLocalConfigValid(creds: TelegramCredentials): boolean {
-    if (!creds || !creds.botToken || !creds.chatId) {
-      return false;
-    }
-    const token = creds.botToken.trim();
-    const chat = creds.chatId.trim();
-
-    if (!token || !chat) {
-      return false;
-    }
+  public isTokenValid(token: string): boolean {
+    if (!token || typeof token !== 'string') return false;
+    const trimmed = token.trim();
+    if (!trimmed || trimmed.includes('****')) return false;
 
     // Check for placeholder/mock/example patterns
     const invalidPatterns = [
@@ -171,21 +169,52 @@ export class TelegramService {
       "your_",
       "bot_token",
       "token_here",
-      "xxxx"
+      "xxxx",
+      "123456"
     ];
     for (const pattern of invalidPatterns) {
-      if (token.toLowerCase().includes(pattern) || chat.toLowerCase().includes(pattern)) {
+      if (trimmed.toLowerCase().includes(pattern)) {
         return false;
       }
     }
 
-    if (token === "123456" || chat === "123456") {
-      return false;
-    }
-
     // Check format (digits:secret_key with at least 30 chars in secret)
     const tokenRegex = /^\d+:[A-Za-z0-9_-]{30,}$/;
-    if (!tokenRegex.test(token)) {
+    return tokenRegex.test(trimmed);
+  }
+
+  public isChatIdValid(chatId: string): boolean {
+    if (!chatId || typeof chatId !== 'string') return false;
+    const trimmed = chatId.trim();
+    if (!trimmed || trimmed.includes('****')) return false;
+
+    const invalidPatterns = [
+      "placeholder",
+      "mock",
+      "example",
+      "your_",
+      "token_here",
+      "xxxx"
+    ];
+    for (const pattern of invalidPatterns) {
+      if (trimmed.toLowerCase().includes(pattern)) {
+        return false;
+      }
+    }
+    return trimmed.length >= 1;
+  }
+
+  public isLocalConfigValid(creds: TelegramCredentials): boolean {
+    if (!creds || !creds.botToken || !creds.chatId) {
+      return false;
+    }
+    const token = creds.botToken.trim();
+    const chat = creds.chatId.trim();
+
+    if (!this.isTokenValid(token)) {
+      return false;
+    }
+    if (chat === "123456" || !this.isChatIdValid(chat)) {
       return false;
     }
 
@@ -193,8 +222,8 @@ export class TelegramService {
   }
 
   public getLocalConfigValidationError(token: string, chatId: string): string | null {
-    const trimmedToken = token.trim();
-    const trimmedChatId = chatId.trim();
+    const trimmedToken = (token || '').trim();
+    const trimmedChatId = (chatId || '').trim();
 
     if (!trimmedToken) {
       return 'Bot Token is empty';
@@ -230,88 +259,136 @@ export class TelegramService {
     return null;
   }
 
+  public getCandidatePaths(): string[] {
+    const paths: string[] = [];
+    // 1. Configured configPath and backupPath (preserves any custom test paths)
+    if (this.configPath) paths.push(this.configPath);
+    if (this.backupPath) paths.push(this.backupPath);
+
+    // 2. Standard persistent data volume in current working directory
+    const cwd = (typeof process !== 'undefined' && typeof process.cwd === 'function') ? process.cwd() : '.';
+    paths.push(path.join(cwd, 'data', '.telegram_config.json'));
+    paths.push(path.join(cwd, 'data', '.telegram_config.backup.json'));
+
+    // 3. Official Docker production persistent volume path (/app/data)
+    paths.push('/app/data/.telegram_config.json');
+    paths.push('/app/data/.telegram_config.backup.json');
+
+    // 4. AI Studio dev workspace path (/app/applet/data)
+    paths.push('/app/applet/data/.telegram_config.json');
+    paths.push('/app/applet/data/.telegram_config.backup.json');
+
+    // 5. Legacy root fallback locations
+    if (this.legacyConfigPath) paths.push(this.legacyConfigPath);
+    if (this.legacyBackupPath) paths.push(this.legacyBackupPath);
+    paths.push(path.join(cwd, '.telegram_config.json'));
+    paths.push('/app/.telegram_config.json');
+    paths.push('/app/applet/.telegram_config.json');
+
+    return Array.from(new Set(paths.filter(Boolean)));
+  }
+
+  public syncToPrimaryAndBackup(token: string, chatId: string, enabled: boolean): void {
+    if (!this.isTokenValid(token)) return;
+    try {
+      this.ensureDataDirExists();
+      const payload = JSON.stringify({ botToken: token, chatId, enabled }, null, 2);
+
+      // Write atomically to configured configPath
+      if (this.configPath) {
+        let needsWrite = true;
+        try {
+          if (fs.existsSync(this.configPath) && fs.readFileSync(this.configPath, 'utf-8') === payload) {
+            needsWrite = false;
+          }
+        } catch (_) {}
+        if (needsWrite) {
+          const tempPath = this.configPath + '.tmp';
+          fs.writeFileSync(tempPath, payload, 'utf-8');
+          fs.renameSync(tempPath, this.configPath);
+        }
+      }
+
+      // Write atomically to configured backupPath
+      if (this.backupPath) {
+        let needsBackup = true;
+        try {
+          if (fs.existsSync(this.backupPath) && fs.readFileSync(this.backupPath, 'utf-8') === payload) {
+            needsBackup = false;
+          }
+        } catch (_) {}
+        if (needsBackup) {
+          fs.writeFileSync(this.backupPath, payload, 'utf-8');
+        }
+      }
+
+      // Mirror to /app/data if accessible and distinct from current directory
+      if (fs.existsSync('/app/data') && path.dirname(this.configPath) !== '/app/data') {
+        try {
+          fs.writeFileSync('/app/data/.telegram_config.json', payload, 'utf-8');
+          fs.writeFileSync('/app/data/.telegram_config.backup.json', payload, 'utf-8');
+        } catch (_) {}
+      }
+    } catch (e: any) {
+      console.warn('[TelegramService] syncToPrimaryAndBackup non-fatal notice:', e?.message);
+    }
+  }
+
   public loadCredentials(): TelegramCredentials {
     // 0. Perform idempotent non-destructive migration if legacy file exists and persistent file does not
     this.migrateLegacyConfigIfNeeded();
 
-    let mainValid = false;
-    let mainCreds: TelegramCredentials = { botToken: '', chatId: '', enabled: true };
-
-    // 1. Try persistent data volume file (/app/data/.telegram_config.json)
-    try {
-      if (fs.existsSync(this.configPath)) {
-        const data = fs.readFileSync(this.configPath, 'utf-8');
-        const parsed = JSON.parse(data);
-        const botToken = parsed.botToken || parsed.telegramBotToken || '';
-        const chatId = parsed.chatId || parsed.telegramChatId || '';
-        const enabled = parsed.enabled !== undefined ? parsed.enabled : true;
-        mainCreds = { botToken, chatId, enabled };
-        if (this.isLocalConfigValid(mainCreds)) {
-          mainValid = true;
-        }
-      }
-    } catch (e) {
-      console.error('[TelegramService] Error parsing persistent .telegram_config.json on startup:', e);
-    }
-
-    if (mainValid) {
-      this.botToken = mainCreds.botToken;
-      this.chatId = mainCreds.chatId;
-      this.enabled = mainCreds.enabled ?? true;
-      return mainCreds;
-    }
-
-    // 2. Try persistent backup file (/app/data/.telegram_config.backup.json) if main config is missing or invalid
-    let backupValid = false;
-    let backupCreds: TelegramCredentials = { botToken: '', chatId: '', enabled: true };
-
-    try {
-      if (fs.existsSync(this.backupPath)) {
-        const data = fs.readFileSync(this.backupPath, 'utf-8');
-        const parsed = JSON.parse(data);
-        const botToken = parsed.botToken || parsed.telegramBotToken || '';
-        const chatId = parsed.chatId || parsed.telegramChatId || '';
-        const enabled = parsed.enabled !== undefined ? parsed.enabled : true;
-        backupCreds = { botToken, chatId, enabled };
-        if (this.isLocalConfigValid(backupCreds)) {
-          backupValid = true;
-        }
-      }
-    } catch (e) {
-      console.error('[TelegramService] Error parsing persistent .telegram_config.backup.json on startup:', e);
-    }
-
-    if (backupValid) {
+    // 1. Search candidate persistent credential files in priority order
+    const candidatePaths = this.getCandidatePaths();
+    for (const filePath of candidatePaths) {
       try {
-        const tempPath = this.configPath + '.tmp';
-        fs.writeFileSync(tempPath, JSON.stringify(backupCreds, null, 2), 'utf-8');
-        fs.renameSync(tempPath, this.configPath);
-        this.botToken = backupCreds.botToken;
-        this.chatId = backupCreds.chatId;
-        this.enabled = backupCreds.enabled ?? true;
-        return backupCreds;
+        if (fs.existsSync(filePath)) {
+          const raw = fs.readFileSync(filePath, 'utf-8');
+          if (raw && raw.trim()) {
+            const parsed = JSON.parse(raw);
+            const token = String(parsed.botToken || parsed.telegramBotToken || '').trim();
+            const chat = String(parsed.chatId || parsed.telegramChatId || '').trim();
+            const enabled = parsed.enabled !== undefined ? parsed.enabled : true;
+
+            // If token is structurally valid, hydrate it!
+            if (this.isTokenValid(token)) {
+              this.botToken = token;
+              if (this.isChatIdValid(chat)) {
+                this.chatId = chat;
+              }
+              this.enabled = enabled;
+
+              // Ensure primary and backup files are synchronized atomically
+              this.syncToPrimaryAndBackup(this.botToken, this.chatId, this.enabled);
+              return { botToken: this.botToken, chatId: this.chatId, enabled: this.enabled };
+            }
+          }
+        }
       } catch (err) {
-        console.error('[TelegramService] Failed to restore config from backup file:', err);
+        // Continue checking other candidates non-fatally
       }
     }
 
-    // 3. Fallback: Environment variables TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID
+    // 2. Fallback: Environment variables TELEGRAM_BOT_TOKEN and optional TELEGRAM_CHAT_ID
     const envToken = (typeof process !== 'undefined' && process.env?.TELEGRAM_BOT_TOKEN) 
       ? process.env.TELEGRAM_BOT_TOKEN.trim() 
       : '';
     const envChatId = (typeof process !== 'undefined' && process.env?.TELEGRAM_CHAT_ID) 
       ? process.env.TELEGRAM_CHAT_ID.trim() 
       : '';
-    const envCreds: TelegramCredentials = { botToken: envToken, chatId: envChatId, enabled: true };
 
-    if (this.isLocalConfigValid(envCreds)) {
-      this.botToken = envCreds.botToken;
-      this.chatId = envCreds.chatId;
+    if (this.isTokenValid(envToken)) {
+      this.botToken = envToken;
+      if (this.isChatIdValid(envChatId)) {
+        this.chatId = envChatId;
+      }
       this.enabled = true;
       console.info('[TelegramService] Loaded Telegram credentials from environment variable fallback.');
-      return envCreds;
+      this.syncToPrimaryAndBackup(this.botToken, this.chatId, this.enabled);
+      return { botToken: this.botToken, chatId: this.chatId, enabled: this.enabled };
     }
 
+    // 3. Only if no valid credentials found anywhere, set empty in-memory
     this.botToken = '';
     this.chatId = '';
     this.enabled = false;
@@ -322,41 +399,76 @@ export class TelegramService {
     botToken: string,
     chatId: string,
     enabled: boolean = true,
-    source: string = 'POST /api/telegram/save'
+    source: string = 'POST /api/telegram/save',
+    options?: { skipLiveValidation?: boolean }
   ): Promise<{ success: boolean; message: string; error?: string }> {
-    let targetToken = botToken.trim();
-    const targetChat = chatId.trim();
+    let targetToken = (botToken || '').trim();
+    let targetChat = (chatId || '').trim();
 
-    // If targetToken is masked or contains asterisks or is empty, retain stored token if available
-    if ((targetToken.includes('****') || targetToken === maskToken(this.botToken) || !targetToken) && this.botToken) {
-      targetToken = this.botToken;
+    // 1. Safe Token Resolution:
+    // If incoming token is empty, undefined, masked (****), or matches maskToken:
+    const isMaskedOrEmpty = !targetToken || targetToken.includes('****') || targetToken === maskToken(this.botToken);
+    if (isMaskedOrEmpty) {
+      // Retain in-memory token if valid
+      if (this.botToken && this.isTokenValid(this.botToken)) {
+        targetToken = this.botToken;
+      } else {
+        // In-memory token was empty; attempt immediate hydration from persistent storage
+        const reloaded = this.loadCredentials();
+        if (reloaded.botToken && this.isTokenValid(reloaded.botToken)) {
+          targetToken = reloaded.botToken;
+        } else {
+          return {
+            success: false,
+            message: 'Bot Token is required. Cannot save empty or missing credential.',
+            error: 'Bot Token is required'
+          };
+        }
+      }
+    } else {
+      // New unmasked token provided: validate format!
+      if (!this.isTokenValid(targetToken)) {
+        const valErr = this.getLocalConfigValidationError(targetToken, targetChat || '123456');
+        return {
+          success: false,
+          message: `Invalid Bot Token format: ${valErr || 'Does not match standard bot format'}`,
+          error: valErr || 'Invalid Bot Token format'
+        };
+      }
     }
 
-    // Validate provided credentials against Telegram getMe API
-    const validation = await this.validateCredentials(targetToken, targetChat);
-    if (!validation.success) {
-      const errMsg = validation.error || 'Validation failed';
-      this.lastError = errMsg;
-      return { success: false, message: `Validation failed: ${errMsg}`, error: errMsg };
+    // 2. Safe Chat ID Resolution:
+    if (!targetChat || targetChat.includes('****')) {
+      if (this.chatId && this.isChatIdValid(this.chatId)) {
+        targetChat = this.chatId;
+      }
     }
 
+    // 3. Live validation (if targetChat provided and not explicitly skipped):
+    if (!options?.skipLiveValidation && targetChat && this.isChatIdValid(targetChat)) {
+      const validation = await this.validateCredentials(targetToken, targetChat);
+      if (!validation.success) {
+        // If explicit Auth failure (401 / 403), reject save!
+        if (validation.httpStatus === 401 || validation.httpStatus === 403) {
+          const errMsg = validation.error || 'Authentication failed';
+          this.lastError = errMsg;
+          return { success: false, message: `Validation failed: ${errMsg}`, error: errMsg };
+        }
+        // If network outage / 500 / timeout: log warning but proceed with local persistence!
+        console.warn(`[TelegramService] Live validation failed (${validation.error}) but credentials are structurally valid. Persisting locally.`);
+      }
+    }
+
+    // 4. Atomic file persistence:
     const oldToken = this.botToken;
     const oldChecksum = crypto.createHash('sha256').update(oldToken).digest('hex');
 
     try {
       this.ensureDataDirExists();
-      if (fs.existsSync(this.configPath)) {
-        try {
-          const currentConfigData = fs.readFileSync(this.configPath, 'utf-8');
-          fs.writeFileSync(this.backupPath, currentConfigData, 'utf-8');
-        } catch (backupErr) {
-          console.warn('[TelegramService] Could not parse current config for backup:', backupErr);
-        }
-      }
-
-      const tempPath = this.configPath + '.tmp';
       const newConfigObj = { botToken: targetToken, chatId: targetChat, enabled };
       const newConfigJson = JSON.stringify(newConfigObj, null, 2);
+
+      const tempPath = this.configPath + '.tmp';
       fs.writeFileSync(tempPath, newConfigJson, 'utf-8');
 
       const verifyJson = fs.readFileSync(tempPath, 'utf-8');
@@ -366,6 +478,17 @@ export class TelegramService {
       }
 
       fs.renameSync(tempPath, this.configPath);
+
+      // Save to backup file atomically
+      fs.writeFileSync(this.backupPath, newConfigJson, 'utf-8');
+
+      // Mirror to /app/data if accessible and distinct
+      if (fs.existsSync('/app/data') && path.dirname(this.configPath) !== '/app/data') {
+        try {
+          fs.writeFileSync('/app/data/.telegram_config.json', newConfigJson, 'utf-8');
+          fs.writeFileSync('/app/data/.telegram_config.backup.json', newConfigJson, 'utf-8');
+        } catch (_) {}
+      }
 
       this.botToken = targetToken;
       this.chatId = targetChat;
@@ -389,6 +512,42 @@ export class TelegramService {
     }
   }
 
+  public deleteCredentials(source: string = 'EXPLICIT_DELETION'): { success: boolean; message: string } {
+    this.botToken = '';
+    this.chatId = '';
+    this.enabled = false;
+    this.lastVerifiedStatus = 'DISCONNECTED';
+    this.botUsername = null;
+    this.botId = null;
+
+    const filesToRemove = [
+      this.configPath,
+      this.backupPath,
+      '/app/data/.telegram_config.json',
+      '/app/data/.telegram_config.backup.json',
+      this.legacyConfigPath,
+      this.legacyBackupPath
+    ];
+
+    for (const f of filesToRemove) {
+      try {
+        if (f && fs.existsSync(f)) {
+          fs.unlinkSync(f);
+        }
+      } catch (e) {
+        // Non-fatal
+      }
+    }
+
+    console.info(JSON.stringify({
+      type: 'TELEGRAM_CREDENTIALS_DELETED',
+      timestamp: new Date().toISOString(),
+      source
+    }, null, 2));
+
+    return { success: true, message: 'Telegram credentials successfully deleted' };
+  }
+
   public getCredentials(): TelegramCredentials {
     return { botToken: this.botToken, chatId: this.chatId, enabled: this.enabled };
   }
@@ -400,9 +559,10 @@ export class TelegramService {
   }
 
   public getPublicConfig() {
+    const hasValidToken = !!this.botToken && this.isTokenValid(this.botToken);
     return {
-      hasBotToken: !!this.botToken && this.isLocalConfigValid({ botToken: this.botToken, chatId: this.chatId }),
-      botTokenMasked: maskToken(this.botToken),
+      hasBotToken: hasValidToken,
+      botTokenMasked: hasValidToken ? maskToken(this.botToken) : '',
       chatId: this.chatId,
       chatIdMasked: maskChatId(this.chatId),
       enabled: this.enabled
@@ -627,7 +787,7 @@ export class TelegramService {
       botUsername: this.botUsername,
       botId: this.botId,
       chatIdMasked: maskChatId(this.chatId),
-      hasBotToken: !!this.botToken && this.isLocalConfigValid({ botToken: this.botToken, chatId: this.chatId }),
+      hasBotToken: !!this.botToken && this.isTokenValid(this.botToken),
       lastVerifiedAt: this.lastVerifiedAt,
       lastError: this.lastError
     };

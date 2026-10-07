@@ -21,7 +21,8 @@ import {
   Eye,
   EyeOff,
   Loader2,
-  Sliders
+  Sliders,
+  Trash2
 } from "lucide-react";
 import { 
   Priority,
@@ -556,6 +557,37 @@ export default function Settings({
                   ) : (
                     "Send Test Message"
                   )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (!confirm("Are you sure you want to permanently delete your Telegram bot credentials? This action is isolated to credentials and cannot be undone.")) {
+                      return;
+                    }
+                    try {
+                      const res = await fetch("/api/telegram/delete-credentials", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ confirm: true })
+                      });
+                      const data = await res.json();
+                      if (data.success) {
+                        setInputToken("");
+                        setInputChatId("");
+                        setSaveStatus("Credentials permanently deleted.");
+                        setValidationResult(null);
+                      } else {
+                        setSaveStatus(`Delete failed: ${data.error}`);
+                      }
+                    } catch (e: any) {
+                      setSaveStatus(`Delete error: ${e?.message || e}`);
+                    }
+                  }}
+                  className="bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/40 font-bold text-xs rounded-xl px-4 py-3 transition-all flex items-center justify-center gap-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  <span>Delete Credentials</span>
                 </button>
               </div>
 

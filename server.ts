@@ -1432,17 +1432,34 @@ app.post("/api/search", async (req, res) => {
 // Endpoint to save Telegram credentials to .telegram_config.json
 app.post("/api/telegram/save", async (req, res) => {
   try {
-    const { token, chatId, enabled } = req.body;
-    if (!chatId) {
-      return res.status(400).json({ success: false, error: "Chat ID is required." });
-    }
-    const result = await TelegramService.getInstance().saveCredentials(token || '', chatId, enabled ?? true, 'POST /api/telegram/save');
+    const { token, chatId, enabled, skipLiveValidation } = req.body;
+    const result = await TelegramService.getInstance().saveCredentials(
+      token || '', 
+      chatId || '', 
+      enabled ?? true, 
+      'POST /api/telegram/save',
+      { skipLiveValidation: !!skipLiveValidation }
+    );
     if (!result.success) {
       return res.status(400).json({ success: false, error: result.error || result.message });
     }
     return res.json({ success: true, message: result.message });
   } catch (error: any) {
     return res.status(500).json({ success: false, error: error?.message || "Failed to save credentials" });
+  }
+});
+
+// Explicit endpoint to safely delete credentials (requires confirmation)
+app.post("/api/telegram/delete-credentials", (req, res) => {
+  try {
+    const { confirm } = req.body;
+    if (!confirm) {
+      return res.status(400).json({ success: false, error: "Explicit confirmation required to delete credentials." });
+    }
+    const result = TelegramService.getInstance().deleteCredentials('POST /api/telegram/delete-credentials');
+    return res.json(result);
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error?.message || "Failed to delete credentials" });
   }
 });
 
